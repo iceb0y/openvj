@@ -8,12 +8,12 @@ class View extends Blitz
 {
 	private static $s_globals = array();
 
-	public static function setRoot($path)
+	public static function set_root($path)
 	{
 		ini_set('blitz.path', $path);
 	}
 
-	public static function setVariable($var)
+	public static function set_variable($var)
 	{
 		self::$s_globals += $var;
 	}

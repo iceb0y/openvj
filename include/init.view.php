@@ -16,8 +16,8 @@ global $_TEMPLATE_NAME, $_CONFIG, $_TEMPLATE_DIR;
 $_TEMPLATE_NAME = $_CONFIG['TEMPLATE'];
 $_TEMPLATE_DIR  = VIEW_DIR.$_TEMPLATE_NAME.'/';
 
-View::setRoot($_TEMPLATE_DIR);
-View::setVariable(array
+View::set_root($_TEMPLATE_DIR);
+View::set_variable(array
 (
     'TEMPLATE_DIR' => 'view/'.$_TEMPLATE_NAME
 ));
