@@ -2,5 +2,5 @@
 
 require_once INCLUDE_DIR.'init.view.php';
 
-$_VIEW->load('empty.tpl');
-$_VIEW->display();
+$view = new View('empty.tpl');
+$view->display();
