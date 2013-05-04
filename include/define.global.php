@@ -16,4 +16,3 @@ define('VIEW_DIR', ROOT_DIR.'view/');
 // System information   
 define('SYS_VERSION', '2.0 beta');
 define('SYS_SESSNAME', 'VJ_SESSION');
-define('SYS_REVISION', '{$SVN_REVISION}');
