@@ -15,11 +15,15 @@
 //
 
 // Check extensions
-if (!extension_loaded('apc'))
+if (!extension_loaded('apc')) {
     trigger_error('Extension \'apc\' is not loaded', E_USER_ERROR);
+    exit();
+}
 
-if (!extension_loaded('blitz'))
+if (!extension_loaded('blitz')) {
     trigger_error('Extension \'blitz\' is not loaded', E_USER_ERROR);
+    exit();
+}
 
 if (!ini_get('apc.enabled'))
     trigger_error('APC is not enabled', E_USER_WARNING);
