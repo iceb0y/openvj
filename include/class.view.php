@@ -6,12 +6,26 @@
 
 class View extends Blitz
 {
-    function __construct($path)
+    private $inc_dir_base = '/';
+    private $globals = array();
+    
+    function __construct($include_dir_base)
     {
-        parent::__construct($path);
-        parent::setGlobals(array('footer_revision' => SYS_REVISION));
+        $this->inc_dir_base = $include_dir_base;
+        $this->globals['FOOTER_REVISION'] = SYS_REVISION;
     }
-
+    
+    function setVariable($var)
+    {
+        $this->globals = $this->globals + $var;
+    }
+    
+    function load($file)
+    {
+        parent::__construct($this->inc_dir_base.$file);
+        parent::setGlobals($this->globals);
+    }
+    
     function execution_time()
     {
         return round((microtime(true) - ENV_REQUEST_TIME) * 1000, 5);

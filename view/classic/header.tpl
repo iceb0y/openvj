@@ -3,7 +3,7 @@
 <head>
     <title>{{ q($title) }} - {{ q($title_suffix) }}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link href="{{ q($tpl_dir) }}/style.css" rel="stylesheet" type="text/css"/>
+    <link href="/{{ $TEMPLATE_DIR }}/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <script type="text/javascript">
@@ -96,7 +96,7 @@
 
 <div id="pagecnt">
     <div id="header">
-        <img src="{{ q($tpl_dir) }}/Head.gif" alt="head"/>
+        <img src="{{ $TEMPLATE_DIR }}/Head.gif" alt="head"/>
 
         <div id="browser">
 <span class="white">
