@@ -38,7 +38,7 @@ function uri_route($default = null, $alternative = null)
 
     // Parse the URI to form a list at first call
     if ($_ACTION_LIST === null) {
-        $uri           = parse_url(urldecode($_SERVER['REQUEST_URI']), PHP_URL_PATH);
+        $uri          = parse_url(urldecode($_SERVER['REQUEST_URI']), PHP_URL_PATH);
         $_URI_LIST    = array_reverse(array_filter(explode('/', $uri),
             function ($var) {
                 return $var !== '' && $var !== '..';
@@ -58,7 +58,7 @@ function uri_route($default = null, $alternative = null)
         _exec_if_exists(CONTROLLER_DIR.$path);
         if ($alternative !== null)
             foreach ($alternative as $pattern => $path)
-                if (empty($regex) || preg_match($pattern, $REST_PATH))      //TODO: What's $REST_PATH?
+                if (empty($regex) || preg_match($pattern, $REST_PATH)) //TODO: What's $REST_PATH?
                     _exec_if_exists(CONTROLLER_DIR.$path);
     }
 

@@ -36,12 +36,13 @@ require_once __DIR__.'/define.global.php';
 
 // Error Reporting
 if (!SVR_DEBUG)
-	error_reporting(0);
+    error_reporting(0);
 else
-	error_reporting(E_ALL | E_STRICT);
+    error_reporting(E_ALL | E_STRICT);
 
 // Check whether the requested hostname is in the allowed host list, which is
 // defined in define/global.php. If not, generate a HTTP 403 error
+global $_ALLOWED_HOSTS;
 if (!in_array(ENV_HOST, $_ALLOWED_HOSTS)) {
     header('HTTP/1.1 403 Forbidden');
     exit('Bad Request: Header field "host" invalid.');
@@ -54,4 +55,5 @@ mb_internal_encoding('UTF-8');
 ob_start();
 
 // Set timezone
+global $_CONFIG;
 date_default_timezone_set($_CONFIG['TZ']);
