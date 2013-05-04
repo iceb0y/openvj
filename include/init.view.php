@@ -14,7 +14,7 @@ require_once INCLUDE_DIR.'class.view.php';
 // TODO: Determine which view to use by session
 global $_TEMPLATE_NAME, $_CONFIG, $_TEMPLATE_DIR, $_VIEW;
 $_TEMPLATE_NAME = $_CONFIG['TEMPLATE'];
-$_TEMPLATE_DIR  = VIEW_DIR.$_TEMPLATE_NAME;
+$_TEMPLATE_DIR  = VIEW_DIR.$_TEMPLATE_NAME.'/';
 
 $_VIEW = new View($_TEMPLATE_DIR);
 chdir($_TEMPLATE_DIR); //TODO!
