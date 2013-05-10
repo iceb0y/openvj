@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{% q($title) %} - {% q($title_suffix) %}</title>
+    <title>{% q($PAGE_TITLE) %} - {% $PAGE_TITLE_SUFFIX %}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link href="/{% $ENV_TEMPLATE_DIR %}/style.css" rel="stylesheet" type="text/css"/>
 </head>
