@@ -11,6 +11,8 @@ class View extends Blitz
 	public static function set_root($path)
 	{
 		ini_set('blitz.path', $path);
+		ini_set('blitz.tag_open', '{%');
+		ini_set('blitz.tag_close', '%}');
 	}
 
 	public static function set_variable($var)
@@ -22,10 +24,23 @@ class View extends Blitz
 	{
 		parent::__construct($path);
 		parent::setGlobals(self::$s_globals);
-        }
+    }
 
 	public function execution_time()
 	{
 		return round((microtime(true) - ENV_REQUEST_TIME) * 1000, 5);
 	}
+    
+    //no leading slashes!
+    public function static_revision()
+    {
+        $output = $file = implode(func_get_args());
+        
+        $mtime = filemtime(ROOT_DIR.'www/'.$file);
+        
+        if ($mtime)
+            $output.='?v='.$mtime;
+        
+        return $output;
+    }
 }

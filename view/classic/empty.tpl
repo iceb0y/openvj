@@ -1,2 +1,2 @@
-{{ INCLUDE("header.tpl") }}
-{{ INCLUDE("footer.tpl") }}
+{% INCLUDE("header.tpl") %}
+{% INCLUDE("footer.tpl") %}

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ q($title) }} - {{ q($title_suffix) }}</title>
+    <title>{% q($title) %} - {% q($title_suffix) %}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link href="/{{ $TEMPLATE_DIR }}/style.css" rel="stylesheet" type="text/css"/>
+    <link href="/{% $ENV_TEMPLATE_DIR %}/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <script type="text/javascript">
@@ -44,7 +44,7 @@
 
     //!-->
 </script>
-{{ IF $title == "注册" }}
+{% IF $title == "注册" %}
 <style type="text/css">
     <!--
     .mask {
@@ -92,31 +92,31 @@
     </div>
 </div>
 
-{{ END }}
+{% END %}
 
 <div id="pagecnt">
     <div id="header">
-        <img src="{{ $TEMPLATE_DIR }}/Head.gif" alt="head"/>
+        <img src="{% $TEMPLATE_DIR %}/Head.gif" alt="head"/>
 
         <div id="browser">
 <span class="white">
-{{ IF $global_uname }}
+{% IF $global_uname %}
 您好&nbsp;{$global_uname}&emsp;&emsp;
     通过{$header_pass}题&emsp;/&emsp;提交{$header_submit}次&emsp;({$header_ratio})
-    {{ ELSE }}
+    {% ELSE %}
 请点击<a href="."><span class="white bold">这里</span></a>登录
-    {{ END }}&emsp;&emsp;
+    {% END %}&emsp;&emsp;
 </span>
 <span class="style3">
 <a href=".">首页</a> <a href="problems">题库</a> <a href="records">记录</a>
 <a href="tags">标签</a> <a href="tests">比赛</a>
 <a href="discuss">讨论</a>&emsp;|&emsp;<a href="error.php">U-S</a>
 <a href="error.php">搜索</a> <a href="skin/vj2">换肤</a>
-<a id="StranLink" href="#">正体</a><script type="text/javascript" src="static/Std_StranJF.js"></script>&emsp;|&emsp;{{ IF $user }}<a
-            href="user/logout?sid={{ q($global_sid) }}">登出</a>
-    {{ ELSE }}
+<a id="StranLink" href="#">正体</a><script type="text/javascript" src="static/Std_StranJF.js"></script>&emsp;|&emsp;{% IF $user %}<a
+            href="user/logout?sid={% q($global_sid) %}">登出</a>
+    {% ELSE %}
 <a href=".">登录</a> <a href=".">注册</a>
-    {{ END }}&emsp;
+    {% END %}&emsp;
 </span>
         </div>
     </div>
@@ -134,13 +134,13 @@
                 <marquee id="news" direction="left" scrollamount="4" onMouseOver="this.stop();"
                          onMouseOut="this.start();">
                     <span id="tnews">公告 News &gt;&gt;</span>
-                    {{ IF $header_anno }}
-                    {{ BEGIN header_anno }}
-                    　　<a href="/discuss/{{ q($id) }}"><span class="enews">{{ q($title) }}  ({{ q($time) }})</span></a>
-                    {{ END }}
-                    {{ ELSE }}
+                    {% IF $header_anno %}
+                    {% BEGIN header_anno %}
+                    　　<a href="/discuss/{% q($id) %}"><span class="enews">{% q($title) %}  ({% q($time) %})</span></a>
+                    {% END %}
+                    {% ELSE %}
                     <a href="#" class="enews">暂无公告</a>
-                    {{ END }}
+                    {% END %}
                 </marquee>
             </div>
         </div>

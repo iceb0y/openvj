@@ -19,5 +19,5 @@ $_TEMPLATE_DIR  = VIEW_DIR.$_TEMPLATE_NAME.'/';
 View::set_root($_TEMPLATE_DIR);
 View::set_variable(array
 (
-    'TEMPLATE_DIR' => 'view/'.$_TEMPLATE_NAME
+    'ENV_TEMPLATE_DIR' => 'view/'.$_TEMPLATE_NAME
 ));
