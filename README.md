@@ -12,3 +12,11 @@ DO NOT use this in production environment until it has a stable trunk!
 # License
 
 GNU Affero General Public License (AGPL) V3
+
+# TODO
+
+- secondary RegExp RESTful
+
+- I18N
+
+- Blitz
