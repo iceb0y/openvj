@@ -1,9 +1,0 @@
-{
-    "files": [
-        "lib/json/json2.js",
-        "lib/requirejs/require.js",
-        "lib/moment/moment.min.js",
-        "lib/moment/lang/zh-cn.js"
-    ],
-    "output": "vijos-ext.js"
-}

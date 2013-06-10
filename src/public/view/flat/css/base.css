@@ -1,0 +1,358 @@
+@charset "utf-8";
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+a img {
+  border: none;
+}
+:focus {
+  outline: 0;
+}
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/ptsans.eot");
+  src: local('PT Sans'), local('PTSans-Regular'), url("../fonts/ptsans.eot") format('embedded-opentype'), url("../fonts/ptsans.woff") format('woff'), url("../fonts/ptsans.ttf") format('truetype'), url("../fonts/ptsans.svg#PTSans") format('svg');
+}
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/oxygenmono.eot");
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url("../fonts/oxygenmono.eot") format('embedded-opentype'), url("../fonts/oxygenmono.woff") format('woff'), url("../fonts/oxygenmono.ttf") format('truetype'), url("../fonts/oxygenmono.svg#OxygenMono") format('svg');
+}
+@font-face {
+  font-family: 'Vijos Symbols';
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/vijossymbols.eot");
+  src: local('Vijos Symbols'), local('VijosSymbols-Regular'), url("../fonts/vijossymbols.eot") format('embedded-opentype'), url("../fonts/vijossymbols.woff") format('woff'), url("../fonts/vijossymbols.ttf") format('truetype'), url("../fonts/vijossymbols.svg#VijosSymbols") format('svg');
+}
+body {
+  font-size: 14px;
+  color: #222;
+}
+body,
+input,
+select,
+textarea,
+button {
+  font-family: "PT Sans", "Segoe UI", "Lucida Grande", "Lucida", "Lucida Sans Unicode", "Lucida Sans", "Tahoma", "Verdana", "Microsoft YaHei", "微软雅黑";
+}
+p {
+  margin: 0 0 1.5em;
+}
+a,
+a:visited {
+  color: #389648;
+  text-decoration: none;
+}
+a:focus,
+a:hover {
+  color: #4ebd61;
+  text-decoration: underline;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  color: #111;
+}
+h1 {
+  font-size: 3em;
+  line-height: 1;
+  margin-bottom: 0.5em;
+}
+h2 {
+  font-size: 2em;
+  margin-bottom: 0.75em;
+}
+h3 {
+  font-size: 1.5em;
+  line-height: 1;
+  margin-bottom: 1em;
+}
+h4 {
+  font-size: 1.2em;
+  line-height: 1.25;
+  margin-bottom: 1.25em;
+}
+h5 {
+  font-size: 1em;
+  font-weight: bold;
+  margin-bottom: 1.5em;
+}
+h6 {
+  font-size: 1em;
+  font-weight: bold;
+}
+li ul,
+li ol {
+  margin: 0;
+}
+ul,
+ol {
+  margin: 0 1.5em 1.5em 0;
+  padding-left: 1.5em;
+}
+ul {
+  list-style-type: disc;
+}
+ol {
+  list-style-type: decimal;
+}
+dl {
+  margin: 0 0 1.5em 0;
+}
+dl dt {
+  font-weight: bold;
+}
+dd {
+  margin-left: 1.5em;
+}
+del {
+  color: #666;
+}
+pre {
+  margin: 1.5em 0;
+  white-space: pre;
+}
+pre,
+code,
+tt {
+  word-wrap: break-word;
+  word-break: break-all;
+  font-family: "Oxygen Mono", "YaHei Consolas Hybrid", "Consolas", "Lucida Console", "Bitstream Vera Sans Mono", "Courier New", "Courier", "monospace", "宋体";
+  white-space: pre;
+}
+/*
+table {margin-bottom:1.4em;width:100%;}
+th {font-weight:bold;}
+thead th {background:#c3d9ff;}
+th, td, caption {padding:4px 10px 4px 5px;}
+tbody tr:nth-child(even) td, tbody tr.even td {background:#e5ecf9;}
+tfoot {font-style:italic;}
+*/
+.small {
+  font-size: 0.8em;
+  margin-bottom: 1.875em;
+  line-height: 1.875em;
+}
+.large {
+  font-size: 1.2em;
+  line-height: 2.5em;
+  margin-bottom: 1.25em;
+}
+.icon-symbol {
+  font-family: "Vijos Symbols";
+  speak: none;
+  display: inline-block;
+  text-decoration: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+.icon-home:before {
+  content: "\0021";
+}
+.icon-problems:before {
+  content: "\0022";
+}
+.icon-discussion:before {
+  content: "\0023";
+}
+.icon-tags:before {
+  content: "\0024";
+}
+.icon-contests:before {
+  content: "\0025";
+}
+.icon-records:before {
+  content: "\0026";
+}
+.icon-user:before {
+  content: "\0027";
+}
+body,
+html {
+  height: 100%;
+}
+html {
+  background: #eee url("../img/bg.png") repeat;
+}
+#container {
+  width: 920px;
+  height: 100%;
+}
+#footer {
+  color: #aaa;
+  text-align: center;
+  line-height: 1.4;
+}
+.cont-nav {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 60px;
+  height: 100%;
+  background: #222;
+}
+.cont-nav-a {
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+  display: block;
+  opacity: 0.7;
+  font-size: 39px;
+  transition: all 0.2s ease-in-out;
+}
+.cont-nav-a,
+.cont-nav-a:visited,
+.cont-nav-a:hover {
+  color: #fff;
+}
+.cont-nav-a:hover {
+  text-shadow: 0 0 5px #fff;
+  opacity: 1;
+  background: #595959;
+}
+.cont-nav-active {
+  opacity: 0.9;
+  background: #389648;
+}
+.cont-nav-active:hover {
+  background: #3ca14d;
+}
+.cont-body {
+  background: #f8f8f8 url("../img/content_bg.png") repeat;
+  margin-left: 60px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  min-height: 100%;
+  position: relative;
+  z-index: 0;
+}
