@@ -13,11 +13,11 @@ $loader
 //dependency
 $di = new Phalcon\DI\FactoryDefault();
 
-$di->set('view', function() use ($_TEMPLATE_NAME) {
+$di->set('view', function () use ($_TEMPLATE_NAME) {
 
     $view = new \Phalcon\Mvc\View();
     $view->setViewsDir('../app/views/'.$_TEMPLATE_NAME.'/');
-    $view->registerEngines(array('.volt' => function($view, $di) {
+    $view->registerEngines(array('.volt' => function ($view, $di) {
 
         global $config;
 
@@ -38,13 +38,14 @@ $di->set('view', function() use ($_TEMPLATE_NAME) {
 
     return $view;
 });
-$di->set('session', function() {
+$di->set('session', function () use ($config) {
 
     $session = new Phalcon\Session\Adapter\Redis(array(
         'path' => $config->Session->redisPath
     ));
 
     $session->start();
+
     return $session;
 });
 

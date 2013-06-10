@@ -12,8 +12,8 @@ class Compatibility
         if (stripos($_SERVER['REQUEST_URI'], '.asp') !== false) {
             if (!isset($_SERVER['HTTP_USER_AGENT']) ||
                 stripos($_SERVER['HTTP_USER_AGENT'], 'Baiduspider') === false &&
-                    stripos($_SERVER['HTTP_USER_AGENT'], 'Sogou web spider') === false &&
-                    stripos($_SERVER['HTTP_USER_AGENT'], 'Sosospider') === false
+                stripos($_SERVER['HTTP_USER_AGENT'], 'Sogou web spider') === false &&
+                stripos($_SERVER['HTTP_USER_AGENT'], 'Sosospider') === false
             )
                 $prefix = 'https://';
             else

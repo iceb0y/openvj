@@ -18,11 +18,11 @@ class View
         $compiler = $volt->getCompiler();
 
         //TODO: wait for BUG fixing
-        $compiler->addFunction('view_static', function($resolvedArgs, $exprArgs) {
+        $compiler->addFunction('view_static', function ($resolvedArgs, $exprArgs) {
             return 'VJ\View::view_static('.$resolvedArgs.')';
         });
 
-        $compiler->addFunction('view_processTime', function($resolvedArgs, $exprArgs) {
+        $compiler->addFunction('view_processTime', function ($resolvedArgs, $exprArgs) {
             return 'VJ\View::view_processTime('.$resolvedArgs.')';
         });
     }
@@ -35,13 +35,13 @@ class View
             $file = 'static/'.$res;
         else
             $file = 'view/'.$_TEMPLATE_NAME.'/'.$res;
-        
+
         $output = '//'.$config->Misc->CDN.'/'.$file;
-        $mtime = filemtime(ROOT_DIR.'public/'.$file);
-        
+        $mtime  = filemtime(ROOT_DIR.'public/'.$file);
+
         if ($mtime)
-            $output.='?v='.$mtime;
-        
+            $output .= '?v='.$mtime;
+
         return $output;
     }
 
@@ -49,6 +49,7 @@ class View
     {
         global $_START_TIME;
         $_START_TIME += microtime(true);
+
         return sprintf('%f', $_START_TIME * 1000);
     }
 }
