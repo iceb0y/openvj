@@ -4,5 +4,7 @@ Desktop.ini
 web.config
 define.config.php
 
+*.compiled
+
 # PHPStorm
 .idea/
