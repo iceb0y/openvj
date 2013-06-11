@@ -328,7 +328,7 @@ html {
   text-align: center;
   display: block;
   opacity: 0.7;
-  font-size: 39px;
+  font-size: 36px;
   transition: all 0.2s ease-in-out;
 }
 .cont-nav-a,
@@ -347,6 +347,24 @@ html {
 }
 .cont-nav-active:hover {
   background: #3ca14d;
+}
+.cont-nav-home.cont-nav-active {
+  background-color: #3d88ef;
+}
+.cont-nav-home.cont-nav-active:hover {
+  background-color: #478ef0;
+}
+.cont-nav-problems.cont-nav-active {
+  background-color: #ff4d4d;
+}
+.cont-nav-problems.cont-nav-active:hover {
+  background-color: #ff5656;
+}
+.cont-nav-discussion.cont-nav-active {
+  background-color: #00b22d;
+}
+.cont-nav-discussion.cont-nav-active:hover {
+  background-color: #00c331;
 }
 .cont-body {
   background: #f8f8f8 url("../img/content_bg.png") repeat;

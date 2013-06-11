@@ -7,6 +7,8 @@ $link-color-hover = lighten($link-color,20%)
 $nav-color = #222
 $nav-width = 60px
 
+$page-color = (home #3D88EF) (problems #FF4D4D) (discussion #00B22D)
+
 // CSS Reset
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {display:block;}
@@ -132,6 +134,7 @@ html
     text-align center
     line-height 1.4
 
+// Navigation bar =====================================
 .cont-nav
     position fixed
     z-index 1
@@ -148,7 +151,7 @@ html
     text-align center
     display block
     opacity 0.7
-    font-size $nav-width*0.65
+    font-size $nav-width*0.6
     transition all .2s ease-in-out
 
 .cont-nav-a, .cont-nav-a:visited, .cont-nav-a:hover
@@ -157,15 +160,23 @@ html
 .cont-nav-a:hover
     text-shadow 0 0 5px #fff
     opacity 1
-    background lighten($nav-color,25%)
+    background lighten($nav-color, 25%)
 
+// IE6
 .cont-nav-active
     opacity 0.9
     background $link-color
+    &:hover
+        background lighten(@background, 5%)
 
-.cont-nav-active:hover
-    background lighten($link-color,5%)
+//Colorful
+for list in $page-color
+    .cont-nav-{list[0]}.cont-nav-active
+        background-color list[1]
+        &:hover
+            background-color lighten(@background-color, 5%)
 
+// Body ===============================================
 .cont-body
     background #F8F8F8 url(../img/content_bg.png) repeat
     margin-left $nav-width
