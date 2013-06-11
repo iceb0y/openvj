@@ -14,7 +14,7 @@
 <link href="{{ view_static(PATH) }}" rel="stylesheet" type="text/css" charset="UTF-8" />
 {% endfor %}{% endif %}
 </head>
-<body>
+<body id="page_{{ PAGE_CLASS }}">
 <div id="container">
 <div class="cont-nav">
     <div class="cont-nav-li"><a class="cont-nav-a cont-nav-home" href="#"><span class="cont-nav-icon icon-symbol icon-home"></span></a></div>

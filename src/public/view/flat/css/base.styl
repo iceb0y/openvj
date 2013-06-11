@@ -23,7 +23,7 @@ a img {border:none;}
 // Web fonts
 @font-face
     font-family 'PT Sans'
-    font-style normal
+    font-style  normal
     font-weight 400
     src: url('../fonts/ptsans.eot');
     src: local('PT Sans'), local('PTSans-Regular'),
@@ -33,8 +33,19 @@ a img {border:none;}
          url('../fonts/ptsans.svg#PTSans') format('svg');
 
 @font-face
+    font-family 'Open Sans'
+    font-style  normal
+    font-weight 400
+    src: url('../fonts/opensans.eot');
+    src: local('Open Sans'), local('OpenSans'),
+         url('../fonts/opensans.eot') format('embedded-opentype'),
+         url('../fonts/opensans.woff') format('woff'),
+         url('../fonts/opensans.ttf')  format('truetype'),
+         url('../fonts/opensans.svg#OpenSans') format('svg');
+
+@font-face
     font-family 'Oxygen Mono'
-    font-style normal
+    font-style  normal
     font-weight 400
     src: url('../fonts/oxygenmono.eot');
     src: local('Oxygen Mono'), local('OxygenMono-Regular'),
@@ -45,10 +56,10 @@ a img {border:none;}
 
 @font-face
     font-family 'Vijos Symbols'
-    font-style normal
+    font-style  normal
     font-weight 400
     src: url('../fonts/vijossymbols.eot');
-    src: local('Vijos Symbols'), local('VijosSymbols-Regular'),
+    src: local('Vijos Symbols'), local('VijosSymbols'),
          url('../fonts/vijossymbols.eot') format('embedded-opentype'),
          url('../fonts/vijossymbols.woff') format('woff'),
          url('../fonts/vijossymbols.ttf')  format('truetype'),
@@ -56,7 +67,7 @@ a img {border:none;}
 
 // Typography
 body {font-size:14px;color:$text-color;}
-body,input,select,textarea,button {font-family:"PT Sans", "Segoe UI", "Lucida Grande", "Lucida", "Lucida Sans Unicode", "Lucida Sans", "Tahoma", "Verdana", "Microsoft YaHei", "微软雅黑";}
+body,input,select,textarea,button {font-family:"Open Sans", "Segoe UI", "Lucida Grande", "Lucida", "Lucida Sans Unicode", "Lucida Sans", "Tahoma", "Verdana", "Microsoft YaHei", "微软雅黑";}
 
 p {margin:0 0 1.5em;}
 
@@ -99,10 +110,10 @@ tfoot {font-style:italic;}
 // Icons
 .icon-symbol
     font-family "Vijos Symbols"
-    speak   none
-    display inline-block
-    text-decoration none
+    speak       none
+    display     inline-block
     line-height 1
+    text-decoration none
     -webkit-font-smoothing antialiased
 
 .icon-home:before       {content:"\0021"}
@@ -115,72 +126,80 @@ tfoot {font-style:italic;}
 
 // Debugging===========================================
 debug-border()
-    border 1px solid #f00
+    border      1px solid #f00
 // ====================================================
 
 // Layout
 body, html
-    height  100%
+    height      100%
 
 html
-    background #EEE url(../img/bg.png) repeat
+    background  #EEE url(../img/bg.png) repeat
 
 #container
-    width   920px
-    height  100%
+    width       920px
+    height      100%
 
 #footer
-    color   #AAA
-    text-align center
+    color       #AAA
+    text-align  center
     line-height 1.4
+    font-size   13px
+    text-shadow 1px 1px 0px #fff
 
 // Navigation bar =====================================
 .cont-nav
-    position fixed
-    z-index 1
-    left    0
-    top     0
-    width   $nav-width
-    height  100%
-    background $nav-color
+    position    fixed
+    z-index     1
+    left        0
+    top         0
+    width       $nav-width
+    height      100%
+    background  $nav-color
 
 .cont-nav-a
-    width   $nav-width
-    height  $nav-width
+    width       $nav-width
+    height      $nav-width
     line-height $nav-width
-    text-align center
-    display block
-    opacity 0.7
-    font-size $nav-width*0.6
-    transition all .2s ease-in-out
+    text-align  center
+    display     block
+    opacity     0.7
+    font-size   $nav-width*0.6
+    transition  all .2s ease-in-out
 
 .cont-nav-a, .cont-nav-a:visited, .cont-nav-a:hover
-    color   #fff
+    color       #fff
 
 .cont-nav-a:hover
     text-shadow 0 0 5px #fff
-    opacity 1
-    background lighten($nav-color, 25%)
+    opacity     1
+    background  lighten($nav-color, 25%)
 
 // IE6
 .cont-nav-active
-    opacity 0.9
-    background $link-color
+    opacity     0.9
+    background  $link-color
     &:hover
-        background lighten(@background, 5%)
+        background  lighten(@background, 5%)
 
 //Colorful
 for list in $page-color
+    #page_{list[0]} .body-title
+        color               darken(list[1], 15%)
     .cont-nav-{list[0]}.cont-nav-active
-        background-color list[1]
+        background-color    list[1]
         &:hover
-            background-color lighten(@background-color, 5%)
+            background-color    lighten(@background-color, 5%)
 
 // Body ===============================================
 .cont-body
-    background #F8F8F8 url(../img/content_bg.png) repeat
+    background  #F8F8F8 url(../img/content_bg.png) repeat
     margin-left $nav-width
-    box-shadow 0 0 10px rgba(0,0,0,0.3)
-    min-height 100%
-    position relative
-    z-index 0
+    box-shadow  0 0 10px rgba(0,0,0,0.3)
+    min-height  100%
+    position    relative
+    z-index     0
+
+.body-title
+    font-size   25px
+    padding     20px
