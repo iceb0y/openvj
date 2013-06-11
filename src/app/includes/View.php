@@ -30,6 +30,24 @@ class View
         $compiler->addFunction('view_processTime', function ($resolvedArgs, $exprArgs) {
             return 'VJ\View::view_processTime('.$resolvedArgs.')';
         });
+
+        $compiler->addFilter('i18n', function($resolvedArgs, $exprArgs) {
+            return 'VJ\View::view_i18n('.$resolvedArgs.')';
+        });
+    }
+
+    public static function view_i18n()
+    {
+        $argv = func_get_args();
+        $text = gettext($argv[0]);
+
+        if (count($argv) > 1)
+        {
+            array_shift($argv);
+            $text = call_user_func_array('sprintf', $argv);
+        }
+
+        return $text;
     }
 
     public static function view_static($res, $static = false)

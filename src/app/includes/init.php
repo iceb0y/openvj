@@ -34,6 +34,12 @@ $config = new Phalcon\Config\Adapter\Ini(APP_DIR.'config/app.ini');
 $config->merge(new Phalcon\Config\Adapter\Ini(APP_DIR.'config/database.ini'));
 
 
+//I18N
+setlocale(LC_ALL, 'zh_CN');
+bindtextdomain('vijos', APP_DIR.'i18n');
+textdomain('vijos');
+
+
 //Headers
 header('X-Frame-Options: SAMEORIGIN');
 header('Content-Type: text/html;charset=utf-8');
