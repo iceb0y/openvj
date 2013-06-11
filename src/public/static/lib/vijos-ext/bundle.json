@@ -1,6 +1,6 @@
 {
     "files": [
-        "vj/proto.js",
+        "lib/util/proto.js",
         "lib/ecma5/ecma5.js",
         "lib/mass-Framework/mass.js",
         "lib/mass-Framework/Icarus.js",

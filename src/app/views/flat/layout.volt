@@ -8,7 +8,6 @@
 <meta name="description" content="{% block meta_desc %}{{ META_DESC }}{% endblock %}"/>
 <title>{{ TITLE }}{{ TITLE_SUFFIX }}</title>
 <script type="text/javascript" charset="UTF-8">if(top.location!==self.location){top.location=self.location}else{if(top!==self){if(confirm("Reload?")){top.location.reload()}}};</script>
-<script type="text/javascript" charset="UTF-8">var _hmt=_hmt||[];(function(){var b=document.createElement("script");b.src="//hm.baidu.com/hm.js?a44424b774e6b920eb7d4a02fa11498f";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(b,a)})();</script>
 <link href="{{ view_static('css/base.css') }}" rel="stylesheet" type="text/css" charset="UTF-8" />
 {% if EXT_CSS is defined %}{% for PATH in EXT_CSS %}
 <link href="{{ view_static(PATH) }}" rel="stylesheet" type="text/css" charset="UTF-8" />
@@ -30,6 +29,7 @@
 </div>
 <script type="text/javascript" src="{{ view_static('lib/jquery/jquery-1.9.1.min.js', true) }}" charset="UTF-8"></script>
 <script type="text/javascript" src="{{ view_static('lib/vijos-ext/vijos-ext.js', true) }}" charset="UTF-8"></script>
+<script type="text/javascript" src="{{ view_static('lib/vijos-ext/vijos.js', true) }}" charset="UTF-8"></script>
 {% if EXT_JS is defined %}{% for PATH in EXT_JS %}
 <script type="text/javascript" src="{{ view_static(PATH) }}" charset="UTF-8"></script>
 {% endfor %}{% endif %}
