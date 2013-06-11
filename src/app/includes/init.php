@@ -34,13 +34,13 @@ $config = new Phalcon\Config\Adapter\Ini(APP_DIR.'config/app.ini');
 $config->merge(new Phalcon\Config\Adapter\Ini(APP_DIR.'config/database.ini'));
 
 
-//I18N
+// I18N
 setlocale(LC_ALL, 'zh_CN');
 bindtextdomain('vijos', APP_DIR.'i18n');
 textdomain('vijos');
 
 
-//Headers
+// Headers
 header('X-Frame-Options: SAMEORIGIN');
 header('Content-Type: text/html;charset=utf-8');
 header('X-XSS-Protection: 1;mode=block');
@@ -57,7 +57,7 @@ if (!$config->Debug->enabled) {
 // Check whether the requested hostname is in the allowed host list, which is
 // defined in define/global.php. If not, generate a HTTP 403 error
 if ($config->Security->checkHost && !in_array(ENV_HOST, $config->Security->allowedHosts)) {
-    header('HTTP/1.1 403 Forbidden');
+    header('HTTP/1.1 403 Forbidden', true, 403);
     exit('Bad Request: Header field "host" is invalid.');
 }
 
