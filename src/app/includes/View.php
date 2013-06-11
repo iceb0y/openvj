@@ -10,7 +10,12 @@ class View
         //Assign global variables
 
         global $config;
-        $view->TITLE_SUFFIX = $config->Misc->titleSuffix;
+        $view->setVars(array(
+            'TITLE_SUFFIX'     => $config->Misc->titleSuffix,
+            'FOOTER_ICP'       => $config->Footer->ICP,
+            'FOOTER_VERSION'   => APP_NAME.' '.APP_VERSION,
+            'FOOTER_COPYRIGHT' => $config->Footer->copyright
+        ));
     }
 
     public static function extendVolt($volt, $view)
