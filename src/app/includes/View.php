@@ -12,9 +12,11 @@ class View
         global $config;
         $view->setVars(array(
             'TITLE_SUFFIX'     => $config->Misc->titleSuffix,
-            'FOOTER_ICP'       => $config->Footer->ICP,
+            'META_KEYWORD'     => $config->Misc->metaKeyword,
+            'META_DESC'        => $config->Misc->metaDesc,
+            'FOOTER_ICP'       => $config->Misc->icp,
+            'FOOTER_COPYRIGHT' => $config->Misc->copyright,
             'FOOTER_VERSION'   => APP_NAME.' '.APP_VERSION,
-            'FOOTER_COPYRIGHT' => $config->Footer->copyright
         ));
     }
 
@@ -59,7 +61,7 @@ class View
         else
             $file = 'view/'.$_TEMPLATE_NAME.'/'.$res;
 
-        $output = '//'.$config->Misc->CDN.'/'.$file;
+        $output = '//'.$config->Misc->cdnHost.'/'.$file;
         $mtime  = filemtime(ROOT_DIR.'public/'.$file);
 
         if ($mtime)
