@@ -7,7 +7,8 @@ class IndexController extends \Phalcon\Mvc\Controller
     {
         $this->view->setVars(array(
             'PAGE_CLASS' => 'home',
-            'TITLE'      => '首页'
+            'TITLE'      => gettext('Home'),
+            'HEADLINE'   => gettext('Vijos')
         ));
     }
 }
