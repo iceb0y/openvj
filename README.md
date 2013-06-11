@@ -1,7 +1,7 @@
-vijos
-=====
+OpenVJ
+======
 
-Vijos is an online judge website, providing problems-set, discussion and realtime judging service.
+OpenVJ is an open-source online judge (OJ) system, providing problems-set, discussion and realtime judging service. It is developed and maintained by Vijos.
 
 # Important notice
 
@@ -12,11 +12,3 @@ DO NOT use this in production environment until it has a stable trunk!
 # License
 
 GNU Affero General Public License (AGPL) V3
-
-# TODO
-
-- secondary RegExp RESTful
-
-- I18N
-
-- Blitz
