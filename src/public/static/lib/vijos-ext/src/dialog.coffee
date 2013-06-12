@@ -56,11 +56,22 @@ class VJ.Dialog
         $append document.body, @dialogLayer
         $append document.body, @dialog
 
+        # Set position
+
+        h = @dialog.offsetHeight
+        wh = jQuery(window).height()
+
+        $css.set @dialog, 'top', (wh - h)/2
+
+        # Effects
+
         setTimeout =>
             $className.add @dialogLayer, 'show'
         , 0
 
         setTimeout =>
+
+            # Text animation
 
             if effect
                 jQuery(@dialog)
