@@ -8,6 +8,7 @@
         'form.login.l_pass':    '密码',
         'form.login.b_login':   '登录',
         'form.login.b_cancel':  '取消'
+        
     });
 
 })(VJ.I18N);

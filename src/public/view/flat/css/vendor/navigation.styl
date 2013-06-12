@@ -1,0 +1,42 @@
+.cont-nav
+    position    fixed
+    z-index     1
+    left        0
+    top         0
+    width       $nav-width
+    height      100%
+    background  $nav-color
+
+.cont-nav-a
+    width       $nav-width
+    height      $nav-width
+    line-height $nav-width
+    text-align  center
+    display     block
+    opacity     0.7
+    font-size   $nav-width*0.6
+    transition  all .2s ease-in-out
+
+.cont-nav-a, .cont-nav-a:visited, .cont-nav-a:hover
+    color       #fff
+
+.cont-nav-a:hover
+    text-shadow 0 0 5px #fff
+    opacity     1
+    background  lighten($nav-color, 25%)
+
+// IE6
+.cont-nav-active
+    opacity     0.9
+    background  $link-color
+    &:hover
+        background  lighten(@background, 5%)
+
+//Colorful
+for list in $page-color
+    #page_{list[0]} .body-title
+        color               darken(list[1], 15%)
+    .cont-nav-{list[0]}.cont-nav-active
+        background-color    list[1]
+        &:hover
+            background-color    lighten(@background-color, 5%)

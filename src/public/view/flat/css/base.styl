@@ -73,104 +73,14 @@ html
     font-size   13px
     text-shadow 1px 1px 0px #fff
 
+// UI =================================================
+@import "vendor/ui"
+
 // Dialogs ============================================
-.vj-dlg-layer
-    position    absolute
-    position    fixed
-    left        0
-    top         0
-    width       100%
-    height      100%
-    background  #FFF
-    opacity     0
-    z-index     5
-    transition          opacity .5s linear
-    pointer-events      none
-    &.show
-        opacity         0.7
-        pointer-events  all
-
-.vj-dlg
-    background  #FFF
-    border-top  5px solid $dialog-title-color
-    box-shadow  0 0 10px rgba(0,0,0,0.3)
-    position    absolute
-    z-index     6
-    left        0
-    width       100%
-    top         100px
-    opacity     0
-    transform           scale(1.1)
-    transition          all .2s ease-in-out
-    &.show
-        opacity         1
-        transform       none
-        pointer-events  all
-
-.vj-dlg-title
-    background  $dialog-title-color
-    padding     10px 0 15px 0
-    color       #fff
-    margin      0
-
-.vj-dlg-cont
-    padding     25px 0
-    line-height 1.5
-
-.vj-dlg-btn
-    background  $dialog-button-color
-    padding     10px 0
-
-.vj-dlg-ctr
-    width       600px
-    margin      0 auto
-
-.vj-dlg-btn .vj-dlg-ctr
-    text-align  right
+@import "vendor/dialog"
 
 // Navigation bar =====================================
-.cont-nav
-    position    fixed
-    z-index     1
-    left        0
-    top         0
-    width       $nav-width
-    height      100%
-    background  $nav-color
-
-.cont-nav-a
-    width       $nav-width
-    height      $nav-width
-    line-height $nav-width
-    text-align  center
-    display     block
-    opacity     0.7
-    font-size   $nav-width*0.6
-    transition  all .2s ease-in-out
-
-.cont-nav-a, .cont-nav-a:visited, .cont-nav-a:hover
-    color       #fff
-
-.cont-nav-a:hover
-    text-shadow 0 0 5px #fff
-    opacity     1
-    background  lighten($nav-color, 25%)
-
-// IE6
-.cont-nav-active
-    opacity     0.9
-    background  $link-color
-    &:hover
-        background  lighten(@background, 5%)
-
-//Colorful
-for list in $page-color
-    #page_{list[0]} .body-title
-        color               darken(list[1], 15%)
-    .cont-nav-{list[0]}.cont-nav-active
-        background-color    list[1]
-        &:hover
-            background-color    lighten(@background-color, 5%)
+@import "vendor/navigation"
 
 // Body ===============================================
 .cont-body
