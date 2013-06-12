@@ -15,13 +15,22 @@ class VJ.Dialog
         $css.set @dialogLayer,  'z-index', (VJ.Dialog.dialogID*2+10).toString()
         $css.set @dialog,       'z-index', (VJ.Dialog.dialogID*2+11).toString()
 
+        if obj.class?
+            $className.add  @dialog, 'dialog-' + obj.class
+        
         if obj.title?
             titleRegion = $append @dialog, $new('h2', 'class': 'vj-dlg-title')
             $html $append(titleRegion, $new('div', 'class': 'vj-dlg-ctr')), obj.title
 
         if obj.content?
             contentRegion = $append @dialog, $new('div', 'class': 'vj-dlg-cont')
-            $html $append(contentRegion, $new('div', 'class': 'vj-dlg-ctr')), obj.content
+
+            if typeof obj.content is 'string'
+                $html $append(contentRegion, $new('div', 'class': 'vj-dlg-ctr')), obj.content
+            else if obj.content instanceof HTMLElement
+                $append $append(contentRegion, $new('div', 'class': 'vj-dlg-ctr')), obj.content
+            else
+                throw 'Unknown type: obj.content'
 
         if obj.buttons?
             btnRegion = $append @dialog, $new('div', 'class': 'vj-dlg-btn')
@@ -71,9 +80,12 @@ class VJ.Dialog
 
         setTimeout =>
 
+            $className.add @dialog, 'show'
+
             # Text animation
 
-            if effect
+            if effect is true
+
                 jQuery(@dialog)
                 .find('.vj-dlg-cont .vj-dlg-ctr')
                 .textillate(
@@ -83,8 +95,7 @@ class VJ.Dialog
                         delay:      Math.floor(1000 / $text(@dialog).length)
                         shuffle:    true
                 );
-
-            $className.add @dialog, 'show'
+            
         , 100
 
         @
