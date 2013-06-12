@@ -93,12 +93,16 @@
     };
 
     Dialog.prototype.show = function(effect) {
-      var _this = this;
+      var h, wh,
+        _this = this;
       if (effect == null) {
         effect = true;
       }
       $append(document.body, this.dialogLayer);
       $append(document.body, this.dialog);
+      h = this.dialog.offsetHeight;
+      wh = jQuery(window).height();
+      $css.set(this.dialog, 'top', (wh - h) / 2);
       setTimeout(function() {
         return $className.add(_this.dialogLayer, 'show');
       }, 0);
@@ -121,5 +125,11 @@
     return Dialog;
 
   })();
+
+  VJ.Utils = {
+    showLogin: function() {
+      return console.log('a');
+    }
+  };
 
 }).call(this);

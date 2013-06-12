@@ -15,16 +15,13 @@
 </head>
 <body id="page_{{ PAGE_CLASS }}">
 <div id="container">
-<div class="cont-nav">
-    <div class="cont-nav-li"><a class="cont-nav-a cont-nav-home" href="#"><span class="cont-nav-icon icon-symbol icon-home"></span></a></div>
-    <div class="cont-nav-li"><a class="cont-nav-a cont-nav-problems" href="#"><span class="cont-nav-icon icon-symbol icon-problems"></span></a></div>
-    <div class="cont-nav-li"><a class="cont-nav-a cont-nav-discussion" href="#"><span class="cont-nav-icon icon-symbol icon-discussion"></span></a></div>
-</div>
+{% include "vendor/navigation.volt" %}
 <div class="cont-body">
 <div id="content">
+<div class="body-top"><div class="body-title">{{ HEADLINE }}</div><div class="body-action"><a href="javascript:VJ.Utils.showLogin();">登录</a>&nbsp;|&nbsp;<a href="/user/register">注册</a></div><div class="clear"></div></div>
 {% block body %}{% endblock %}
 </div>
-<div id="footer">{{ FOOTER_ICP }} Powered by {{ FOOTER_VERSION}}.<br>{{ FOOTER_COPYRIGHT}} Processed in {{ view_processTime() }} ms</div>
+<div id="footer">{{ FOOTER_ICP }} Powered by <a href="https://github.com/vijos/openvj" target="_blank">{{ FOOTER_VERSION }}</a>.<br>{{ FOOTER_COPYRIGHT}} Processed in {{ view_processTime() }} ms</div>
 </div>
 </div>
 <script type="text/javascript" src="{{ view_static('lib/jquery/jquery-1.9.1.min.js', true) }}" charset="UTF-8"></script>
