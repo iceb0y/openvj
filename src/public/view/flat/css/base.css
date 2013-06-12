@@ -1165,6 +1165,38 @@ html {
   font-size: 13px;
   text-shadow: 1px 1px 0px #fff;
 }
+.textbox {
+  margin: 0;
+  box-sizing: content-box;
+  height: 16px;
+  line-height: 16px;
+  outline: 0;
+  padding: 4px;
+  border: 1px solid #ddd;
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -ie-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+  background: #fcfcfc;
+}
+.textbox:hover {
+  border-color: #ccc;
+  background: #fff;
+}
+.textbox:focus {
+  border-color: #ffde6a;
+  background: #fff;
+  box-shadow: 0 0 5px #ffdf00;
+}
+.button {
+  cursor: default;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ie-user-select: none;
+  user-select: none;
+  display: inline-block;
+  *display: inline;
+}
 .vj-dlg-layer {
   position: absolute;
   position: fixed;
