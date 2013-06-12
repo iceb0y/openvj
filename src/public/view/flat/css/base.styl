@@ -1,69 +1,14 @@
 @charset "utf-8";
 
-$text-color = #222
-$link-color = #389648
-$link-color-hover = lighten($link-color,20%)
+@import "vendor/variable"
+@import "vendor/prefix"
+@import "vendor/debug"
 
-$nav-color = #222
-$nav-width = 60px
+@import "vendor/reset"
+@import "vendor/webfont"
+@import "vendor/webicon"
 
-$page-color = (home #3D88EF) (problems #FF4D4D) (discussion #00B22D)
-
-// CSS Reset
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {display:block;}
-body {line-height:1;}
-ol, ul {list-style:none;}
-blockquote, q {quotes:none;}
-blockquote:before, blockquote:after, q:before, q:after {content:'';content:none;}
-table {border-collapse:collapse;border-spacing:0;}
-a img {border:none;}
-:focus {outline:0;}
-
-// Web fonts
-@font-face
-    font-family 'PT Sans'
-    font-style  normal
-    font-weight 400
-    src: url('../fonts/ptsans.eot');
-    src: local('PT Sans'), local('PTSans-Regular'),
-         url('../fonts/ptsans.eot') format('embedded-opentype'),
-         url('../fonts/ptsans.woff') format('woff'),
-         url('../fonts/ptsans.ttf')  format('truetype'),
-         url('../fonts/ptsans.svg#PTSans') format('svg');
-
-@font-face
-    font-family 'Open Sans'
-    font-style  normal
-    font-weight 400
-    src: url('../fonts/opensans.eot');
-    src: local('Open Sans'), local('OpenSans'),
-         url('../fonts/opensans.eot') format('embedded-opentype'),
-         url('../fonts/opensans.woff') format('woff'),
-         url('../fonts/opensans.ttf')  format('truetype'),
-         url('../fonts/opensans.svg#OpenSans') format('svg');
-
-@font-face
-    font-family 'Oxygen Mono'
-    font-style  normal
-    font-weight 400
-    src: url('../fonts/oxygenmono.eot');
-    src: local('Oxygen Mono'), local('OxygenMono-Regular'),
-         url('../fonts/oxygenmono.eot') format('embedded-opentype'),
-         url('../fonts/oxygenmono.woff') format('woff'),
-         url('../fonts/oxygenmono.ttf')  format('truetype'),
-         url('../fonts/oxygenmono.svg#OxygenMono') format('svg');
-
-@font-face
-    font-family 'Vijos Symbols'
-    font-style  normal
-    font-weight 400
-    src: url('../fonts/vijossymbols.eot');
-    src: local('Vijos Symbols'), local('VijosSymbols'),
-         url('../fonts/vijossymbols.eot') format('embedded-opentype'),
-         url('../fonts/vijossymbols.woff') format('woff'),
-         url('../fonts/vijossymbols.ttf')  format('truetype'),
-         url('../fonts/vijossymbols.svg#VijosSymbols') format('svg');
+@import "vendor/animate"
 
 // Typography
 body {font-size:14px;color:$text-color;}
@@ -107,29 +52,7 @@ tfoot {font-style:italic;}
 .small {font-size:.8em;margin-bottom:1.875em;line-height:1.875em;}
 .large {font-size:1.2em;line-height:2.5em;margin-bottom:1.25em;}
 
-// Icons
-.icon-symbol
-    font-family "Vijos Symbols"
-    speak       none
-    display     inline-block
-    line-height 1
-    text-decoration none
-    -webkit-font-smoothing antialiased
-
-.icon-home:before       {content:"\0021"}
-.icon-problems:before   {content:"\0022"}
-.icon-discussion:before {content:"\0023"}
-.icon-tags:before       {content:"\0024"}
-.icon-contests:before   {content:"\0025"}
-.icon-records:before    {content:"\0026"}
-.icon-user:before       {content:"\0027"}
-
-// Debugging===========================================
-debug-border()
-    border      1px solid #f00
-// ====================================================
-
-// Layout
+// Layout =============================================
 body, html
     height      100%
 
@@ -146,6 +69,61 @@ html
     line-height 1.4
     font-size   13px
     text-shadow 1px 1px 0px #fff
+
+// Dialogs ============================================
+.vj-dlg-layer
+    position    absolute
+    position    fixed
+    left        0
+    top         0
+    width       100%
+    height      100%
+    background  #FFF
+    opacity     0
+    z-index     5
+    transition          opacity .5s linear
+    pointer-events      none
+    &.show
+        opacity         0.7
+        pointer-events  all
+
+.vj-dlg
+    background  #FFF
+    border-top  5px solid $dialog-title-color
+    box-shadow  0 0 10px rgba(0,0,0,0.3)
+    position    absolute
+    z-index     6
+    left        0
+    width       100%
+    top         100px
+    opacity     0
+    transform           scale(1.1)
+    transition          all .2s ease-in-out
+    &.show
+        opacity         1
+        transform       none
+        pointer-events  all
+
+.vj-dlg-title
+    background  $dialog-title-color
+    padding     10px 0 15px 0
+    color       #fff
+    margin      0
+
+.vj-dlg-cont
+    padding     25px 0
+    line-height 1.5
+
+.vj-dlg-btn
+    background  $dialog-button-color
+    padding     10px 0
+
+.vj-dlg-ctr
+    width       600px
+    margin      0 auto
+
+.vj-dlg-btn .vj-dlg-ctr
+    text-align  right
 
 // Navigation bar =====================================
 .cont-nav

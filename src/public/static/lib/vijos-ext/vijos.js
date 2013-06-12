@@ -15,33 +15,106 @@
   VJ.Dialog = (function() {
     Dialog.dialogCount = 0;
 
+    Dialog.dialogID = 0;
+
+    Dialog.effects = 'fadeIn fadeInUp fadeInDown fadeInLeft fadeInRight bounceIn rollIn'.split(' ');
+
     Dialog.prototype.dialog = null;
 
     Dialog.prototype.dialogLayer = null;
 
-    function Dialog() {
+    function Dialog(obj) {
       this.show = __bind(this.show, this);
       this.destroy = __bind(this.destroy, this);
+      var b, btn, btnArea, btnRegion, contentRegion, titleRegion, _i, _len, _ref;
       this.dialogLayer = $new('div', {
         'class': 'vj-dlg-layer'
       });
       this.dialog = $new('div', {
         'class': 'vj-dlg'
       });
+      $css.set(this.dialogLayer, 'z-index', (VJ.Dialog.dialogID * 2 + 10).toString());
+      $css.set(this.dialog, 'z-index', (VJ.Dialog.dialogID * 2 + 11).toString());
+      if (obj.title != null) {
+        titleRegion = $append(this.dialog, $new('h2', {
+          'class': 'vj-dlg-title'
+        }));
+        $html($append(titleRegion, $new('div', {
+          'class': 'vj-dlg-ctr'
+        })), obj.title);
+      }
+      if (obj.content != null) {
+        contentRegion = $append(this.dialog, $new('div', {
+          'class': 'vj-dlg-cont'
+        }));
+        $html($append(contentRegion, $new('div', {
+          'class': 'vj-dlg-ctr'
+        })), obj.content);
+      }
+      if (obj.buttons != null) {
+        btnRegion = $append(this.dialog, $new('div', {
+          'class': 'vj-dlg-btn'
+        }));
+        btnArea = $append(btnRegion, $new('div', {
+          'class': 'vj-dlg-ctr'
+        }));
+        _ref = obj.buttons;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          b = _ref[_i];
+          btn = $append(btnArea, $new('div', {
+            'class': 'button'
+          }));
+          $html(btn, b.text);
+          if (b["class"] != null) {
+            $className.add(btn, b["class"]);
+          }
+          if (b.onClick != null) {
+            $event.on(btn, {
+              'click': b.onClick
+            });
+          }
+        }
+      }
       ++VJ.Dialog.dialogCount;
+      ++VJ.Dialog.dialogID;
     }
 
     Dialog.prototype.destroy = function() {
-      $remove(this.dialog);
-      $remove(this.dialogLayer);
-      this.dialog = null;
-      this.dialogLayer = null;
+      var _this = this;
+      $className.remove(this.dialog, 'show');
+      $className.remove(this.dialogLayer, 'show');
+      setTimeout(function() {
+        $remove(_this.dialog);
+        $remove(_this.dialogLayer);
+        _this.dialog = null;
+        return _this.dialogLayer = null;
+      }, 500);
       return --VJ.Dialog.dialogCount;
     };
 
-    Dialog.prototype.show = function() {
+    Dialog.prototype.show = function(effect) {
+      var _this = this;
+      if (effect == null) {
+        effect = true;
+      }
       $append(document.body, this.dialogLayer);
       $append(document.body, this.dialog);
+      setTimeout(function() {
+        return $className.add(_this.dialogLayer, 'show');
+      }, 0);
+      setTimeout(function() {
+        if (effect) {
+          jQuery(_this.dialog).find('.vj-dlg-cont .vj-dlg-ctr').textillate({
+            "in": {
+              effect: VJ.Dialog.effects[Math.floor(Math.random() * VJ.Dialog.effects.length)],
+              delayScale: 1,
+              delay: Math.floor(1000 / $text(_this.dialog).length),
+              shuffle: true
+            }
+          });
+        }
+        return $className.add(_this.dialog, 'show');
+      }, 100);
       return this;
     };
 
