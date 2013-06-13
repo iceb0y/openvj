@@ -1196,6 +1196,20 @@ html {
   user-select: none;
   display: inline-block;
   *display: inline;
+  height: 16px;
+  box-sizing: content-box;
+  padding: 4px 18px;
+  line-height: 16px;
+  border: 1px solid #e0e0e0;
+  background: #f4f4f4;
+  margin: 0 2px;
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -ie-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+.button:hover {
+  background: #e8e8e8;
 }
 .vj-dlg-layer {
   position: absolute;
