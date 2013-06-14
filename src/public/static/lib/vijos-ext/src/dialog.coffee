@@ -37,8 +37,8 @@ class VJ.Dialog
             btnArea = $append btnRegion, $new('div', 'class': 'vj-dlg-ctr')
 
             for b in obj.buttons
-                btn = $append btnArea, $new('div', 'class': 'button')
-                $html btn, b.text
+                btn = $append btnArea, $new('input', {'type': 'button', 'class': 'button', 'value': b.text})
+                # $html btn, b.text
                 $className.add btn, b.class if b.class?
                 $event.on btn, 'click': b.onClick if b.onClick?
 

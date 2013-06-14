@@ -1043,16 +1043,6 @@ button {
 p {
   margin: 0 0 1.5em;
 }
-a,
-a:visited {
-  color: #1aa90a;
-  text-decoration: none;
-}
-a:focus,
-a:hover {
-  color: #1fc80c;
-  text-decoration: underline;
-}
 h1,
 h2,
 h3,
@@ -1165,6 +1155,21 @@ html {
   font-size: 13px;
   text-shadow: 1px 1px 0px #fff;
 }
+a,
+a:visited {
+  color: #1aa90a;
+  text-decoration: none;
+}
+a:focus,
+a:hover {
+  color: #1fc80c;
+  text-decoration: underline;
+}
+a:focus {
+  background: #fffce5;
+  box-shadow: 0 0 5px #ffdf00;
+  outline: 1px solid #ffdf00;
+}
 .textbox {
   margin: 0;
   box-sizing: content-box;
@@ -1184,7 +1189,7 @@ html {
   background: #fff;
 }
 .textbox:focus {
-  border-color: #ffde6a;
+  border-color: #ffdf00;
   background: #fff;
   box-shadow: 0 0 5px #ffdf00;
 }
@@ -1200,7 +1205,7 @@ html {
   box-sizing: content-box;
   padding: 4px 18px;
   line-height: 16px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #cdcdcd;
   background: #f4f4f4;
   margin: 0 2px;
   -webkit-transition: all 0.2s linear;
@@ -1209,7 +1214,18 @@ html {
   transition: all 0.2s linear;
 }
 .button:hover {
-  background: #e8e8e8;
+  background: #e0e0e0;
+}
+.button:focus {
+  box-shadow: 0 0 5px #ffdf00;
+  border: 1px solid #ffdf00;
+  background: #fffce5;
+}
+.button:active {
+  background: #cdcdcd;
+}
+.form-line {
+  margin: 5px 0;
 }
 .vj-dlg-layer {
   position: absolute;
@@ -1287,6 +1303,11 @@ html {
 }
 .vj-dlg-btn .vj-dlg-ctr {
   text-align: right;
+}
+.dialog-login label {
+  display: inline-block;
+  *display: inline;
+  width: 80px;
 }
 .cont-nav {
   position: fixed;

@@ -89,10 +89,11 @@
         _ref = obj.buttons;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           b = _ref[_i];
-          btn = $append(btnArea, $new('div', {
-            'class': 'button'
+          btn = $append(btnArea, $new('input', {
+            'type': 'button',
+            'class': 'button',
+            'value': b.text
           }));
-          $html(btn, b.text);
           if (b["class"] != null) {
             $className.add(btn, b["class"]);
           }

@@ -1,3 +1,16 @@
+a, a:visited
+    color       $link-color
+    text-decoration none
+
+a:focus, a:hover
+    color       $link-color-hover
+    text-decoration underline
+
+a:focus
+    background  $focus-bg-color
+    box-shadow  $focus-box-shadow
+    outline     $focus-border
+
 .textbox
     margin      0
     box-sizing  content-box
@@ -14,9 +27,9 @@
     background  #FFF
 
 .textbox:focus
-    border-color #FFDE6A
+    border-color $focus-color
     background  #FFF
-    box-shadow  0 0 5px #FFDF00
+    box-shadow  $focus-box-shadow
 
 .button
     cursor      default
@@ -34,3 +47,15 @@
 
 .button:hover
     background  $button-color-hover
+
+.button:focus
+    box-shadow  $focus-box-shadow
+    border      $focus-border
+    background  $focus-bg-color
+
+.button:active
+    background  $button-active-color
+//    box-shadow  inset 1px 1px 3px rgba(0,0,0,0.1)
+
+.form-line
+    margin      5px 0
