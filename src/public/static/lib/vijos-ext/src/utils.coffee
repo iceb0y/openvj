@@ -1,3 +1,13 @@
+loginForm = null
+
+eventHandler_login_btnLogin_click = ->
+
+    alert 'Not implemented'
+
+eventHandler_login_btnCancel_click = ->
+
+    loginForm.destroy()
+
 VJ.Utils =
 
     showLogin:  ->
@@ -16,16 +26,19 @@ VJ.Utils =
             ]
         ])
 
-        $html mass.query('.label-user', loginWrapper), _ 'form.login.l_user'
-        $html mass.query('.label-pass', loginWrapper), _ 'form.login.l_pass'
+        $html mass.query('.label-user', loginWrapper), _('form.login.l_user')
+        $html mass.query('.label-pass', loginWrapper), _('form.login.l_pass')
+
+        if loginForm?
+            loginForm.destroy()
 
         loginForm = new VJ.Dialog
             class:      'login'
             title:      _ 'form.login.title'
             content:    loginWrapper
             buttons:    [
-                {text: _ 'form.login.b_login'},
-                {text: _ 'form.login.b_cancel'}
+                {text: _('form.login.b_login'), onClick: eventHandler_login_btnLogin_click},
+                {text: _('form.login.b_cancel'), onClick: eventHandler_login_btnCancel_click}
             ]
 
         loginForm.show false
