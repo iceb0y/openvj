@@ -31,7 +31,7 @@ VJ.Utils =
 
         if loginForm?
             loginForm.destroy()
-
+        
         loginForm = new VJ.Dialog
             class:      'login'
             title:      _ 'form.login.title'
