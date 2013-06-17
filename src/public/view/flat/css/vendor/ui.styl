@@ -18,17 +18,17 @@ a:focus
     line-height 16px
     outline     0
     padding     4px
-    border      1px solid #DDD
+    border      1px solid $textbox-border-color
     transition  all .2s linear
-    background  #FCFCFC
+    background  $textbox-bg-color
 
 .textbox:hover
-    border-color #CCC
-    background  #FFF
+    border-color $textbox-hover-border-color
+    background  $textbox-hover-bg-color
 
 .textbox:focus
     border-color $focus-color
-    background  #FFF
+    background  $textbox-hover-bg-color
     box-shadow  $focus-box-shadow
 
 .button
@@ -40,7 +40,7 @@ a:focus
     box-sizing  content-box
     padding     4px 18px
     line-height 16px
-    border      1px solid $button-border-color
+    border      none
     background  $button-color
     margin      0 2px
     transition  all .2s linear
@@ -50,12 +50,15 @@ a:focus
 
 .button:focus
     box-shadow  $focus-box-shadow
-    border      $focus-border
+    outline     $focus-border
     background  $focus-bg-color
 
 .button:active
     background  $button-active-color
-//    box-shadow  inset 1px 1px 3px rgba(0,0,0,0.1)
+
+.button-def
+    background  $link-color
+    color       $bg-color
 
 .form-line
     margin      5px 0

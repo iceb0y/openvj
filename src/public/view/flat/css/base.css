@@ -1149,11 +1149,11 @@ html {
   height: 100%;
 }
 #footer {
-  color: #aaa;
+  color: #aeaeae;
   text-align: center;
   line-height: 1.4;
   font-size: 13px;
-  text-shadow: 1px 1px 0px #fff;
+  text-shadow: 1px 1px 0px #f8f8f8;
 }
 a,
 a:visited {
@@ -1177,20 +1177,20 @@ a:focus {
   line-height: 16px;
   outline: 0;
   padding: 4px;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   -webkit-transition: all 0.2s linear;
   -moz-transition: all 0.2s linear;
   -ie-transition: all 0.2s linear;
   transition: all 0.2s linear;
-  background: #fcfcfc;
+  background: #f8f8f8;
 }
 .textbox:hover {
-  border-color: #ccc;
-  background: #fff;
+  border-color: #b8b8b8;
+  background: #fefefe;
 }
 .textbox:focus {
   border-color: #ffdf00;
-  background: #fff;
+  background: #fefefe;
   box-shadow: 0 0 5px #ffdf00;
 }
 .button {
@@ -1205,8 +1205,8 @@ a:focus {
   box-sizing: content-box;
   padding: 4px 18px;
   line-height: 16px;
-  border: 1px solid #cdcdcd;
-  background: #f4f4f4;
+  border: none;
+  background: #ebebeb;
   margin: 0 2px;
   -webkit-transition: all 0.2s linear;
   -moz-transition: all 0.2s linear;
@@ -1214,15 +1214,19 @@ a:focus {
   transition: all 0.2s linear;
 }
 .button:hover {
-  background: #e0e0e0;
+  background: #d8d8d8;
 }
 .button:focus {
   box-shadow: 0 0 5px #ffdf00;
-  border: 1px solid #ffdf00;
+  outline: 1px solid #ffdf00;
   background: #fffce5;
 }
 .button:active {
-  background: #cdcdcd;
+  background: #c5c5c5;
+}
+.button-def {
+  background: #1aa90a;
+  color: #f8f8f8;
 }
 .form-line {
   margin: 5px 0;
@@ -1234,7 +1238,7 @@ a:focus {
   top: 0;
   width: 100%;
   height: 100%;
-  background: #fff;
+  background: #fefefe;
   opacity: 0;
   z-index: 5;
   -webkit-transition: opacity 0.5s linear;
@@ -1254,7 +1258,7 @@ a:focus {
   pointer-events: all;
 }
 .vj-dlg {
-  background: #fff;
+  background: #fefefe;
   border-top: 5px solid #1fc80c;
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
   position: absolute;
@@ -1286,7 +1290,7 @@ a:focus {
 .vj-dlg-title {
   background: #1fc80c;
   padding: 10px 0 15px 0;
-  color: #fff;
+  color: #f8f8f8;
   margin: 0;
 }
 .vj-dlg-cont {
@@ -1294,7 +1298,7 @@ a:focus {
   line-height: 1.5;
 }
 .vj-dlg-btn {
-  background: #f4f4f4;
+  background: #ebebeb;
   padding: 10px 0;
 }
 .vj-dlg-ctr {
@@ -1385,7 +1389,7 @@ a:focus {
 }
 .body-top {
   padding: 15px 20px;
-  text-shadow: 1px 1px 0px #fff;
+  text-shadow: 1px 1px 0px #f8f8f8;
 }
 .body-title {
   font-size: 25px;
@@ -1396,5 +1400,5 @@ a:focus {
   font-size: 14px;
   line-height: 35px;
   float: right;
-  color: #777;
+  color: #7c7c7c;
 }

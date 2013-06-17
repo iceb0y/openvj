@@ -1,8 +1,11 @@
 @charset "utf-8";
 
+@import "vendor/function"
 @import "vendor/variable"
 @import "vendor/prefix"
 @import "vendor/debug"
+
+// ===============================================
 
 @import "vendor/reset"
 @import "vendor/webfont"
@@ -57,18 +60,18 @@ body, html
     height      100%
 
 html
-    background  #EEE url(../img/bg.png) repeat
+    background  $global-bg-color url(../img/bg.png) repeat
 
 #container
     width       920px
     height      100%
 
 #footer
-    color       #AAA
+    color       darkenT($bg-color, 30%)
     text-align  center
     line-height 1.4
     font-size   13px
-    text-shadow 1px 1px 0px #fff
+    text-shadow 1px 1px 0px $bg-color
 
 // UI =================================================
 @import "vendor/ui"
@@ -81,7 +84,7 @@ html
 
 // Body ===============================================
 .cont-body
-    background  #F8F8F8 url(../img/content_bg.png) repeat
+    background  $bg-color url(../img/content_bg.png) repeat
     margin-left $nav-width
     box-shadow  0 0 10px rgba(0,0,0,0.3)
     min-height  100%
@@ -90,7 +93,7 @@ html
 
 .body-top
     padding     15px 20px
-    text-shadow 1px 1px 0px #fff
+    text-shadow 1px 1px 0px $bg-color
 
 .body-title
     font-size   25px
@@ -101,4 +104,4 @@ html
     font-size   14px
     line-height 35px
     float       right
-    color       #777
+    color       darken($bg-color, 50%)

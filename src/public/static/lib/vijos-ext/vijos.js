@@ -239,6 +239,7 @@
         buttons: [
           {
             text: _('form.login.b_login'),
+            "class": 'button-def',
             onClick: eventHandler_login_btnLogin_click
           }, {
             text: _('form.login.b_cancel'),

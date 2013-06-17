@@ -37,7 +37,7 @@ VJ.Utils =
             title:      _ 'form.login.title'
             content:    loginWrapper
             buttons:    [
-                {text: _('form.login.b_login'), onClick: eventHandler_login_btnLogin_click},
+                {text: _('form.login.b_login'), class: 'button-def', onClick: eventHandler_login_btnLogin_click},
                 {text: _('form.login.b_cancel'), onClick: eventHandler_login_btnCancel_click}
             ]
 
