@@ -1228,6 +1228,12 @@ a:focus {
   background: #1aa90a;
   color: #f8f8f8;
 }
+.button-def:hover {
+  background: #1fc80c;
+}
+.button-def:active {
+  background: #179809;
+}
 .form-line {
   margin: 5px 0;
 }
