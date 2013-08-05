@@ -56,7 +56,7 @@ if (!$config->Debug->enabled) {
 
 // Check whether the requested hostname is in the allowed host list, which is
 // defined in define/global.php. If not, generate a HTTP 403 error
-if ($config->Security->checkHost && !in_array(ENV_HOST, $config->Security->allowedHosts)) {
+if ($config->Security->checkHost && !in_array(ENV_HOST, (array)$config->Security->allowedHosts)) {
     header('HTTP/1.1 403 Forbidden', true, 403);
     exit('Bad Request: Header field "host" is invalid.');
 }

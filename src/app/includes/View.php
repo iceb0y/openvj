@@ -25,17 +25,9 @@ class View
         $compiler = $volt->getCompiler();
 
         //TODO: wait for BUG fixing
-        $compiler->addFunction('view_static', function ($resolvedArgs, $exprArgs) {
-            return 'VJ\View::view_static('.$resolvedArgs.')';
-        });
-
-        $compiler->addFunction('view_processTime', function ($resolvedArgs, $exprArgs) {
-            return 'VJ\View::view_processTime('.$resolvedArgs.')';
-        });
-
-        $compiler->addFilter('i18n', function($resolvedArgs, $exprArgs) {
-            return 'VJ\View::view_i18n('.$resolvedArgs.')';
-        });
+        $compiler->addFunction('view_static', 'VJ\View::view_static');
+        $compiler->addFunction('view_processTime', 'VJ\View::view_processTime');
+        $compiler->addFilter('i18n', 'VJ\View::view_i18n');
     }
 
     public static function view_i18n()
