@@ -29,6 +29,9 @@ VJ.Utils =
         $html mass.query('.label-user', loginWrapper), _('form.login.l_user')
         $html mass.query('.label-pass', loginWrapper), _('form.login.l_pass')
 
+        $event.on loginWrapper, 'keypress', '.textbox', ->
+            eventHandler_login_btnLogin_click()
+        
         if loginForm?
             loginForm.destroy()
         
@@ -42,3 +45,4 @@ VJ.Utils =
             ]
 
         loginForm.show false
+        mass.query('.form-login-username')[0].focus()

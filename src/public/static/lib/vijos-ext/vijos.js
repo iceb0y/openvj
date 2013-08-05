@@ -229,6 +229,9 @@
       ]);
       $html(mass.query('.label-user', loginWrapper), _('form.login.l_user'));
       $html(mass.query('.label-pass', loginWrapper), _('form.login.l_pass'));
+      $event.on(loginWrapper, 'keypress', '.textbox', function() {
+        return eventHandler_login_btnLogin_click();
+      });
       if (loginForm != null) {
         loginForm.destroy();
       }
@@ -247,7 +250,8 @@
           }
         ]
       });
-      return loginForm.show(false);
+      loginForm.show(false);
+      return mass.query('.form-login-username')[0].focus();
     }
   };
 
