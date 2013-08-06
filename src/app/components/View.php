@@ -23,10 +23,14 @@ class View
     public static function extendVolt($volt, $view)
     {
         $compiler = $volt->getCompiler();
-        
+
         $compiler->addFunction('view_static', 'VJ\View::view_static');
         $compiler->addFunction('view_processTime', 'VJ\View::view_processTime');
         $compiler->addFilter('i18n', 'VJ\View::view_i18n');
+        $compiler->addFilter('html', 'VJ\Escaper::html');
+        $compiler->addFilter('attr', 'VJ\Escaper::htmlAttr');
+        $compiler->addFilter('uri', 'VJ\Escaper::uri');
+        $compiler->addFilter('json', 'json_encode');
     }
 
     public static function view_i18n()
@@ -36,7 +40,7 @@ class View
 
         if (count($argv) > 1)
         {
-            array_shift($argv);
+            $argv[0] = $text;
             $text = call_user_func_array('sprintf', $argv);
         }
 
@@ -68,4 +72,5 @@ class View
 
         return sprintf('%f', $_START_TIME * 1000);
     }
+    
 }

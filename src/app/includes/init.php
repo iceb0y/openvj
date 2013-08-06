@@ -29,9 +29,13 @@ ob_start();
 // Load configs
 global $config;
 
-require __dir__.'/../config/project.php';
-$config = new Phalcon\Config\Adapter\Ini(APP_DIR.'config/app.ini');
-$config->merge(new Phalcon\Config\Adapter\Ini(APP_DIR.'config/database.ini'));
+require __dir__.'/../configs/project.php';
+$config = new Phalcon\Config\Adapter\Ini(APP_DIR.'configs/app.ini');
+$config->merge(new Phalcon\Config\Adapter\Ini(APP_DIR.'configs/database.ini'));
+
+
+// Error handling
+require APP_DIR.'includes/errorcode.php';
 
 
 // I18N

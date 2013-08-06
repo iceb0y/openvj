@@ -1,14 +1,17 @@
 <?php
 
+
 require __dir__.'/../app/includes/init.php';
+
 
 //Bootstrap
 //autoloader
 $loader = new \Phalcon\Loader();
 $loader
     ->registerDirs(array(APP_DIR.'controllers/'))
-    ->registerNamespaces(array('VJ' => APP_DIR.'includes/'))
+    ->registerNamespaces(array('VJ' => APP_DIR.'components/'))
     ->register();
+
 
 //dependency
 $di = new Phalcon\DI\FactoryDefault();
@@ -49,10 +52,12 @@ $di->set('session', function () use ($config) {
     return $session;
 });
 
+
 //redirect
 if ($config->Compatibility->redirectOldURI) {
     VJ\Compatibility::redirectOldURI();
 }
+
 
 //app main
 $app = new \Phalcon\Mvc\Application($di);
