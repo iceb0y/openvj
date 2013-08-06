@@ -1,10 +1,10 @@
 Thumbs.db
 Desktop.ini
 
-web.config
-define.config.php
-
 *.compiled
 
 # PHPStorm
 .idea/
+
+# Mac OS X
+.DS_Store
