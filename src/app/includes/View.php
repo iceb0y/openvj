@@ -23,8 +23,7 @@ class View
     public static function extendVolt($volt, $view)
     {
         $compiler = $volt->getCompiler();
-
-        //TODO: wait for BUG fixing
+        
         $compiler->addFunction('view_static', 'VJ\View::view_static');
         $compiler->addFunction('view_processTime', 'VJ\View::view_processTime');
         $compiler->addFilter('i18n', 'VJ\View::view_i18n');

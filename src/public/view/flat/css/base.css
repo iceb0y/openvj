@@ -913,6 +913,9 @@ dfn {
 }
 hr {
   -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  -ie-box-sizing: content-box;
   box-sizing: content-box;
   height: 0;
 }
@@ -1004,6 +1007,9 @@ html input[disabled] {
 }
 input[type="checkbox"],
 input[type="radio"] {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ie-box-sizing: border-box;
   box-sizing: border-box;
 /* 1 */
   padding: 0;
@@ -1015,6 +1021,9 @@ input[type="search"] {
   -moz-box-sizing: content-box;
   -webkit-box-sizing: content-box;
 /* 2 */
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  -ie-box-sizing: content-box;
   box-sizing: content-box;
 }
 input[type="search"]::-webkit-search-cancel-button,
@@ -1436,6 +1445,9 @@ a:focus {
 }
 .textbox {
   margin: 0;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  -ie-box-sizing: content-box;
   box-sizing: content-box;
   height: 26px;
   line-height: 26px;
@@ -1466,6 +1478,9 @@ a:focus {
   display: inline-block;
   *display: inline;
   height: 28px;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  -ie-box-sizing: content-box;
   box-sizing: content-box;
   padding: 4px 25px;
   line-height: 28px;
