@@ -1335,7 +1335,7 @@ input,
 select,
 textarea,
 button {
-  font-family: "Open Sans", "Segoe UI", "Lucida Grande", "Lucida", "Lucida Sans Unicode", "Lucida Sans", "Tahoma", "Verdana", "Microsoft YaHei", "微软雅黑";
+  font-family: "Open Sans", "Segoe UI", "Tahoma", "Microsoft YaHei", "微软雅黑";
 }
 p {
   margin: 0 0 30px;
@@ -1421,12 +1421,12 @@ tt {
 }
 a,
 a:visited {
-  color: #1aa90a;
+  color: #119eea;
   text-decoration: none;
 }
 a:focus,
 a:hover {
-  color: #1fc80c;
+  color: #26a9ef;
   text-decoration: underline;
 }
 a:focus {
@@ -1437,8 +1437,8 @@ a:focus {
 .textbox {
   margin: 0;
   box-sizing: content-box;
-  height: 16px;
-  line-height: 16px;
+  height: 26px;
+  line-height: 26px;
   outline: 0;
   padding: 4px;
   border: 1px solid #ccc;
@@ -1465,10 +1465,10 @@ a:focus {
   user-select: none;
   display: inline-block;
   *display: inline;
-  height: 16px;
+  height: 28px;
   box-sizing: content-box;
-  padding: 4px 18px;
-  line-height: 16px;
+  padding: 4px 25px;
+  line-height: 28px;
   border: none;
   background: #ebebeb;
   margin: 0 2px;
@@ -1489,17 +1489,17 @@ a:focus {
   background: #c5c5c5;
 }
 .button-def {
-  background: #1aa90a;
+  background: #ff6a6a;
   color: #f8f8f8;
 }
 .button-def:hover {
-  background: #1fc80c;
+  background: #ff3434;
 }
 .button-def:active {
-  background: #179809;
+  background: #fd0000;
 }
 .form-line {
-  margin: 5px 0;
+  padding: 10px 0;
 }
 .vj-dlg-layer {
   position: absolute;
@@ -1529,7 +1529,7 @@ a:focus {
 }
 .vj-dlg {
   background: #fefefe;
-  border-top: 5px solid #1fc80c;
+  border-top: 5px solid #26a9ef;
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
   position: absolute;
   z-index: 6;
@@ -1558,7 +1558,7 @@ a:focus {
   pointer-events: all;
 }
 .vj-dlg-title {
-  background: #1fc80c;
+  background: #26a9ef;
   padding: 10px 0 15px 0;
   color: #f8f8f8;
   margin: 0;
@@ -1572,7 +1572,7 @@ a:focus {
   padding: 10px 0;
 }
 .vj-dlg-ctr {
-  width: 600px;
+  width: 700px;
   margin: 0 auto;
 }
 .vj-dlg-btn .vj-dlg-ctr {
@@ -1581,7 +1581,7 @@ a:focus {
 .dialog-login label {
   display: inline-block;
   *display: inline;
-  width: 80px;
+  width: 100px;
 }
 body,
 html {

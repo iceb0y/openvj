@@ -1,0 +1,21 @@
+.cont-userbar
+    
+    padding     10px
+    background  darkenT($bg-color, 2%)
+    
+    font-size   0.85em
+    color       darkenT($bg-color, 30%)
+
+    border-top  3px solid darkenT($bg-color, 10%)
+
+.cont-userbar a, .cont-userbar a:visited
+    
+    color       darkenT($bg-color, 30%)
+
+.cont-userbar a:hover
+    
+    color       darkenT($bg-color, 50%)
+
+for list in $page-color
+    #page_{list[0]} .cont-userbar
+        border-color   list[1]
