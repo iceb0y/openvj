@@ -38,6 +38,10 @@ $config->merge(new Phalcon\Config\Adapter\Ini(APP_DIR.'configs/database.ini'));
 require APP_DIR.'includes/errorcode.php';
 
 
+// Composer
+require APP_DIR.'vendor/autoload.php';
+
+
 // I18N
 setlocale(LC_ALL, 'zh_CN');
 bindtextdomain('vijos', APP_DIR.'i18n');

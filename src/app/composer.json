@@ -1,0 +1,6 @@
+{
+    "require": {
+        "ezyang/htmlpurifier": "4.*",
+        "filp/whoops": "1.*"
+    }
+}

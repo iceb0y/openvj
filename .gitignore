@@ -8,3 +8,6 @@ Desktop.ini
 
 # Mac OS X
 .DS_Store
+
+# Composer
+src/app/vendor

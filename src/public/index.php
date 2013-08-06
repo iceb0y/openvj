@@ -16,6 +16,8 @@ $loader
 //dependency
 $di = new Phalcon\DI\FactoryDefault();
 
+new Whoops\Provider\Phalcon\WhoopsServiceProvider;
+
 $di->set('view', function () use ($_TEMPLATE_NAME) {
 
     $view = new \Phalcon\Mvc\View();
