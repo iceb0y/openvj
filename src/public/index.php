@@ -19,12 +19,17 @@ $loader
 //dependency
 $di = new Phalcon\DI\FactoryDefault();
 
-VJ\Phalcon::initWhoops($di);
-VJ\Phalcon::initView($di);
-VJ\Phalcon::initSession($di);
-VJ\Security\CSRF::initToken($di);
-//VJ\User::initGuest($di);
+VJ\Phalcon::initWhoops();
+VJ\Phalcon::initView();
+VJ\Phalcon::initSession();
 
+VJ\Security\CSRF::initToken();
+VJ\Security\SSL::force();
+
+VJ\User::initialize();
+
+
+global $config;
 
 //redirect
 if ($config->Compatibility->redirectOldURI) {

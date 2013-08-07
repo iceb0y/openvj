@@ -5,17 +5,19 @@ namespace VJ;
 class Phalcon
 {
 
-    public static function initWhoops($di)
+    public static function initWhoops()
     {
 
-        new \Whoops\Provider\Phalcon\WhoopsServiceProvider($di);
+        new \Whoops\Provider\Phalcon\WhoopsServiceProvider();
 
     }
 
-    public static function initView($di)
+    public static function initView()
     {
 
         global $_TEMPLATE_NAME;
+
+        $di = \Phalcon\DI::getDefault();
 
         $di->set('view', function () use ($_TEMPLATE_NAME) {
 
@@ -45,13 +47,14 @@ class Phalcon
 
     }
 
-    public static function initSession($di)
+    public static function initSession()
     {
 
-        global $config;
+        global $config, $SESSION;
 
         session_name($config->Session->name);
 
+        $di = \Phalcon\DI::getDefault();
         $di->setShared('session', function () use ($config) {
 
             $session = new \Phalcon\Session\Adapter\Redis(array(
@@ -63,6 +66,8 @@ class Phalcon
 
             return $session;
         });
+
+        $SESSION = $di->getSession();
 
     }
 

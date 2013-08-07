@@ -5,11 +5,13 @@ namespace VJ\Security;
 class CSRF
 {
 
-    public static function initToken($di)
+    public static function initToken()
     {
 
-        if (!$di->getSession()->has('csrf-token')) {
-            $di->getSession()->set('csrf-token', md5(uniqid().rand(1, 10000)));
+        global $SESSION;
+
+        if (!$SESSION->has('csrf-token')) {
+            $SESSION->set('csrf-token', md5(uniqid().rand(1, 10000)));
         }
 
     }

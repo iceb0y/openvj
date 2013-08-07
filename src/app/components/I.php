@@ -26,4 +26,19 @@ class I
 
     }
 
+    public static function isError($i)
+    {
+
+        if (!is_array($i)) {
+            return false;
+        }
+
+        if (isset($i['succeeded']) && $i['succeeded'] === false) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
 }
