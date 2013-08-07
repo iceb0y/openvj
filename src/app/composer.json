@@ -1,6 +1,7 @@
 {
     "require": {
         "ezyang/htmlpurifier": "4.*",
-        "filp/whoops": "1.*"
+        "filp/whoops": "1.*",
+        "phalcon/incubator": "dev-master"
     }
 }

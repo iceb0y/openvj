@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "d7f6354874304bcff906e931456e00a1",
+    "hash": "9ac691dd22fb0197f265a30c69646a4b",
     "packages": [
         {
             "name": "ezyang/htmlpurifier",
@@ -51,16 +51,16 @@
         },
         {
             "name": "filp/whoops",
-            "version": "1.0.7",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "1.0.7"
+                "reference": "1.0.8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/1.0.7",
-                "reference": "1.0.7",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/1.0.8",
+                "reference": "1.0.8",
                 "shasum": ""
             },
             "require": {
@@ -98,7 +98,43 @@
                 "whoops",
                 "zf2"
             ],
-            "time": "2013-06-10 12:22:13"
+            "time": "2013-08-06 20:39:59"
+        },
+        {
+            "name": "phalcon/incubator",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phalcon/incubator.git",
+                "reference": "453c7e71ec67ec506adc4b6ed4740da0f524c5e1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phalcon/incubator/zipball/453c7e71ec67ec506adc4b6ed4740da0f524c5e1",
+                "reference": "453c7e71ec67ec506adc4b6ed4740da0f524c5e1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.6"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3"
+            ],
+            "authors": [
+                {
+                    "name": "Phalcon Team",
+                    "email": "team@phalconphp.com"
+                }
+            ],
+            "description": "Adapters, prototypes or functionality that can be potentially incorporated to the C-framework.",
+            "homepage": "http://phalconphp.com",
+            "keywords": [
+                "framework",
+                "phalcon"
+            ],
+            "time": "2013-08-06 22:26:12"
         }
     ],
     "packages-dev": [
@@ -108,9 +144,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": {
+        "phalcon/incubator": 20
+    },
     "platform": [
 
     ],
