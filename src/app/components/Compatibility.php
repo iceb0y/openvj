@@ -14,28 +14,30 @@ class Compatibility
                 stripos($_SERVER['HTTP_USER_AGENT'], 'Baiduspider') === false &&
                 stripos($_SERVER['HTTP_USER_AGENT'], 'Sogou web spider') === false &&
                 stripos($_SERVER['HTTP_USER_AGENT'], 'Sosospider') === false
-            )
+            ) {
                 $prefix = 'https://';
-            else
+            } else {
                 $prefix = 'http://';
+            }
 
             header('HTTP/1.1 301 Moved Permanently');
 
             $uri  = $_SERVER['REQUEST_URI'];
             $host = $_SERVER['HTTP_HOST'];
 
-            if (stripos($uri, '/problem_show.asp') !== false)
+            if (stripos($uri, '/problem_show.asp') !== false) {
                 header('Location: '.$prefix.SVR_HOST.'/p/'.$_GET['id']);
-            else if (stripos($uri, '/user_show.asp') !== false)
+            } else if (stripos($uri, '/user_show.asp') !== false) {
                 header('Location: '.$prefix.SVR_HOST.'/user/'.$_GET['id']);
-            else if (stripos($uri, '/problem_discuss.asp') !== false)
+            } else if (stripos($uri, '/problem_discuss.asp') !== false) {
                 header('Location: '.$prefix.SVR_HOST.'/p/'.$_GET['id']);
-            else if (stripos($uri, '/problem_discuss_show.asp') !== false)
+            } else if (stripos($uri, '/problem_discuss_show.asp') !== false) {
                 header('Location: '.$prefix.SVR_HOST.'/p/'.$_GET['id']);
-            else if (stripos($uri, '/problem2.asp') !== false)
+            } else if (stripos($uri, '/problem2.asp') !== false) {
                 header('Location: '.$prefix.SVR_HOST.'/p');
-            else
+            } else {
                 header('Location: '.$prefix.SVR_HOST);
+            }
 
             return;
         }

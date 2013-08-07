@@ -5,6 +5,5 @@ namespace VJ;
 class Basic
 {
 
-    
-    
+
 }

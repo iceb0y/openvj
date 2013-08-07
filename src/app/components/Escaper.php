@@ -10,8 +10,9 @@ class Escaper
     public static function html($content)
     {
 
-        if (self::$escaper == null)
+        if (self::$escaper == null) {
             self::$escaper = new \Phalcon\Escaper();
+        }
 
         return self::$escaper->escapeHtml($content);
 
@@ -20,8 +21,9 @@ class Escaper
     public static function htmlAttr($content)
     {
 
-        if (self::$escaper == null)
+        if (self::$escaper == null) {
             self::$escaper = new \Phalcon\Escaper();
+        }
 
         return self::$escaper->escapeHtmlAttr($content);
 
@@ -30,8 +32,9 @@ class Escaper
     public static function uri($content)
     {
 
-        if (self::$escaper == null)
+        if (self::$escaper == null) {
             self::$escaper = new \Phalcon\Escaper();
+        }
 
         return self::$escaper->escapeUrl($content);
 

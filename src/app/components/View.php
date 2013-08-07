@@ -38,10 +38,9 @@ class View
         $argv = func_get_args();
         $text = gettext($argv[0]);
 
-        if (count($argv) > 1)
-        {
+        if (count($argv) > 1) {
             $argv[0] = $text;
-            $text = call_user_func_array('sprintf', $argv);
+            $text    = call_user_func_array('sprintf', $argv);
         }
 
         return $text;
@@ -51,16 +50,18 @@ class View
     {
         global $config, $_TEMPLATE_NAME;
 
-        if ($static)
+        if ($static) {
             $file = 'static/'.$res;
-        else
+        } else {
             $file = 'view/'.$_TEMPLATE_NAME.'/'.$res;
+        }
 
         $output = '//'.$config->Misc->cdnHost.'/'.$file;
         $mtime  = filemtime(ROOT_DIR.'public/'.$file);
 
-        if ($mtime)
+        if ($mtime) {
             $output .= '?v='.$mtime;
+        }
 
         return $output;
     }
@@ -72,5 +73,5 @@ class View
 
         return sprintf('%f', $_START_TIME * 1000);
     }
-    
+
 }
