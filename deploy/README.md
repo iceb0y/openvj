@@ -12,6 +12,8 @@
 
 - Redis
 
+- php-apc (extension)
+
 - php-mongo (extension)
 
 - php-redis (extension)
