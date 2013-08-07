@@ -37,6 +37,7 @@ $config->merge(new Phalcon\Config\Adapter\Ini(APP_DIR.'configs/database.ini'));
 // Constants
 require APP_DIR.'includes/errorcode.php';
 require APP_DIR.'includes/user.php';
+require APP_DIR.'includes/privilege.php';
 
 
 // Composer

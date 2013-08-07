@@ -23,10 +23,11 @@ VJ\Phalcon::initWhoops();
 VJ\Phalcon::initView();
 VJ\Phalcon::initSession();
 
-VJ\Security\CSRF::initToken();
 VJ\Security\SSL::force();
+VJ\Security\CSRF::initToken();
 
-VJ\User::initialize();
+VJ\User\Security\Privilege::initialize();
+VJ\User\Account::initialize();
 
 
 global $config;

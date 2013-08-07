@@ -52,6 +52,17 @@ class Phalcon
 
         global $config, $SESSION;
 
+        $domain = '.'.$config->Misc->host;
+        $param  = session_get_cookie_params();
+
+        session_set_cookie_params(
+            $param['lifetime'],     //lifetime
+            '/',                    //path
+            $domain,                //domain
+            false,                  //secure_only
+            true                    //http_only
+        );
+
         session_name($config->Session->name);
 
         $di = \Phalcon\DI::getDefault();

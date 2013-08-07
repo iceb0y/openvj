@@ -7,6 +7,8 @@ class Compatibility
 
     public static function redirectOldURI()
     {
+        global $config;
+
         // Check whether the requested URI is an old-style .asp URI. If it is,
         // redirect to a corresponding new URI
         if (stripos($_SERVER['REQUEST_URI'], '.asp') !== false) {
@@ -23,20 +25,20 @@ class Compatibility
             header('HTTP/1.1 301 Moved Permanently');
 
             $uri  = $_SERVER['REQUEST_URI'];
-            $host = $_SERVER['HTTP_HOST'];
+            $host = $config->Misc->host;
 
             if (stripos($uri, '/problem_show.asp') !== false) {
-                header('Location: '.$prefix.SVR_HOST.'/p/'.$_GET['id']);
+                header('Location: '.$prefix.$host.'/p/'.$_GET['id']);
             } else if (stripos($uri, '/user_show.asp') !== false) {
-                header('Location: '.$prefix.SVR_HOST.'/user/'.$_GET['id']);
+                header('Location: '.$prefix.$host.'/user/'.$_GET['id']);
             } else if (stripos($uri, '/problem_discuss.asp') !== false) {
-                header('Location: '.$prefix.SVR_HOST.'/p/'.$_GET['id']);
+                header('Location: '.$prefix.$host.'/p/'.$_GET['id']);
             } else if (stripos($uri, '/problem_discuss_show.asp') !== false) {
-                header('Location: '.$prefix.SVR_HOST.'/p/'.$_GET['id']);
+                header('Location: '.$prefix.$host.'/p/'.$_GET['id']);
             } else if (stripos($uri, '/problem2.asp') !== false) {
-                header('Location: '.$prefix.SVR_HOST.'/p');
+                header('Location: '.$prefix.$host.'/p');
             } else {
-                header('Location: '.$prefix.SVR_HOST);
+                header('Location: '.$prefix.$host);
             }
 
             return;
