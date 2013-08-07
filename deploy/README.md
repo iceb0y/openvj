@@ -20,6 +20,17 @@
 
 - php-phalcon 1.2+ (extension)
 
+### Composer
+
+OpenVJ uses [Composer](http://getcomposer.org/) to manage dependencies.
+
+After [installing Composer](http://getcomposer.org/doc/00-intro.md), you should install dependencies via the following commands.
+
+```
+cd src/app
+php composer.phar install
+```
+
 ### Config
 
 #### Rewrite rules
@@ -55,7 +66,7 @@
 
 ## Frontend
 
-Before deploying to the production environment, the following scripts should be executed:
+When deploying to the production environment, the following scripts should be executed:
 
 - `bundle-ext-lib.js`
 
