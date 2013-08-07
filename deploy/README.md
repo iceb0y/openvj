@@ -2,7 +2,7 @@
 
 ## Backend
 
-### Dependencies
+### Binary Dependencies
 
 - PHP 5.4+
 
@@ -20,9 +20,9 @@
 
 - php-phalcon 1.2+ (extension)
 
-### Composer
+### Libraries
 
-OpenVJ uses [Composer](http://getcomposer.org/) to manage dependencies.
+OpenVJ uses [Composer](http://getcomposer.org/) to manage library dependencies.
 
 After [installing Composer](http://getcomposer.org/doc/00-intro.md), you should install dependencies via the following commands.
 
