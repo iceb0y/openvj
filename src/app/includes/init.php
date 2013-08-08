@@ -7,6 +7,7 @@ $_START_TIME = -microtime(true);
 
 
 // Check extensions
+/*
 if (!extension_loaded('phalcon')) {
     trigger_error('Extension \'phalcon\' is not loaded', E_USER_ERROR);
     exit();
@@ -16,11 +17,7 @@ if (!extension_loaded('apc')) {
     trigger_error('Extension \'apc\' is not loaded', E_USER_ERROR);
     exit();
 }
-
-if (!ini_get('apc.enabled')) {
-    trigger_error('APC is not enabled', E_USER_WARNING);
-}
-
+*/
 
 // Start buffer
 ob_start();
@@ -40,14 +37,18 @@ require APP_DIR.'includes/user.php';
 require APP_DIR.'includes/privilege.php';
 
 
-// Composer
+// Autoloader
 require APP_DIR.'vendor/autoload.php';
 
-
-// I18N
-setlocale(LC_ALL, 'zh_CN');
-bindtextdomain('vijos', APP_DIR.'i18n');
-textdomain('vijos');
+$loader = new \Phalcon\Loader();
+$loader
+    ->registerDirs(array(APP_DIR.'controllers/'))
+    ->registerNamespaces(array(
+        'VJ'      => APP_DIR.'components/',
+        'Phalcon' => APP_DIR.'vendor/phalcon/incubator/Library/Phalcon/'
+    ))
+    ->register();
+unset($loader);
 
 
 // Headers
@@ -56,19 +57,30 @@ header('Content-Type: text/html;charset=utf-8');
 header('X-XSS-Protection: 1;mode=block');
 
 
-// Error Reporting
-if (!$config->Debug->enabled) {
-    error_reporting(0);
-} else {
-    error_reporting(E_ALL | E_STRICT);
-}
-
-
+//===========================================================================
 // Check whether the requested hostname is in the allowed host list, which is
 // defined in define/global.php. If not, generate a HTTP 403 error
 if ($config->Security->checkHost && !in_array(ENV_HOST, (array)$config->Security->allowedHosts)) {
     header('HTTP/1.1 403 Forbidden', true, 403);
     exit('Bad Request: Header field "host" is invalid.');
+}
+
+if ($config->Compatibility->redirectOldURI) {
+    \VJ\Compatibility::redirectOldURI();
+}
+//===========================================================================
+
+
+// Dependency Injection
+new \Phalcon\DI\FactoryDefault();
+
+
+// Error Reporting
+if (!$config->Debug->enabled) {
+    error_reporting(0);
+} else {
+    error_reporting(E_ALL | E_STRICT);
+    \VJ\Phalcon::initWhoops();
 }
 
 
@@ -78,6 +90,12 @@ date_default_timezone_set($config->Localization->timezone);
 
 // Using UTF-8 as default mbstring encoding
 mb_internal_encoding('UTF-8');
+
+
+// I18N
+setlocale(LC_ALL, 'zh_CN');
+bindtextdomain('vijos', APP_DIR.'i18n');
+textdomain('vijos');
 
 
 // Template
