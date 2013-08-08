@@ -15,7 +15,7 @@ class Login
     public static function guest()
     {
 
-        global $SESSION;
+        global $SESSION, $_GROUPPRIV;
 
         $SESSION->set('user', array(
 
@@ -26,7 +26,7 @@ class Login
             'rank'     => 0,
             'rp'       => 0.0,
             'vjb'      => 0.0,
-            'priv'     => array(),
+            'priv'     => $_GROUPPRIV[GROUP_GUEST],
             'settings' => array()
 
         ));
