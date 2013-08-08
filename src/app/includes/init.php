@@ -97,6 +97,11 @@ bindtextdomain('vijos', APP_DIR.'i18n');
 textdomain('vijos');
 
 
+// Connect to database
+\VJ\Database\Mongo::connect();
+//\VJ\Database\Redis::connect();
+
+
 // Template
 global $_TEMPLATE_NAME;
 $_TEMPLATE_NAME = $config->Template->default;

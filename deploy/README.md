@@ -14,7 +14,7 @@
 
 - php-apc (extension)
 
-- php-mongo (extension)
+- php-mongo 1.4+ (extension)
 
 - php-redis (extension)
 
