@@ -11,6 +11,9 @@ if (!apc_load_constants('openvj-const-privilege')) {
         'PRIV_DEV_DB'      => 20, //修改数据库
         'PRIV_DEV_EXEC'    => 40, //执行任意指令
 
+        //访问
+        'PRIV_LOG_IN'      => 1000, //登录到该账户
+
         //用户
         'PRIV_USER'        => 10000, //用户总权限
 

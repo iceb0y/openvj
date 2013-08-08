@@ -19,7 +19,7 @@ class Privilege
 
             global $mongo;
 
-            $rec        = $mongo->selectCollection('System')->findOne(array('_id' => 'privtable'));
+            $rec        = $mongo->System->findOne(array('_id' => 'privtable'));
             $_GROUPPRIV = $rec['v'];
 
             apc_store('openvj-cache-grouppriv', $_GROUPPRIV);
@@ -59,7 +59,7 @@ class Privilege
         if ($uid !== null) {
 
             global $mongo;
-            $rec = $mongo->selectCollection('User')->findOne(array('_id' => (int)$uid));
+            $rec = $mongo->User->findOne(array('_id' => (int)$uid));
 
             if ($rec == null)
                 return false;
