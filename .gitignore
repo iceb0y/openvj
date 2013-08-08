@@ -3,6 +3,8 @@ Desktop.ini
 
 *.compiled
 
+src/app/configs/database.ini
+
 # PHPStorm
 .idea/
 
