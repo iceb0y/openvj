@@ -27,8 +27,8 @@ ob_start();
 global $config;
 
 require __dir__.'/../configs/project.php';
-$config = new Phalcon\Config\Adapter\Ini(APP_DIR.'configs/app.ini');
-$config->merge(new Phalcon\Config\Adapter\Ini(APP_DIR.'configs/database.ini'));
+$config = new \Phalcon\Config((array)new Phalcon\Config\Adapter\Ini(APP_DIR.'configs/app.ini'));
+$config->merge(new \Phalcon\Config((array)new Phalcon\Config\Adapter\Ini(APP_DIR.'configs/database.ini')));
 
 
 // Constants
@@ -40,8 +40,7 @@ require APP_DIR.'includes/privilege.php';
 // Autoloader
 require APP_DIR.'vendor/autoload.php';
 
-$loader = new \Phalcon\Loader();
-$loader
+(new \Phalcon\Loader)
     ->registerDirs(array(APP_DIR.'controllers/'))
     ->registerNamespaces(array(
         'VJ'      => APP_DIR.'components/',
