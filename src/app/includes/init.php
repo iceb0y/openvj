@@ -6,19 +6,6 @@ global $_START_TIME;
 $_START_TIME = -microtime(true);
 
 
-// Check extensions
-/*
-if (!extension_loaded('phalcon')) {
-    trigger_error('Extension \'phalcon\' is not loaded', E_USER_ERROR);
-    exit();
-}
-
-if (!extension_loaded('apc')) {
-    trigger_error('Extension \'apc\' is not loaded', E_USER_ERROR);
-    exit();
-}
-*/
-
 // Start buffer
 ob_start();
 
