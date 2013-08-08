@@ -44,9 +44,10 @@ class Validator
         try {
 
             $p = new \MongoId($p);
+
             return $p;
 
-        } catch(\MongoException $e) {
+        } catch (\MongoException $e) {
 
             return null;
 
@@ -67,11 +68,9 @@ class Validator
 
         $ret = array();
 
-        foreach ($rules as $key => $rule)
-        {
+        foreach ($rules as $key => $rule) {
 
-            switch($rule)
-            {
+            switch ($rule) {
                 case 'int':
                     $ret[$key] = (int)$data[$key];
                     break;

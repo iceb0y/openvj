@@ -48,6 +48,7 @@ class Login
         if (time() > $res['exptime']->sec) {
 
             $mongo->SavedSession->remove(array('_id' => $token), array('justOne' => true));
+
             return \VJ\I::error('FAILED');
 
         }
@@ -128,9 +129,9 @@ class Login
 
         global $mongo;
 
-        $uid = (int)$uid;
+        $uid  = (int)$uid;
         $from = (int)$from;
-        $ok = (bool)$ok;
+        $ok   = (bool)$ok;
 
         if (isset($_SERVER['HTTP_USER_AGENT'])) {
             $ua = \VJ\Escaper::html(\VJ\Utils::strcut($_SERVER['HTTP_USER_AGENT']));
@@ -174,7 +175,7 @@ class Login
         $mongo->User->update(array('_id' => $data['_id']), array(
             '$set' => array(
 
-                'tlogin' => time(),
+                'tlogin'  => time(),
                 'iplogin' => \VJ\Escaper::html($_SERVER['REMOTE_ADDR'])
 
             )
@@ -182,17 +183,17 @@ class Login
 
         $u_data = \VJ\Validator::filter($data, array(
 
-            'nick' => null,
-            'gmd5' => null,
-            'group' => 'int',
-            'rank' => null,
-            'rp' => null,
-            'vjb' => null,
+            'nick'     => null,
+            'gmd5'     => null,
+            'group'    => 'int',
+            'rank'     => null,
+            'rp'       => null,
+            'vjb'      => null,
             'settings' => null
 
         ));
 
-        $u_data['id'] = (int)$data['_id'];
+        $u_data['id']   = (int)$data['_id'];
         $u_data['priv'] = $priv;
 
         $SESSION->set('user', $u_data);
