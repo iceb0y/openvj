@@ -4,7 +4,15 @@ namespace VJ\User\Account;
 
 class Login
 {
-
+    /**
+     * 使用COOKIE登录
+     *
+     * @param $token
+     * @param $uid
+     * @param $key
+     *
+     * @return bool
+     */
     public static function fromCookie($token, $uid, $key)
     {
 
@@ -12,6 +20,23 @@ class Login
 
     }
 
+    /**
+     * 使用用户名密码登录
+     *
+     * @param $user
+     * @param $pass_md5
+     */
+    public static function fromPass($user, $pass_md5)
+    {
+
+
+    }
+
+    /**
+     * 登录为游客权限用户
+     *
+     * @return bool
+     */
     public static function guest()
     {
 
@@ -30,6 +55,8 @@ class Login
             'settings' => array()
 
         ));
+
+        return true;
 
     }
 

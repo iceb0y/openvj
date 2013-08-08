@@ -7,6 +7,13 @@ class Escaper
 
     static $escaper;
 
+    /**
+     * Escape HTML
+     *
+     * @param $content
+     *
+     * @return string
+     */
     public static function html($content)
     {
 
@@ -18,6 +25,13 @@ class Escaper
 
     }
 
+    /**
+     * Escape HTML attribute
+     *
+     * @param $content
+     *
+     * @return string
+     */
     public static function htmlAttr($content)
     {
 
@@ -29,6 +43,13 @@ class Escaper
 
     }
 
+    /**
+     * Escape URI
+     *
+     * @param $content
+     *
+     * @return string
+     */
     public static function uri($content)
     {
 

@@ -5,6 +5,9 @@ namespace VJ;
 class Phalcon
 {
 
+    /**
+     * 初始化Whoops错误处理系统
+     */
     public static function initWhoops()
     {
 
@@ -12,6 +15,9 @@ class Phalcon
 
     }
 
+    /**
+     * 初始化模板引擎
+     */
     public static function initView()
     {
 
@@ -47,6 +53,9 @@ class Phalcon
 
     }
 
+    /**
+     * 初始化Session
+     */
     public static function initSession()
     {
 
@@ -56,11 +65,11 @@ class Phalcon
         $param  = session_get_cookie_params();
 
         session_set_cookie_params(
-            $param['lifetime'],     //lifetime
-            '/',                    //path
-            $domain,                //domain
-            false,                  //secure_only
-            true                    //http_only
+            $param['lifetime'], //lifetime
+            '/', //path
+            $domain, //domain
+            false, //secure_only
+            true //http_only
         );
 
         session_name($config->Session->name);

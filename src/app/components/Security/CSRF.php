@@ -5,6 +5,9 @@ namespace VJ\Security;
 class CSRF
 {
 
+    /**
+     * 初始化CSRF-token
+     */
     public static function initToken()
     {
 

@@ -2,12 +2,11 @@
 
 namespace VJ\User\Security;
 
-class Privilege {
+class Privilege
+{
 
     /**
-     *
      * 初始化组权限表
-     *
      */
     public static function initialize()
     {
@@ -16,12 +15,11 @@ class Privilege {
 
         $_GROUPPRIV = apc_fetch('openvj-cache-grouppriv');
 
-        if ($_GROUPPRIV === false)
-        {
+        if ($_GROUPPRIV === false) {
 
             global $mongo;
 
-            $rec = $mongo->selectCollection('System')->findOne(array('_id' => 'privtable'));
+            $rec        = $mongo->selectCollection('System')->findOne(array('_id' => 'privtable'));
             $_GROUPPRIV = $rec['v'];
 
             apc_store('openvj-cache-grouppriv', $_GROUPPRIV);
@@ -42,6 +40,7 @@ class Privilege {
     {
 
         global $_GROUPPRIV;
+
         return $userPriv + $_GROUPPRIV[(int)$group];
 
     }
@@ -57,8 +56,7 @@ class Privilege {
     public static function has($priv, $uid = null)
     {
 
-        if ($uid !== null)
-        {
+        if ($uid !== null) {
 
             global $mongo;
             $rec = $mongo->selectCollection('User')->findOne(array('_id' => (int)$uid));
@@ -74,9 +72,7 @@ class Privilege {
 
             return (bool)$_PRIV[$priv];
 
-        }
-        else
-        {
+        } else {
 
             global $_PRIV;
 

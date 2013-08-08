@@ -4,7 +4,9 @@ namespace VJ;
 
 class Compatibility
 {
-
+    /**
+     * 检查并将Vijos1的地址跳转到新地址
+     */
     public static function redirectOldURI()
     {
         global $config;

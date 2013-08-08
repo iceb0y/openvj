@@ -2,8 +2,12 @@
 
 namespace VJ\Database;
 
-class Mongo {
+class Mongo
+{
 
+    /**
+     * 连接Mongo
+     */
     public static function connect()
     {
 
@@ -11,9 +15,9 @@ class Mongo {
 
         $mc = new \MongoClient($config->Mongo->path, array(
 
-            'db' => $config->Mongo->database,
-            'username' => $config->Mongo->username,
-            'password' => $config->Mongo->password,
+            'db'               => $config->Mongo->database,
+            'username'         => $config->Mongo->username,
+            'password'         => $config->Mongo->password,
             'connectTimeoutMS' => $config->Mongo->timeout
 
         ));
