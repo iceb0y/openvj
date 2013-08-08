@@ -2,8 +2,12 @@
 
 namespace VJ\User;
 
-class Account {
+class Account
+{
 
+    /**
+     * 处理COOKIE登录、初始化游客权限用户、提取Session
+     */
     public static function initialize()
     {
 
@@ -40,6 +44,27 @@ class Account {
         $_UID  = $SESSION->get('user')['id'];
         $_NICK = $SESSION->get('user')['nick'];
         $_PRIV = $SESSION->get('user')['priv'];
+
+    }
+
+    /**
+     * 通过用户名、密码、salt计算最终密码哈希值
+     *
+     * @param      $username
+     * @param      $password
+     * @param      $salt
+     * @param bool $isMD5
+     *
+     * @return string
+     */
+    public static function makeHash($username, $password, $salt, $isMD5 = false)
+    {
+
+        if ($isMD5 !== true) {
+            $password = md5($password);
+        }
+
+        return sha1(md5($username.$password).$salt.sha1($password.$salt));
 
     }
 
