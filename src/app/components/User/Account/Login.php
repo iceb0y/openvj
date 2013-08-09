@@ -80,8 +80,8 @@ class Login
     public static function fromPassword($user, $pass, $from = self::LOGIN_FROM_AUTH, $md5 = false)
     {
 
-        $user     = strtolower(\VJ\Escaper::html($user));
-        $pass     = (string)$pass;
+        $user = strtolower(\VJ\Escaper::html($user));
+        $pass = (string)$pass;
 
         if ($md5 == false) {
             $pass = md5($pass);
