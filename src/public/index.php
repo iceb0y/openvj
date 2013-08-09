@@ -9,6 +9,7 @@ require __dir__.'/../app/includes/init.php';
 
 \VJ\Security\SSL::force();
 \VJ\Security\CSRF::initToken();
+\VJ\Security\Session::initCharacter();
 
 \VJ\User\Security\Privilege::initialize();
 \VJ\User\Account::initialize();

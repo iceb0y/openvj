@@ -127,8 +127,7 @@ class Phalcon
         $di->setShared('session', function () use ($config) {
 
             $session = new \Phalcon\Session\Adapter\Redis(array(
-                'path'     => $config->Session->redisPath,
-                'uniqueId' => $config->Session->prefix
+                'path'     => $config->Session->redisPath
             ));
 
             $session->start();
