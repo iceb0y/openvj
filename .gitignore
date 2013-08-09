@@ -4,6 +4,7 @@ Desktop.ini
 *.compiled
 
 src/app/configs/database.ini
+src/app/configs/security.ini
 
 # PHPStorm
 .idea/
