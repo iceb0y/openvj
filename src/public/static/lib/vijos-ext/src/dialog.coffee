@@ -1,3 +1,6 @@
+if not VJ?
+    VJ = window.VJ = {}
+
 class VJ.Dialog
 
     @dialogCount:   0
@@ -92,10 +95,24 @@ class VJ.Dialog
                     in:
                         effect:     VJ.Dialog.effects[Math.floor(Math.random() * VJ.Dialog.effects.length)]
                         delayScale: 1
-                        delay:      Math.floor(1000 / $text(@dialog).length)
+                        delay:      Math.floor(500 / $text(@dialog).length)
                         shuffle:    true
                 );
             
         , 100
 
         @
+
+    @alert: (text, title) ->
+
+        dialog = new VJ.Dialog
+            title:      title
+            content:    text
+            buttons:    [
+                {text: 'OK', class: 'button-def', onClick: =>
+                    dialog.destroy()
+                }
+            ]
+
+        dialog.show()
+        mass.query('.button-def', dialog.dialog)[0].focus()

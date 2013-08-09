@@ -1,3 +1,6 @@
+if not VJ?
+    VJ = window.VJ = {}
+
 VJ.I18N =
 
     resMap: {}

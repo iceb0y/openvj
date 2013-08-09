@@ -77,17 +77,21 @@ class Login
      *
      * @return array
      */
-    public static function fromPass($user, $pass_md5, $from = self::LOGIN_FROM_AUTH)
+    public static function fromPassword($user, $pass, $from = self::LOGIN_FROM_AUTH, $md5 = false)
     {
 
         $user     = strtolower(\VJ\Escaper::html($user));
-        $pass_md5 = (string)$pass_md5;
+        $pass     = (string)$pass;
+
+        if ($md5 == false) {
+            $pass = md5($pass);
+        }
 
         if (strlen($user) === 0) {
             return \VJ\I::error('ARGUMENT_REQUIRED', 'username');
         }
 
-        if (strlen($pass_md5) === 0) {
+        if (strlen($pass) === 0) {
             return \VJ\I::error('ARGUMENT_REQUIRED', 'password');
         }
 
@@ -99,7 +103,7 @@ class Login
             return \VJ\I::error('USER_NOTFOUND');
         }
 
-        if ($res['pass'] !== \VJ\User\Account::makeHash($user, $pass_md5, $res['salt'], true)) {
+        if ($res['pass'] !== \VJ\User\Account::makeHash($user, $pass, $res['salt'], true)) {
             $login_OK = false;
         } else {
             $login_OK = true;
