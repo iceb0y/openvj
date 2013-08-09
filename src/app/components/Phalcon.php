@@ -2,11 +2,6 @@
 
 namespace VJ;
 
-use Whoops\Run;
-use Whoops\Handler\PrettyPageHandler;
-use Phalcon\DI;
-use Phalcon\DI\Exception;
-
 class Phalcon
 {
 
@@ -21,7 +16,7 @@ class Phalcon
 
         // There's only ever going to be one error page...right?
         $di->setShared('whoops.error_page_handler', function() {
-            return new PrettyPageHandler;
+            return new \Whoops\Handler\PrettyPageHandler;
         });
 
         $json_handler = new \Whoops\Handler\JsonResponseHandler();
@@ -58,7 +53,7 @@ class Phalcon
         };
 
         $di->setShared('whoops', function() use($di, $phalcon_info_handler, $json_handler) {
-            $run = new Run;
+            $run = new \Whoops\Run;
             $run->pushHandler($di['whoops.error_page_handler']);
             $run->pushHandler($json_handler);
             $run->pushHandler($phalcon_info_handler);
