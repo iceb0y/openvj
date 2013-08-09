@@ -1498,7 +1498,6 @@ a:focus {
 .button:focus {
   box-shadow: 0 0 5px #ffdf00;
   outline: 1px solid #ffdf00;
-  background: #fffce5;
 }
 .button:active {
   background: #c5c5c5;
