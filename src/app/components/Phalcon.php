@@ -13,6 +13,9 @@ class Phalcon
 
         new \Whoops\Provider\Phalcon\WhoopsServiceProvider();
 
+        $di = \Phalcon\DI::getDefault();
+        $di['whoops']->pushHandler(new \Whoops\Handler\JsonResponseHandler());
+
     }
 
     /**
