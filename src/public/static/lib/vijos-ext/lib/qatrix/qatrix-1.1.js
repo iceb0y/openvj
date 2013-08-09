@@ -93,7 +93,7 @@ var
 		var i = 0,
 			length = match.length;
 
-		if (length !== undefined)
+		if (length !== undefined && !(match instanceof HTMLElement))
 		{
 			if (length > 0)
 			{
