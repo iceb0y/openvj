@@ -1,6 +1,6 @@
 <?php
 
-require __dir__.'/../app/includes/init.php';
+require __DIR__.'/../app/includes/init.php';
 
 //============================================
 
