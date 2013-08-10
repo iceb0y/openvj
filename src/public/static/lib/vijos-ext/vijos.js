@@ -336,14 +336,18 @@
       var active;
       active = document.activeElement;
       $className.add(this.layer, 'show');
-      return this.layer.focus();
+      return setTimeout(function() {
+        return this.layer.focus();
+      }, 0);
     };
 
     Freezer.prototype.hide = function() {
-      $className.remove(this.layer, 'show');
-      if (typeof active !== "undefined" && active !== null) {
-        return active.focus();
-      }
+      setTimeout(function() {
+        if (typeof active !== "undefined" && active !== null) {
+          return active.focus();
+        }
+      }, 0);
+      return $className.remove(this.layer, 'show');
     };
 
     return Freezer;

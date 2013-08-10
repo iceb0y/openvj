@@ -106,7 +106,7 @@ class VJ.Dialog
     @alert: (text, title) ->
 
         dom_active = document.activeElement
-
+        
         dialog = new VJ.Dialog
             title:      title
             content:    text
