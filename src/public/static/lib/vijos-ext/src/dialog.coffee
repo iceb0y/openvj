@@ -105,12 +105,18 @@ class VJ.Dialog
 
     @alert: (text, title) ->
 
+        dom_active = document.activeElement
+
         dialog = new VJ.Dialog
             title:      title
             content:    text
             buttons:    [
                 {text: 'OK', class: 'button-def', onClick: =>
                     dialog.destroy()
+
+                    setTimeout ->
+                        dom_active.focus() if dom_active?
+                    , 0
                 }
             ]
 
