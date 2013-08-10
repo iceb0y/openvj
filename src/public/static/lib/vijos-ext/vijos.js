@@ -333,20 +333,15 @@
     }
 
     Freezer.prototype.show = function() {
-      var active;
-      active = document.activeElement;
+      this.active = document.activeElement;
       $className.add(this.layer, 'show');
-      return setTimeout(function() {
-        return this.layer.focus();
-      }, 0);
+      return this.layer.focus();
     };
 
     Freezer.prototype.hide = function() {
-      setTimeout(function() {
-        if (typeof active !== "undefined" && active !== null) {
-          return active.focus();
-        }
-      }, 0);
+      if (this.active != null) {
+        this.active.focus();
+      }
       return $className.remove(this.layer, 'show');
     };
 

@@ -16,18 +16,12 @@ class VJ.Freezer
 
     show: =>
 
-        active = document.activeElement
+        @active = document.activeElement
         $className.add @layer, 'show'
-
-        setTimeout ->
-            @layer.focus()
-        , 0
+        @layer.focus()
 
     hide: =>
 
-        setTimeout ->
-            active.focus() if active?
-        , 0
-
+        @active.focus() if @active?
         $className.remove @layer, 'show'
         
