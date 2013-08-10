@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__.'/../app/includes/init.php';
+require __dir__.'/../app/includes/init.php';
 
 //============================================
 
@@ -13,6 +13,8 @@ require __DIR__.'/../app/includes/init.php';
 
 \VJ\User\Security\Privilege::initialize();
 \VJ\User\Account::initialize();
+
+\VJ\Node::io($_SERVER['HTTP_HOST']);
 
 //============================================
 
