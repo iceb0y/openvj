@@ -36,6 +36,9 @@
     } else {
       data = options.data;
     }
+    if (options.freezer != null) {
+      options.freezer.show();
+    }
     return jQuery.ajax({
       type: options.method,
       url: options.url,
@@ -43,6 +46,9 @@
       dataType: 'text',
       success: function(data, status, xhr) {
         var objData;
+        if (options.freezer != null) {
+          options.freezer.hide();
+        }
         if (data == null) {
           options.onError('Invalid return value');
           VJ.Debug.error('VJ.ajax', 'action={action}, url={url} | Empty result'.format(options));
@@ -69,6 +75,9 @@
         return options.onSuccess(objData);
       },
       error: function(jqXHR, textStatus, errorThrown) {
+        if (options.freezer != null) {
+          options.freezer.hide();
+        }
         options.onError(textStatus);
         return VJ.Debug.error('VJ.ajax', 'action={action},url={url},error={error} | Network error.'.format({
           action: options.action,
@@ -272,8 +281,9 @@
     };
 
     Dialog.alert = function(text, title) {
-      var dialog,
+      var dialog, dom_active,
         _this = this;
+      dom_active = document.activeElement;
       dialog = new VJ.Dialog({
         title: title,
         content: text,
@@ -282,7 +292,12 @@
             text: 'OK',
             "class": 'button-def',
             onClick: function() {
-              return dialog.destroy();
+              dialog.destroy();
+              return setTimeout(function() {
+                if (dom_active != null) {
+                  return dom_active.focus();
+                }
+              }, 0);
             }
           }
         ]
@@ -292,6 +307,46 @@
     };
 
     return Dialog;
+
+  })();
+
+  if (VJ == null) {
+    VJ = window.VJ = {};
+  }
+
+  VJ.Freezer = (function() {
+    Freezer.prototype.container = null;
+
+    Freezer.prototype.layer = null;
+
+    Freezer.prototype.active = null;
+
+    function Freezer(obj) {
+      this.hide = __bind(this.hide, this);
+      this.show = __bind(this.show, this);
+      this.container = obj.container;
+      this.layer = $new('div', {
+        'class': 'vj-freezer-layer',
+        'tabindex': '0'
+      });
+      $append(this.container, this.layer);
+    }
+
+    Freezer.prototype.show = function() {
+      var active;
+      active = document.activeElement;
+      $className.add(this.layer, 'show');
+      return this.layer.focus();
+    };
+
+    Freezer.prototype.hide = function() {
+      $className.remove(this.layer, 'show');
+      if (typeof active !== "undefined" && active !== null) {
+        return active.focus();
+      }
+    };
+
+    return Freezer;
 
   })();
 
@@ -372,6 +427,7 @@
       data: {
         encrypted: data_encrypted
       },
+      freezer: loginForm.freezer,
       onSuccess: function(d) {
         return console.log(d);
       },
@@ -455,6 +511,9 @@
             onClick: eventHandler_login_btnCancel_click
           }
         ]
+      });
+      loginForm.freezer = new VJ.Freezer({
+        container: loginForm.dialog
       });
       loginForm.show(false);
       return mass.query('.role-form-login-username', loginWrapper)[0].focus();

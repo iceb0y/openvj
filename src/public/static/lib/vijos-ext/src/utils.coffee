@@ -45,6 +45,8 @@ action_login = (dialog) ->
 
         action:     'login'
         data:       {encrypted: data_encrypted}
+        freezer:    loginForm.freezer
+
         onSuccess:  (d) ->
 
             console.log d
@@ -108,6 +110,9 @@ VJ.Utils =
                 {text: _('form.login.b_login'), class: 'button-def', onClick: eventHandler_login_btnLogin_click},
                 {text: _('form.login.b_cancel'), onClick: eventHandler_login_btnCancel_click}
             ]
+
+        loginForm.freezer = new VJ.Freezer
+            container:  loginForm.dialog
 
         loginForm.show false
         mass.query('.role-form-login-username', loginWrapper)[0].focus()

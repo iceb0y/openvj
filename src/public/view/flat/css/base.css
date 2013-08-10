@@ -1597,6 +1597,20 @@ a:focus {
   *display: inline;
   width: 100px;
 }
+.vj-freezer-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  opacity: 0.7;
+  display: none;
+  z-index: 999;
+}
+.vj-freezer-layer.show {
+  display: block;
+}
 body,
 html {
   height: 100%;

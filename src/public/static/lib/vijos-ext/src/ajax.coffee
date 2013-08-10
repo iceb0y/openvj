@@ -38,6 +38,8 @@ VJ.ajax = (options) ->
 
         data = options.data
 
+    options.freezer.show() if options.freezer?
+
     jQuery.ajax
 
         type:       options.method
@@ -45,6 +47,8 @@ VJ.ajax = (options) ->
         data:       data
         dataType:   'text'
         success:    (data, status, xhr) ->
+
+            options.freezer.hide() if options.freezer?
 
             if not data?
 
@@ -76,6 +80,8 @@ VJ.ajax = (options) ->
             options.onSuccess objData
 
         error: (jqXHR, textStatus, errorThrown) ->
+
+            options.freezer.hide() if options.freezer?
 
             options.onError textStatus
             VJ.Debug.error 'VJ.ajax', 'action={action},url={url},error={error} | Network error.'.format
