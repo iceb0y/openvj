@@ -19,7 +19,7 @@ class Node
         $curl = curl_init($url);
         curl_setopt_array($curl, array
         (
-            CURLOPT_CONNECTTIMEOUT => 2,
+            CURLOPT_CONNECTTIMEOUT => $config->Nodejs->timeout,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_PORT           => $config->Nodejs->port,
             CURLOPT_HEADER         => false,
