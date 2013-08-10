@@ -11,6 +11,7 @@ class Session
     {
 
         global $redis;
+
         return $redis->delete(self::REDIS_PREFIX.$sessid);
 
     }
