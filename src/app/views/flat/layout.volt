@@ -17,9 +17,9 @@
 <div id="container">
 {% include "vendor/userbar.volt" %}
 {% include "vendor/navbar.volt" %}
-<div class="cont-body"><div class="cont-wrap">
+<div class="cont-body">
 {% block body %}{% endblock %}
-</div></div>
+</div>
 </div>
 {% include "vendor/footer.volt" %}
 <script type="text/javascript" src="{{ view_static('lib/jquery/jquery-1.9.1.min.js', true) }}" charset="UTF-8"></script>
