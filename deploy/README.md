@@ -20,6 +20,8 @@
 
 - php-phalcon 1.2+ (extension)
 
+- php-sundown (extension)
+
 ### Libraries
 
 OpenVJ uses [Composer](http://getcomposer.org/) to manage library dependencies.

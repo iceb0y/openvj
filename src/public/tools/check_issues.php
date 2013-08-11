@@ -30,6 +30,10 @@ echo '<p>Phalcon:';
 echo_by_bool(extension_loaded('phalcon'));
 echo '</p>';
 
+echo '<p>sundown:';
+echo_by_bool(extension_loaded('sundown'));
+echo '</p>';
+
 echo '<p>APC:';
 echo_by_bool(extension_loaded('apc'));
 echo '</p>';
