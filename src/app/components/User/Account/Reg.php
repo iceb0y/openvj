@@ -5,7 +5,9 @@ namespace VJ\User\Account;
 class Reg
 {
     /**
+     ** DO NOT USE THIS CLASS UNTIL TODOLIST IS FINISHED
      ** TODO: ADD MONGODB TTL AT ANOTHER PLACE
+     ** TODO: ADD UID COUNTER
      * 发送验证邮件
      * 
      * @param $email
@@ -86,7 +88,7 @@ class Reg
      *
      * @return bool|ErrorObject
      */
-    function register($username, $password, $sex, $agreement, $options = null)
+    public static function register($username, $password, $sex, $agreement, $options = null)
     {
         global $mongo, $SESSION;
 
@@ -116,7 +118,7 @@ class Reg
         if (!preg_match('/^.{5,30}$/', $password) && !isset($options['use_new_pass']) && !isset($options['use_md5']))
             return \VJ\I::error('REG_PASS_INVALID');
 
-        $cUser = $db->selectCollection('User');
+        $cUser = $mongo->User;
         if ($cUser->findOne(array('luser' => strtolower($username)), array('_id' => 1)) !== null)
             return \VJ\I::error('REG_USER_EXIST');
 
@@ -132,7 +134,7 @@ class Reg
         if (!isset($options['no_code'])) {
             $code = strval($SESSION->get('reg_code'));
 
-            $ret = VJ\User\Account\Reg::setValidationState($email, $code); //再次检查
+            $ret = \VJ\User\Account\Reg::setValidationState($email, $code); //再次检查
             if ($ret !== true) return $ret;
         }
 
@@ -142,16 +144,17 @@ class Reg
             $password = strval($options['password']);
         } else if (isset($options['use_md5'])) {
             $salt     = sha1(uniqid().mt_rand(1,100000));
-            $password = usrEncrypt(strtolower($username), $options['password'], $salt, true);
+            $password = \VJ\User\Account\Reg::usrEncrypt(strtolower($username), $options['password'], $salt, true);
         } else {
             $salt     = sha1(uniqid().mt_rand(1,100000));
-            $password = usrEncrypt(strtolower($username), $password, $salt);
+            $password = \VJ\User\Account\Reg::usrEncrypt(strtolower($username), $password, $salt);
         }
 
+        // **TODO: UID COUNTER
         if (isset($options['uid']))
             $newId = intval($options['uid']);
         else
-            $newId = \mongodb\getFieldCounter(MONGO_COUNTER_USER_ID);
+            $newId = 0;
         
         if (isset($options['nickname']))
             $newNick = \VJ\Escaper::html($options['nickname']);
@@ -236,10 +239,21 @@ class Reg
 
 
         if (!isset($options['no_login']))
-            VJ\User\Account\Login::fromPassword($oUser, $oPass);
+            \VJ\User\Account\Login::fromPassword($oUser, $oPass);
 
         return true;
     }
+    
+    public static function usrEncrypt($username, $password, $salt, $isMD5 = false)
+    {
+        if ($isMD5 !== true)
+            $password = md5($password);
+
+        return sha1(md5($username.$password).$salt.sha1($password.$salt));
+    }
+
+    
+    
     /** TODO
     * 增加注册记录
     * @param $uid
