@@ -15,7 +15,7 @@ class Email
      */
     public static function send($email, $subject, $body)
     {
-        \VJ\Node::io('mail/send', null, array(
+        \VJ\IO\Node::request('mail/send', null, array(
             'to'      => $email,
             'subject' => $subject,
             'html'    => $body
