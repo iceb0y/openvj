@@ -14,8 +14,6 @@ require __DIR__.'/../app/includes/init.php';
 \VJ\User\Security\Privilege::initialize();
 \VJ\User\Account::initialize();
 
-\VJ\Node::io($_SERVER['HTTP_HOST']);
-
 //============================================
 
 $app = new \Phalcon\Mvc\Application(\Phalcon\DI::getDefault());
