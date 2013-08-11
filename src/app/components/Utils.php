@@ -21,4 +21,18 @@ class Utils
 
     }
 
+    /**
+     * 计算字符串长度
+     *
+     * @param $str
+     *
+     * @return int
+     */
+    public static function len($str)
+    {
+
+        return mb_strlen($str, 'UTF-8');
+
+    }
+
 }
