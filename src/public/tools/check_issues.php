@@ -53,3 +53,8 @@ echo '</p>';
 echo '<p>CURL:';
 echo_by_bool(extension_loaded('curl'));
 echo '</p>';
+
+echo '<p>OpenSSL:';
+echo_by_bool(extension_loaded('openssl'));
+echo '</p>';
+

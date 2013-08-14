@@ -12,6 +12,12 @@
 
 - Redis
 
+- php-openssl (native extension)
+
+- php-curl (native extension)
+
+- php-mbstring (native extension)
+
 - php-apc (extension)
 
 - php-mongo 1.4+ (extension)

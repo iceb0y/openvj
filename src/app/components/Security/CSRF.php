@@ -14,7 +14,7 @@ class CSRF
         global $__SESSION;
 
         if (!$__SESSION->has('csrf-token')) {
-            $__SESSION->set('csrf-token', md5(uniqid().rand(1, 10000)));
+            $__SESSION->set('csrf-token', \VJ\Security\Randomizer::toHex(10));
         }
 
     }
