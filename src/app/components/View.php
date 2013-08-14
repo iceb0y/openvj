@@ -10,6 +10,7 @@ class View
         //Assign global variables
 
         global $__CONFIG;
+
         $view->setVars(array(
             'TITLE_SUFFIX'     => $__CONFIG->Misc->titleSuffix,
             'META_KEYWORD'     => $__CONFIG->Misc->metaKeyword,
@@ -18,12 +19,21 @@ class View
             'FOOTER_COPYRIGHT' => $__CONFIG->Misc->copyright,
             'FOOTER_VERSION'   => APP_NAME.' '.APP_VERSION,
         ));
+
     }
 
     public static function extendVolt($volt, $view)
     {
-        $compiler = $volt->getCompiler();
 
+        global $__CONFIG;
+
+        $volt->setOptions(array(
+            'compiledPath'      => ROOT_DIR.'runtime/compiled_templates/',
+            'compiledExtension' => '.compiled',
+            'compileAlways'     => (bool)$__CONFIG->Template->compileAlways
+        ));
+
+        $compiler = $volt->getCompiler();
         $compiler->addFunction('view_static', 'VJ\View::view_static');
         $compiler->addFunction('view_processTime', 'VJ\View::view_processTime');
         $compiler->addFilter('i18n', 'VJ\View::view_i18n');
@@ -31,6 +41,7 @@ class View
         $compiler->addFilter('attr', 'VJ\Escaper::htmlAttr');
         $compiler->addFilter('uri', 'VJ\Escaper::uri');
         $compiler->addFilter('json', 'json_encode');
+
     }
 
     public static function view_i18n()

@@ -26,6 +26,22 @@ class Validator
     }
 
     /**
+     * 检查是否是一个Email地址
+     *
+     * @param $p
+     *
+     * @return bool
+     */
+    public static function email($p)
+    {
+
+        $p = (string)$p;
+
+        return (bool)preg_match('/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/', $p);
+
+    }
+
+    /**
      * 检查并返回MongoId对象，若失败则返回null
      *
      * @param $p

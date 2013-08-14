@@ -2,45 +2,44 @@
 
 namespace VJ\User\Account;
 
-class Reg
+class Register
 {
-    /**
-     ** DO NOT USE THIS CLASS UNTIL TODOLIST IS FINISHED
-     ** TODO: ADD MONGODB TTL AT ANOTHER PLACE
-     ** TODO: ADD UID COUNTER
-     * 发送验证邮件
-     * 
-     * @param $email
-     *
-     * @return bool|ErrorObject
-     */
+
     public static function sendVerificationEmail($email)
     {
 
-        $email = strtolower(strval($email));
-        if (strlen($email) > 30)
-            return \VJ\I::error('EMAIL_MISMATCH');
-        if (!preg_match('/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/', $email))
-            return \VJ\I::error('EMAIL_MISMATCH');
+        $email = strtolower((string)$email);
 
-        global $mongo, $SESSION;
+        if (\VJ\Utils::len($email) > 40) {
+            return \VJ\I::error('ARGUMENT_INVALID', 'email');
+        }
+
+        if (!\VJ\Validator::email($email)) {
+            return \VJ\I::error('ARGUMENT_INVALID', 'email');
+        }
+
+        global $mongo;
         if ($mongo->User->findOne(array('mail' => $email), array('_id' => 1)) !== null)
-            return \VJ\I::error('EMAIL_EXIST');
+            return \VJ\I::error('USED', 'email', $email);
 
-        $validateCode = sha1(uniqid().mt_rand(1,100000));
+        $validateCode = \VJ\Security\Randomizer::toHex(10);
 
-        //数据库插入
-        $mongo->RegValidation->update
-            (
-                array('email' => $email),
-                array('$set' => array
-                (
-                    'code' => $validateCode,
-                    'time' => time()
-                )),
-                array('upsert' => true)
-            );
+        $mongo->RegValidation->update(
 
+            array('email' => $email),
+            array('$set' => array(
+
+                'code' => $validateCode,
+                'time' => new \MongoDate()
+
+            )),
+            array('upsert' => true)
+
+        );
+
+        // TODO: Re-implement needed
+
+        /*
         $url = ENV_HOST_URL.'/user/register?code='.urlencode($validateCode).'&email='.urlencode($email);
         $body = 'Verification_URL: '.$url;
         $ret = \VJ\Email::send($email, '['.APP_NAME.'] Register Verification ', $body);
@@ -49,7 +48,9 @@ class Reg
             return true;
         else
             return \VJ\I::error('EMAIL_SEND_FAILED', $ret);
+        */
     }
+
     /**
      * 检查email & code并设置状态
      *
@@ -58,25 +59,29 @@ class Reg
      *
      * @return bool|ErrorObject
      */
-    public static function setValidationState($email, $code)
+    public static function verificateEmail($email, $code)
     {
-        $email = strtolower(strval($email));
+        $email = strtolower((string)$email);
         $code  = strval($code);
 
-        global $mongo, $SESSION;
-        $verify = $mongo->RegValidation->findOne
-            (
-                array('email' => $email, 'code' => $code)
-            );
+        global $mongo, $__SESSION, $__CONFIG;
 
-        if ($verify == null)
-            return \VJ\I::error('EMAIL_VALIDATION_FAILED');
-    
-        $SESSION->set('reg_email', $email);
-        $SESSION->set('reg_code', $code);
+        $verify = $mongo->RegValidation->findOne(array('email' => $email, 'code' => $code));
+
+        if ($verify == null) {
+            return \VJ\I::error('REG_VERFICATION_FAILED');
+        }
+
+        if (time() - $verify->time->sec > (int)$__CONFIG->Register->validationExpire) {
+            return \VJ\I::error('REG_VERFICATION_EXPIRED');
+        }
+
+        $__SESSION->set('reg-email', $email);
+        $__SESSION->set('reg-code', $code);
+
         return true;
     }
-    
+
     /**
      * 注册新用户
      *
@@ -90,7 +95,10 @@ class Reg
      */
     public static function register($username, $password, $sex, $agreement, $options = null)
     {
-        global $mongo, $SESSION;
+        return \VJ\I::error('NOT_IMPLEMENTED');
+
+
+        global $mongo, $__SESSION;
 
         if (strtolower($agreement) !== 'accept')
             return \VJ\I::error('REG_ACCEPT_AGREEMENT_NEEDED');
@@ -127,15 +135,17 @@ class Reg
         if (isset($options['email']))
             $email = $options['email'];
         else
-            $email = $SESSION->get('reg_email');
+            $email = $__SESSION->get('reg_email');
 
         $email = strtolower(trim(strval($email)));
 
         if (!isset($options['no_code'])) {
-            $code = strval($SESSION->get('reg_code'));
+            $code = strval($__SESSION->get('reg-code'));
 
-            $ret = \VJ\User\Account\Reg::setValidationState($email, $code); //再次检查
-            if ($ret !== true) return $ret;
+            $ret = self::verificateEmail($email, $code); //再次检查
+            if ($ret !== true) {
+                return $ret;
+            }
         }
 
         //生成salt
@@ -143,11 +153,11 @@ class Reg
             $salt     = strval($options['salt']);
             $password = strval($options['password']);
         } else if (isset($options['use_md5'])) {
-            $salt     = sha1(uniqid().mt_rand(1,100000));
-            $password = \VJ\User\Account\Reg::usrEncrypt(strtolower($username), $options['password'], $salt, true);
+            $salt     = sha1(uniqid().mt_rand(1, 100000));
+            $password = \VJ\User\Account::makeHash($username, $options['password'], $salt, true);
         } else {
-            $salt     = sha1(uniqid().mt_rand(1,100000));
-            $password = \VJ\User\Account\Reg::usrEncrypt(strtolower($username), $password, $salt);
+            $salt     = sha1(uniqid().mt_rand(1, 100000));
+            $password = \VJ\User\Accountt::makeHash($username, $password, $salt);
         }
 
         // **TODO: UID COUNTER
@@ -155,11 +165,22 @@ class Reg
             $newId = intval($options['uid']);
         else
             $newId = 0;
-        
+
         if (isset($options['nickname']))
             $newNick = \VJ\Escaper::html($options['nickname']);
         else
             $newNick = '';
+
+        if (isset($options['rp']))
+            $newRp = floatval($options['rp']);
+        else
+            $newRp = 0.0;
+
+        if (isset($options['vjb']))
+            $newVjb = floatval($options['vjb']);
+        else
+            $newVjb = 0.0;
+
 
         if (isset($options['sig']))
             $newSig = strval($options['sig']);
@@ -170,7 +191,6 @@ class Reg
             $newGroup = intval($options['group']);
         else
             $newGroup = GROUP_USER;
-
 
         //删除注册码
         $mongo->RegValidation->remove(array('email' => $email));
@@ -207,8 +227,8 @@ class Reg
 
         $cUser->insert($regData);
 
-        $SESSION->remove('reg_email');
-        $SESSION->remove('reg_code');
+        $__SESSION->remove('reg-email');
+        $__SESSION->remove('reg-code');
 
 
         if (!isset($options['no_login']))
@@ -216,21 +236,5 @@ class Reg
 
         return true;
     }
-    
-    public static function usrEncrypt($username, $password, $salt, $isMD5 = false)
-    {
-        if ($isMD5 !== true)
-            $password = md5($password);
 
-        return sha1(md5($username.$password).$salt.sha1($password.$salt));
-    }
-
-    
-    
-    /** TODO
-    * 增加注册记录
-    * @param $uid
-    * @param $from
-    * @param $ok
-    */
 }

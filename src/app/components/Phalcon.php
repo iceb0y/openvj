@@ -78,18 +78,11 @@ class Phalcon
         $di->set('view', function () use ($__TEMPLATE_NAME) {
 
             $view = new \Phalcon\Mvc\View();
+
             $view->setViewsDir('../app/views/'.$__TEMPLATE_NAME.'/');
             $view->registerEngines(array('.volt' => function ($view, $di) {
 
-                global $__CONFIG;
-
                 $volt = new \Phalcon\Mvc\View\Engine\Volt($view, $di);
-                $volt->setOptions(array(
-                    'compiledPath'      => ROOT_DIR.'runtime/compiled_templates/',
-                    'compiledExtension' => '.compiled',
-                    'compileAlways'     => (bool)$__CONFIG->Template->compileAlways
-                ));
-
                 \VJ\View::extendVolt($volt, $view);
 
                 return $volt;
