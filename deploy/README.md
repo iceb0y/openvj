@@ -54,6 +54,8 @@ php composer.phar install
 </IfModule>
 ```
 
+See http://docs.phalconphp.com/en/latest/reference/apache.html for more information
+
 **Nginx**
 
 ```
@@ -61,6 +63,8 @@ php composer.phar install
         rewrite ^/(.*)$ /index.php?_url=/$1;
     }
 ```
+
+See http://docs.phalconphp.com/en/latest/reference/nginx.html for more information
 
 #### Crossdomain
 
