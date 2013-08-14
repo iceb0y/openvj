@@ -2,8 +2,8 @@
 
 
 // Start runtimer
-global $_START_TIME;
-$_START_TIME = -microtime(true);
+global $__START_TIME;
+$__START_TIME = -microtime(true);
 
 
 // Start buffer
@@ -11,12 +11,12 @@ ob_start();
 
 
 // Load configs
-global $config;
+global $__CONFIG;
 
 require __dir__.'/../configs/project.php';
-$config = new \Phalcon\Config((array)new Phalcon\Config\Adapter\Ini(APP_DIR.'configs/app.ini'));
-$config->merge(new \Phalcon\Config((array)new Phalcon\Config\Adapter\Ini(APP_DIR.'configs/database.ini')));
-$config->merge(new \Phalcon\Config((array)new Phalcon\Config\Adapter\Ini(APP_DIR.'configs/security.ini')));
+$__CONFIG = new \Phalcon\Config((array)new Phalcon\Config\Adapter\Ini(APP_DIR.'configs/app.ini'));
+$__CONFIG->merge(new \Phalcon\Config((array)new Phalcon\Config\Adapter\Ini(APP_DIR.'configs/database.ini')));
+$__CONFIG->merge(new \Phalcon\Config((array)new Phalcon\Config\Adapter\Ini(APP_DIR.'configs/security.ini')));
 
 
 // Constants
@@ -47,12 +47,12 @@ header('X-XSS-Protection: 1;mode=block');
 //===========================================================================
 // Check whether the requested hostname is in the allowed host list, which is
 // defined in define/global.php. If not, generate a HTTP 403 error
-if ($config->Security->checkHost && !in_array(ENV_HOST, (array)$config->Security->allowedHosts)) {
+if ($__CONFIG->Security->checkHost && !in_array(ENV_HOST, (array)$__CONFIG->Security->allowedHosts)) {
     header('HTTP/1.1 403 Forbidden', true, 403);
     exit('Bad Request: Header field "host" is invalid.');
 }
 
-if ($config->Compatibility->redirectOldURI) {
+if ($__CONFIG->Compatibility->redirectOldURI) {
     \VJ\Compatibility::redirectOldURI();
 }
 //===========================================================================
@@ -63,7 +63,7 @@ new \Phalcon\DI\FactoryDefault();
 
 
 // Error Reporting
-if (!$config->Debug->enabled) {
+if (!$__CONFIG->Debug->enabled) {
     error_reporting(0);
 } else {
     error_reporting(E_ALL | E_STRICT);
@@ -72,7 +72,7 @@ if (!$config->Debug->enabled) {
 
 
 // Set timezone
-date_default_timezone_set($config->Localization->timezone);
+date_default_timezone_set($__CONFIG->Localization->timezone);
 
 
 // Using UTF-8 as default mbstring encoding
@@ -91,5 +91,5 @@ textdomain('vijos');
 
 
 // Template
-global $_TEMPLATE_NAME;
-$_TEMPLATE_NAME = $config->Template->default;
+global $__TEMPLATE_NAME;
+$__TEMPLATE_NAME = $__CONFIG->Template->default;

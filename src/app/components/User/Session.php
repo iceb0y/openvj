@@ -19,7 +19,7 @@ class Session
     public static function destroyCurrent()
     {
 
-        global $config;
+        global $__CONFIG;
 
         $sessid = session_id();
 
@@ -27,7 +27,7 @@ class Session
         session_destroy();
 
         if (isset($_COOKIE[session_name()]))
-            setcookie(session_name(), '', time() - 42000, '/', '.'.$config->Misc->host, false, true);
+            setcookie(session_name(), '', time() - 42000, '/', '.'.$__CONFIG->Misc->host, false, true);
 
         self::destroy($sessid);
 

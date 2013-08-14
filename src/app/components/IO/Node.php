@@ -6,10 +6,10 @@ class Node
 {
     public static function request($location, $get = null, $post = null, $getResponse = false)
     {
-        global $config;
+        global $__CONFIG;
 
         //处理请求数据
-        $url = $config->Nodejs->host.$location;
+        $url = $__CONFIG->Nodejs->host.$location;
 
         if ($get != null && is_array($get)) {
             $url = $url.'?'.http_build_query($get, '', '&');
@@ -19,9 +19,9 @@ class Node
         $curl = curl_init($url);
         curl_setopt_array($curl, array
         (
-            CURLOPT_CONNECTTIMEOUT => $config->Nodejs->timeout,
+            CURLOPT_CONNECTTIMEOUT => $__CONFIG->Nodejs->timeout,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_PORT           => $config->Nodejs->port,
+            CURLOPT_PORT           => $__CONFIG->Nodejs->port,
             CURLOPT_HEADER         => false,
             CURLOPT_NOBODY         => !$getResponse
         ));

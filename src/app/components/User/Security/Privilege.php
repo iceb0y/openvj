@@ -11,18 +11,18 @@ class Privilege
     public static function initialize()
     {
 
-        global $_GROUPPRIV;
+        global $__GROUP_PRIV;
 
-        $_GROUPPRIV = apc_fetch('openvj-cache-grouppriv');
+        $__GROUP_PRIV = apc_fetch('openvj-cache-grouppriv');
 
-        if ($_GROUPPRIV === false) {
+        if ($__GROUP_PRIV === false) {
 
             global $mongo;
 
             $rec        = $mongo->System->findOne(array('_id' => 'privtable'));
-            $_GROUPPRIV = $rec['v'];
+            $__GROUP_PRIV = $rec['v'];
 
-            apc_store('openvj-cache-grouppriv', $_GROUPPRIV);
+            apc_store('openvj-cache-grouppriv', $__GROUP_PRIV);
 
         }
 
@@ -39,9 +39,9 @@ class Privilege
     public static function merge($userPriv, $group)
     {
 
-        global $_GROUPPRIV;
+        global $__GROUP_PRIV;
 
-        return $userPriv + $_GROUPPRIV[(int)$group];
+        return $userPriv + $__GROUP_PRIV[(int)$group];
 
     }
 

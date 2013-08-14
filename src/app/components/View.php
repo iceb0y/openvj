@@ -9,13 +9,13 @@ class View
     {
         //Assign global variables
 
-        global $config;
+        global $__CONFIG;
         $view->setVars(array(
-            'TITLE_SUFFIX'     => $config->Misc->titleSuffix,
-            'META_KEYWORD'     => $config->Misc->metaKeyword,
-            'META_DESC'        => $config->Misc->metaDesc,
-            'FOOTER_ICP'       => $config->Misc->icp,
-            'FOOTER_COPYRIGHT' => $config->Misc->copyright,
+            'TITLE_SUFFIX'     => $__CONFIG->Misc->titleSuffix,
+            'META_KEYWORD'     => $__CONFIG->Misc->metaKeyword,
+            'META_DESC'        => $__CONFIG->Misc->metaDesc,
+            'FOOTER_ICP'       => $__CONFIG->Misc->icp,
+            'FOOTER_COPYRIGHT' => $__CONFIG->Misc->copyright,
             'FOOTER_VERSION'   => APP_NAME.' '.APP_VERSION,
         ));
     }
@@ -48,15 +48,15 @@ class View
 
     public static function view_static($res, $static = false)
     {
-        global $config, $_TEMPLATE_NAME;
+        global $__CONFIG, $__TEMPLATE_NAME;
 
         if ($static) {
             $file = 'static/'.$res;
         } else {
-            $file = 'view/'.$_TEMPLATE_NAME.'/'.$res;
+            $file = 'view/'.$__TEMPLATE_NAME.'/'.$res;
         }
 
-        $output = '//'.$config->Misc->cdnHost.'/'.$file;
+        $output = '//'.$__CONFIG->Misc->cdnHost.'/'.$file;
         $mtime  = filemtime(ROOT_DIR.'public/'.$file);
 
         if ($mtime) {
@@ -68,10 +68,10 @@ class View
 
     public static function view_processTime()
     {
-        global $_START_TIME;
-        $_START_TIME += microtime(true);
+        global $__START_TIME;
+        $__START_TIME += microtime(true);
 
-        return sprintf('%f', $_START_TIME * 1000);
+        return sprintf('%f', $__START_TIME * 1000);
     }
 
 }

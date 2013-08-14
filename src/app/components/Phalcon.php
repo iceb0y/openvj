@@ -71,23 +71,23 @@ class Phalcon
     public static function initView()
     {
 
-        global $_TEMPLATE_NAME;
+        global $__TEMPLATE_NAME;
 
         $di = \Phalcon\DI::getDefault();
 
-        $di->set('view', function () use ($_TEMPLATE_NAME) {
+        $di->set('view', function () use ($__TEMPLATE_NAME) {
 
             $view = new \Phalcon\Mvc\View();
-            $view->setViewsDir('../app/views/'.$_TEMPLATE_NAME.'/');
+            $view->setViewsDir('../app/views/'.$__TEMPLATE_NAME.'/');
             $view->registerEngines(array('.volt' => function ($view, $di) {
 
-                global $config;
+                global $__CONFIG;
 
                 $volt = new \Phalcon\Mvc\View\Engine\Volt($view, $di);
                 $volt->setOptions(array(
                     'compiledPath'      => ROOT_DIR.'runtime/compiled_templates/',
                     'compiledExtension' => '.compiled',
-                    'compileAlways'     => (bool)$config->Template->compileAlways
+                    'compileAlways'     => (bool)$__CONFIG->Template->compileAlways
                 ));
 
                 \VJ\View::extendVolt($volt, $view);
@@ -109,9 +109,9 @@ class Phalcon
     public static function initSession()
     {
 
-        global $config, $SESSION;
+        global $__CONFIG, $__SESSION;
 
-        $domain = '.'.$config->Misc->host;
+        $domain = '.'.$__CONFIG->Misc->host;
         $param  = session_get_cookie_params();
 
         session_set_cookie_params(
@@ -122,13 +122,13 @@ class Phalcon
             true //http_only
         );
 
-        session_name($config->Session->name);
+        session_name($__CONFIG->Session->name);
 
         $di = \Phalcon\DI::getDefault();
-        $di->setShared('session', function () use ($config) {
+        $di->setShared('session', function () use ($__CONFIG) {
 
             $session = new \Phalcon\Session\Adapter\Redis(array(
-                'path' => $config->Session->redisPath
+                'path' => $__CONFIG->Session->redisPath
             ));
 
             $session->start();
@@ -136,7 +136,7 @@ class Phalcon
             return $session;
         });
 
-        $SESSION = $di->getSession();
+        $__SESSION = $di->getSession();
 
     }
 

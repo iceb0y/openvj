@@ -11,10 +11,10 @@ class CSRF
     public static function initToken()
     {
 
-        global $SESSION;
+        global $__SESSION;
 
-        if (!$SESSION->has('csrf-token')) {
-            $SESSION->set('csrf-token', md5(uniqid().rand(1, 10000)));
+        if (!$__SESSION->has('csrf-token')) {
+            $__SESSION->set('csrf-token', md5(uniqid().rand(1, 10000)));
         }
 
     }

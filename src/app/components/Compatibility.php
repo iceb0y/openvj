@@ -9,7 +9,7 @@ class Compatibility
      */
     public static function redirectOldURI()
     {
-        global $config;
+        global $__CONFIG;
 
         // Check whether the requested URI is an old-style .asp URI. If it is,
         // redirect to a corresponding new URI
@@ -27,7 +27,7 @@ class Compatibility
             header('HTTP/1.1 301 Moved Permanently');
 
             $uri  = $_SERVER['REQUEST_URI'];
-            $host = $config->Misc->host;
+            $host = $__CONFIG->Misc->host;
 
             if (stripos($uri, '/problem_show.asp') !== false) {
                 header('Location: '.$prefix.$host.'/p/'.$_GET['id']);

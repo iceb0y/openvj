@@ -166,9 +166,9 @@ class Login
     public static function user($data)
     {
 
-        global $mongo, $SESSION, $_GROUPPRIV;
+        global $mongo, $__SESSION, $__GROUP_PRIV;
 
-        $priv = $data['priv'] + $_GROUPPRIV[(int)$data['group']];
+        $priv = $data['priv'] + $__GROUP_PRIV[(int)$data['group']];
 
         // 检查该账号是否可登录
         if (!isset($priv[PRIV_LOG_IN]) || $priv[PRIV_LOG_IN] !== false) {
@@ -200,7 +200,7 @@ class Login
         $u_data['id']   = (int)$data['_id'];
         $u_data['priv'] = $priv;
 
-        $SESSION->set('user', $u_data);
+        $__SESSION->set('user', $u_data);
 
         return true;
 
@@ -214,9 +214,9 @@ class Login
     public static function guest()
     {
 
-        global $SESSION, $_GROUPPRIV;
+        global $__SESSION, $__GROUP_PRIV;
 
-        $SESSION->set('user', array(
+        $__SESSION->set('user', array(
 
             'id'       => UID_GUEST,
             'nick'     => NICK_GUEST,
@@ -225,7 +225,7 @@ class Login
             'rank'     => 0,
             'rp'       => 0.0,
             'vjb'      => 0.0,
-            'priv'     => $_GROUPPRIV[GROUP_GUEST],
+            'priv'     => $__GROUP_PRIV[GROUP_GUEST],
             'settings' => array()
 
         ));

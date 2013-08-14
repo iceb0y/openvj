@@ -11,18 +11,18 @@ class Mongo
     public static function connect()
     {
 
-        global $config, $mongo;
+        global $__CONFIG, $mongo;
 
-        $mc = new \MongoClient($config->Mongo->path, array(
+        $mc = new \MongoClient($__CONFIG->Mongo->path, array(
 
-            'db'               => $config->Mongo->database,
-            'username'         => $config->Mongo->username,
-            'password'         => $config->Mongo->password,
-            'connectTimeoutMS' => $config->Mongo->timeout
+            'db'               => $__CONFIG->Mongo->database,
+            'username'         => $__CONFIG->Mongo->username,
+            'password'         => $__CONFIG->Mongo->password,
+            'connectTimeoutMS' => $__CONFIG->Mongo->timeout
 
         ));
 
-        $mongo = $mc->selectDB($config->Mongo->database);
+        $mongo = $mc->selectDB($__CONFIG->Mongo->database);
 
     }
 

@@ -10,9 +10,9 @@ const GROUP_USER     = 0x3;
 const GROUP_JUDGER   = 0xFF;
 const GROUP_INTERNAL = 0x100;
 
-global $_GROUPS, $_GROUPS_STR;
+global $__GROUPS, $__GROUPS_STR;
 
-$_GROUPS = array
+$__GROUPS = array
 (
     GROUP_ROOT     => 'Root',
     GROUP_GUEST    => 'Guest',
@@ -22,7 +22,7 @@ $_GROUPS = array
     GROUP_INTERNAL => 'Internal'
 );
 
-$_GROUPS_STR = array
+$__GROUPS_STR = array
 (
     GROUP_ROOT     => 'Root',
     GROUP_GUEST    => 'Guest',

@@ -15,7 +15,7 @@ class Reply
      */
     public static function topic($topic_id, $content)
     {
-        global $config;
+        global $__CONFIG;
 
         if (strlen($topic_id) > 50) {
             return \VJ\I::error('ARGUMENT_TOO_LONG', 'topic_id', 50);
@@ -25,12 +25,12 @@ class Reply
             return \VJ\I::error('NO_PRIV', 'PRIV_DISCUSSION_REPLY_TOPIC');
         }
 
-        if (\VJ\Utils::len($content) < $config->Discussion->contentMin) {
-            return \VJ\I::error('CONTENT_TOOSHORT', $config->Discussion->contentMin);
+        if (\VJ\Utils::len($content) < $__CONFIG->Discussion->contentMin) {
+            return \VJ\I::error('CONTENT_TOOSHORT', $__CONFIG->Discussion->contentMin);
         }
 
-        if (\VJ\Utils::len($content) > $config->Discussion->contentMax) {
-            return \VJ\I::error('CONTENT_TOOLONG', $config->Discussion->contentMax);
+        if (\VJ\Utils::len($content) > $__CONFIG->Discussion->contentMax) {
+            return \VJ\I::error('CONTENT_TOOLONG', $__CONFIG->Discussion->contentMax);
         }
 
 

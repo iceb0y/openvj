@@ -6,11 +6,11 @@ class AjaxController extends \Phalcon\Mvc\Controller
     public function rsaAction()
     {
 
-        global $config;
+        global $__CONFIG;
 
         $this->view->setVars(array('AJAX_DATA' => array(
-            'key'       => $config->RSA->public,
-            'e'         => $config->RSA->e,
+            'key'       => $__CONFIG->RSA->public,
+            'e'         => $__CONFIG->RSA->e,
             'timestamp' => time()
         )));
     }
@@ -18,12 +18,12 @@ class AjaxController extends \Phalcon\Mvc\Controller
     public function loginAction()
     {
 
-        global $config;
+        global $__CONFIG;
 
         // Decrypt data
         $rsa = new Crypt_RSA();
         $rsa->setEncryptionMode(CRYPT_RSA_ENCRYPTION_PKCS1);
-        $rsa->loadKey($config->RSA->private, CRYPT_RSA_PRIVATE_FORMAT_PKCS1);
+        $rsa->loadKey($__CONFIG->RSA->private, CRYPT_RSA_PRIVATE_FORMAT_PKCS1);
         $s   = new Math_BigInteger($_POST['encrypted'], 16);
         $msg = $rsa->decrypt($s->toBytes());
         $msg = json_decode($msg, true);

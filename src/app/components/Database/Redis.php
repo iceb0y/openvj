@@ -12,10 +12,10 @@ class Redis
     public static function connect()
     {
 
-        global $config, $redis;
+        global $__CONFIG, $redis;
 
         $redis  = new \redis();
-        $result = $redis->pconnect($config->Session->redisPath);
+        $result = $redis->pconnect($__CONFIG->Session->redisPath);
 
         if ($result !== true) {
             throw new \RedisException('Cannot connect to Redis server');

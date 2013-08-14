@@ -11,21 +11,21 @@ class SSL
     public static function force()
     {
 
-        global $SESSION;
+        global $__SESSION;
 
         if (isset($_GET['nossl'])) {
 
             $option = strtolower($_GET['nossl']);
 
             if ($option === 'false' || $option === 'off') {
-                $SESSION->remove('option-nossl');
+                $__SESSION->remove('option-nossl');
             } else {
-                $SESSION->set('option-nossl', true);
+                $__SESSION->set('option-nossl', true);
             }
 
         }
 
-        if (!ENV_SSL && !$SESSION->has('option-nossl')) {
+        if (!ENV_SSL && !$__SESSION->has('option-nossl')) {
 
             if
             (
