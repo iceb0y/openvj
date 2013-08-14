@@ -160,26 +160,11 @@ class Reg
             $newNick = \VJ\Escaper::html($options['nickname']);
         else
             $newNick = '';
-        
-        if (isset($options['rp']))
-            $newRp = floatval($options['rp']);
-        else
-            $newRp = 0.0;
-
-        if (isset($options['vjb']))
-            $newVjb = floatval($options['vjb']);
-        else
-            $newVjb = 0.0;
 
         if (isset($options['sig']))
             $newSig = strval($options['sig']);
         else
             $newSig = '';
-
-        if (isset($options['rank']))
-            $newRank = intval($options['rank']);
-        else
-            $newRank = 0;
 
         if (isset($options['group']))
             $newGroup = intval($options['group']);
@@ -200,23 +185,15 @@ class Reg
             'salt'     => $salt,
             'mail'     => $email,
             'qq'       => '',
-            'rp'       => $newRp,
-            'vjb'      => $newVjb,
             'g'        => $email, //gravatar
             'gmd5'     => md5($email),
-            'sig'      => $newSig,
-            'sigm'     => '',
-            'page'     => '',
             'sex'      => $sex,
             'tlogin'   => 0,
             'treg'     => time(),
             'ipreg'    => $_SERVER['REMOTE_ADDR'],
             'priv'     => array('_' => null),
-            'privacy'  => array('_' => null),
-            'stars'    => array('_' => null),
             'group'    => $newGroup,
             'team'     => array(),
-            'rank'     => $newRank,
             'pbms'     => array
             (
                 'pass'    => 0,
@@ -225,11 +202,7 @@ class Reg
                 'anslst'  => array(),
                 'submit'  => 0
             ),
-            'settings' => array
-            (
-                'first_reg' => true,
-                'tags'      => 1
-            )
+            'settings' => array()
         );
 
         $cUser->insert($regData);
