@@ -11,9 +11,9 @@ class Account
     public static function initialize()
     {
 
-        global $SESSION;
+        global $__SESSION;
 
-        if (!$SESSION->has('user-id')) {
+        if (!$__SESSION->has('user-id')) {
 
             if (
                 isset($_COOKIE['VJ_SESSION_TOKEN'])
@@ -41,9 +41,9 @@ class Account
 
         global $_UID, $_NICK, $_PRIV;
 
-        $_UID  = $SESSION->get('user')['id'];
-        $_NICK = $SESSION->get('user')['nick'];
-        $_PRIV = $SESSION->get('user')['priv'];
+        $_UID  = $__SESSION->get('user')['id'];
+        $_NICK = $__SESSION->get('user')['nick'];
+        $_PRIV = $__SESSION->get('user')['priv'];
 
     }
 
@@ -59,6 +59,7 @@ class Account
      */
     public static function makeHash($username, $password, $salt, $isMD5 = false)
     {
+        $username = strtolower($username);
 
         if ($isMD5 !== true) {
             $password = md5($password);
