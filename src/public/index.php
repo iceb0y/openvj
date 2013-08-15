@@ -9,8 +9,8 @@ global $__CONFIG;
 \VJ\Phalcon::initView();
 \VJ\Phalcon::initSession();
 
-if ($__CONFIG->Security->forceSSL) {
-    \VJ\Security\SSL::force();
+if ($__CONFIG->Security->enforceSSL) {
+    \VJ\Security\SSL::enforce();
 }
 
 \VJ\Security\CSRF::initToken();

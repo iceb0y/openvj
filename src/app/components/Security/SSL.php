@@ -8,7 +8,7 @@ class SSL
     /**
      * 强制跳转到SSL（对搜索引擎不跳转）
      */
-    public static function force()
+    public static function enforce()
     {
 
         global $__SESSION;
