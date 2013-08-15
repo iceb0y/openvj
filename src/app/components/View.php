@@ -12,6 +12,7 @@ class View
         global $__CONFIG;
 
         $view->setVars(array(
+            'BASE_PREFIX'      => $__CONFIG->Misc->basePrefix,
             'TITLE_SUFFIX'     => $__CONFIG->Misc->titleSuffix,
             'META_KEYWORD'     => $__CONFIG->Misc->metaKeyword,
             'META_DESC'        => $__CONFIG->Misc->metaDesc,
@@ -67,7 +68,7 @@ class View
             $file = 'view/'.$__TEMPLATE_NAME.'/'.$res;
         }
 
-        $output = '//'.$__CONFIG->Misc->cdnHost.'/'.$file;
+        $output = '//'.$__CONFIG->Misc->staticPrefix.'/'.$file;
         $mtime  = filemtime(ROOT_DIR.'public/'.$file);
 
         if ($mtime) {

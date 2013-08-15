@@ -14,10 +14,14 @@ class Compatibility
         // Check whether the requested URI is an old-style .asp URI. If it is,
         // redirect to a corresponding new URI
         if (stripos($_SERVER['REQUEST_URI'], '.asp') !== false) {
-            if (!isset($_SERVER['HTTP_USER_AGENT']) ||
-                stripos($_SERVER['HTTP_USER_AGENT'], 'Baiduspider') === false &&
-                stripos($_SERVER['HTTP_USER_AGENT'], 'Sogou web spider') === false &&
-                stripos($_SERVER['HTTP_USER_AGENT'], 'Sosospider') === false
+            if (
+                $__CONFIG->Security->forceSSL &&
+                (
+                    !isset($_SERVER['HTTP_USER_AGENT']) ||
+                    stripos($_SERVER['HTTP_USER_AGENT'], 'Baiduspider') === false &&
+                    stripos($_SERVER['HTTP_USER_AGENT'], 'Sogou web spider') === false &&
+                    stripos($_SERVER['HTTP_USER_AGENT'], 'Sosospider') === false
+                )
             ) {
                 $prefix = 'https://';
             } else {
@@ -27,7 +31,7 @@ class Compatibility
             header('HTTP/1.1 301 Moved Permanently');
 
             $uri  = $_SERVER['REQUEST_URI'];
-            $host = $__CONFIG->Misc->host;
+            $host = $__CONFIG->Misc->host.$__CONFIG->Misc->basePrefix;
 
             if (stripos($uri, '/problem_show.asp') !== false) {
                 header('Location: '.$prefix.$host.'/p/'.$_GET['id']);
