@@ -26,13 +26,24 @@ class Email
         return true;
     }
 
-    /*
-    public static function sendFromTemplate($email, $subject, $controller_name, $action_name, $vars)
+    /**
+     * 使用模板发送Email
+     *
+     * @param      $email
+     * @param      $subject
+     * @param      $controller_name
+     * @param      $action_name
+     * @param null $vars
+     *
+     * @return bool
+     */
+    public static function sendByTemplate($email, $subject, $controller_name, $action_name, $vars = null)
     {
         if (self::$view == null)
         {
             self::$view = new \Phalcon\Mvc\View();
 
+            self::$view->setDI(new \Phalcon\DI\FactoryDefault());
             self::$view->setViewsDir('../app/views/mail/');
             self::$view->registerEngines(array('.volt' => function ($view) {
 
@@ -46,14 +57,17 @@ class Email
             \VJ\View::extendView(self::$view);
         }
 
-        self::$view->setVars($vars);
+        if ($vars) {
+            self::$view->setVars($vars);
+        }
 
         self::$view->start();
         self::$view->render($controller_name, $action_name);
         self::$view->finish();
 
-        return self::$view->getContent();
+        $body = self::$view->getContent();
+
+        return self::send($email, $subject, $body);
     }
-    */
 
 }
