@@ -10,8 +10,6 @@
 
 - MongoDB 2.4+
 
-- Redis
-
 - php-openssl (native extension)
 
 - php-curl (native extension)
@@ -21,8 +19,6 @@
 - php-apc (extension)
 
 - php-mongo 1.4+ (extension)
-
-- php-redis (extension)
 
 - php-phalcon 1.2+ (extension)
 
@@ -75,6 +71,12 @@ See http://docs.phalconphp.com/en/latest/reference/nginx.html for more informati
     </IfModule>
 </FilesMatch>
 ```
+
+### MongoDB Database
+
+Please ensure these indexes:
+
+- 'Session' -> 'session_id'
 
 ## Frontend
 

@@ -5,14 +5,14 @@ namespace VJ\User;
 class Session
 {
 
-    const REDIS_PREFIX = 'PHPREDIS_SESSION:';
+    const SESSION_FIELD = 'session_id';
 
     public static function destroy($sessid)
     {
 
-        global $redis;
+        global $mongo;
 
-        return $redis->delete(self::REDIS_PREFIX.$sessid);
+        return $mongo->Session->remove(array(SESSION_FIELD => $sessid), array('justOne' => 1));
 
     }
 

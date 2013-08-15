@@ -87,7 +87,6 @@ textdomain('vijos');
 
 // Connect to database
 \VJ\Database\Mongo::connect();
-\VJ\Database\Redis::connect();
 
 
 // Template

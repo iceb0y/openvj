@@ -120,8 +120,10 @@ class Phalcon
         $di = \Phalcon\DI::getDefault();
         $di->setShared('session', function () use ($__CONFIG) {
 
-            $session = new \Phalcon\Session\Adapter\Redis(array(
-                'path' => $__CONFIG->Session->redisPath
+            global $mongo;
+
+            $session = new \Phalcon\Session\Adapter\Mongo(array(
+                'collection' => $mongo->Session
             ));
 
             $session->start();
