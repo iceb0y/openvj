@@ -17,9 +17,12 @@ class Email
      */
     public static function send($email, $subject, $body)
     {
-        \VJ\IO\Node::request('mail/send', null, array(
+
+        global $__CONFIG;
+
+        \VJ\IO\Node::request('/mail/send', null, array(
             'to'      => $email,
-            'subject' => $subject,
+            'subject' => $__CONFIG->Mail->subjectPrefix.$subject,
             'html'    => $body
         ));
 
@@ -41,10 +44,13 @@ class Email
     {
         if (self::$view == null)
         {
+
+            global $__CONFIG;
+
             self::$view = new \Phalcon\Mvc\View();
 
             self::$view->setDI(new \Phalcon\DI\FactoryDefault());
-            self::$view->setViewsDir('../app/views/mail/');
+            self::$view->setViewsDir('../app/views/'.$__CONFIG->Mail->template.'/');
             self::$view->registerEngines(array('.volt' => function ($view) {
 
                 $volt = new \Phalcon\Mvc\View\Engine\Volt($view);
@@ -54,8 +60,17 @@ class Email
 
             }));
 
-            \VJ\View::extendView(self::$view);
+            self::$view->setVars(array(
+
+                'TITLE_SUFFIX'  => $__CONFIG->Mail->titleSuffix,
+                'SITE_NAME'     => $__CONFIG->Mail->siteName,
+                'SITE_URI'      => $__CONFIG->Mail->siteURI,
+
+            ));
+
         }
+
+        self::$view->setVar('TARGET_MAIL', \VJ\Escaper::html($email));
 
         if ($vars) {
             self::$view->setVars($vars);
