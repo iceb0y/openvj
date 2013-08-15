@@ -1611,6 +1611,11 @@ a:focus {
 .vj-freezer-layer.show {
   display: block;
 }
+::selection {
+  background: #72d0eb;
+  color: #fff;
+  text-shadow: none;
+}
 body,
 html {
   height: 100%;
