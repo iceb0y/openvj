@@ -4,10 +4,15 @@ require __DIR__.'/../app/includes/init.php';
 
 //============================================
 
+global $__CONFIG;
+
 \VJ\Phalcon::initView();
 \VJ\Phalcon::initSession();
 
-\VJ\Security\SSL::force();
+if ($__CONFIG->Security->forceSSL) {
+    \VJ\Security\SSL::force();
+}
+
 \VJ\Security\CSRF::initToken();
 \VJ\Security\Session::initCharacter();
 
