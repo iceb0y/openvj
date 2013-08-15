@@ -42,10 +42,6 @@ echo '<p>Mongo:';
 echo_by_bool(extension_loaded('mongo'));
 echo '</p>';
 
-echo '<p>Redis:';
-echo_by_bool(extension_loaded('redis'));
-echo '</p>';
-
 echo '<p>mbstring:';
 echo_by_bool(extension_loaded('mbstring'));
 echo '</p>';
