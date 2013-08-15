@@ -2,6 +2,10 @@
 
 namespace VJ\Discussion;
 
+use \VJ\I;
+use \VJ\Utils;
+use \VJ\User\Security\Privilege;
+
 class Reply
 {
 
@@ -18,19 +22,19 @@ class Reply
         global $__CONFIG;
 
         if (strlen($topic_id) > 50) {
-            return \VJ\I::error('ARGUMENT_TOO_LONG', 'topic_id', 50);
+            return I::error('ARGUMENT_TOO_LONG', 'topic_id', 50);
         }
 
-        if (!\VJ\User\Security\Privilege::has(PRIV_DISCUSSION_REPLY_TOPIC)) {
-            return \VJ\I::error('NO_PRIV', 'PRIV_DISCUSSION_REPLY_TOPIC');
+        if (!Privilege::has(PRIV_DISCUSSION_REPLY_TOPIC)) {
+            return I::error('NO_PRIV', 'PRIV_DISCUSSION_REPLY_TOPIC');
         }
 
-        if (\VJ\Utils::len($content) < $__CONFIG->Discussion->contentMin) {
-            return \VJ\I::error('CONTENT_TOOSHORT', $__CONFIG->Discussion->contentMin);
+        if (Utils::len($content) < $__CONFIG->Discussion->contentMin) {
+            return I::error('CONTENT_TOOSHORT', $__CONFIG->Discussion->contentMin);
         }
 
-        if (\VJ\Utils::len($content) > $__CONFIG->Discussion->contentMax) {
-            return \VJ\I::error('CONTENT_TOOLONG', $__CONFIG->Discussion->contentMax);
+        if (Utils::len($content) > $__CONFIG->Discussion->contentMax) {
+            return I::error('CONTENT_TOOLONG', $__CONFIG->Discussion->contentMax);
         }
 
 
@@ -49,11 +53,11 @@ class Reply
     {
 
         if (strlen($topic_id) > 50) {
-            return \VJ\I::error('ARGUMENT_TOO_LONG', 'topic_id', 50);
+            return I::error('ARGUMENT_TOO_LONG', 'topic_id', 50);
         }
 
-        if (!\VJ\User\Security\Privilege::has(PRIV_DISCUSSION_REPLY_COMMENT)) {
-            return \VJ\I::error('NO_PRIV', 'PRIV_DISCUSSION_REPLY_COMMENT');
+        if (!Privilege::has(PRIV_DISCUSSION_REPLY_COMMENT)) {
+            return I::error('NO_PRIV', 'PRIV_DISCUSSION_REPLY_COMMENT');
         }
 
     }

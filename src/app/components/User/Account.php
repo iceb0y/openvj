@@ -2,6 +2,8 @@
 
 namespace VJ\User;
 
+use \VJ\I;
+
 class Account
 {
 
@@ -23,7 +25,7 @@ class Account
                 // Saved-session exists
 
                 if (
-                \VJ\I::isError(\VJ\User\Account\Login::fromCookie(
+                    I::isError(\VJ\User\Account\Login::fromCookie(
                     $_COOKIE['VJ_SESSION_TOKEN'],
                     $_COOKIE['VJ_SESSION_UID'],
                     $_COOKIE['VJ_SESSION_KEY']))

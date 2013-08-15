@@ -2,6 +2,9 @@
 
 namespace VJ\User\Account;
 
+use \VJ\I;
+use \VJ\Utils;
+
 class Login
 {
 
@@ -26,7 +29,7 @@ class Login
 
         $token = \VJ\Validator::mongoId($token);
         if ($token == null) {
-            return \VJ\I::error('ARGUMENT_INVALID', 'token');
+            return I::error('ARGUMENT_INVALID', 'token');
         }
 
         $uid = (int)$uid;
@@ -36,12 +39,12 @@ class Login
         $res = $mongo->SavedSession->findOne(array('_id' => $token));
 
         if ($res == null) {
-            return \VJ\I::error('FAILED');
+            return I::error('FAILED');
         }
 
         // Valid?
         if ($res['_id'] !== $uid || $res['key'] !== $key) {
-            return \VJ\I::error('FAILED');
+            return I::error('FAILED');
         }
 
         // Session expired?
@@ -49,14 +52,14 @@ class Login
 
             $mongo->SavedSession->remove(array('_id' => $token), array('justOne' => true));
 
-            return \VJ\I::error('FAILED');
+            return I::error('FAILED');
 
         }
 
         $res = $mongo->User->findOne(array('_id' => $uid));
         // User is deleted
         if ($res == null) {
-            return \VJ\I::error('FAILED');
+            return I::error('FAILED');
         }
 
         // Login succeeded
@@ -88,11 +91,11 @@ class Login
         }
 
         if (strlen($user) === 0) {
-            return \VJ\I::error('ARGUMENT_REQUIRED', 'username');
+            return I::error('ARGUMENT_REQUIRED', 'username');
         }
 
         if (strlen($pass) === 0) {
-            return \VJ\I::error('ARGUMENT_REQUIRED', 'password');
+            return I::error('ARGUMENT_REQUIRED', 'password');
         }
 
         global $mongo;
@@ -100,7 +103,7 @@ class Login
 
         // No such user
         if ($res == null) {
-            return \VJ\I::error('USER_NOTFOUND');
+            return I::error('USER_NOTFOUND');
         }
 
         if ($res['pass'] !== \VJ\User\Account::makeHash($user, $pass, $res['salt'], true)) {
@@ -112,7 +115,7 @@ class Login
         self::_log($res['_id'], $from, $login_OK);
 
         if (!$login_OK) {
-            return \VJ\I::error('PASSWORD_WRONG');
+            return I::error('PASSWORD_WRONG');
         }
 
         unset($res['salt'], $res['pass']);
@@ -138,7 +141,7 @@ class Login
         $ok   = (bool)$ok;
 
         if (isset($_SERVER['HTTP_USER_AGENT'])) {
-            $ua = \VJ\Escaper::html(\VJ\Utils::strcut($_SERVER['HTTP_USER_AGENT']));
+            $ua = \VJ\Escaper::html(Utils::strcut($_SERVER['HTTP_USER_AGENT']));
         } else {
             $ua = '';
         }
@@ -172,7 +175,7 @@ class Login
 
         // 检查该账号是否可登录
         if (!isset($priv[PRIV_LOG_IN]) || $priv[PRIV_LOG_IN] !== false) {
-            return \VJ\I::error('NO_PRIV', 'PRIV_LOG_IN');
+            return I::error('NO_PRIV', 'PRIV_LOG_IN');
         }
 
         // 修改最后登录时间

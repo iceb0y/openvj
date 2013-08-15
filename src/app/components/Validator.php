@@ -2,6 +2,8 @@
 
 namespace VJ;
 
+use \VJ\I;
+
 class Validator
 {
 
@@ -18,7 +20,7 @@ class Validator
 
         foreach ($params as $param) {
             if (!isset($checkArray[$param])) {
-                return \VJ\I::error('ARGUMENT_MISSING', $param);
+                return I::error('ARGUMENT_MISSING', $param);
             }
         }
 
