@@ -27,7 +27,7 @@ class Session
         session_destroy();
 
         if (isset($_COOKIE[session_name()]))
-            setcookie(session_name(), '', time() - 42000, '/', '.'.$__CONFIG->Misc->host, false, true);
+            setcookie(session_name(), '', time() - 42000, '/', '.'.ENV_HOST, false, true);
 
         self::destroy($sessid);
 
