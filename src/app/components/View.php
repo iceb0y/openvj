@@ -86,6 +86,7 @@ class View
     public static function view_processTime()
     {
         $elapsed = microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'];
+
         return sprintf('%f', $elapsed * 1000);
     }
 

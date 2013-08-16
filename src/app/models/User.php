@@ -17,7 +17,7 @@ class User extends \Phalcon\Mvc\Collection
 
     public $pass;
 
-    public $new_pass;       // should be true
+    public $new_pass; // should be true
 
     public $mail;
 
@@ -29,7 +29,7 @@ class User extends \Phalcon\Mvc\Collection
 
     public $rank;
 
-    public $g;              //gravatar email
+    public $g; //gravatar email
 
     public $gmd5;
 
@@ -43,13 +43,13 @@ class User extends \Phalcon\Mvc\Collection
 
     public $ipreg;
 
-    public $sig;            //signature
+    public $sig; //signature
 
     public $sigm;
 
     public $group;
 
-    public $priv;           //privilege
+    public $priv; //privilege
 
     public $privacy;
 

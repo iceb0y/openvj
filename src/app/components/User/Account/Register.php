@@ -202,7 +202,7 @@ class Register
                 return I::error('REG_VERFICATION_FAILED');
             }
 
-            $mail = $__SESSION->get('reg-email');
+            $mail           = $__SESSION->get('reg-email');
             $validateResult = self::verificateEmail(sha1($mail), $__SESSION->get('reg-code'));
 
             if ($validateResult !== true) {
@@ -238,33 +238,33 @@ class Register
             $uid = \VJ\Database::increaseId(\VJ\Database::COUNTER_USER_ID);
         }
 
-        $user = new Models\User();
-        $user->_id = $uid;
-        $user->luser = $data['username'];
-        $user->nick = $data['nickname'];
-        $user->lnick = strtolower($data['nickname']);
-        $user->salt = $salt;
-        $user->pass = $pass;
-        $user->new_pass = true;     //new format password?
-        $user->mail = $mail;
-        $user->qq = '';
-        $user->rp = 0.0;
-        $user->vjb = 0.0;
-        $user->rank = 0;
-        $user->g = $mail;           //gravatar
-        $user->gmd5 = md5($mail);
-        $user->gender = $data['gender'];
-        $user->tlogin = time();
-        $user->iplogin = '';
-        $user->treg = time();
-        $user->ipreg = $_SERVER['REMOTE_ADDR'];
-        $user->sig = '';
-        $user->sigm = '';
-        $user->group = GROUP_USER;
-        $user->priv = array('_' => null);
-        $user->privacy = array('_' => null);
-        $user->stars = array('_' => null);
-        $user->pbms = array(
+        $user           = new Models\User();
+        $user->_id      = $uid;
+        $user->luser    = $data['username'];
+        $user->nick     = $data['nickname'];
+        $user->lnick    = strtolower($data['nickname']);
+        $user->salt     = $salt;
+        $user->pass     = $pass;
+        $user->new_pass = true; //new format password?
+        $user->mail     = $mail;
+        $user->qq       = '';
+        $user->rp       = 0.0;
+        $user->vjb      = 0.0;
+        $user->rank     = 0;
+        $user->g        = $mail; //gravatar
+        $user->gmd5     = md5($mail);
+        $user->gender   = $data['gender'];
+        $user->tlogin   = time();
+        $user->iplogin  = '';
+        $user->treg     = time();
+        $user->ipreg    = $_SERVER['REMOTE_ADDR'];
+        $user->sig      = '';
+        $user->sigm     = '';
+        $user->group    = GROUP_USER;
+        $user->priv     = array('_' => null);
+        $user->privacy  = array('_' => null);
+        $user->stars    = array('_' => null);
+        $user->pbms     = array(
             'pass'    => 0,
             'passlst' => array(),
             'ans'     => 0,
@@ -274,7 +274,7 @@ class Register
         $user->settings = array(
             'first_reg' => true
         );
-        $result = $user->save();
+        $result         = $user->save();
 
         //Clear session
 
