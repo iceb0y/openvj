@@ -2,82 +2,119 @@
 
 namespace VJ\User\Account;
 
+use \VJ\I;
+use \VJ\Utils;
+use \VJ\Models;
+
 class Register
 {
 
+    /**
+     * 发送验证邮件
+     *
+     * @param $email
+     *
+     * @return array|bool
+     */
     public static function sendVerificationEmail($email)
     {
 
         $email = strtolower((string)$email);
 
-        if (\VJ\Utils::len($email) > 40) {
-            return \VJ\I::error('ARGUMENT_INVALID', 'email');
+        if (Utils::len($email) > 40) {
+            return I::error('ARGUMENT_INVALID', 'email');
         }
 
         if (!\VJ\Validator::email($email)) {
-            return \VJ\I::error('ARGUMENT_INVALID', 'email');
+            return I::error('ARGUMENT_INVALID', 'email');
         }
 
-        global $mongo;
-        if ($mongo->User->findOne(array('mail' => $email), array('_id' => 1)) !== null)
-            return \VJ\I::error('USED', 'email', $email);
+        // Mail already in use
+        if (Models\User::findFirst(array(
+            'conditions' => array('mail' => $email),
+            'fields'     => array('_id' => 1)
+        ))
+        ) {
+            return I::error('USED', 'email', $email);
+        }
 
+        // Generate new validation request
         $validateCode = \VJ\Security\Randomizer::toHex(10);
 
-        $mongo->RegValidation->update(
+        $record = Models\RegValidation::findFirst(array(
+            'conditions' => array('email' => $email)
+        ));
 
-            array('email' => $email),
-            array('$set' => array(
+        if (!$record) {
+            $record        = new Models\RegValidation();
+            $record->email = $email;
+        }
 
-                'code' => $validateCode,
-                'time' => new \MongoDate()
+        $record->code = $validateCode;
+        $record->time = new \MongoDate();
 
-            )),
-            array('upsert' => true)
+        $record->save();
 
+        // Send validation email
+        global $__CONFIG;
+
+        if ($__CONFIG->Security->enforceSSL) {
+            $prefix = 'https://';
+        } else {
+            $prefix = 'http://';
+        }
+
+        $URI = $prefix.$__CONFIG->Misc->host.$__CONFIG->Misc->basePrefix.'/user/register?';
+        $URI .= \VJ\Escaper::uriQuery(array(
+            'code'  => $validateCode,
+            'email' => sha1($email)
+        ));
+
+        return \VJ\Email::sendByTemplate(
+            $email,
+            gettext('Just one more step!'),
+            'user',
+            'reg_validation',
+            array(
+                'TITLE'   => gettext('Email validation'),
+                'REG_URI' => $URI
+            )
         );
-
-        // TODO: Re-implement needed
-
-        /*
-        $url = ENV_HOST_URL.'/user/register?code='.urlencode($validateCode).'&email='.urlencode($email);
-        $body = 'Verification_URL: '.$url;
-        $ret = \VJ\Email::send($email, '['.APP_NAME.'] Register Verification ', $body);
-
-        if ($ret === true)
-            return true;
-        else
-            return \VJ\I::error('EMAIL_SEND_FAILED', $ret);
-        */
     }
 
     /**
-     * 检查email & code并设置状态
+     * 检查邮件验证
      *
      * @param $email
      * @param $code
      *
-     * @return bool|ErrorObject
+     * @return array|bool
      */
-    public static function verificateEmail($email, $code)
+    public static function verificateEmail($mailHash, $code)
     {
-        $email = strtolower((string)$email);
-        $code  = strval($code);
 
-        global $mongo, $__SESSION, $__CONFIG;
+        global $__CONFIG, $__SESSION;
 
-        $verify = $mongo->RegValidation->findOne(array('email' => $email, 'code' => $code));
+        $code = (string)$code;
 
-        if ($verify == null) {
-            return \VJ\I::error('REG_VERFICATION_FAILED');
+        $record = Models\RegValidation::findFirst(array(
+            'conditions' => array('code' => $code)
+        ));
+
+        if (!$record) {
+            return I::error('REG_VERFICATION_FAILED');
         }
 
-        if (time() - $verify->time->sec > (int)$__CONFIG->Register->validationExpire) {
-            return \VJ\I::error('REG_VERFICATION_EXPIRED');
+        if (sha1(strtolower($record->email)) !== (string)$mailHash) {
+            return I::error('REG_VERFICATION_FAILED');
         }
 
-        $__SESSION->set('reg-email', $email);
-        $__SESSION->set('reg-code', $code);
+        if (time() - $record->time->sec > (int)$__CONFIG->Register->validationExpire) {
+            return I::error('REG_VERFICATION_EXPIRED');
+        }
+
+        $__SESSION->set('reg-email', $record->email);
+        $__SESSION->set('reg-code', $record->code);
 
         return true;
     }
@@ -87,154 +124,168 @@ class Register
      *
      * @param      $username
      * @param      $password
-     * @param      $sex
+     * @param      $nickname
+     * @param      $gender
      * @param      $agreement
      * @param null $options
      *
-     * @return bool|ErrorObject
+     * @return array|bool
      */
-    public static function register($username, $password, $sex, $agreement, $options = null)
+    public static function register($username, $password, $nickname, $gender, $agreement, $options = null)
     {
-        return \VJ\I::error('NOT_IMPLEMENTED');
+        /*
+            Options:
 
+                no_session_checking:    bool    是否检查Email验证
+                uid:                    int     指定UID
 
-        global $mongo, $__SESSION;
+        */
 
-        if (strtolower($agreement) !== 'accept')
-            return \VJ\I::error('REG_ACCEPT_AGREEMENT_NEEDED');
+        if (strtolower($agreement) !== 'accept') {
+            return I::error('REG_ACCEPT_NEEDED');
+        }
 
-        $username = trim(strval($username));
-        $password = strval($password);
-        $sex      = intval($sex);
+        if ($options == null) {
+            $options = [];
+        }
 
-        $oUser = $username;
-        $oPass = $password;
+        $data = [
+            'username' => $username,
+            'password' => $password,
+            'nickname' => $nickname,
+            'gener'    => $gender
+        ];
 
-        if ($options == null)
-            $options = array();
+        $data = \VJ\Validator::filter($data, [
+            'username' => ['trim', 'lower'],
+            'password' => 'string',
+            'nickname' => 'trim',
+            'gender'   => 'int'
+        ]);
 
-        //校验有效性
-        if ($sex !== 0 && $sex !== 1 && $sex !== 2)
-            return \VJ\I::error('REG_SEX_INVALID');
+        $validateResult = \VJ\Validator::validate($data, [
+            'username' => [
+                'length' => [3, 30],
+                'regex'  => '/^[^ ^\t]*$/'
+            ],
+            'nickname' => [
+                'length' => [1, 15],
+                'regex'  => '/^[^ ^\t]*$/'
+            ],
+            'password' => [
+                'regex' => '/^.{5,30}$/'
+            ],
+            'gender'   => [
+                'in' => [0, 1, 2]
+            ]
+        ]);
 
-        if (mb_strlen($username, 'UTF-8') < 3 || mb_strlen($username, 'UTF-8') > 16)
-            return \VJ\I::error('REG_USER_INVALID');
+        if ($validateResult !== true) {
+            return $validateResult;
+        }
 
-        if (!preg_match('/^[^ ^\t]*$/', $username))
-            return \VJ\I::error('REG_USER_INVALID');
+        // Exists?
+        if (\VJ\User\Account::usernameExists($data['username'])) {
+            return I::error('USED', 'username', $data['username']);
+        }
 
-        if (!preg_match('/^.{5,30}$/', $password) && !isset($options['use_new_pass']) && !isset($options['use_md5']))
-            return \VJ\I::error('REG_PASS_INVALID');
+        if (\VJ\User\Account::nicknameExists($data['nickname'])) {
+            return I::error('USED', 'nickname', $data['nickname']);
+        }
 
-        $cUser = $mongo->User;
-        if ($cUser->findOne(array('luser' => strtolower($username)), array('_id' => 1)) !== null)
-            return \VJ\I::error('REG_USER_EXIST');
+        // Check session
+        if (!isset($options['no_session_checking'])) {
 
-        $username = \VJ\Escaper::html($username);
+            global $__SESSION;
 
-        if (isset($options['email']))
-            $email = $options['email'];
-        else
-            $email = $__SESSION->get('reg_email');
-
-        $email = strtolower(trim(strval($email)));
-
-        if (!isset($options['no_code'])) {
-            $code = strval($__SESSION->get('reg-code'));
-
-            $ret = self::verificateEmail($email, $code); //再次检查
-            if ($ret !== true) {
-                return $ret;
+            if (!$__SESSION->has('reg-email') || !$__SESSION->has['reg-code']) {
+                return I::error('REG_VERFICATION_FAILED');
             }
-        }
 
-        //生成salt
-        if (isset($options['use_new_pass'])) {
-            $salt     = strval($options['salt']);
-            $password = strval($options['password']);
-        } else if (isset($options['use_md5'])) {
-            $salt     = sha1(uniqid().mt_rand(1, 100000));
-            $password = \VJ\User\Account::makeHash($username, $options['password'], $salt, true);
+            $mail = $__SESSION->get('reg-email');
+            $validateResult = self::verificateEmail(sha1($mail), $__SESSION->get('reg-code'));
+
+            if ($validateResult !== true) {
+                return $validateResult;
+            }
+
+            // Remove validation records
+            $validate_record = Models\RegValidation::findFirst(array(
+                'conditions' => array('email' => $mail)
+            ));
+
+            if ($validate_record) {
+                $validate_record->delete();
+            } else {
+                return I::error('REG_VERFICATION_FAILED');
+            }
+
+            unset($validate_record);
+
         } else {
-            $salt     = sha1(uniqid().mt_rand(1, 100000));
-            $password = \VJ\User\Accountt::makeHash($username, $password, $salt);
+
+            $mail = '';
+
         }
 
-        // **TODO: UID COUNTER
-        if (isset($options['uid']))
-            $newId = intval($options['uid']);
-        else
-            $newId = 0;
+        // Begin
+        $salt = \VJ\Security\Randomizer::toHex(30);
+        $pass = \VJ\User\Account::makeHash($data['password'], $salt);
 
-        if (isset($options['nickname']))
-            $newNick = \VJ\Escaper::html($options['nickname']);
-        else
-            $newNick = '';
+        if (isset($options['uid'])) {
+            $uid = (int)$options['uid'];
+        } else {
+            $uid = \VJ\Database::increaseId(\VJ\Database::COUNTER_USER_ID);
+        }
 
-        if (isset($options['rp']))
-            $newRp = floatval($options['rp']);
-        else
-            $newRp = 0.0;
-
-        if (isset($options['vjb']))
-            $newVjb = floatval($options['vjb']);
-        else
-            $newVjb = 0.0;
-
-
-        if (isset($options['sig']))
-            $newSig = strval($options['sig']);
-        else
-            $newSig = '';
-
-        if (isset($options['group']))
-            $newGroup = intval($options['group']);
-        else
-            $newGroup = GROUP_USER;
-
-        //删除注册码
-        $mongo->RegValidation->remove(array('email' => $email));
-
-        $regData = array
-        (
-            '_id'      => $newId,
-            'user'     => $username,
-            'luser'    => strtolower($username),
-            'pass'     => $password,
-            'nick'     => $newNick,
-            'salt'     => $salt,
-            'mail'     => $email,
-            'qq'       => '',
-            'g'        => $email, //gravatar
-            'gmd5'     => md5($email),
-            'sex'      => $sex,
-            'tlogin'   => 0,
-            'treg'     => time(),
-            'ipreg'    => $_SERVER['REMOTE_ADDR'],
-            'priv'     => array('_' => null),
-            'group'    => $newGroup,
-            'team'     => array(),
-            'pbms'     => array
-            (
-                'pass'    => 0,
-                'passlst' => array(),
-                'ans'     => 0,
-                'anslst'  => array(),
-                'submit'  => 0
-            ),
-            'settings' => array()
+        $user = new Models\User();
+        $user->_id = $uid;
+        $user->luser = $data['username'];
+        $user->nick = $data['nickname'];
+        $user->lnick = strtolower($data['nickname']);
+        $user->salt = $salt;
+        $user->pass = $pass;
+        $user->new_pass = true;     //new format password?
+        $user->mail = $mail;
+        $user->qq = '';
+        $user->rp = 0.0;
+        $user->vjb = 0.0;
+        $user->rank = 0;
+        $user->g = $mail;           //gravatar
+        $user->gmd5 = md5($mail);
+        $user->gender = $data['gender'];
+        $user->tlogin = time();
+        $user->iplogin = '';
+        $user->treg = time();
+        $user->ipreg = $_SERVER['REMOTE_ADDR'];
+        $user->sig = '';
+        $user->sigm = '';
+        $user->group = GROUP_USER;
+        $user->priv = array('_' => null);
+        $user->privacy = array('_' => null);
+        $user->stars = array('_' => null);
+        $user->pbms = array(
+            'pass'    => 0,
+            'passlst' => array(),
+            'ans'     => 0,
+            'anslst'  => array(),
+            'submit'  => 0
         );
+        $user->settings = array(
+            'first_reg' => true
+        );
+        $result = $user->save();
 
-        $cUser->insert($regData);
+        //Clear session
 
-        $__SESSION->remove('reg-email');
-        $__SESSION->remove('reg-code');
+        if (!isset($options['no_session_checking'])) {
 
+            $__SESSION->remove('reg-email');
+            $__SESSION->remove('reg-code');
 
-        if (!isset($options['no_login']))
-            \VJ\User\Account\Login::fromPassword($oUser, $oPass);
+        }
 
-        return true;
+        return $result;
     }
 
 }
