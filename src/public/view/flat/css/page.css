@@ -36,6 +36,21 @@
   padding: 30px;
   color: #fff;
 }
-.reg-form-content h1 {
+.reg-form-content h1,
+.reg-form-content h2,
+.reg-form-content h3 {
   color: #fff;
+}
+.reg-cont .textbox {
+  background: rgba(255,255,255,0.5);
+}
+.reg-cont .textbox:hover {
+  background: rgba(255,255,255,0.8);
+}
+.reg-cont .textbox:focus {
+  background: #fff;
+}
+.reg-step1 {
+  margin-top: 100px;
+  padding: 30px 0;
 }
