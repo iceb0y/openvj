@@ -115,7 +115,7 @@ class Phalcon
             $view->registerEngines(array('.volt' => function ($view, $di) {
 
                 $volt = new \Phalcon\Mvc\View\Engine\Volt($view, $di);
-                \VJ\View::extendVolt($volt, $view);
+                \VJ\View::extendVolt($volt);
 
                 return $volt;
 

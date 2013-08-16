@@ -23,7 +23,7 @@ class View
 
     }
 
-    public static function extendVolt($volt, $view)
+    public static function extendVolt($volt)
     {
 
         global $__CONFIG;
@@ -69,11 +69,16 @@ class View
         }
 
         $output = '//'.$__CONFIG->Misc->staticPrefix.'/'.$file;
-        $mtime  = filemtime(ROOT_DIR.'public/'.$file);
 
-        if ($mtime) {
-            $output .= '?v='.$mtime;
+        $fp = ROOT_DIR.'public/'.$file;
+
+        if (file_exists($fp)) {
+            $mtime = filemtime(ROOT_DIR.'public/'.$file);
+        } else {
+            $mtime = '0';
         }
+
+        $output .= '?v='.$mtime;
 
         return $output;
     }
