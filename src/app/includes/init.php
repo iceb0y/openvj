@@ -1,11 +1,6 @@
 <?php
 
 
-// Start runtimer
-global $__START_TIME;
-$__START_TIME = -microtime(true);
-
-
 // Start buffer
 ob_start();
 
