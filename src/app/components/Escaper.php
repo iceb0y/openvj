@@ -63,6 +63,20 @@ class Escaper
     }
 
     /**
+     * Build HTTP query
+     *
+     * @param $query
+     *
+     * @return string
+     */
+    public static function uriQuery($query)
+    {
+
+        return http_build_query($query, '', '&');
+
+    }
+
+    /**
      * Init escaper object
      */
     private static function _initEscaper()
