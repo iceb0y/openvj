@@ -65,6 +65,38 @@ class Phalcon
 
     }
 
+    public static function initDatabase()
+    {
+
+        global $__CONFIG, $mongo;
+
+        $mc = new \MongoClient($__CONFIG->Mongo->path, array(
+
+            'db'               => $__CONFIG->Mongo->database,
+            'username'         => $__CONFIG->Mongo->username,
+            'password'         => $__CONFIG->Mongo->password,
+            'connectTimeoutMS' => $__CONFIG->Mongo->timeout
+
+        ));
+
+        $mongo = $mc->selectDB($__CONFIG->Mongo->database);
+
+        $di = \Phalcon\DI::getDefault();
+
+        $di->set('mongo', function () use ($mongo) {
+
+            return $mongo;
+
+        }, true);
+
+        $di->set('collectionManager', function () {
+
+            return new \Phalcon\Mvc\Collection\Manager();
+
+        }, true);
+
+    }
+
     /**
      * 初始化模板引擎
      */
@@ -104,7 +136,7 @@ class Phalcon
 
         global $__CONFIG, $__SESSION;
 
-        $domain = '.'.$__CONFIG->Misc->host;
+        $domain = '.'.ENV_HOST;
         $param  = session_get_cookie_params();
 
         session_set_cookie_params(

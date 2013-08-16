@@ -6,6 +6,7 @@ require __DIR__.'/../app/includes/init.php';
 
 global $__CONFIG;
 
+\VJ\Phalcon::initDatabase();
 \VJ\Phalcon::initView();
 \VJ\Phalcon::initSession();
 

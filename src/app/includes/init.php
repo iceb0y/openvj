@@ -29,10 +29,13 @@ require APP_DIR.'includes/privilege.php';
 require APP_DIR.'vendor/autoload.php';
 
 (new \Phalcon\Loader)
-    ->registerDirs(array(APP_DIR.'controllers/'))
+    ->registerDirs(array(
+        APP_DIR.'controllers/'
+    ))
     ->registerNamespaces(array(
-        'VJ'      => APP_DIR.'components/',
-        'Phalcon' => APP_DIR.'vendor/phalcon/incubator/Library/Phalcon/'
+        'VJ'        => APP_DIR.'components/',
+        'VJ\Models' => APP_DIR.'models/',
+        'Phalcon'   => APP_DIR.'vendor/phalcon/incubator/Library/Phalcon/'
     ))
     ->register();
 unset($loader);
@@ -83,10 +86,6 @@ mb_internal_encoding('UTF-8');
 setlocale(LC_ALL, 'zh_CN');
 bindtextdomain('vijos', APP_DIR.'i18n');
 textdomain('vijos');
-
-
-// Connect to database
-\VJ\Database\Mongo::connect();
 
 
 // Template
