@@ -4,6 +4,7 @@ namespace VJ\User\Account;
 
 use \VJ\I;
 use \VJ\Utils;
+use \VJ\Models;
 
 class Login
 {
@@ -83,12 +84,8 @@ class Login
     public static function fromPassword($user, $pass, $from = self::LOGIN_FROM_AUTH, $md5 = false)
     {
 
-        $user = strtolower(\VJ\Escaper::html($user));
+        $user = strtolower($user);
         $pass = (string)$pass;
-
-        if ($md5 == false) {
-            $pass = md5($pass);
-        }
 
         if (strlen($user) === 0) {
             return I::error('ARGUMENT_REQUIRED', 'username');
@@ -98,26 +95,42 @@ class Login
             return I::error('ARGUMENT_REQUIRED', 'password');
         }
 
-        global $mongo;
-        $res = $mongo->User->findOne(array('luser' => $user));
+        $u = Models\User::findFirst(array(
+            'conditions' => array('luser' => $user)
+        ));
 
-        // No such user
-        if ($res == null) {
+        if (!$u) {
             return I::error('USER_NOTFOUND');
         }
 
-        if ($res['pass'] !== \VJ\User\Account::makeHash($user, $pass, $res['salt'], true)) {
+        if (isset($u->new_pass)) {
+            // This account uses a newer password hashing method
+            $hash = \VJ\User\Account::makeHash($pass, $u->salt, $md5);
+        } else {
+            // An older hashing method
+            $hash = \VJ\User\Account::makeHash_deprecated($user, $pass, $u->salt, $md5);
+        }
+
+        if ($u->pass !== $hash) {
             $login_OK = false;
         } else {
             $login_OK = true;
         }
 
-        self::_log($res['_id'], $from, $login_OK);
+        self::_log($u->_id, $from, $login_OK);
 
         if (!$login_OK) {
             return I::error('PASSWORD_WRONG');
         }
 
+        // Upgrade old passwords
+        if (!isset($u->new_pass) && $md5 == false) {
+            $u->salt = \VJ\Security\Randomizer::toHex(30);
+            $u->pass = \VJ\User\Account::makeHash($pass, $u->salt);
+            $u->save();
+        }
+
+        $res = (array)$u;
         unset($res['salt'], $res['pass']);
 
         return $res;
