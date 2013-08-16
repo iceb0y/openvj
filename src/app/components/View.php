@@ -80,10 +80,8 @@ class View
 
     public static function view_processTime()
     {
-        global $__START_TIME;
-        $__START_TIME += microtime(true);
-
-        return sprintf('%f', $__START_TIME * 1000);
+        $elapsed = microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'];
+        return sprintf('%f', $elapsed * 1000);
     }
 
 }

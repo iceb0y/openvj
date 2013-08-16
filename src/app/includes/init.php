@@ -1,11 +1,6 @@
 <?php
 
 
-// Start runtimer
-global $__START_TIME;
-$__START_TIME = -microtime(true);
-
-
 // Start buffer
 ob_start();
 
@@ -14,9 +9,9 @@ ob_start();
 global $__CONFIG;
 
 require __dir__.'/../configs/project.php';
-$__CONFIG = new \Phalcon\Config((array)new Phalcon\Config\Adapter\Ini(APP_DIR.'configs/app.ini'));
-$__CONFIG->merge(new \Phalcon\Config((array)new Phalcon\Config\Adapter\Ini(APP_DIR.'configs/database.ini')));
-$__CONFIG->merge(new \Phalcon\Config((array)new Phalcon\Config\Adapter\Ini(APP_DIR.'configs/security.ini')));
+$__CONFIG = new Phalcon\Config\Adapter\Ini(APP_DIR.'configs/app.ini');
+$__CONFIG->merge(new Phalcon\Config\Adapter\Ini(APP_DIR.'configs/database.ini'));
+$__CONFIG->merge(new Phalcon\Config\Adapter\Ini(APP_DIR.'configs/security.ini'));
 
 
 // Constants
@@ -38,7 +33,6 @@ require APP_DIR.'vendor/autoload.php';
         'Phalcon'   => APP_DIR.'vendor/phalcon/incubator/Library/Phalcon/'
     ))
     ->register();
-unset($loader);
 
 
 // Headers
