@@ -30,7 +30,6 @@ require APP_DIR.'vendor/autoload.php';
         'Phalcon' => APP_DIR.'vendor/phalcon/incubator/Library/Phalcon/'
     ))
     ->register();
-unset($loader);
 
 
 // Headers
