@@ -10,8 +10,8 @@
 <script type="text/javascript" charset="UTF-8">if(top.location!==self.location){top.location=self.location}else{if(top!==self){if(confirm("Reload?")){top.location.reload()}}};</script>
 <link href="{{ view_static('css/base.css') }}" rel="stylesheet" type="text/css" charset="UTF-8" />
 <link href="{{ view_static('css/page.css') }}" rel="stylesheet" type="text/css" charset="UTF-8" />
-{% if EXT_CSS is defined %}{% for PATH in EXT_CSS %}
-<link href="{{ view_static(PATH) }}" rel="stylesheet" type="text/css" charset="UTF-8" />
+{% if EXT_CSS is defined %}{% for PATH, IS_BASE in EXT_CSS %}
+<link href="{{ view_static(PATH, IS_BASE) }}" rel="stylesheet" type="text/css" charset="UTF-8" />
 {% endfor %}{% endif %}
 </head>
 <body id="page_{{ PAGE_CLASS }}">
@@ -27,8 +27,8 @@
 <script type="text/javascript" src="{{ view_static('lib/vijos-ext/vijos-ext.js', true) }}" charset="UTF-8"></script>
 <script type="text/javascript" src="{{ view_static('lib/vijos-ext/vijos.js', true) }}" charset="UTF-8"></script>
 <script type="text/javascript" src="{{ view_static('i18n/zh_CN.js', true) }}" charset="UTF-8"></script>
-{% if EXT_JS is defined %}{% for PATH in EXT_JS %}
-<script type="text/javascript" src="{{ view_static(PATH) }}" charset="UTF-8"></script>
+{% if EXT_JS is defined %}{% for PATH, IS_BASE in EXT_JS %}
+<script type="text/javascript" src="{{ view_static(PATH, IS_BASE) }}" charset="UTF-8"></script>
 {% endfor %}{% endif %}
 </body>
 </html>

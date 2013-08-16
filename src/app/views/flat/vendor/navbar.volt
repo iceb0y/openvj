@@ -1,6 +1,6 @@
 <div class="cont-navbar"><div class="cont-wrap"><div class="grid_12">
     <div class="cont-navbar-title float-left">
-        <div class="cont-navbar-logo"><a class="cont-navbar-logo-a" href="{{ BASE_PREFIX }}/" title="Vijos"></a></div><!--<h2 class="cont-title">{{ HEADLINE }}</h2>-->
+        <div class="cont-navbar-logo"><a class="cont-navbar-logo-a" href="{{ BASE_PREFIX }}/" title="Vijos"></a></div>
     </div>
     <div class="cont-navbar-links float-right">
         <div class="cont-nav-li"><a class="cont-nav-a cont-nav-home" href="{{ BASE_PREFIX }}/"><span class="cont-nav-icon icon-symbol icon-home"></span><span class="cont-nav-text">Home</span></a></div>
