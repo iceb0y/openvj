@@ -42,8 +42,7 @@ class Email
      */
     public static function sendByTemplate($email, $subject, $controller_name, $action_name, $vars = null)
     {
-        if (self::$view == null)
-        {
+        if (self::$view == null) {
 
             global $__CONFIG;
 
@@ -62,9 +61,9 @@ class Email
 
             self::$view->setVars(array(
 
-                'TITLE_SUFFIX'  => $__CONFIG->Mail->titleSuffix,
-                'SITE_NAME'     => $__CONFIG->Mail->siteName,
-                'SITE_URI'      => $__CONFIG->Mail->siteURI,
+                'TITLE_SUFFIX' => $__CONFIG->Mail->titleSuffix,
+                'SITE_NAME'    => $__CONFIG->Mail->siteName,
+                'SITE_URI'     => $__CONFIG->Mail->siteURI,
 
             ));
 
