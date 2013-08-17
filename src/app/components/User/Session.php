@@ -12,14 +12,12 @@ class Session
 
         $di = \Phalcon\DI::getDefault();
         $mongo = $di->getShared('mongo');
-        return $mongo->Session->remove([SESSION_FIELD => $sessid], ['justOne' => 1]);
+        return $mongo->ActiveSession->remove([self::SESSION_FIELD => $sessid], ['justOne' => 1]);
 
     }
 
     public static function destroyCurrent()
     {
-
-        global $__CONFIG;
 
         $sessid = session_id();
 

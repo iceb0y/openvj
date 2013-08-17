@@ -5,6 +5,11 @@ namespace VJ\Models;
 class RegValidation extends \Phalcon\Mvc\Collection
 {
 
+    public function getSource()
+    {
+        return 'RegValidation';
+    }
+
     public $_id;
 
     public $email;
@@ -12,10 +17,5 @@ class RegValidation extends \Phalcon\Mvc\Collection
     public $code;
 
     public $time;
-
-    public function getSource()
-    {
-        return 'RegValidation';
-    }
 
 }

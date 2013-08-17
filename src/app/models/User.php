@@ -5,6 +5,11 @@ namespace VJ\Models;
 class User extends \Phalcon\Mvc\Collection
 {
 
+    public function getSource()
+    {
+        return 'User';
+    }
+
     public $_id;
 
     public $luser;
@@ -58,10 +63,5 @@ class User extends \Phalcon\Mvc\Collection
     public $pbms;
 
     public $settings;
-
-    public function getSource()
-    {
-        return 'User';
-    }
 
 }

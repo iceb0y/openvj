@@ -36,40 +36,36 @@ class Login
         $uid = (int)$uid;
         $key = (string)$key;
 
-        $di = \Phalcon\DI::getDefault();
-        $mongo = $di->getShared('mongo');
-        $res = $mongo->SavedSession->findOne(['_id' => $token]);
+        $sess = Models\SavedSession::findById($token);
 
-        if ($res == null) {
+        if (!$sess) {
             return I::error('FAILED');
         }
 
         // Valid?
-        if ($res['_id'] !== $uid || $res['key'] !== $key) {
+        if ($sess->uid !== $uid || $sess->key !== $key) {
             return I::error('FAILED');
         }
 
         // Session expired?
-        if (time() > $res['exptime']->sec) {
-
-            $mongo->SavedSession->remove(['_id' => $token], ['justOne' => true]);
-
+        if (time() > $sess->exptime->sec) {
+            $sess->delete();
             return I::error('FAILED');
-
         }
 
-        $res = $mongo->User->findOne(['_id' => $uid]);
+        $u = Models\User::findFirst([
+            'conditions' => ['_id' => $uid]
+        ]);
+
         // User is deleted
-        if ($res == null) {
+        if ($u == false) {
             return I::error('FAILED');
         }
 
         // Login succeeded
         self::_log($uid, self::LOGIN_FROM_COOKIE, true);
 
-        unset($res['salt'], $res['pass']);
-
-        return $res;
+        return $u;
 
     }
 
@@ -128,13 +124,11 @@ class Login
         if (!isset($u->new_pass) && $md5 == false) {
             $u->salt = \VJ\Security\Randomizer::toHex(30);
             $u->pass = \VJ\User\Account::makeHash($pass, $u->salt);
+            $u->new_pass = true;
             $u->save();
         }
 
-        $res = (array)$u;
-        unset($res['salt'], $res['pass']);
-
-        return $res;
+        return $u;
 
     }
 
@@ -144,33 +138,30 @@ class Login
      * @param $uid
      * @param $from
      * @param $ok
+     *
+     * @return bool
      */
     private static function _log($uid, $from, $ok)
     {
-
-        $di = \Phalcon\DI::getDefault();
-        $mongo = $di->getShared('mongo');
 
         $uid  = (int)$uid;
         $from = (int)$from;
         $ok   = (bool)$ok;
 
         if (isset($_SERVER['HTTP_USER_AGENT'])) {
-            $ua = \VJ\Escaper::html(Utils::strcut($_SERVER['HTTP_USER_AGENT']));
+            $ua = Utils::strcut($_SERVER['HTTP_USER_AGENT']);
         } else {
             $ua = '';
         }
 
-        $mongo->LoginInfo->insert([
-
-            'time' => new \MongoDate(),
-            'uid'  => $uid,
-            'ok'   => $ok,
-            'from' => $from,
-            'ip'   => \VJ\Escaper::html($_SERVER['REMOTE_ADDR']),
-            'ua'   => $ua
-
-        ]);
+        $log = new Models\LoginInfo();
+        $log->time = new \MongoDate();
+        $log->uid = $uid;
+        $log->ok = $ok;
+        $log->form = $from;
+        $log->ip = $_SERVER['REMOTE_ADDR'];
+        $log->$ua;
+        return $log->save();
 
     }
 
@@ -181,15 +172,12 @@ class Login
      *
      * @return array|bool
      */
-    public static function user($data)
+    public static function user(Models\User $u)
     {
 
-        global $__SESSION, $__GROUP_PRIV;
+        global $__SESSION;
 
-        $di = \Phalcon\DI::getDefault();
-        $mongo = $di->getShared('mongo');
-
-        $priv = $data['priv'] + $__GROUP_PRIV[(int)$data['group']];
+        $priv = \VJ\User\Security\Privilege::merge($u->priv, $u->group);
 
         // 检查该账号是否可登录
         if (!isset($priv[PRIV_LOG_IN]) || $priv[PRIV_LOG_IN] !== false) {
@@ -197,16 +185,11 @@ class Login
         }
 
         // 修改最后登录时间
-        $mongo->User->update(['_id' => $data['_id']], [
-            '$set' => [
+        $u->tlogin = time();
+        $u->iplogin = $_SERVER['REMOTE_ADDR'];
+        $u->save();
 
-                'tlogin'  => time(),
-                'iplogin' => \VJ\Escaper::html($_SERVER['REMOTE_ADDR'])
-
-            ]
-        ]);
-
-        $u_data = \VJ\Validator::filter($data, [
+        $data = \VJ\Validator::filter((array)$u, [
 
             'nick'     => null,
             'gmd5'     => null,
@@ -218,10 +201,10 @@ class Login
 
         ]);
 
-        $u_data['id']   = (int)$data['_id'];
-        $u_data['priv'] = $priv;
+        $data['id']   = (int)$u->_id;
+        $data['priv'] = $priv;
 
-        $__SESSION->set('user', $u_data);
+        $__SESSION->set('user', $data);
 
         return true;
 

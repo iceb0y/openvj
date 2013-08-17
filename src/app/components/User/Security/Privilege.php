@@ -2,6 +2,8 @@
 
 namespace VJ\User\Security;
 
+use \VJ\Models;
+
 class Privilege
 {
 
@@ -59,14 +61,15 @@ class Privilege
 
         if ($uid !== null) {
 
-            $di = \Phalcon\DI::getDefault();
-            $mongo = $di->getShared('mongo');
-            $rec = $mongo->User->findOne(['_id' => (int)$uid]);
+            $u = Models\User::findFirst([
+                'conditions' => ['_id' => (int)$uid]
+            ]);
 
-            if ($rec == null)
+            if ($u == false) {
                 return false;
+            }
 
-            $_PRIV = self::merge($rec['priv'], $rec['group']);
+            $_PRIV = self::merge($u->priv, $u->group);
 
             if (!isset($_PRIV[$priv])) {
                 return false;

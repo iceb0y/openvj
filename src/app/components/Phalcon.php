@@ -132,7 +132,7 @@ class Phalcon
         $di->setShared('session', function () use ($__CONFIG, $di) {
 
             $session = new \Phalcon\Session\Adapter\Mongo([
-                'collection' => $di->getShared('mongo')->Session
+                'collection' => $di->getShared('mongo')->ActiveSession
             ]);
 
             $session->start();
