@@ -11,7 +11,8 @@ class Database
     public static function increaseId($id)
     {
 
-        global $mongo;
+        $di = \Phalcon\DI::getDefault();
+        $mongo = $di->getShared('mongo');
 
         $id = (int)$id;
 

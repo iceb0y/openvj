@@ -68,24 +68,22 @@ class Phalcon
     public static function initDatabase()
     {
 
-        global $__CONFIG, $mongo;
-
-        $mc = new \MongoClient($__CONFIG->Mongo->path, [
-
-            'db'               => $__CONFIG->Mongo->database,
-            'username'         => $__CONFIG->Mongo->username,
-            'password'         => $__CONFIG->Mongo->password,
-            'connectTimeoutMS' => $__CONFIG->Mongo->timeout
-
-        ]);
-
-        $mongo = $mc->selectDB($__CONFIG->Mongo->database);
+        global $__CONFIG;
 
         $di = \Phalcon\DI::getDefault();
 
-        $di->set('mongo', function () use ($mongo) {
+        $di->set('mongo', function () use ($__CONFIG) {
 
-            return $mongo;
+            $mc = new \MongoClient($__CONFIG->Mongo->path, [
+
+                'db'               => $__CONFIG->Mongo->database,
+                'username'         => $__CONFIG->Mongo->username,
+                'password'         => $__CONFIG->Mongo->password,
+                'connectTimeoutMS' => $__CONFIG->Mongo->timeout
+
+            ]);
+
+            return $mc->selectDB($__CONFIG->Mongo->database);
 
         }, true);
 
@@ -150,12 +148,10 @@ class Phalcon
         session_name($__CONFIG->Session->name);
 
         $di = \Phalcon\DI::getDefault();
-        $di->setShared('session', function () use ($__CONFIG) {
-
-            global $mongo;
+        $di->setShared('session', function () use ($__CONFIG, $di) {
 
             $session = new \Phalcon\Session\Adapter\Mongo([
-                'collection' => $mongo->Session
+                'collection' => $di->getShared('mongo')->Session
             ]);
 
             $session->start();

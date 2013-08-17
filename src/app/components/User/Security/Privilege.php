@@ -17,7 +17,8 @@ class Privilege
 
         if ($__GROUP_PRIV === false) {
 
-            global $mongo;
+            $di = \Phalcon\DI::getDefault();
+            $mongo = $di->getShared('mongo');
 
             $rec          = $mongo->System->findOne(['_id' => 'privtable']);
             $__GROUP_PRIV = $rec['v'];
@@ -58,7 +59,8 @@ class Privilege
 
         if ($uid !== null) {
 
-            global $mongo;
+            $di = \Phalcon\DI::getDefault();
+            $mongo = $di->getShared('mongo');
             $rec = $mongo->User->findOne(['_id' => (int)$uid]);
 
             if ($rec == null)

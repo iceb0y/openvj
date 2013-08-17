@@ -36,7 +36,8 @@ class Login
         $uid = (int)$uid;
         $key = (string)$key;
 
-        global $mongo;
+        $di = \Phalcon\DI::getDefault();
+        $mongo = $di->getShared('mongo');
         $res = $mongo->SavedSession->findOne(['_id' => $token]);
 
         if ($res == null) {
@@ -147,7 +148,8 @@ class Login
     private static function _log($uid, $from, $ok)
     {
 
-        global $mongo;
+        $di = \Phalcon\DI::getDefault();
+        $mongo = $di->getShared('mongo');
 
         $uid  = (int)$uid;
         $from = (int)$from;
@@ -182,7 +184,10 @@ class Login
     public static function user($data)
     {
 
-        global $mongo, $__SESSION, $__GROUP_PRIV;
+        global $__SESSION, $__GROUP_PRIV;
+
+        $di = \Phalcon\DI::getDefault();
+        $mongo = $di->getShared('mongo');
 
         $priv = $data['priv'] + $__GROUP_PRIV[(int)$data['group']];
 
