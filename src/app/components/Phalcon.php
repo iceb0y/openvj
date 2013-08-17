@@ -5,48 +5,6 @@ namespace VJ;
 class Phalcon
 {
 
-    public static function initDatabase()
-    {
-
-        global $__CONFIG;
-
-        $di = \Phalcon\DI::getDefault();
-
-        $di->set('mongo', function () use ($__CONFIG) {
-
-            $mc = new \MongoClient($__CONFIG->Mongo->path, [
-
-                'db'               => $__CONFIG->Mongo->database,
-                'username'         => $__CONFIG->Mongo->username,
-                'password'         => $__CONFIG->Mongo->password,
-                'connectTimeoutMS' => $__CONFIG->Mongo->timeout
-
-            ]);
-
-            return $mc->selectDB($__CONFIG->Mongo->database);
-
-        }, true);
-
-        $di->set('collectionManager', function () {
-
-            return new \Phalcon\Mvc\Collection\Manager();
-
-        }, true);
-
-    }
-
-    /**
-     * 初始化模板引擎
-     */
-    public static function initView()
-    {
-
-        $di = \Phalcon\DI::getDefault();
-
-        $di->set('view', 'VJ\View');
-
-    }
-
     /**
      * 初始化Session
      */

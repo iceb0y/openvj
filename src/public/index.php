@@ -6,9 +6,31 @@ require __DIR__.'/../app/includes/init.php';
 
 global $__CONFIG;
 
-\VJ\Phalcon::initDatabase();
-\VJ\Phalcon::initView();
+// Register services
+
+$di = \Phalcon\DI::getDefault();
+
+$di->setShared('mongo', function () use ($__CONFIG) {
+
+    $mc = new \MongoClient($__CONFIG->Mongo->path, [
+
+        'db'               => $__CONFIG->Mongo->database,
+        'username'         => $__CONFIG->Mongo->username,
+        'password'         => $__CONFIG->Mongo->password,
+        'connectTimeoutMS' => $__CONFIG->Mongo->timeout
+
+    ]);
+
+    return $mc->selectDB($__CONFIG->Mongo->database);
+
+});
+
+$di->setShared('collectionManager', '\Phalcon\Mvc\Collection\Manager');
+$di->set('view', 'VJ\View');
+
+
 \VJ\Phalcon::initSession();
+
 
 if ($__CONFIG->Security->enforceSSL) {
     \VJ\Security\SSL::enforce();
@@ -22,5 +44,5 @@ if ($__CONFIG->Security->enforceSSL) {
 
 //============================================
 
-$app = new \Phalcon\Mvc\Application(\Phalcon\DI::getDefault());
+$app = new \Phalcon\Mvc\Application($di);
 echo $app->handle()->getContent();
