@@ -65,7 +65,7 @@ if (!$__CONFIG->Debug->enabled) {
     error_reporting(0);
 } else {
     error_reporting(E_ALL | E_STRICT);
-    \VJ\Phalcon::initWhoops();
+    new \VJ\ErrorHandler\WhoopsServiceProvider();
 }
 
 
