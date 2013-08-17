@@ -10,10 +10,11 @@
         <h1>Register</h1>
         <div class="reg-cont">
         {% if STEP == 1 %}
-            <div class="reg-step1">
+            <div class="reg-step reg-step1" style="opacity:0;">
                 <h3>Step 1 / 2</h3>
                 <div class="form-line">Please enter your Email:</div>
-                <div class="form-line"><input type="text" class="textbox role-reg-email"><input type="button" class="button button-def" value="Confirm"></div>
+                <div class="form-line"><input type="text" class="textbox role-reg-email"><input type="button" class="button button-def role-reg-email-confirm" value="Confirm"></div>
+                <div class="form-line reg-hint"></div>
             </div>
             <div class="reg-step1-result" style="display:none;">
                 Well done! We have sent you an email.
