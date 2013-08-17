@@ -11,7 +11,7 @@ class View
 
         global $__CONFIG;
 
-        $view->setVars(array(
+        $view->setVars([
             'BASE_PREFIX'      => $__CONFIG->Misc->basePrefix,
             'TITLE_SUFFIX'     => $__CONFIG->Misc->titleSuffix,
             'META_KEYWORD'     => $__CONFIG->Misc->metaKeyword,
@@ -19,7 +19,7 @@ class View
             'FOOTER_ICP'       => $__CONFIG->Misc->icp,
             'FOOTER_COPYRIGHT' => $__CONFIG->Misc->copyright,
             'FOOTER_VERSION'   => APP_NAME.' '.APP_VERSION,
-        ));
+        ]);
 
     }
 
@@ -28,11 +28,11 @@ class View
 
         global $__CONFIG;
 
-        $volt->setOptions(array(
+        $volt->setOptions([
             'compiledPath'      => ROOT_DIR.'runtime/compiled_templates/',
             'compiledExtension' => '.compiled',
             'compileAlways'     => (bool)$__CONFIG->Template->compileAlways
-        ));
+        ]);
 
         $compiler = $volt->getCompiler();
         $compiler->addFunction('view_static', 'VJ\View::view_static');

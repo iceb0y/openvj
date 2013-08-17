@@ -20,11 +20,11 @@ class Email
 
         global $__CONFIG;
 
-        \VJ\IO\Node::request('/mail/send', null, array(
+        \VJ\IO\Node::request('/mail/send', null, [
             'to'      => $email,
             'subject' => $__CONFIG->Mail->subjectPrefix.$subject,
             'html'    => $body
-        ));
+        ]);
 
         return true;
     }
@@ -50,22 +50,22 @@ class Email
 
             self::$view->setDI(new \Phalcon\DI\FactoryDefault());
             self::$view->setViewsDir('../app/views/'.$__CONFIG->Mail->template.'/');
-            self::$view->registerEngines(array('.volt' => function ($view) {
+            self::$view->registerEngines(['.volt' => function ($view) {
 
                 $volt = new \Phalcon\Mvc\View\Engine\Volt($view);
                 \VJ\View::extendVolt($volt, $view);
 
                 return $volt;
 
-            }));
+            }]);
 
-            self::$view->setVars(array(
+            self::$view->setVars([
 
                 'TITLE_SUFFIX' => $__CONFIG->Mail->titleSuffix,
                 'SITE_NAME'    => $__CONFIG->Mail->siteName,
                 'SITE_URI'     => $__CONFIG->Mail->siteURI,
 
-            ));
+            ]);
 
         }
 

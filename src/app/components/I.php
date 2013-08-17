@@ -28,7 +28,7 @@ class I
             $text    = call_user_func_array('sprintf', $argv);
         }
 
-        return array('succeeded' => false, 'errorCode' => $error_code, 'errorMsg' => $text);
+        return ['succeeded' => false, 'errorCode' => $error_code, 'errorMsg' => $text];
 
     }
 

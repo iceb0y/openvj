@@ -17,8 +17,8 @@ class Database
 
         $seq = $mongo->command([
             'findandmodify' => 'Counter',
-            'query'         => array('_id' => $id),
-            'update'        => array('$inc' => array('c' => 1)),
+            'query'         => ['_id' => $id],
+            'update'        => ['$inc' => ['c' => 1]],
             'new'           => true,
             'upsert'        => true
         ]);

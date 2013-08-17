@@ -37,7 +37,7 @@ class Phalcon
             }
 
             // Request info:
-            $di['whoops.error_page_handler']->addDataTable('Phalcon Application (Request)', array(
+            $di['whoops.error_page_handler']->addDataTable('Phalcon Application (Request)', [
                 'URI'          => $request->getScheme().'://'.$request->getServer('HTTP_HOST').$request->getServer('REQUEST_URI'),
                 'Request URI'  => $request->getServer('REQUEST_URI'),
                 'Path Info'    => $request->getServer('PATH_INFO'),
@@ -49,7 +49,7 @@ class Phalcon
                 'Scheme'       => $request->getScheme(),
                 'Port'         => $request->getServer('SERVER_PORT'),
                 'Host'         => $request->getServerName(),
-            ));
+            ]);
         };
 
         $di->setShared('whoops', function () use ($di, $phalcon_info_handler, $json_handler) {
@@ -70,14 +70,14 @@ class Phalcon
 
         global $__CONFIG, $mongo;
 
-        $mc = new \MongoClient($__CONFIG->Mongo->path, array(
+        $mc = new \MongoClient($__CONFIG->Mongo->path, [
 
             'db'               => $__CONFIG->Mongo->database,
             'username'         => $__CONFIG->Mongo->username,
             'password'         => $__CONFIG->Mongo->password,
             'connectTimeoutMS' => $__CONFIG->Mongo->timeout
 
-        ));
+        ]);
 
         $mongo = $mc->selectDB($__CONFIG->Mongo->database);
 
@@ -112,14 +112,14 @@ class Phalcon
             $view = new \Phalcon\Mvc\View();
 
             $view->setViewsDir('../app/views/'.$__TEMPLATE_NAME.'/');
-            $view->registerEngines(array('.volt' => function ($view, $di) {
+            $view->registerEngines(['.volt' => function ($view, $di) {
 
                 $volt = new \Phalcon\Mvc\View\Engine\Volt($view, $di);
                 \VJ\View::extendVolt($volt);
 
                 return $volt;
 
-            }));
+            }]);
 
             \VJ\View::extendView($view);
 
@@ -154,9 +154,9 @@ class Phalcon
 
             global $mongo;
 
-            $session = new \Phalcon\Session\Adapter\Mongo(array(
+            $session = new \Phalcon\Session\Adapter\Mongo([
                 'collection' => $mongo->Session
-            ));
+            ]);
 
             $session->start();
 

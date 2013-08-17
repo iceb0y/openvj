@@ -37,7 +37,7 @@ class Login
         $key = (string)$key;
 
         global $mongo;
-        $res = $mongo->SavedSession->findOne(array('_id' => $token));
+        $res = $mongo->SavedSession->findOne(['_id' => $token]);
 
         if ($res == null) {
             return I::error('FAILED');
@@ -51,13 +51,13 @@ class Login
         // Session expired?
         if (time() > $res['exptime']->sec) {
 
-            $mongo->SavedSession->remove(array('_id' => $token), array('justOne' => true));
+            $mongo->SavedSession->remove(['_id' => $token], ['justOne' => true]);
 
             return I::error('FAILED');
 
         }
 
-        $res = $mongo->User->findOne(array('_id' => $uid));
+        $res = $mongo->User->findOne(['_id' => $uid]);
         // User is deleted
         if ($res == null) {
             return I::error('FAILED');
@@ -95,9 +95,9 @@ class Login
             return I::error('ARGUMENT_REQUIRED', 'password');
         }
 
-        $u = Models\User::findFirst(array(
-            'conditions' => array('luser' => $user)
-        ));
+        $u = Models\User::findFirst([
+            'conditions' => ['luser' => $user]
+        ]);
 
         if (!$u) {
             return I::error('USER_NOTFOUND');
@@ -159,7 +159,7 @@ class Login
             $ua = '';
         }
 
-        $mongo->LoginInfo->insert(array(
+        $mongo->LoginInfo->insert([
 
             'time' => new \MongoDate(),
             'uid'  => $uid,
@@ -168,7 +168,7 @@ class Login
             'ip'   => \VJ\Escaper::html($_SERVER['REMOTE_ADDR']),
             'ua'   => $ua
 
-        ));
+        ]);
 
     }
 
@@ -192,16 +192,16 @@ class Login
         }
 
         // 修改最后登录时间
-        $mongo->User->update(array('_id' => $data['_id']), array(
-            '$set' => array(
+        $mongo->User->update(['_id' => $data['_id']], [
+            '$set' => [
 
                 'tlogin'  => time(),
                 'iplogin' => \VJ\Escaper::html($_SERVER['REMOTE_ADDR'])
 
-            )
-        ));
+            ]
+        ]);
 
-        $u_data = \VJ\Validator::filter($data, array(
+        $u_data = \VJ\Validator::filter($data, [
 
             'nick'     => null,
             'gmd5'     => null,
@@ -211,7 +211,7 @@ class Login
             'vjb'      => null,
             'settings' => null
 
-        ));
+        ]);
 
         $u_data['id']   = (int)$data['_id'];
         $u_data['priv'] = $priv;
@@ -232,7 +232,7 @@ class Login
 
         global $__SESSION, $__GROUP_PRIV;
 
-        $__SESSION->set('user', array(
+        $__SESSION->set('user', [
 
             'id'       => UID_GUEST,
             'nick'     => NICK_GUEST,
@@ -242,9 +242,9 @@ class Login
             'rp'       => 0.0,
             'vjb'      => 0.0,
             'priv'     => $__GROUP_PRIV[GROUP_GUEST],
-            'settings' => array()
+            'settings' => []
 
-        ));
+        ]);
 
         return true;
 

@@ -24,14 +24,14 @@ require APP_DIR.'includes/privilege.php';
 require APP_DIR.'vendor/autoload.php';
 
 (new \Phalcon\Loader)
-    ->registerDirs(array(
+    ->registerDirs([
         APP_DIR.'controllers/'
-    ))
-    ->registerNamespaces(array(
+    ])
+    ->registerNamespaces([
         'VJ'        => APP_DIR.'components/',
         'VJ\Models' => APP_DIR.'models/',
         'Phalcon'   => APP_DIR.'vendor/phalcon/incubator/Library/Phalcon/'
-    ))
+    ])
     ->register();
 
 

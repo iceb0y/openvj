@@ -8,11 +8,11 @@ class AjaxController extends \Phalcon\Mvc\Controller
 
         global $__CONFIG;
 
-        $this->view->setVars(array('AJAX_DATA' => array(
+        $this->view->setVars(['AJAX_DATA' => [
             'key'       => $__CONFIG->RSA->public,
             'e'         => $__CONFIG->RSA->e,
             'timestamp' => time()
-        )));
+        ]]);
     }
 
     public function loginAction()
@@ -45,7 +45,7 @@ class AjaxController extends \Phalcon\Mvc\Controller
 
         }
 
-        $this->view->setVars(array('AJAX_DATA' => $ret));
+        $this->view->setVars(['AJAX_DATA' => $ret]);
 
     }
 }

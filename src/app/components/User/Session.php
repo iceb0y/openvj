@@ -12,7 +12,7 @@ class Session
 
         global $mongo;
 
-        return $mongo->Session->remove(array(SESSION_FIELD => $sessid), array('justOne' => 1));
+        return $mongo->Session->remove([SESSION_FIELD => $sessid], ['justOne' => 1]);
 
     }
 

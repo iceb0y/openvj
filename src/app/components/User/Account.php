@@ -113,10 +113,10 @@ class Account
 
         $username = strtolower($username);
 
-        $user = Models\User::findFirst(array(
-            'conditions' => array('luser' => $username),
-            'fields'     => array('_id' => 1)
-        ));
+        $user = Models\User::findFirst([
+            'conditions' => ['luser' => $username],
+            'fields'     => ['_id' => 1]
+        ]);
 
         if ($user) {
             return true;
@@ -138,10 +138,10 @@ class Account
 
         $nickname = strtolower($nickname);
 
-        $user = Models\User::findFirst(array(
-            'conditions' => array('lnick' => $nickname),
-            'fields'     => array('_id' => 1)
-        ));
+        $user = Models\User::findFirst([
+            'conditions' => ['lnick' => $nickname],
+            'fields'     => ['_id' => 1]
+        ]);
 
         if ($user) {
             return true;

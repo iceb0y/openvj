@@ -1,8 +1,8 @@
 <?php
 
 if (!apc_load_constants('openvj-const-privilege')) {
-    apc_define_constants('openvj-const-privilege', array
-    (
+    apc_define_constants('openvj-const-privilege', [
+
         'PRIV'                          => 0, //总权限
 
         //开发
@@ -49,5 +49,5 @@ if (!apc_load_constants('openvj-const-privilege')) {
         //管理
         'PRIV_ADMIN'                    => 20000, //进入管理后台
 
-    ));
+    ]);
 }

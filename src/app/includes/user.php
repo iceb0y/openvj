@@ -12,22 +12,20 @@ const GROUP_INTERNAL = 0x100;
 
 global $__GROUPS, $__GROUPS_STR;
 
-$__GROUPS = array
-(
+$__GROUPS = [
     GROUP_ROOT     => 'Root',
     GROUP_GUEST    => 'Guest',
     GROUP_ADMIN    => 'Admin',
     GROUP_USER     => 'User',
     GROUP_JUDGER   => 'Judger',
     GROUP_INTERNAL => 'Internal'
-);
+];
 
-$__GROUPS_STR = array
-(
+$__GROUPS_STR = [
     GROUP_ROOT     => 'Root',
     GROUP_GUEST    => 'Guest',
     GROUP_ADMIN    => 'Administrator',
     GROUP_USER     => 'User',
     GROUP_JUDGER   => 'Judger',
     GROUP_INTERNAL => 'Internal'
-);
+];

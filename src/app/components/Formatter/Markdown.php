@@ -45,15 +45,14 @@ class Markdown
 
         if (self::$md == null) {
             $render = new \Sundown\Render\HTML();
-            $render->setRenderFlags(array
-            (
+            $render->setRenderFlags([
                 'filter_html' => true,
                 'no_styles'   => true,
                 'xhtml'       => true,
                 'hard_wrap'   => true
-            ));
+            ]);
 
-            self::$md = new \Sundown\Markdown($render, array('no_intra_emphasis' => true));
+            self::$md = new \Sundown\Markdown($render, ['no_intra_emphasis' => true]);
         }
 
         return \VJ\Escaper::purify(self::_fixCodeBlock(self::$md->render(\VJ\Escaper::html($content))));

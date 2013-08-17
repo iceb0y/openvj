@@ -107,7 +107,7 @@ class Validator
     public static function filter($data, $rules)
     {
 
-        $ret = array();
+        $ret = [];
 
         foreach ($rules as $key => $_rule) {
 

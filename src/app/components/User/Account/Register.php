@@ -30,10 +30,11 @@ class Register
         }
 
         // Mail already in use
-        if (Models\User::findFirst(array(
-            'conditions' => array('mail' => $email),
-            'fields'     => array('_id' => 1)
-        ))
+        if (
+        Models\User::findFirst([
+            'conditions' => ['mail' => $email],
+            'fields'     => ['_id' => 1]
+        ])
         ) {
             return I::error('USED', 'email', $email);
         }
@@ -41,9 +42,9 @@ class Register
         // Generate new validation request
         $validateCode = \VJ\Security\Randomizer::toHex(10);
 
-        $record = Models\RegValidation::findFirst(array(
-            'conditions' => array('email' => $email)
-        ));
+        $record = Models\RegValidation::findFirst([
+            'conditions' => ['email' => $email]
+        ]);
 
         if (!$record) {
             $record        = new Models\RegValidation();
@@ -65,20 +66,20 @@ class Register
         }
 
         $URI = $prefix.$__CONFIG->Misc->host.$__CONFIG->Misc->basePrefix.'/user/register?';
-        $URI .= \VJ\Escaper::uriQuery(array(
+        $URI .= \VJ\Escaper::uriQuery([
             'code'  => $validateCode,
             'email' => sha1($email)
-        ));
+        ]);
 
         return \VJ\Email::sendByTemplate(
             $email,
             gettext('Just one more step!'),
             'user',
             'reg_validation',
-            array(
+            [
                 'TITLE'   => gettext('Email validation'),
                 'REG_URI' => $URI
-            )
+            ]
         );
     }
 
@@ -97,9 +98,9 @@ class Register
 
         $code = (string)$code;
 
-        $record = Models\RegValidation::findFirst(array(
-            'conditions' => array('code' => $code)
-        ));
+        $record = Models\RegValidation::findFirst([
+            'conditions' => ['code' => $code]
+        ]);
 
         if (!$record) {
             return I::error('REG_VERFICATION_FAILED');
@@ -210,9 +211,9 @@ class Register
             }
 
             // Remove validation records
-            $validate_record = Models\RegValidation::findFirst(array(
-                'conditions' => array('email' => $mail)
-            ));
+            $validate_record = Models\RegValidation::findFirst([
+                'conditions' => ['email' => $mail]
+            ]);
 
             if ($validate_record) {
                 $validate_record->delete();
@@ -261,19 +262,19 @@ class Register
         $user->sig      = '';
         $user->sigm     = '';
         $user->group    = GROUP_USER;
-        $user->priv     = array('_' => null);
-        $user->privacy  = array('_' => null);
-        $user->stars    = array('_' => null);
-        $user->pbms     = array(
+        $user->priv     = ['_' => null];
+        $user->privacy  = ['_' => null];
+        $user->stars    = ['_' => null];
+        $user->pbms     = [
             'pass'    => 0,
-            'passlst' => array(),
+            'passlst' => [],
             'ans'     => 0,
-            'anslst'  => array(),
+            'anslst'  => [],
             'submit'  => 0
-        );
-        $user->settings = array(
+        ];
+        $user->settings = [
             'first_reg' => true
-        );
+        ];
         $result         = $user->save();
 
         //Clear session
