@@ -5,10 +5,10 @@ namespace VJ;
 class View extends \Phalcon\Mvc\View
 {
 
-    public function __construct()
+    public function __construct($options = null)
     {
 
-        parent::__construct();
+        parent::__construct($options);
 
         global $__TEMPLATE_NAME, $__CONFIG;
 
