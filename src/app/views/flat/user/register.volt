@@ -9,19 +9,22 @@
     <div class="reg-form"><div class="reg-form-content">
         <h1>Register</h1>
         <div class="reg-cont">
-        {% if STEP == 1 %}
+            <script>var REG_STEP = {{ STEP|json }};</script>
+{% if STEP == 1 %}
             <div class="reg-step reg-step1" style="opacity:0;">
-                <h3>Step 1 / 2</h3>
+                <h2>Step 1 / 2</h2>
                 <div class="form-line">Please enter your Email:</div>
                 <div class="form-line"><input type="text" class="textbox role-reg-email"><input type="button" class="button button-def role-reg-email-confirm" value="Confirm"></div>
                 <div class="form-line reg-hint"></div>
             </div>
-            <div class="reg-step1-result" style="display:none;">
-                Well done! We have sent you an email.
+            <div class="reg-step1-result" style="display:none;opacity:0;">
+                <h2>Step 1 / 2</h2>
+                <p>Well done! An email has been sent to <span class="role-email"></span>.</p><p>Please open your inbox and confirm it.</p>
+                <p><a href="javascript:;" class="role-resend dark">Enter a new email</a></p>
             </div>
-        {% else %}
+{% else %}
 
-        {% endif %}
+{% endif %}
         </div>
     </div></div>
     </div></div>

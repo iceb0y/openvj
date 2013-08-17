@@ -34,7 +34,7 @@
 }
 .reg-form-content {
   padding: 30px;
-  color: #fff;
+  color: #ccc;
 }
 .reg-form-content h1,
 .reg-form-content h2,
@@ -43,17 +43,29 @@
 }
 .reg-cont .textbox {
   background: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.8);
 }
 .reg-cont .textbox:hover {
   background: rgba(255,255,255,0.8);
+  color: #222;
 }
 .reg-cont .textbox:focus {
   background: #fff;
+  color: #000;
 }
 .reg-step {
   position: relative;
 }
 .reg-step1 {
-  margin-top: 100px;
+  margin-top: 80px;
   padding: 30px 20px;
+}
+.reg-step1-result {
+  margin-top: 80px;
+  padding: 30px 20px;
+}
+.reg-step1-result .role-email {
+  color: #fff;
+  font-size: 1.3em;
+  font-weight: 300;
 }
