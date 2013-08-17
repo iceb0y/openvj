@@ -26,7 +26,7 @@ $di->setShared('mongo', function () use ($__CONFIG) {
 });
 
 $di->setShared('collectionManager', '\Phalcon\Mvc\Collection\Manager');
-$di->set('view', 'VJ\View');
+$di->set('view', 'VJ\View\General');
 
 
 \VJ\Phalcon::initSession();

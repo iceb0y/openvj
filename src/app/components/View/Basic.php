@@ -1,8 +1,8 @@
 <?php
 
-namespace VJ;
+namespace VJ\View;
 
-class View extends \Phalcon\Mvc\View
+class Basic extends \Phalcon\Mvc\View
 {
 
     public function __construct($options = null)
@@ -10,26 +10,11 @@ class View extends \Phalcon\Mvc\View
 
         parent::__construct($options);
 
-        global $__TEMPLATE_NAME, $__CONFIG;
-
-        $this->setViewsDir('../app/views/'.$__TEMPLATE_NAME.'/');
-        $this->registerEngines(['.volt' => 'VJ\Volt']);
-
-        //Assign global variables
-
-        $this->setVars([
-            'BASE_PREFIX'      => $__CONFIG->Misc->basePrefix,
-            'TITLE_SUFFIX'     => $__CONFIG->Misc->titleSuffix,
-            'META_KEYWORD'     => $__CONFIG->Misc->metaKeyword,
-            'META_DESC'        => $__CONFIG->Misc->metaDesc,
-            'FOOTER_ICP'       => $__CONFIG->Misc->icp,
-            'FOOTER_COPYRIGHT' => $__CONFIG->Misc->copyright,
-            'FOOTER_VERSION'   => APP_NAME.' '.APP_VERSION,
-        ]);
+        $this->registerEngines(['.volt' => 'VJ\RenderEngine\Volt']);
 
     }
 
-    public static function view_i18n()
+    public static function i18n()
     {
         $argv = func_get_args();
         $text = gettext($argv[0]);

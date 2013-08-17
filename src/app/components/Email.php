@@ -4,7 +4,6 @@ namespace VJ;
 
 class Email
 {
-    private static $view = null;
 
     /**
      * 发送Email
@@ -42,44 +41,19 @@ class Email
      */
     public static function sendByTemplate($email, $subject, $controller_name, $action_name, $vars = null)
     {
-        if (self::$view == null) {
+        $view = new \VJ\View\Email();
 
-            global $__CONFIG;
-
-            self::$view = new \Phalcon\Mvc\View();
-
-            self::$view->setDI(new \Phalcon\DI\FactoryDefault());
-            self::$view->setViewsDir('../app/views/'.$__CONFIG->Mail->template.'/');
-            self::$view->registerEngines(['.volt' => function ($view) {
-
-                $volt = new \Phalcon\Mvc\View\Engine\Volt($view);
-                \VJ\View::extendVolt($volt, $view);
-
-                return $volt;
-
-            }]);
-
-            self::$view->setVars([
-
-                'TITLE_SUFFIX' => $__CONFIG->Mail->titleSuffix,
-                'SITE_NAME'    => $__CONFIG->Mail->siteName,
-                'SITE_URI'     => $__CONFIG->Mail->siteURI,
-
-            ]);
-
-        }
-
-        self::$view->setVar('TARGET_MAIL', \VJ\Escaper::html($email));
+        $view->setVar('TARGET_MAIL', \VJ\Escaper::html($email));
 
         if ($vars) {
-            self::$view->setVars($vars);
+            $view->setVars($vars);
         }
 
-        self::$view->start();
-        self::$view->render($controller_name, $action_name);
-        self::$view->finish();
+        $view->start();
+        $view->render($controller_name, $action_name);
+        $view->finish();
 
-        $body = self::$view->getContent();
+        $body = $view->getContent();
 
         return self::send($email, $subject, $body);
     }
