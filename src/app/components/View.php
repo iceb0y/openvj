@@ -2,16 +2,22 @@
 
 namespace VJ;
 
-class View
+class View extends \Phalcon\Mvc\View
 {
 
-    public static function extendView($view)
+    public function __construct()
     {
+
+        parent::__construct();
+
+        global $__TEMPLATE_NAME, $__CONFIG;
+
+        $this->setViewsDir('../app/views/'.$__TEMPLATE_NAME.'/');
+        $this->registerEngines(['.volt' => 'VJ\Volt']);
+
         //Assign global variables
 
-        global $__CONFIG;
-
-        $view->setVars([
+        $this->setVars([
             'BASE_PREFIX'      => $__CONFIG->Misc->basePrefix,
             'TITLE_SUFFIX'     => $__CONFIG->Misc->titleSuffix,
             'META_KEYWORD'     => $__CONFIG->Misc->metaKeyword,
@@ -20,28 +26,6 @@ class View
             'FOOTER_COPYRIGHT' => $__CONFIG->Misc->copyright,
             'FOOTER_VERSION'   => APP_NAME.' '.APP_VERSION,
         ]);
-
-    }
-
-    public static function extendVolt($volt)
-    {
-
-        global $__CONFIG;
-
-        $volt->setOptions([
-            'compiledPath'      => ROOT_DIR.'runtime/compiled_templates/',
-            'compiledExtension' => '.compiled',
-            'compileAlways'     => (bool)$__CONFIG->Template->compileAlways
-        ]);
-
-        $compiler = $volt->getCompiler();
-        $compiler->addFunction('view_static', 'VJ\View::view_static');
-        $compiler->addFunction('view_processTime', 'VJ\View::view_processTime');
-        $compiler->addFilter('i18n', 'VJ\View::view_i18n');
-        $compiler->addFilter('html', 'VJ\Escaper::html');
-        $compiler->addFilter('attr', 'VJ\Escaper::htmlAttr');
-        $compiler->addFilter('uri', 'VJ\Escaper::uri');
-        $compiler->addFilter('json', 'json_encode');
 
     }
 

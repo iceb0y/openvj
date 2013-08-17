@@ -101,28 +101,9 @@ class Phalcon
     public static function initView()
     {
 
-        global $__TEMPLATE_NAME;
-
         $di = \Phalcon\DI::getDefault();
 
-        $di->set('view', function () use ($__TEMPLATE_NAME) {
-
-            $view = new \Phalcon\Mvc\View();
-
-            $view->setViewsDir('../app/views/'.$__TEMPLATE_NAME.'/');
-            $view->registerEngines(['.volt' => function ($view, $di) {
-
-                $volt = new \Phalcon\Mvc\View\Engine\Volt($view, $di);
-                \VJ\View::extendVolt($volt);
-
-                return $volt;
-
-            }]);
-
-            \VJ\View::extendView($view);
-
-            return $view;
-        });
+        $di->set('view', 'VJ\View');
 
     }
 
