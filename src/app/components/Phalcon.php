@@ -7,6 +7,12 @@ class Phalcon
 
     /**
      * 初始化Session
+     *
+     * Session Security Issues [TODO]:
+     *
+     * 1. session should be locked during a request
+     * 2. should use a low-cost way to deal with guest sessions
+     *
      */
     public static function initSession()
     {
