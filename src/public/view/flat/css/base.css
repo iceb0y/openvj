@@ -1443,6 +1443,16 @@ a:focus {
   box-shadow: 0 0 5px #ffdf00;
   outline: 1px solid #ffdf00;
 }
+a.dark,
+a.dark:visited {
+  color: #0dc6fb;
+  text-decoration: none;
+}
+a.dark:focus,
+a.dark:hover {
+  color: $link-dark-color-color;
+  text-decoration: underline;
+}
 .textbox {
   margin: 0;
   -webkit-box-sizing: content-box;
