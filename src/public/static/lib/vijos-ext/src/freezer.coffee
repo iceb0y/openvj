@@ -12,6 +12,9 @@ class VJ.Freezer
         @container = obj.container
         @layer = $new 'div', {'class': 'vj-freezer-layer', 'tabindex': '0'}
 
+        if obj.dark? and obj.dark is true
+            $className.add @layer, 'dark'
+
         $append @container, @layer
 
     show: =>

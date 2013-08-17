@@ -329,6 +329,9 @@
         'class': 'vj-freezer-layer',
         'tabindex': '0'
       });
+      if ((obj.dark != null) && obj.dark === true) {
+        $className.add(this.layer, 'dark');
+      }
       $append(this.container, this.layer);
     }
 

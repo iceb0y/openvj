@@ -1607,12 +1607,25 @@ a:focus {
   width: 100%;
   height: 100%;
   background: #fff;
-  opacity: 0.7;
-  display: none;
-  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: visibility 0s linear 0.1s, opacity 0.1s linear;
+  -moz-transition: visibility 0s linear 0.1s, opacity 0.1s linear;
+  -ie-transition: visibility 0s linear 0.1s, opacity 0.1s linear;
+  transition: visibility 0s linear 0.1s, opacity 0.1s linear;
+  z-index: 1;
+  outline: 0;
+}
+.vj-freezer-layer.dark {
+  background: #000;
 }
 .vj-freezer-layer.show {
-  display: block;
+  visibility: visible;
+  opacity: 0.7;
+  -webkit-transition-delay: 0s;
+  -moz-transition-delay: 0s;
+  -ie-transition-delay: 0s;
+  transition-delay: 0s;
 }
 ::selection {
   background: #72d0eb;
