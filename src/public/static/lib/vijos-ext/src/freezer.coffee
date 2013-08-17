@@ -11,20 +11,24 @@ class VJ.Freezer
 
         @container = obj.container
         @layer = $new 'div', {'class': 'vj-freezer-layer', 'tabindex': '0'}
+        
+        domLoading = $new 'div', {'class': 'loading vj-freezer-layer-loading'}
+        $append @layer, domLoading
 
         if obj.dark? and obj.dark is true
-            $className.add @layer, 'dark'
+            $className.add @layer, 'vj-freezer-layer-dark'
+            $className.add domLoading, 'loading-dark'
 
         $append @container, @layer
 
     show: =>
 
         @active = document.activeElement
-        $className.add @layer, 'show'
+        $className.add @layer, 'vj-freezer-layer-show'
         @layer.focus()
 
     hide: =>
 
         @active.focus() if @active?
-        $className.remove @layer, 'show'
+        $className.remove @layer, 'vj-freezer-layer-show'
         

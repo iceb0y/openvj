@@ -324,20 +324,26 @@
     function Freezer(obj) {
       this.hide = __bind(this.hide, this);
       this.show = __bind(this.show, this);
+      var domLoading;
       this.container = obj.container;
       this.layer = $new('div', {
         'class': 'vj-freezer-layer',
         'tabindex': '0'
       });
+      domLoading = $new('div', {
+        'class': 'loading vj-freezer-layer-loading'
+      });
+      $append(this.layer, domLoading);
       if ((obj.dark != null) && obj.dark === true) {
-        $className.add(this.layer, 'dark');
+        $className.add(this.layer, 'vj-freezer-layer-dark');
+        $className.add(domLoading, 'loading-dark');
       }
       $append(this.container, this.layer);
     }
 
     Freezer.prototype.show = function() {
       this.active = document.activeElement;
-      $className.add(this.layer, 'show');
+      $className.add(this.layer, 'vj-freezer-layer-show');
       return this.layer.focus();
     };
 
@@ -345,7 +351,7 @@
       if (this.active != null) {
         this.active.focus();
       }
-      return $className.remove(this.layer, 'show');
+      return $className.remove(this.layer, 'vj-freezer-layer-show');
     };
 
     return Freezer;

@@ -1616,7 +1616,7 @@ a.dark:hover {
   top: 0;
   width: 100%;
   height: 100%;
-  background: #fff;
+  background: rgba(255,255,255,0.7);
   opacity: 0;
   visibility: hidden;
   -webkit-transition: visibility 0s linear 0.1s, opacity 0.1s linear;
@@ -1626,16 +1626,33 @@ a.dark:hover {
   z-index: 1;
   outline: 0;
 }
-.vj-freezer-layer.dark {
-  background: #000;
+.vj-freezer-layer-loading {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -13px;
+  margin-top: -13px;
 }
-.vj-freezer-layer.show {
+.vj-freezer-layer-dark {
+  background: rgba(0,0,0,0.7);
+}
+.vj-freezer-layer-show {
   visibility: visible;
-  opacity: 0.7;
+  opacity: 1;
   -webkit-transition-delay: 0s;
   -moz-transition-delay: 0s;
   -ie-transition-delay: 0s;
   transition-delay: 0s;
+}
+.loading {
+  width: 26px;
+  height: 26px;
+  background: url("../img/loading.svg") no-repeat;
+  display: inline-block;
+  vertical-align: middle;
+}
+.loading-dark {
+  background: url("../img/loading.dark.svg") no-repeat;
 }
 ::selection {
   background: #72d0eb;
