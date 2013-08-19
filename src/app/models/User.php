@@ -2,13 +2,8 @@
 
 namespace VJ\Models;
 
-class User extends \Phalcon\Mvc\Collection
+class User extends \VJ\Collection
 {
-
-    public function getSource()
-    {
-        return 'User';
-    }
 
     public $_id;
 

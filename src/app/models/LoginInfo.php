@@ -2,13 +2,8 @@
 
 namespace VJ\Models;
 
-class LoginInfo extends \Phalcon\Mvc\Collection
+class LoginInfo extends \VJ\Collection
 {
-
-    public function getSource()
-    {
-        return 'LoginInfo';
-    }
 
     public $_id;
 

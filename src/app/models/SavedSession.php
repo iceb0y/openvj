@@ -2,13 +2,8 @@
 
 namespace VJ\Models;
 
-class SavedSession extends \Phalcon\Mvc\Collection
+class SavedSession extends \VJ\Collection
 {
-
-    public function getSource()
-    {
-        return 'SavedSession';
-    }
 
     public $_id;
 

@@ -2,13 +2,8 @@
 
 namespace VJ\Models;
 
-class RegValidation extends \Phalcon\Mvc\Collection
+class RegValidation extends \VJ\Collection
 {
-
-    public function getSource()
-    {
-        return 'RegValidation';
-    }
 
     public $_id;
 
