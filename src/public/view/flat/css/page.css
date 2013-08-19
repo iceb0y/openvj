@@ -73,3 +73,12 @@
   font-size: 1.3em;
   font-weight: 300;
 }
+.reg-step2 {
+  margin-top: 50px;
+  padding: 30px 20px;
+}
+.reg-step2 label {
+  display: inline-block;
+  width: 110px;
+  color: #fff;
+}

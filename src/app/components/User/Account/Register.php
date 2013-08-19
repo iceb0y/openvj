@@ -114,7 +114,7 @@ class Register
             return I::error('REG_VERFICATION_EXPIRED');
         }
 
-        return true;
+        return ['mail' => $record->email, 'code' => $record->email];
     }
 
     /**

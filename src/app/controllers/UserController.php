@@ -18,7 +18,9 @@ class UserController extends \Phalcon\Mvc\Controller
                 $this->view->setVar('STEP', 0);
                 $this->view->setVar('ERROR', $result['errorMsg']);
             } else {
+                $this->view->setVar('REG_MAIL', $result['mail']);
                 $this->view->setVar('STEP', 2);
+                $this->view->setVar('REG_PARAM', $result);
             }
 
         } else {
