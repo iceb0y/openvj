@@ -2,7 +2,9 @@ freezer = null
 
 init_step1 = ->
 
-    mass.query('.role-reg-email')[0].focus()
+    setTimeout ->
+        mass.query('.role-reg-email')[0].focus()
+    , 100
 
     $event.on mass.query('.role-reg-email-confirm'), 'click', ->
 

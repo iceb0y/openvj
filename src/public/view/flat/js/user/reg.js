@@ -5,7 +5,9 @@
   freezer = null;
 
   init_step1 = function() {
-    mass.query('.role-reg-email')[0].focus();
+    setTimeout(function() {
+      return mass.query('.role-reg-email')[0].focus();
+    }, 100);
     $event.on(mass.query('.role-reg-email-confirm'), 'click', function() {
       var target_mail;
       target_mail = jQuery('.role-reg-email').val();
