@@ -28,7 +28,7 @@ contentMin = 2
 contentMax = 4096
 
 [Register]
-ValidationTTL = 86400
+validationTTL = 86400
 
 [Template]
 default = "flat"

@@ -110,7 +110,7 @@ class Register
             return I::error('REG_VERFICATION_FAILED');
         }
 
-        if (time() - $record->time->sec > (int)$__CONFIG->Register->validationExpire) {
+        if (time() - $record->time->sec > (int)$__CONFIG->Register->validationTTL) {
             return I::error('REG_VERFICATION_EXPIRED');
         }
 
