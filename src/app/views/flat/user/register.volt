@@ -32,9 +32,17 @@
             <div class="reg-step reg-step2" style="opacity:0;">
                 <h2>Step 2 / 2</h2>
                 <script>var REG_PARAM = {{ REG_PARAM|json }};</script>
-                <div class="form-line"><label>Email:</label>{{ REG_MAIL }}</div>
-                <div class="form-line"><label>Username:</label><input type="text" class="textbox role-reg-username"></div>
-                <div class="form-line"><label>Password:</label><input type="text" class="textbox role-reg-password"></div>
+                <div class="form-line"><label class="reg-label-t">Email:</label>{{ REG_MAIL }}</div>
+                <div class="form-line"><label class="reg-label-t">Username:</label><input type="text" class="textbox role-reg-username"></div>
+                <div class="form-line"><label class="reg-label-t">Password:</label><input type="text" class="textbox role-reg-password"></div>
+                <div class="form-line">
+                <input type="radio" name="reg-gender" id="reg-gender-male" checked><label for="reg-gender-male" class="reg-label-input">Male</label>
+                <input type="radio" name="reg-gender" id="reg-gender-female"><label for="reg-gender-female" class="reg-label-input">Female</label>
+                </div>
+                <div class="form-line">
+                <input type="checkbox" name="reg-agree" id="reg-agree"><label for="reg-agree" class="reg-label-input">I agree to the <a href="{{ BASE_PREFIX }}/help" target="_blank" class="dark">Vijos Terms</a></label>
+                </div>
+
                 <div class="form-line-big"><input type="button" class="button button-def role-reg-submit" value="Sign up!"></div>
             </div>
 {% endif %}

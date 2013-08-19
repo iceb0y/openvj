@@ -56,6 +56,12 @@ init_step1 = ->
                 $fadein mass.query('.reg-step1'), 100
                 mass.query('.role-reg-email')[0].select()
 
+
+init_step2 = ->
+
+    jQuery('input').iCheck()
+
+
 $ready ->
 
     freezer = new VJ.Freezer
