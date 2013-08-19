@@ -8,7 +8,7 @@ init_step1 = ->
 
     $event.on mass.query('.role-reg-email-confirm'), 'click', ->
 
-        target_mail = jQuery('.role-reg-email').val()
+        target_mail = mass.query('.role-reg-email')[0].value
 
         if not /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/.test target_mail
 
@@ -59,8 +59,26 @@ init_step1 = ->
 
 init_step2 = ->
 
+    dom_password = mass.query('.role-reg-password')
+
+    $event.on dom_password, 'focus', ->
+
+        this.type = 'text'
+
+    $event.on dom_password, 'blur', ->
+
+        this.type = 'password'
+
+    $event.on dom_password, 'keyup', ->
+
+        if this.value.match(/[^\x00-\xff]/g)
+            this.value = this.value.replace /[^\x00-\xff]/g, ''
+
     jQuery('input').iCheck()
 
+    setTimeout ->
+        mass.query('.role-reg-nickname')[0].focus()
+    , 100
 
 $ready ->
 

@@ -10,7 +10,7 @@
     }, 100);
     $event.on(mass.query('.role-reg-email-confirm'), 'click', function() {
       var target_mail;
-      target_mail = jQuery('.role-reg-email').val();
+      target_mail = mass.query('.role-reg-email')[0].value;
       if (!/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/.test(target_mail)) {
         $text(mass.query('.reg-hint'), 'Invalid email address ∑(O_O；)');
         return;
@@ -55,7 +55,23 @@
   };
 
   init_step2 = function() {
-    return jQuery('input').iCheck();
+    var dom_password;
+    dom_password = mass.query('.role-reg-password');
+    $event.on(dom_password, 'focus', function() {
+      return this.type = 'text';
+    });
+    $event.on(dom_password, 'blur', function() {
+      return this.type = 'password';
+    });
+    $event.on(dom_password, 'keyup', function() {
+      if (this.value.match(/[^\x00-\xff]/g)) {
+        return this.value = this.value.replace(/[^\x00-\xff]/g, '');
+      }
+    });
+    jQuery('input').iCheck();
+    return setTimeout(function() {
+      return mass.query('.role-reg-nickname')[0].focus();
+    }, 100);
   };
 
   $ready(function() {
