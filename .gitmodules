@@ -1,0 +1,3 @@
+[submodule "src/public/static/lib"]
+	path = src/public/static/lib
+	url = https://github.com/vijos/openvj-js-lib.git
