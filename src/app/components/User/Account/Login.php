@@ -158,7 +158,7 @@ class Login
         $log->time = new \MongoDate();
         $log->uid = $uid;
         $log->ok = $ok;
-        $log->form = $from;
+        $log->from = $from;
         $log->ip = $_SERVER['REMOTE_ADDR'];
         $log->$ua;
         return $log->save();
