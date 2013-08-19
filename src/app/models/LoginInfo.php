@@ -7,7 +7,7 @@ class LoginInfo extends \Phalcon\Mvc\Collection
 
     public function getSource()
     {
-        return 'RegValidation';
+        return 'LoginInfo';
     }
 
     public $_id;
@@ -18,7 +18,7 @@ class LoginInfo extends \Phalcon\Mvc\Collection
 
     public $ok;
 
-    public $form;
+    public $from;
 
     public $ip;
 
