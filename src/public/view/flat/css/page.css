@@ -56,6 +56,10 @@
 .reg-step {
   position: relative;
 }
+.reg-step0 {
+  margin-top: 120px;
+  padding: 0 20px;
+}
 .reg-step1 {
   margin-top: 80px;
   padding: 30px 20px;

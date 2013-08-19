@@ -7,8 +7,24 @@ class UserController extends \Phalcon\Mvc\Controller
     {
         $this->view->setVars([
             'PAGE_CLASS' => 'user_reg',
-            'TITLE'      => gettext('Register'),
-            'STEP'       => 1
+            'TITLE'      => gettext('Register')
         ]);
+
+        if (isset($_GET['code']) && isset($_GET['email'])) {
+
+            $result = \VJ\User\Account\Register::verificateEmail($_GET['email'], $_GET['code']);
+
+            if (\VJ\I::isError($result)) {
+                $this->view->setVar('STEP', 0);
+                $this->view->setVar('ERROR', $result['errorMsg']);
+            } else {
+                $this->view->setVar('STEP', 2);
+            }
+
+        } else {
+
+            $this->view->setVar('STEP', 1);
+
+        }
     }
 }

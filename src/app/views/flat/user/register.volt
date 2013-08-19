@@ -10,7 +10,13 @@
         <h1>Register</h1>
         <div class="reg-cont">
             <script>var REG_STEP = {{ STEP|json }};</script>
-{% if STEP == 1 %}
+{% if STEP == 0 %}
+            <div class="reg-step0">
+                <h2>Error</h2>
+                <p>{{ ERROR|html }}</p>
+                <p><a href="{{ BASE_PREFIX }}/user/register" class="role-resend dark">Enter a new email</a></p>
+            </div>
+{% elseif STEP == 1 %}
             <div class="reg-step reg-step1" style="opacity:0;">
                 <h2>Step 1 / 2</h2>
                 <div class="form-line">Please enter your Email:</div>
@@ -22,7 +28,7 @@
                 <p>Well done! An email has been sent to <span class="role-email"></span>.</p><p>Please open your inbox and confirm it.</p>
                 <p><a href="javascript:;" class="role-resend dark">Enter a new email</a></p>
             </div>
-{% else %}
+{% elseif STEP == 2 %}
 
 {% endif %}
         </div>
