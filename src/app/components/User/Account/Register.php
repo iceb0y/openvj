@@ -94,7 +94,7 @@ class Register
     public static function verificateEmail($mailHash, $code)
     {
 
-        global $__CONFIG, $__SESSION;
+        global $__CONFIG;
 
         $code = (string)$code;
 
@@ -113,9 +113,6 @@ class Register
         if (time() - $record->time->sec > (int)$__CONFIG->Register->validationExpire) {
             return I::error('REG_VERFICATION_EXPIRED');
         }
-
-        $__SESSION->set('reg-email', $record->email);
-        $__SESSION->set('reg-code', $record->code);
 
         return true;
     }
@@ -137,8 +134,11 @@ class Register
         /*
             Options:
 
-                no_session_checking:    bool    是否检查Email验证
-                uid:                    int     指定UID
+                email:          string  Email
+                code:           string  Email verification code
+
+                no_checking:    bool    是否检查Email验证
+                uid:            int     指定UID
 
         */
 
@@ -195,16 +195,14 @@ class Register
         }
 
         // Check session
-        if (!isset($options['no_session_checking'])) {
+        if (!isset($options['no_checking'])) {
 
-            global $__SESSION;
-
-            if (!$__SESSION->has('reg-email') || !$__SESSION->has['reg-code']) {
+            if (!isset($options['email']) || !isset($options['code'])) {
                 return I::error('REG_VERFICATION_FAILED');
             }
 
-            $mail           = $__SESSION->get('reg-email');
-            $validateResult = self::verificateEmail(sha1($mail), $__SESSION->get('reg-code'));
+            $mail           = $options['email'];
+            $validateResult = self::verificateEmail(sha1($mail), $options['code']);
 
             if ($validateResult !== true) {
                 return $validateResult;
@@ -276,15 +274,6 @@ class Register
             'first_reg' => true
         ];
         $result         = $user->save();
-
-        //Clear session
-
-        if (!isset($options['no_session_checking'])) {
-
-            $__SESSION->remove('reg-email');
-            $__SESSION->remove('reg-code');
-
-        }
 
         return $result;
     }
