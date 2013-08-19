@@ -84,4 +84,4 @@ When deploying to the production environment, the following scripts should be ex
 
 - `bundle-ext-lib.js`
 
-  Bundle submodules of `www/static/lib/vijos-ext` into `vijos-ext.js`
+  Bundle submodules of `public/static/lib/vijos-ext/lib` into `vijos-ext.js`
