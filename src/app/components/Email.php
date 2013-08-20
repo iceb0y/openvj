@@ -2,6 +2,8 @@
 
 namespace VJ;
 
+use \VJ\I;
+
 class Email
 {
 
@@ -12,20 +14,24 @@ class Email
      * @param $subject
      * @param $body
      *
-     * @return bool
+     * @return array|bool|mixed
      */
     public static function send($email, $subject, $body)
     {
 
         global $__CONFIG;
 
-        \VJ\IO\Node::request('/mail/send', null, [
+        $result = \VJ\IO\Node::request('/mail/send', null, [
             'to'      => $email,
             'subject' => $__CONFIG->Mail->subjectPrefix.$subject,
             'html'    => $body
         ]);
 
-        return true;
+        if (I::isError($result)) {
+            return $result;
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -37,7 +43,7 @@ class Email
      * @param      $action_name
      * @param null $vars
      *
-     * @return bool
+     * @return array|bool|mixed
      */
     public static function sendByTemplate($email, $subject, $controller_name, $action_name, $vars = null)
     {

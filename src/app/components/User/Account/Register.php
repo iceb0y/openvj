@@ -71,7 +71,7 @@ class Register
             'email' => sha1($email)
         ]);
 
-        return \VJ\Email::sendByTemplate(
+        $result = \VJ\Email::sendByTemplate(
             $email,
             gettext('Just one more step!'),
             'user',
@@ -81,6 +81,12 @@ class Register
                 'REG_URI' => $URI
             ]
         );
+
+        if (!I::isError($result)) {
+            $result = ['succeeded' => true];
+        }
+
+        return $result;
     }
 
     /**

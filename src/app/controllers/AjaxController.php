@@ -1,5 +1,7 @@
 <?php
 
+use \VJ\I;
+
 class AjaxController extends \Phalcon\Mvc\Controller
 {
 
@@ -20,9 +22,7 @@ class AjaxController extends \Phalcon\Mvc\Controller
 
         $result = \VJ\User\Account\Register::sendVerificationEmail($_POST['mail']);
 
-        $this->view->setVars(['AJAX_DATA' => [
-            'result' => $result
-        ]]);
+        $this->view->setVars(['AJAX_DATA' => $result]);
         
     }
 

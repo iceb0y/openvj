@@ -5,6 +5,8 @@ const ERR_ARGUMENT_REQUIRED = '%1$s is required';
 const ERR_ARGUMENT_INVALID  = 'Invalid argument: %1$s';
 const ERR_ARGUMENT_TOO_LONG = '%1$s too long (maximum is %2$d characters)';
 
+const ERR_CURL_ERROR = 'CURL error (%1$d): %2$s';
+
 const ERR_NOT_IMPLEMENTED = 'Not implemented';
 
 const ERR_USED    = 'Your %1$s %2$s is already existed or in use, please try another';

@@ -2,6 +2,8 @@
 
 namespace VJ\IO;
 
+use \VJ\I;
+
 class Node
 {
     public static function request($location, $get = null, $post = null, $getResponse = false)
@@ -33,6 +35,11 @@ class Node
         }
 
         $data = curl_exec($curl);
+
+        if (curl_errno($curl)) {
+            $data = I::error('CURL_ERROR', curl_errno($curl), curl_error($curl));
+        }
+
         curl_close($curl);
 
         return $data;
