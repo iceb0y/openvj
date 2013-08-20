@@ -19,7 +19,7 @@ class User extends \VJ\Collection
 
     public $pass;
 
-    public $new_pass; // should be true
+    public $passfmt;  // should always be 1
 
     public $mail;
 

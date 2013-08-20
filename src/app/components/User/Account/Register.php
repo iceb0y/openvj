@@ -248,7 +248,7 @@ class Register
         $user->lnick    = strtolower($data['nickname']);
         $user->salt     = $salt;
         $user->pass     = $pass;
-        $user->new_pass = true; //new format password?
+        $user->passfmt  = 1; //password format 1
         $user->mail     = $mail;
         $user->qq       = '';
         $user->rp       = 0.0;

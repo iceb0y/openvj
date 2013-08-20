@@ -100,12 +100,20 @@ class Login
             return I::error('USER_NOTFOUND');
         }
 
-        if (isset($u->new_pass)) {
-            // This account uses a newer password hashing method
-            $hash = \VJ\User\Account::makeHash($pass, $u->salt, $md5);
-        } else {
-            // An older hashing method
-            $hash = \VJ\User\Account::makeHash_deprecated($user, $pass, $u->salt, $md5);
+        if (!isset($u->passfmt)) {
+            $u->passfmt = 0;
+        }
+
+        switch ($u->passfmt) {
+            case 0:
+                // An older hashing method
+                $hash = \VJ\User\Account::makeHash_deprecated($user, $pass, $u->salt, $md5);
+                break;
+
+            case 1:
+                // This account uses a newer password hashing method
+                $hash = \VJ\User\Account::makeHash($pass, $u->salt, $md5);
+                break;
         }
 
         if ($u->pass !== $hash) {
@@ -121,10 +129,10 @@ class Login
         }
 
         // Upgrade old passwords
-        if (!isset($u->new_pass) && $md5 == false) {
+        if ($u->passfmt == 0 && $md5 == false) {
             $u->salt = \VJ\Security\Randomizer::toHex(30);
             $u->pass = \VJ\User\Account::makeHash($pass, $u->salt);
-            $u->new_pass = true;
+            $u->passfmt = 1;
             $u->save();
         }
 
@@ -179,7 +187,7 @@ class Login
         global $__SESSION;
 
         $priv = \VJ\User\Security\Privilege::merge($u->priv, $u->group);
-        
+
         // 检查该账号是否可登录
         if (!isset($priv[PRIV_LOG_IN]) || $priv[PRIV_LOG_IN] !== false) {
             return I::error('NO_PRIV', 'PRIV_LOG_IN');
