@@ -7,6 +7,8 @@ class User extends \VJ\Collection
 
     public $_id;
 
+    public $uid;
+
     public $luser;
 
     public $nick;

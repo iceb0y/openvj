@@ -56,10 +56,33 @@ init_step1 = ->
                 $fadein mass.query('.reg-step1'), 100
                 mass.query('.role-reg-email')[0].select()
 
-
 init_step2 = ->
 
-    dom_password = mass.query('.role-reg-password')
+    setTimeout ->
+        mass.query('.role-reg-nickname')[0].focus()
+    , 100
+
+    jQuery('.textbox').tipsy
+        title:      'data-tip'
+        gravity:    'e'
+        trigger:    'focus'
+        offset:     120
+        className:  'tipsy-reg'
+
+    jQuery('.role-reg-agree').tipsy
+        title:      'data-tip'
+        gravity:    'e'
+        trigger:    'manual'
+        offset:     10
+        className:  'tipsy-reg'
+
+    jQuery('input').iCheck()
+
+    jQuery('.role-reg-agree').on 'ifChecked', ->
+
+        jQuery(@).tipsy 'hide'
+
+    dom_password = mass.query '.role-reg-password'
 
     $event.on dom_password, 'focus', ->
 
@@ -71,14 +94,55 @@ init_step2 = ->
 
     $event.on dom_password, 'keyup', ->
 
-        if this.value.match(/[^\x00-\xff]/g)
+        if this.value.match /[^\x00-\xff]/g
             this.value = this.value.replace /[^\x00-\xff]/g, ''
 
-    jQuery('input').iCheck()
+    $event.on mass.query('.role-reg-submit'), 'click', ->
 
-    setTimeout ->
-        mass.query('.role-reg-nickname')[0].focus()
-    , 100
+        dom = mass.query('.role-reg-nickname')[0]
+
+        if not dom.value.match /^[^ ^\t]{1,15}$/
+            dom.select()
+            return false
+
+        dom = mass.query('.role-reg-username')[0]
+
+        if not dom.value.match /^[^ ^\t]{3,30}$/
+            dom.select()
+            return false
+        
+        dom = mass.query('.role-reg-password')[0]
+
+        if not dom.value.match /^.{5,30}$/
+            dom.select()
+            return false
+
+        dom = mass.query('.role-reg-agree')[0]
+
+        if not dom.checked
+            jQuery('.role-reg-agree').tipsy 'show'
+            return false
+
+        VJ.ajax
+
+            action:    'registerstep2'
+            data:      
+                data: REG_PARAM
+                nick: mass.query('.role-reg-nickname')[0].value
+                user: mass.query('.role-reg-username')[0].value
+                pass: mass.query('.role-reg-password')[0].value
+                gender: mass.query('[name="reg-gender"]:checked')[0].value
+                agreement: 'accept'
+
+            freezer:   freezer
+
+            onSuccess: (d) ->
+
+                VJ.Dialog.alert 'OK', 'OK'
+
+            onFailure: (d) ->
+
+                VJ.Dialog.alert d.errorMsg, 'Error'
 
 $ready ->
 

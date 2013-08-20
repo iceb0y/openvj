@@ -26,6 +26,25 @@ class AjaxController extends \Phalcon\Mvc\Controller
         
     }
 
+    public function registerstep2Action()
+    {
+
+        $result = \VJ\User\Account\Register::register(
+            $_POST['user'],
+            $_POST['pass'],
+            $_POST['nick'],
+            $_POST['gender'],
+            $_POST['agreement'],
+            [
+                'email' => $_POST['data']['mail'],
+                'code'  => $_POST['data']['code']
+            ]
+        );
+
+        $this->view->setVars(['AJAX_DATA' => $result]);
+
+    }
+
     public function loginAction()
     {
 

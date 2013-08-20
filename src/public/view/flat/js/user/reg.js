@@ -56,6 +56,27 @@
 
   init_step2 = function() {
     var dom_password;
+    setTimeout(function() {
+      return mass.query('.role-reg-nickname')[0].focus();
+    }, 100);
+    jQuery('.textbox').tipsy({
+      title: 'data-tip',
+      gravity: 'e',
+      trigger: 'focus',
+      offset: 120,
+      className: 'tipsy-reg'
+    });
+    jQuery('.role-reg-agree').tipsy({
+      title: 'data-tip',
+      gravity: 'e',
+      trigger: 'manual',
+      offset: 10,
+      className: 'tipsy-reg'
+    });
+    jQuery('input').iCheck();
+    jQuery('.role-reg-agree').on('ifChecked', function() {
+      return jQuery(this).tipsy('hide');
+    });
     dom_password = mass.query('.role-reg-password');
     $event.on(dom_password, 'focus', function() {
       return this.type = 'text';
@@ -68,10 +89,47 @@
         return this.value = this.value.replace(/[^\x00-\xff]/g, '');
       }
     });
-    jQuery('input').iCheck();
-    return setTimeout(function() {
-      return mass.query('.role-reg-nickname')[0].focus();
-    }, 100);
+    return $event.on(mass.query('.role-reg-submit'), 'click', function() {
+      var dom;
+      dom = mass.query('.role-reg-nickname')[0];
+      if (!dom.value.match(/^[^ ^\t]{1,15}$/)) {
+        dom.select();
+        return false;
+      }
+      dom = mass.query('.role-reg-username')[0];
+      if (!dom.value.match(/^[^ ^\t]{3,30}$/)) {
+        dom.select();
+        return false;
+      }
+      dom = mass.query('.role-reg-password')[0];
+      if (!dom.value.match(/^.{5,30}$/)) {
+        dom.select();
+        return false;
+      }
+      dom = mass.query('.role-reg-agree')[0];
+      if (!dom.checked) {
+        jQuery('.role-reg-agree').tipsy('show');
+        return false;
+      }
+      return VJ.ajax({
+        action: 'registerstep2',
+        data: {
+          data: REG_PARAM,
+          nick: mass.query('.role-reg-nickname')[0].value,
+          user: mass.query('.role-reg-username')[0].value,
+          pass: mass.query('.role-reg-password')[0].value,
+          gender: mass.query('[name="reg-gender"]:checked')[0].value,
+          agreement: 'accept'
+        },
+        freezer: freezer,
+        onSuccess: function(d) {
+          return VJ.Dialog.alert('OK', 'OK');
+        },
+        onFailure: function(d) {
+          return VJ.Dialog.alert(d.errorMsg, 'Error');
+        }
+      });
+    });
   };
 
   $ready(function() {

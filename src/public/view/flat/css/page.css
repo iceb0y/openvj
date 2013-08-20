@@ -93,3 +93,17 @@
 .reg-label-margin {
   margin-right: 20px;
 }
+.tipsy-reg {
+  padding: 20px;
+}
+.tipsy-reg .tipsy-arrow {
+  border-width: 20px;
+}
+.tipsy-reg .tipsy-inner {
+  padding: 5px 10px;
+  box-shadow: 0 0 50px #fff;
+  border-radius: 0;
+}
+.tipsy-reg.tipsy-e .tipsy-arrow {
+  margin-top: -20px;
+}
