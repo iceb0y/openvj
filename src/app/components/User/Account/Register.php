@@ -160,7 +160,7 @@ class Register
             'username' => $username,
             'password' => $password,
             'nickname' => $nickname,
-            'gener'    => $gender
+            'gender'   => $gender
         ];
 
         $data = \VJ\Validator::filter($data, [
@@ -208,7 +208,7 @@ class Register
             $mail           = $options['email'];
             $validateResult = self::verificateEmail(sha1($mail), $options['code']);
 
-            if ($validateResult !== true) {
+            if (I::isError($validateResult)) {
                 return $validateResult;
             }
 
@@ -242,7 +242,7 @@ class Register
         }
 
         $user           = new Models\User();
-        $user->_id      = $uid;
+        $user->uid      = $uid;
         $user->luser    = $data['username'];
         $user->nick     = $data['nickname'];
         $user->lnick    = strtolower($data['nickname']);
