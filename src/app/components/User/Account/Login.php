@@ -54,7 +54,7 @@ class Login
         }
 
         $u = Models\User::findFirst([
-            'conditions' => ['_id' => $uid]
+            'conditions' => ['uid' => $uid]
         ]);
 
         // User is deleted
@@ -114,7 +114,7 @@ class Login
             $login_OK = true;
         }
 
-        self::_log($u->_id, $from, $login_OK);
+        self::_log($u->uid, $from, $login_OK);
 
         if (!$login_OK) {
             return I::error('PASSWORD_WRONG');
@@ -160,7 +160,8 @@ class Login
         $log->ok = $ok;
         $log->from = $from;
         $log->ip = $_SERVER['REMOTE_ADDR'];
-        $log->$ua;
+        $log->ua = $ua;
+        
         return $log->save();
 
     }
@@ -191,6 +192,7 @@ class Login
 
         $data = \VJ\Validator::filter((array)$u, [
 
+            'uid'      => 'int',
             'nick'     => null,
             'gmd5'     => null,
             'group'    => 'int',
@@ -201,7 +203,6 @@ class Login
 
         ]);
 
-        $data['id']   = (int)$u->_id;
         $data['priv'] = $priv;
 
         $__SESSION->set('user', $data);
@@ -222,7 +223,7 @@ class Login
 
         $__SESSION->set('user', [
 
-            'id'       => UID_GUEST,
+            'uid'      => UID_GUEST,
             'nick'     => NICK_GUEST,
             'gmd5'     => '',
             'group'    => GROUP_GUEST,

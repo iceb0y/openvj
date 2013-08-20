@@ -45,7 +45,7 @@ class Account
 
         global $_UID, $_NICK, $_PRIV;
 
-        $_UID  = $__SESSION->get('user')['id'];
+        $_UID  = $__SESSION->get('user')['uid'];
         $_NICK = $__SESSION->get('user')['nick'];
         $_PRIV = $__SESSION->get('user')['priv'];
 
