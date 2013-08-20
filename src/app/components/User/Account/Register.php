@@ -120,7 +120,7 @@ class Register
             return I::error('REG_VERFICATION_EXPIRED');
         }
 
-        return ['mail' => $record->email, 'code' => $record->email];
+        return ['mail' => $record->email, 'code' => $code];
     }
 
     /**
@@ -172,12 +172,10 @@ class Register
 
         $validateResult = \VJ\Validator::validate($data, [
             'username' => [
-                'length' => [3, 30],
-                'regex'  => '/^[^ ^\t]*$/'
+                'regex'  => '/^[^ ^\t]{3,30}$/'
             ],
             'nickname' => [
-                'length' => [1, 15],
-                'regex'  => '/^[^ ^\t]*$/'
+                'regex'  => '/^[^ ^\t]{1,15}$/'
             ],
             'password' => [
                 'regex' => '/^.{5,30}$/'
