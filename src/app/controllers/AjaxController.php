@@ -10,24 +10,38 @@ class AjaxController extends \Phalcon\Mvc\Controller
 
         global $__CONFIG;
 
-        $this->view->setVars(['AJAX_DATA' => [
+        $this->view->AJAX_DATA = [
             'key'       => $__CONFIG->RSA->public,
             'e'         => $__CONFIG->RSA->e,
             'timestamp' => time()
-        ]]);
+        ];
+
     }
 
     public function registerstep1Action()
     {
 
-        $result = \VJ\User\Account\Register::sendVerificationEmail($_POST['mail']);
+        $result = \VJ\Validator::required($_POST, ['mail']);
 
-        $this->view->setVars(['AJAX_DATA' => $result]);
+        if (\VJ\I::isError($result)) {
+            $this->view->AJAX_DATA = $result;
+            return;
+        }
+
+        $result = \VJ\User\Account\Register::sendVerificationEmail($_POST['mail']);
+        $this->view->AJAX_DATA = $result;
         
     }
 
     public function registerstep2Action()
     {
+
+        $result = \VJ\Validator::required($_POST, ['user', 'pass', 'nick', 'gender', 'agreement', 'email', 'code']);
+
+        if (\VJ\I::isError($result)) {
+            $this->view->AJAX_DATA = $result;
+            return;
+        }
 
         $result = \VJ\User\Account\Register::register(
             $_POST['user'],
@@ -36,17 +50,24 @@ class AjaxController extends \Phalcon\Mvc\Controller
             $_POST['gender'],
             $_POST['agreement'],
             [
-                'email' => $_POST['data']['mail'],
-                'code'  => $_POST['data']['code']
+                'email' => $_POST['email'],
+                'code'  => $_POST['code']
             ]
         );
 
-        $this->view->setVars(['AJAX_DATA' => $result]);
+        $this->view->AJAX_DATA = $result;
 
     }
 
     public function loginAction()
     {
+
+        $result = \VJ\Validator::required($_POST, ['encrypted']);
+
+        if (\VJ\I::isError($result)) {
+            $this->view->AJAX_DATA = $result;
+            return;
+        }
 
         global $__CONFIG;
 
@@ -60,22 +81,20 @@ class AjaxController extends \Phalcon\Mvc\Controller
 
         // Timestamp validation
         if (abs(time() - (int)$msg['timestamp']) > 10) {
-
-            $ret = \VJ\I::error('EXPIRED');
-
-        } else {
-
-            $ret = \VJ\User\Account\Login::fromPassword($msg['user'], $msg['pass']);
-
-            if (!\VJ\I::isError($ret)) {
-
-                $ret = \VJ\User\Account\Login::user($ret);
-
-            }
-
+            $result = \VJ\I::error('EXPIRED');
+            $this->view->AJAX_DATA = $result;
+            return;
         }
 
-        $this->view->setVars(['AJAX_DATA' => $ret]);
+        $result = \VJ\User\Account\Login::fromPassword($msg['user'], $msg['pass']);
+
+        if (\VJ\I::isError($result)) {
+            $this->view->AJAX_DATA = $result;
+            return;
+        }
+
+        $result = \VJ\User\Account\Login::user($result);
+        $this->view->AJAX_DATA = $result;
 
     }
 }

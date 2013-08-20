@@ -127,7 +127,8 @@ init_step2 = ->
 
             action:    'registerstep2'
             data:      
-                data: REG_PARAM
+                email: REG_PARAM.mail
+                code: REG_PARAM.code
                 nick: mass.query('.role-reg-nickname')[0].value
                 user: mass.query('.role-reg-username')[0].value
                 pass: mass.query('.role-reg-password')[0].value

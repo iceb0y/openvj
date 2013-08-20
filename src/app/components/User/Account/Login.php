@@ -161,7 +161,7 @@ class Login
         $log->from = $from;
         $log->ip = $_SERVER['REMOTE_ADDR'];
         $log->ua = $ua;
-        
+
         return $log->save();
 
     }
@@ -179,7 +179,7 @@ class Login
         global $__SESSION;
 
         $priv = \VJ\User\Security\Privilege::merge($u->priv, $u->group);
-
+        
         // 检查该账号是否可登录
         if (!isset($priv[PRIV_LOG_IN]) || $priv[PRIV_LOG_IN] !== false) {
             return I::error('NO_PRIV', 'PRIV_LOG_IN');
