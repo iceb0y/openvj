@@ -10,8 +10,9 @@ class Session
     public static function destroy($sessid)
     {
 
-        $di = \Phalcon\DI::getDefault();
+        $di    = \Phalcon\DI::getDefault();
         $mongo = $di->getShared('mongo');
+
         return $mongo->ActiveSession->remove([self::SESSION_FIELD => $sessid], ['justOne' => 1]);
 
     }

@@ -19,7 +19,7 @@ class Privilege
 
         if ($__GROUP_PRIV === false) {
 
-            $di = \Phalcon\DI::getDefault();
+            $di    = \Phalcon\DI::getDefault();
             $mongo = $di->getShared('mongo');
 
             $rec          = $mongo->System->findOne(['_id' => 'privtable']);

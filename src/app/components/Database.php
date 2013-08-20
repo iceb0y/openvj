@@ -10,10 +10,10 @@ class Database
 
     public static function increaseId($id)
     {
-    
-        $id = (int)$id;
+
+        $id    = (int)$id;
         $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
-        
+
         $seq = $mongo->command([
             'findandmodify' => 'Counter',
             'query'         => ['_id' => $id],

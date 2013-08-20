@@ -5,7 +5,7 @@ namespace VJ\RenderEngine;
 class Volt extends \Phalcon\Mvc\View\Engine\Volt
 {
 
-    public function __construct($view, $di = NULL)
+    public function __construct($view, $di = null)
     {
 
         parent::__construct($view, $di);

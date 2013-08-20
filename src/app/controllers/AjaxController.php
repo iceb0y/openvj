@@ -25,12 +25,13 @@ class AjaxController extends \Phalcon\Mvc\Controller
 
         if (\VJ\I::isError($result)) {
             $this->view->AJAX_DATA = $result;
+
             return;
         }
 
-        $result = \VJ\User\Account\Register::sendVerificationEmail($_POST['mail']);
+        $result                = \VJ\User\Account\Register::sendVerificationEmail($_POST['mail']);
         $this->view->AJAX_DATA = $result;
-        
+
     }
 
     public function registerstep2Action()
@@ -40,6 +41,7 @@ class AjaxController extends \Phalcon\Mvc\Controller
 
         if (\VJ\I::isError($result)) {
             $this->view->AJAX_DATA = $result;
+
             return;
         }
 
@@ -66,6 +68,7 @@ class AjaxController extends \Phalcon\Mvc\Controller
 
         if (\VJ\I::isError($result)) {
             $this->view->AJAX_DATA = $result;
+
             return;
         }
 
@@ -81,8 +84,9 @@ class AjaxController extends \Phalcon\Mvc\Controller
 
         // Timestamp validation
         if (abs(time() - (int)$msg['timestamp']) > 10) {
-            $result = \VJ\I::error('EXPIRED');
+            $result                = \VJ\I::error('EXPIRED');
             $this->view->AJAX_DATA = $result;
+
             return;
         }
 
@@ -90,10 +94,11 @@ class AjaxController extends \Phalcon\Mvc\Controller
 
         if (\VJ\I::isError($result)) {
             $this->view->AJAX_DATA = $result;
+
             return;
         }
 
-        $result = \VJ\User\Account\Login::user($result);
+        $result                = \VJ\User\Account\Login::user($result);
         $this->view->AJAX_DATA = $result;
 
     }

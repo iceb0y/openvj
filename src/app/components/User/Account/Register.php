@@ -172,10 +172,10 @@ class Register
 
         $validateResult = \VJ\Validator::validate($data, [
             'username' => [
-                'regex'  => '/^[^ ^\t]{3,30}$/'
+                'regex' => '/^[^ ^\t]{3,30}$/'
             ],
             'nickname' => [
-                'regex'  => '/^[^ ^\t]{1,15}$/'
+                'regex' => '/^[^ ^\t]{1,15}$/'
             ],
             'password' => [
                 'regex' => '/^.{5,30}$/'

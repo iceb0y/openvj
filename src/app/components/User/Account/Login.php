@@ -50,6 +50,7 @@ class Login
         // Session expired?
         if (time() > $sess->exptime->sec) {
             $sess->delete();
+
             return I::error('FAILED');
         }
 
@@ -130,8 +131,8 @@ class Login
 
         // Upgrade old passwords
         if ($u->passfmt == 0 && $md5 == false) {
-            $u->salt = \VJ\Security\Randomizer::toHex(30);
-            $u->pass = \VJ\User\Account::makeHash($pass, $u->salt);
+            $u->salt    = \VJ\Security\Randomizer::toHex(30);
+            $u->pass    = \VJ\User\Account::makeHash($pass, $u->salt);
             $u->passfmt = 1;
             $u->save();
         }
@@ -162,13 +163,13 @@ class Login
             $ua = '';
         }
 
-        $log = new Models\LoginInfo();
+        $log       = new Models\LoginInfo();
         $log->time = new \MongoDate();
-        $log->uid = $uid;
-        $log->ok = $ok;
+        $log->uid  = $uid;
+        $log->ok   = $ok;
         $log->from = $from;
-        $log->ip = $_SERVER['REMOTE_ADDR'];
-        $log->ua = $ua;
+        $log->ip   = $_SERVER['REMOTE_ADDR'];
+        $log->ua   = $ua;
 
         return $log->save();
 
@@ -194,7 +195,7 @@ class Login
         }
 
         // 修改最后登录时间
-        $u->tlogin = time();
+        $u->tlogin  = time();
         $u->iplogin = $_SERVER['REMOTE_ADDR'];
         $u->save();
 
