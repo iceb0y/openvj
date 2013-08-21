@@ -80,9 +80,10 @@ Please ensure these indexes:
 
 ## Frontend
 
-Grunt task:
+Run Grunt tasks before deployment:
 
 ```bash
-cd task
-grunt
+cd deploy/task
+npm install     # install Grunt dependencies
+grunt           # run bundle/compile tasks
 ```
