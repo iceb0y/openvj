@@ -80,8 +80,9 @@ Please ensure these indexes:
 
 ## Frontend
 
-When deploying to the production environment, the following scripts should be executed:
+Grunt task:
 
-- `bundle-ext-lib.js`
-
-  Bundle submodules of `public/static/lib/vijos-ext/lib` into `vijos-ext.js`
+```bash
+cd task
+grunt
+```

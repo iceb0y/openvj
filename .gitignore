@@ -16,3 +16,6 @@ src/app/configs/security.ini
 
 # Composer
 src/app/vendor
+
+# Nodejs
+node_modules/
