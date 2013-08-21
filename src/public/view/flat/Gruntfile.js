@@ -3,7 +3,7 @@ module.exports = function (grunt)
 
      grunt.initConfig(
      {
-          
+
           pkg: grunt.file.readJSON('package.json'),
 
           coffee:
@@ -68,6 +68,21 @@ module.exports = function (grunt)
                     dest:     'css/',
                     ext:      '.css'
                }
+          },
+
+          watch:
+          {
+               js:
+               {
+                    files: ['js/**/*.js'],
+                    tasks: ['coffee']
+               },
+
+               css:
+               {
+                    files: ['css/**/*.styl'],
+                    tasks: ['stylus', 'autoprefixer']
+               }
           }
 
      });
@@ -79,7 +94,7 @@ module.exports = function (grunt)
      grunt.loadNpmTasks('grunt-contrib-cssmin');
      grunt.loadNpmTasks('grunt-autoprefixer');
 
-     grunt.registerTask('default', ['coffee', 'stylus', 'autoprefixer']);
+     grunt.registerTask('default', ['coffee', 'stylus', 'autoprefixer', 'watch']);
      grunt.registerTask('production', ['coffee', 'uglify', 'stylus', 'autoprefixer', 'cssmin']);
 
 };
