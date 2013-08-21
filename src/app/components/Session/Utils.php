@@ -112,8 +112,6 @@ class Utils
      */
     private static function expireCookie()
     {
-        echo 'expire';
-
         return \VJ\Utils::expireCookie(self::$sessname);
     }
 
