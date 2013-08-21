@@ -13,9 +13,11 @@ if (!apc_load_constants('openvj-const-privilege')) {
 
         //访问
         'PRIV_LOG_IN'                   => 1000, //登录到该账户
+        'PRIV_LOG_OUT'                  => 1001, //登出
 
         //用户
         'PRIV_USER'                     => 10000, //用户总权限
+        'PRIV_USER_BAR'                 => 10001, //用户控制条
 
         //题目
         'PRIV_PROBLEM'                  => 11000, //题库总权限

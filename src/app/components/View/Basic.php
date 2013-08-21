@@ -27,6 +27,11 @@ class Basic extends \Phalcon\Mvc\View
         return $text;
     }
 
+    public static function has_priv($priv)
+    {
+        return \VJ\User\Security\Privilege::has($priv);
+    }
+
     public static function view_static($res, $static = false)
     {
         global $__CONFIG, $__TEMPLATE_NAME;
