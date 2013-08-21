@@ -29,4 +29,17 @@ class UserController extends \Phalcon\Mvc\Controller
 
         }
     }
+
+    public function helloAction()
+    {
+
+        // Check privilege
+
+        $this->view->setVars([
+            'PAGE_CLASS' => 'user_hello',
+            'TITLE'      => gettext('Hello')
+        ]);
+
+    }
+
 }

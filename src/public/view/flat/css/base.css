@@ -1245,6 +1245,12 @@ a.dark:hover {
   background: #c5c5c5;
 }
 
+.button-big {
+  padding: 15px 50px;
+  font-size: 1.5em;
+  font-weight: 300;
+}
+
 .button-def {
   background: #ff6a6a;
   color: #f8f8f8;
@@ -1264,6 +1270,10 @@ a.dark:hover {
 
 .form-line-big {
   padding: 20px 0;
+}
+
+.form-line-extrabig {
+  padding: 40px 0;
 }
 
 .icheckbox,
