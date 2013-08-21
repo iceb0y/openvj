@@ -146,3 +146,7 @@
   });
 
 }).call(this);
+
+/*
+//@ sourceMappingURL=reg.js.map
+*/

@@ -76,15 +76,20 @@ See http://docs.phalconphp.com/en/latest/reference/nginx.html for more informati
 
 Please ensure these indexes:
 
-- 'Session' -> 'session_id'
+- Session.session_id
 
 ## Frontend
 
-Run Grunt tasks before deployment:
+Run grunt tasks before deployment:
 
 ```bash
-cd deploy/task
-npm install -g grunt-cli  # install Grunt
-npm install               # install Grunt dependencies
-grunt                     # run bundle/compile tasks
+npm install -g grunt-cli  # install grunt
+
+cd src/public/static/lib/vijos-ext
+npm install               # install grunt dependencies
+grunt production          # run tasks
+
+cd src/public/view/flat
+npm install               # install grunt dependencies
+grunt production          # run tasks
 ```

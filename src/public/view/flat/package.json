@@ -1,15 +1,13 @@
 {
-    "name":"vijos-deploy",
+    "name":"vijos-theme-deploy",
     "version":"0.0.1",
     "dependencies":{
         "grunt":"*",
         "grunt-contrib-watch":"*",
-        "grunt-contrib-concat":"*",
         "grunt-contrib-coffee":"*",
-        "grunt-contrib-stylus":"*",
         "grunt-contrib-uglify":"*",
+        "grunt-contrib-stylus":"*",
         "grunt-contrib-cssmin":"*",
-        "grunt-autoprefixer":"*",
-        "optimist":"*"
+        "grunt-autoprefixer":"*"
     }
 }
