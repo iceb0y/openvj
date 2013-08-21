@@ -16,7 +16,7 @@ class Account
 
         global $__SESSION;
 
-        if (!$__SESSION->has('user-id')) {
+        if (!$__SESSION->has('user')) {
 
             if (
                 isset($_COOKIE['VJ_SESSION_TOKEN'])

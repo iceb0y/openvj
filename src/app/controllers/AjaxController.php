@@ -57,6 +57,22 @@ class AjaxController extends \Phalcon\Mvc\Controller
             ]
         );
 
+        if (\VJ\I::isError($result)) {
+            $this->view->AJAX_DATA = $result;
+
+            return;
+        }
+
+        // Log in immediately
+        $result = \VJ\User\Account\Login::fromPassword($_POST['user'], $_POST['pass']);
+
+        if (\VJ\I::isError($result)) {
+            $this->view->AJAX_DATA = $result;
+
+            return;
+        }
+
+        $result                = \VJ\User\Account\Login::user($result);
         $this->view->AJAX_DATA = $result;
 
     }

@@ -45,7 +45,6 @@ class Privilege
         global $__GROUP_PRIV;
 
         return $userPriv + $__GROUP_PRIV[(int)$group];
-
     }
 
     /**

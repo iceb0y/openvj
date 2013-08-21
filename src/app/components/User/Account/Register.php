@@ -83,7 +83,7 @@ class Register
         );
 
         if (!I::isError($result)) {
-            $result = ['succeeded' => true];
+            $result = true;
         }
 
         return $result;

@@ -190,7 +190,7 @@ class Login
         $priv = \VJ\User\Security\Privilege::merge($u->priv, $u->group);
 
         // 检查该账号是否可登录
-        if (!isset($priv[PRIV_LOG_IN]) || $priv[PRIV_LOG_IN] !== false) {
+        if (!isset($priv[PRIV_LOG_IN]) || $priv[PRIV_LOG_IN] !== true) {
             return I::error('NO_PRIV', 'PRIV_LOG_IN');
         }
 
