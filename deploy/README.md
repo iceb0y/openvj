@@ -84,6 +84,7 @@ Run Grunt tasks before deployment:
 
 ```bash
 cd deploy/task
-npm install     # install Grunt dependencies
-grunt           # run bundle/compile tasks
+npm install -g grunt-cli  # install Grunt
+npm install               # install Grunt dependencies
+grunt                     # run bundle/compile tasks
 ```
