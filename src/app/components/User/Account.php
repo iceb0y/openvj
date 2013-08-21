@@ -16,7 +16,7 @@ class Account
 
         global $__SESSION;
 
-        if (!$__SESSION->has('user')) {
+        if (!isset($__SESSION['user'])) {
 
             if (
                 isset($_COOKIE['VJ_SESSION_TOKEN'])
@@ -45,9 +45,9 @@ class Account
 
         global $_UID, $_NICK, $_PRIV;
 
-        $_UID  = $__SESSION->get('user')['uid'];
-        $_NICK = $__SESSION->get('user')['nick'];
-        $_PRIV = $__SESSION->get('user')['priv'];
+        $_UID  = $__SESSION['user']['uid'];
+        $_NICK = $__SESSION['user']['nick'];
+        $_PRIV = $__SESSION['user']['priv'];
 
     }
 

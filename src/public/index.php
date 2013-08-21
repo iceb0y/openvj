@@ -29,15 +29,19 @@ $di->setShared('collectionManager', '\Phalcon\Mvc\Collection\Manager');
 $di->set('view', 'VJ\View\General');
 
 
-\VJ\Phalcon::initSession();
-
+// Initialize session
+\VJ\Session\Utils::initialize(new \VJ\Session\MongoProvider());
 
 if ($__CONFIG->Security->enforceSSL) {
     \VJ\Security\SSL::enforce();
 }
 
-\VJ\Security\CSRF::initToken();
-\VJ\Security\Session::initCharacter();
+if (\VJ\Session\Utils::$save) {
+
+    \VJ\Security\CSRF::initToken();
+    \VJ\Security\Session::initCharacter();
+
+}
 
 \VJ\User\Security\Privilege::initialize();
 \VJ\User\Account::initialize();

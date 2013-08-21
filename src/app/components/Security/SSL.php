@@ -2,6 +2,8 @@
 
 namespace VJ\Security;
 
+use \VJ\Utils;
+
 class SSL
 {
 
@@ -11,21 +13,21 @@ class SSL
     public static function enforce()
     {
 
-        global $__SESSION;
-
         if (isset($_GET['nossl'])) {
 
             $option = strtolower($_GET['nossl']);
 
             if ($option === 'false' || $option === 'off') {
-                $__SESSION->remove('option-nossl');
+                Utils::expireCookie('nossl');
+                unset($_COOKIE['nossl']);
             } else {
-                $__SESSION->set('option-nossl', true);
+                Utils::setCookie('nossl', 'on');
+                $_COOKIE['nossl'] = 'on';
             }
 
         }
 
-        if (!ENV_SSL && !$__SESSION->has('option-nossl')) {
+        if (!ENV_SSL && !isset($_COOKIE['nossl'])) {
 
             if
             (

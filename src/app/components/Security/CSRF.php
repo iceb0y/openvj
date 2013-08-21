@@ -13,8 +13,8 @@ class CSRF
 
         global $__SESSION;
 
-        if (!$__SESSION->has('csrf-token')) {
-            $__SESSION->set('csrf-token', \VJ\Security\Randomizer::toHex(10));
+        if (!isset($__SESSION['csrf-token'])) {
+            $__SESSION['csrf-token'] = \VJ\Security\Randomizer::toHex(10);
         }
 
     }

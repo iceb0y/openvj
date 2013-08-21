@@ -35,4 +35,30 @@ class Utils
 
     }
 
+    /**
+     * 设置COOKIE
+     *
+     * @param $name
+     * @param $value
+     * @param $time
+     *
+     * @return bool
+     */
+    public static function setCookie($name, $value, $time = 0)
+    {
+        return setcookie($name, $value, $time, '/', '.'.ENV_HOST, false, true);
+    }
+
+    /**
+     * 使COOKIE过期
+     *
+     * @param $name
+     *
+     * @return bool
+     */
+    public static function expireCookie($name)
+    {
+        return self::setCookie($name, '', time() - 36000);
+    }
+
 }

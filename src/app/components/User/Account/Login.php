@@ -199,6 +199,8 @@ class Login
         $u->iplogin = $_SERVER['REMOTE_ADDR'];
         $u->save();
 
+        \VJ\Session\Utils::newSession();
+
         $data = \VJ\Validator::filter((array)$u, [
 
             'uid'      => 'int',
@@ -214,7 +216,7 @@ class Login
 
         $data['priv'] = $priv;
 
-        $__SESSION->set('user', $data);
+        $__SESSION['user'] = $data;
 
         return true;
 
@@ -230,7 +232,7 @@ class Login
 
         global $__SESSION, $__GROUP_PRIV;
 
-        $__SESSION->set('user', [
+        $__SESSION['user'] = [
 
             'uid'      => UID_GUEST,
             'nick'     => NICK_GUEST,
@@ -242,7 +244,7 @@ class Login
             'priv'     => $__GROUP_PRIV[GROUP_GUEST],
             'settings' => []
 
-        ]);
+        ];
 
         return true;
 

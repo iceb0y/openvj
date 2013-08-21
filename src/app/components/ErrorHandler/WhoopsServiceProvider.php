@@ -52,6 +52,22 @@ class WhoopsServiceProvider
                 'Port'         => $request->getServer('SERVER_PORT'),
                 'Host'         => $request->getServerName(),
             ]);
+
+            // Session info:
+            global $__SESSION, $__CONFIG;
+
+            $di['whoops.error_page_handler']->addDataTable('OpenVJ Session', (array)$__SESSION);
+            $di['whoops.error_page_handler']->addDataTable('OpenVJ Session Properties', [
+
+                'save session'   => \VJ\Session\Utils::$save,
+                'session cookie' => \VJ\Session\Utils::$sessname,
+                'session id'     => \VJ\Session\Utils::$sessid,
+                'configs'        => (array)$__CONFIG->Session
+
+            ]);
+
+            $di['whoops.error_page_handler']->addDataTable('Application config', (array)$__CONFIG);
+
         };
 
         $di->setShared('whoops', function () use ($di, $phalcon_info_handler, $json_handler) {

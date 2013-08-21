@@ -13,27 +13,27 @@ class Session
 
         global $__SESSION;
 
-        if (!$__SESSION->has('session-ip')) {
+        if (!isset($__SESSION['session-ip'])) {
 
-            $__SESSION->set('session-ip', $_SERVER['REMOTE_ADDR']);
+            $__SESSION['session-ip'] = $_SERVER['REMOTE_ADDR'];
 
-        } else if ($__SESSION->get('session-ip') !== $_SERVER['REMOTE_ADDR']) {
+        } else if ($__SESSION['session-ip'] !== $_SERVER['REMOTE_ADDR']) {
 
             echo 'Your IP has changed. Please re-login.';
-            \VJ\User\Session::destroyCurrent();
+            \VJ\Session\Utils::destroy();
 
             exit();
 
         }
 
-        if (!$__SESSION->has('session-ua')) {
+        if (!isset($__SESSION['session-ua'])) {
 
-            $__SESSION->set('session-ua', $_SERVER['HTTP_USER_AGENT']);
+            $__SESSION['session-ua'] = $_SERVER['HTTP_USER_AGENT'];
 
-        } else if ($__SESSION->get('session-ua') !== $_SERVER['HTTP_USER_AGENT']) {
+        } else if ($__SESSION['session-ua'] !== $_SERVER['HTTP_USER_AGENT']) {
 
             echo 'Your User-Agent has changed. Please re-login.';
-            \VJ\User\Session::destroyCurrent();
+            \VJ\Session\Utils::destroy();
 
             exit();
 
