@@ -15,7 +15,7 @@
 {% endfor %}{% endif %}
 </head>
 <body id="page_{{ PAGE_CLASS }}">
-<div id="container">
+<div id="container" class="vj-dlg-under">
 {% include "vendor/userbar.volt" %}
 {% include "vendor/navbar.volt" %}
 <div class="cont-body">

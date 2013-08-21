@@ -1447,16 +1447,6 @@ a.dark:hover {
   border-bottom-color: transparent;
 }
 
-.vj-dlg-under {
-  -webkit-transition: -webkit-filter .5s linear;
-  transition: filter .5s linear;
-}
-
-.vj-dlg-under-apply {
-  -webkit-filter: blur(5px);
-  filter: blur(5px);
-}
-
 .vj-dlg-layer {
   position: absolute;
   position: fixed;
@@ -1485,7 +1475,6 @@ a.dark:hover {
   z-index: 6;
   left: 0;
   width: 100%;
-  top: 100px;
   opacity: 0;
   -webkit-transform: scale(1.1);
   -ms-transform: scale(1.1);
@@ -1595,6 +1584,7 @@ a.dark:hover {
 body,
 html {
   height: 100%;
+  overflow-x: hidden;
 }
 
 html {
