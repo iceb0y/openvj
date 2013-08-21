@@ -80,7 +80,7 @@ Please ensure these indexes:
 
 ## Frontend
 
-Run grunt tasks before deployment:
+Run [grunt](http://gruntjs.com/getting-started) tasks before deployment:
 
 ```bash
 npm install -g grunt-cli  # install grunt
@@ -90,6 +90,6 @@ npm install               # install grunt dependencies
 grunt production          # run tasks
 
 cd src/public/view/flat
-npm install               # install grunt dependencies
-grunt production          # run tasks
+npm install
+grunt production
 ```
