@@ -10,7 +10,7 @@ class General extends \VJ\View\Basic
 
         parent::__construct($options);
 
-        global $__TEMPLATE_NAME, $__CONFIG;
+        global $__TEMPLATE_NAME, $__CONFIG, $__SESSION;
 
         $this->setViewsDir('../app/views/'.$__TEMPLATE_NAME.'/');
         $this->setVars([
@@ -21,6 +21,20 @@ class General extends \VJ\View\Basic
             'FOOTER_ICP'       => $__CONFIG->Misc->icp,
             'FOOTER_COPYRIGHT' => $__CONFIG->Misc->copyright,
             'FOOTER_VERSION'   => APP_NAME.' '.APP_VERSION,
+            'APP_CONFIG'       => [
+                'host'         => $__CONFIG->Misc->host,
+                'basePrefix'   => $__CONFIG->Misc->basePrefix,
+                'staticPrefix' => $__CONFIG->Misc->staticPrefix,
+                'titleSuffix'  => $__CONFIG->Misc->titleSuffix,
+                'debug'        => $__CONFIG->Debug->enabled
+            ],
+            'USER_DATA'        => [
+                'csrf-token'   => $__SESSION['csrf-token'],
+                'uid'          => $__SESSION['user']['uid'],
+                'nick'         => $__SESSION['user']['nick'],
+                'gmd5'         => $__SESSION['user']['gmd5'],
+                'settings'     => $__SESSION['user']['settings']
+            ]
         ]);
     }
 

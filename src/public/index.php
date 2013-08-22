@@ -40,12 +40,8 @@ if ($__CONFIG->Security->enforceSSL) {
     \VJ\Security\SSL::enforce();
 }
 
-if (\VJ\Session\Utils::$save) {
-
-    \VJ\Security\CSRF::initToken();
-    \VJ\Security\Session::initCharacter();
-
-}
+\VJ\Security\CSRF::initToken();
+\VJ\Security\Session::initCharacter();
 
 \VJ\User\Security\Privilege::initialize();
 \VJ\User\Account::initialize();

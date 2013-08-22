@@ -7,7 +7,15 @@
 <meta name="keywords" content="{% block meta_keyword %}{{ META_KEYWORD }}{% endblock %}"/>
 <meta name="description" content="{% block meta_desc %}{{ META_DESC }}{% endblock %}"/>
 <title>{{ TITLE }}{{ TITLE_SUFFIX }}</title>
-<script type="text/javascript" charset="UTF-8">if(top.location!==self.location){top.location=self.location}else{if(top!==self){if(confirm("Reload?")){top.location.reload()}}};</script>
+<script type="text/javascript" charset="UTF-8">
+if(top.location!==self.location){top.location=self.location}else{if(top!==self){if(confirm("Reload?")){top.location.reload()}}};
+</script>
+<script type="text/jacascript" charset="UTF-8">
+//<![CDATA[
+var CONFIG = {{ APP_CONFIG|json }};
+var USER = {{ USER_DATA|json }};
+//]]>
+</script>
 <link href="{{ view_static('css/base.css') }}" rel="stylesheet" type="text/css" charset="UTF-8" />
 <link href="{{ view_static('css/page.css') }}" rel="stylesheet" type="text/css" charset="UTF-8" />
 {% if EXT_CSS is defined %}{% for PATH, IS_BASE in EXT_CSS %}

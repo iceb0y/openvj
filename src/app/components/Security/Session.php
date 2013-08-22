@@ -13,6 +13,10 @@ class Session
 
         global $__SESSION;
 
+        if (!\VJ\Session\Utils::$save) {
+            return;
+        }
+
         if (!isset($__SESSION['session-ip'])) {
 
             $__SESSION['session-ip'] = $_SERVER['REMOTE_ADDR'];
