@@ -17,21 +17,20 @@ PARTICLE_MAP =
 
 PARTICLE_INVALID_COLOR = '#E8E8E8'
 PARTICLE_COLORS = ['#FF0606', '#FF9900', '#00C627', '#00B6F2', '#F064D8']
-
 PARTICLE_TYPE_CIRCLE = 0
 PARTICLE_TYPE_SQURE = 1
-
-PARTICLE_ROWS = 0
-PARTICLE_COLS = 0
 
 WORLD_GRID_DISTANCE = 20
 WORLD_MARGIN = 20
 
-SCALE = MAX_SCALE = 2
-CANVAS_W =  CANVAS_H = 0
-
 MOUSETHRESH = 30
 
+######### RUNTIME VARIABLES #########
+PARTICLE_ROWS = PARTICLE_COLS = 0
+SCALE = MAX_SCALE = 2
+CANVAS_W = CANVAS_H = 0
+CANVAS_OFFSET_LEFT = CANVAS_OFFSET_TOP = 0
+#####################################
 canvas = null
 ctx = null
 physics = null
@@ -41,6 +40,7 @@ lastParticle = null
 
 Particles = []
 ValidParticles = []
+#####################################
 
 class Particle
 
@@ -58,9 +58,9 @@ class Particle
 
         @anchor.makeFixed()
 
-        @spring = physics.makeSpring @anchor, @particle, 0.03, 0.1, 0
-        @repelMouse = physics.makeAttraction @particle, mouseParticle, -1, 1
-
+        @_s = physics.makeSpring @anchor, @particle, 0.03, 0.1, 0
+        @_a = physics.makeAttraction @particle, mouseParticle, -5, 1
+        
         @alpha = 0
         @alphaSpeed = 0
         @alphaTarget = 0
@@ -149,6 +149,8 @@ init = ->
     canvas = mass.query('#canvas')[0]
     ctx = canvas.getContext '2d'
 
+    CANVAS_OFFSET_TOP = canvas.offsetTop
+
     PARTICLE_ROWS = PARTICLE_MAP.length
     PARTICLE_COLS = PARTICLE_MAP[0].length
 
@@ -180,23 +182,47 @@ init = ->
 
 bind_events = ->
 
-    $event.on [canvas], 'mousemove', event_onMouseMove
+    $event.on [window], 'mousemove', event_onMouseMove
     $event.on [window], 'resize', event_onResize
+    $event.on [canvas], 'click', event_onClick
+
+event_onClick = ->
+
+    return if not lastParticle?
+    
+    for p in Particles
+        if p isnt lastParticle
+            p._a.constant = -(Math.random() * 3000 + 500)
+            p._s.on = false
+            p.animateOK = false
+
+    p = lastParticle
+    p.animateOK = false
+    p.rotateSpeed = 0.1
+    p.rotateTarget = Math.PI / 4
+    p.radiusSpeed = 0.1
+    p.radiusTarget = 0
+    
+    setTimeout ->
+        window.location = '/'
+    , 1000
 
 event_onResize = ->
 
-    w = jQuery(window).width() * 0.9
+    WINDOW_W = jQuery(window).width()
 
-    SCALE = w / CANVAS_W
+    SCALE = WINDOW_W * 0.9 / CANVAS_W
     SCALE = MAX_SCALE if SCALE > MAX_SCALE
 
     canvas.width = CANVAS_W * SCALE
     canvas.height = CANVAS_H * SCALE
 
+    CANVAS_OFFSET_LEFT = canvas.offsetLeft
+
 event_onMouseMove = (e) ->
 
-    mouseParticle.position.x = (e.offsetX) / SCALE
-    mouseParticle.position.y = (e.offsetY) / SCALE
+    mouseParticle.position.x = (e.clientX - CANVAS_OFFSET_LEFT) / SCALE
+    mouseParticle.position.y = (e.clientY - CANVAS_OFFSET_TOP) / SCALE
 
 event_onUpdate = ->
 
@@ -220,8 +246,8 @@ event_onUpdate = ->
     if lastParticle? and lastParticle isnt closestParticle
         lastParticle.out() if lastParticle.animateOK
 
-    if closestParticle?
-        closestParticle.over() if closestParticle.animateOK and lastParticle isnt closestParticle
+    if closestParticle? and lastParticle isnt closestParticle
+        closestParticle.over() if closestParticle.animateOK
 
     lastParticle = closestParticle
 
@@ -257,6 +283,8 @@ particle_offset = 40
 particle_pos = [[0,0],[0,0]]
 particle_pos_max = [[0,0],[0,0]]
 
+# Calculate the next particle index
+# id is stage_id
 particle_next_index = (id) ->
 
     particle_target = particle_pos[id][1] * PARTICLE_COLS + particle_pos[id][0]

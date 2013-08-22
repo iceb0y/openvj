@@ -1,5 +1,5 @@
 (function() {
-  var CANVAS_H, CANVAS_W, MAX_SCALE, MOUSETHRESH, PARTICLE_COLORS, PARTICLE_COLS, PARTICLE_INVALID_COLOR, PARTICLE_MAP, PARTICLE_ROWS, PARTICLE_TYPE_CIRCLE, PARTICLE_TYPE_SQURE, Particle, Particles, SCALE, ValidParticles, WORLD_GRID_DISTANCE, WORLD_MARGIN, bind_events, canvas, ctx, event_onMouseMove, event_onResize, event_onUpdate, init, lastParticle, mouseParticle, particle_count, particle_next_index, particle_offset, particle_pos, particle_pos_max, particle_start, particle_timer, physics;
+  var CANVAS_H, CANVAS_OFFSET_LEFT, CANVAS_OFFSET_TOP, CANVAS_W, MAX_SCALE, MOUSETHRESH, PARTICLE_COLORS, PARTICLE_COLS, PARTICLE_INVALID_COLOR, PARTICLE_MAP, PARTICLE_ROWS, PARTICLE_TYPE_CIRCLE, PARTICLE_TYPE_SQURE, Particle, Particles, SCALE, ValidParticles, WORLD_GRID_DISTANCE, WORLD_MARGIN, bind_events, canvas, ctx, event_onClick, event_onMouseMove, event_onResize, event_onUpdate, init, lastParticle, mouseParticle, particle_count, particle_next_index, particle_offset, particle_pos, particle_pos_max, particle_start, particle_timer, physics;
 
   PARTICLE_MAP = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
 
@@ -11,19 +11,19 @@
 
   PARTICLE_TYPE_SQURE = 1;
 
-  PARTICLE_ROWS = 0;
-
-  PARTICLE_COLS = 0;
-
   WORLD_GRID_DISTANCE = 20;
 
   WORLD_MARGIN = 20;
+
+  MOUSETHRESH = 30;
+
+  PARTICLE_ROWS = PARTICLE_COLS = 0;
 
   SCALE = MAX_SCALE = 2;
 
   CANVAS_W = CANVAS_H = 0;
 
-  MOUSETHRESH = 30;
+  CANVAS_OFFSET_LEFT = CANVAS_OFFSET_TOP = 0;
 
   canvas = null;
 
@@ -53,8 +53,8 @@
         this.particle.position.y = this.anchor.position.y = position.y;
       }
       this.anchor.makeFixed();
-      this.spring = physics.makeSpring(this.anchor, this.particle, 0.03, 0.1, 0);
-      this.repelMouse = physics.makeAttraction(this.particle, mouseParticle, -1, 1);
+      this._s = physics.makeSpring(this.anchor, this.particle, 0.03, 0.1, 0);
+      this._a = physics.makeAttraction(this.particle, mouseParticle, -5, 1);
       this.alpha = 0;
       this.alphaSpeed = 0;
       this.alphaTarget = 0;
@@ -130,6 +130,7 @@
     mouseParticle.makeFixed();
     canvas = mass.query('#canvas')[0];
     ctx = canvas.getContext('2d');
+    CANVAS_OFFSET_TOP = canvas.offsetTop;
     PARTICLE_ROWS = PARTICLE_MAP.length;
     PARTICLE_COLS = PARTICLE_MAP[0].length;
     CANVAS_W = (PARTICLE_COLS - 1) * WORLD_GRID_DISTANCE + WORLD_MARGIN * 2;
@@ -170,24 +171,50 @@
   };
 
   bind_events = function() {
-    $event.on([canvas], 'mousemove', event_onMouseMove);
-    return $event.on([window], 'resize', event_onResize);
+    $event.on([window], 'mousemove', event_onMouseMove);
+    $event.on([window], 'resize', event_onResize);
+    return $event.on([canvas], 'click', event_onClick);
+  };
+
+  event_onClick = function() {
+    var p, _i, _len;
+    if (lastParticle == null) {
+      return;
+    }
+    for (_i = 0, _len = Particles.length; _i < _len; _i++) {
+      p = Particles[_i];
+      if (p !== lastParticle) {
+        p._a.constant = -(Math.random() * 3000 + 500);
+        p._s.on = false;
+        p.animateOK = false;
+      }
+    }
+    p = lastParticle;
+    p.animateOK = false;
+    p.rotateSpeed = 0.1;
+    p.rotateTarget = Math.PI / 4;
+    p.radiusSpeed = 0.1;
+    p.radiusTarget = 0;
+    return setTimeout(function() {
+      return window.location = '/';
+    }, 1000);
   };
 
   event_onResize = function() {
-    var w;
-    w = jQuery(window).width() * 0.9;
-    SCALE = w / CANVAS_W;
+    var WINDOW_W;
+    WINDOW_W = jQuery(window).width();
+    SCALE = WINDOW_W * 0.9 / CANVAS_W;
     if (SCALE > MAX_SCALE) {
       SCALE = MAX_SCALE;
     }
     canvas.width = CANVAS_W * SCALE;
-    return canvas.height = CANVAS_H * SCALE;
+    canvas.height = CANVAS_H * SCALE;
+    return CANVAS_OFFSET_LEFT = canvas.offsetLeft;
   };
 
   event_onMouseMove = function(e) {
-    mouseParticle.position.x = e.offsetX / SCALE;
-    return mouseParticle.position.y = e.offsetY / SCALE;
+    mouseParticle.position.x = (e.clientX - CANVAS_OFFSET_LEFT) / SCALE;
+    return mouseParticle.position.y = (e.clientY - CANVAS_OFFSET_TOP) / SCALE;
   };
 
   event_onUpdate = function() {
@@ -212,8 +239,8 @@
         lastParticle.out();
       }
     }
-    if (closestParticle != null) {
-      if (closestParticle.animateOK && lastParticle !== closestParticle) {
+    if ((closestParticle != null) && lastParticle !== closestParticle) {
+      if (closestParticle.animateOK) {
         closestParticle.over();
       }
     }
