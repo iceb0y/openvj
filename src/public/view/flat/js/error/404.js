@@ -1,13 +1,15 @@
 (function() {
-  var CANVAS_H, CANVAS_W, MAX_SCALE, MOUSEOVER_PARTICLE, MOUSETHRESH, PARTICLE_COLORS, PARTICLE_COLS, PARTICLE_MAP, PARTICLE_ROWS, PARTICLE_TYPE_CIRCLE, PARTICLE_TYPE_SQURE, Particle, Particles, SCALE, ValidParticles, WORLD_GRID_DISTANCE, WORLD_MARGIN, canvas, ctx, event_onMouseMove, event_onResize, event_onUpdate, init, mouseParticle, particle_count, particle_next_index, particle_offset, particle_pos, particle_pos_max, particle_start, particle_timer, physics;
+  var CANVAS_H, CANVAS_W, MAX_SCALE, MOUSETHRESH, PARTICLE_COLORS, PARTICLE_COLS, PARTICLE_INVALID_COLOR, PARTICLE_MAP, PARTICLE_ROWS, PARTICLE_TYPE_CIRCLE, PARTICLE_TYPE_SQURE, Particle, Particles, SCALE, ValidParticles, WORLD_GRID_DISTANCE, WORLD_MARGIN, canvas, ctx, event_onMouseMove, event_onResize, event_onUpdate, init, lastParticle, mouseParticle, particle_count, particle_next_index, particle_offset, particle_pos, particle_pos_max, particle_start, particle_timer, physics;
 
   PARTICLE_MAP = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
 
-  PARTICLE_COLORS = ['#FF4D4D', '#FF4D4D', '#FFBF00', '#00D900', '#26C9FF', '#FF73FF'];
+  PARTICLE_INVALID_COLOR = '#E8E8E8';
 
-  PARTICLE_TYPE_SQURE = 0;
+  PARTICLE_COLORS = ['#FF0606', '#FF9900', '#00C627', '#00B6F2', '#F064D8'];
 
-  PARTICLE_TYPE_CIRCLE = 1;
+  PARTICLE_TYPE_CIRCLE = 0;
+
+  PARTICLE_TYPE_SQURE = 1;
 
   PARTICLE_ROWS = 0;
 
@@ -31,7 +33,7 @@
 
   mouseParticle = null;
 
-  MOUSEOVER_PARTICLE = null;
+  lastParticle = null;
 
   Particles = [];
 
@@ -41,28 +43,35 @@
     function Particle(position, data) {
       this.position = position;
       this.data = data;
-      this.particle = physics.makeParticle(1, 0, 0, 0);
-      this.particle.position.x = this.position.x;
-      this.particle.position.y = this.position.y;
-      this.alpha = 1;
+      this.particle = physics.makeParticle(0.5, 0, 0, 0);
+      this.anchor = physics.makeParticle(1, 0, 0, 0);
+      if (data.type === PARTICLE_TYPE_SQURE) {
+        this.particle.position.x = this.anchor.position.x = CANVAS_W;
+        this.particle.position.y = this.anchor.position.y = CANVAS_H;
+      } else {
+        this.particle.position.x = this.anchor.position.x = position.x;
+        this.particle.position.y = this.anchor.position.y = position.y;
+      }
+      this.anchor.makeFixed();
+      this.spring = physics.makeSpring(this.anchor, this.particle, 0.03, 0.1, 0);
+      this.repelMouse = physics.makeAttraction(this.particle, mouseParticle, -1, 1);
+      this.alpha = 0;
       this.alphaSpeed = 0;
-      this.targetAlpha = 1;
+      this.alphaTarget = 0;
       this.rotate = 0;
       this.rotateSpeed = 0;
-      this.targetRotate = 0;
+      this.rotateTarget = 0;
       this.radius = 0;
       this.radiusSpeed = 0;
-      this.targetRadius = 0;
+      this.radiusTarget = 0;
       this.animateOK = false;
     }
 
-    Particle.prototype.restorePosition = function() {};
-
     Particle.prototype.update = function() {
-      this.radius += (this.targetRadius - this.radius) * this.radiusSpeed;
+      this.radius += (this.radiusTarget - this.radius) * this.radiusSpeed;
+      this.alpha += (this.alphaTarget - this.alpha) * this.alphaSpeed;
       if (this.data.type === PARTICLE_TYPE_SQURE) {
-        this.alpha += (this.targetAlpha - this.alpha) * this.alphaSpeed;
-        return this.rotate += (this.targetRotate - this.rotate) * this.rotateSpeed;
+        return this.rotate += (this.rotateTarget - this.rotate) * this.rotateSpeed;
       }
     };
 
@@ -89,20 +98,24 @@
     };
 
     Particle.prototype.over = function() {
-      this.targetAlpha = 0.3;
+      document.body.style.cursor = 'pointer';
+      this.particle.makeFixed();
+      this.alphaTarget = 0.4;
       this.alphaSpeed = 0.5;
-      this.targetRadius = 70;
-      this.radiusSpeed = 0.2;
-      this.targetRotate = Math.PI / 4 * 2;
+      this.radiusTarget = 70;
+      this.radiusSpeed = 0.6;
+      this.rotateTarget = Math.PI / 4 * 2;
       return this.rotateSpeed = 0.2;
     };
 
     Particle.prototype.out = function() {
-      this.targetAlpha = 1;
+      document.body.style.cursor = 'default';
+      this.particle.fixed = false;
+      this.alphaTarget = 1;
       this.alphaSpeed = 0.01;
-      this.targetRadius = 4;
+      this.radiusTarget = 3;
       this.radiusSpeed = 0.1;
-      this.targetRotate = Math.PI / 4 * 3;
+      this.rotateTarget = Math.PI / 4 * 3;
       return this.rotateSpeed = 0.1;
     };
 
@@ -112,7 +125,7 @@
 
   init = function() {
     var c, l, line, v, _i, _len, _results;
-    physics = new ParticleSystem(0, 0, 0, 0);
+    physics = new ParticleSystem(0, 0, 0, 0.1);
     mouseParticle = physics.makeParticle(200, 0, 0, 0);
     mouseParticle.makeFixed();
     canvas = mass.query('#canvas')[0];
@@ -136,21 +149,18 @@
           _results1.push((function(line, l, v, c) {
             var data, p;
             data = {};
-            data.type = [PARTICLE_TYPE_CIRCLE, PARTICLE_TYPE_SQURE][v];
-            if (v === 1) {
+            data.type = v;
+            if (v === PARTICLE_TYPE_SQURE) {
               data.color = PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)];
             } else {
-              data.color = '#000';
+              data.color = PARTICLE_INVALID_COLOR;
             }
             p = new Particle({
               x: WORLD_MARGIN + c * WORLD_GRID_DISTANCE,
               y: WORLD_MARGIN + l * WORLD_GRID_DISTANCE
             }, data);
-            if (v !== 1) {
-              p.alpha = 0.05;
-            }
             Particles.push(p);
-            if (v === 1) {
+            if (v === PARTICLE_TYPE_SQURE) {
               return ValidParticles.push(p);
             }
           })(line, l, v, c));
@@ -183,6 +193,7 @@
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.save();
     ctx.scale(SCALE, SCALE);
+    physics.tick();
     closestDistance = MOUSETHRESH * MOUSETHRESH;
     closestParticle = null;
     for (_i = 0, _len = ValidParticles.length; _i < _len; _i++) {
@@ -193,17 +204,17 @@
         closestParticle = p;
       }
     }
+    if ((lastParticle != null) && lastParticle !== closestParticle) {
+      if (lastParticle.animateOK) {
+        lastParticle.out();
+      }
+    }
     if (closestParticle != null) {
-      if (closestParticle.animateOK) {
+      if (closestParticle.animateOK && lastParticle !== closestParticle) {
         closestParticle.over();
       }
     }
-    if ((MOUSEOVER_PARTICLE != null) && MOUSEOVER_PARTICLE !== closestParticle) {
-      if (MOUSEOVER_PARTICLE.animateOK) {
-        MOUSEOVER_PARTICLE.out();
-      }
-    }
-    MOUSEOVER_PARTICLE = closestParticle;
+    lastParticle = closestParticle;
     if (closestParticle != null) {
       closestParticle.update();
       closestParticle.draw();
@@ -257,21 +268,34 @@
 
   particle_start = function() {
     return particle_timer = setInterval(function() {
-      var idx;
+      var idx, p;
       if (particle_count < Particles.length) {
         idx = particle_next_index(0);
-        Particles[idx].radiusSpeed = 0.2;
-        Particles[idx].targetRadius = 8;
-        Particles[idx].rotateSpeed = 0.2;
-        Particles[idx].targetRotate = Math.PI / 4;
+        p = Particles[idx];
+        p.anchor.position.x = p.position.x;
+        p.anchor.position.y = p.position.y;
+        p.alphaSpeed = 0.3;
+        p.alphaTarget = 0.3;
+        p.radiusSpeed = 0.2;
+        p.radiusTarget = [10, 30][p.data.type];
+        p.rotateSpeed = 0.2;
+        p.rotateTarget = Math.PI / 4;
       }
       if (particle_count >= particle_offset) {
         idx = particle_next_index(1);
-        Particles[idx].radiusSpeed = 0.05;
-        Particles[idx].targetRadius = 4;
-        Particles[idx].rotateSpeed = 0.03;
-        Particles[idx].targetRotate = Math.PI / 4 * 3;
-        Particles[idx].animateOK = true;
+        p = Particles[idx];
+        if (p.data.type === PARTICLE_TYPE_CIRCLE) {
+          p.alphaTarget = 0.7;
+          p.alphaSpeed = 0.03;
+        } else {
+          p.alphaTarget = 1;
+          p.alphaSpeed = 0.08;
+        }
+        p.radiusSpeed = 0.05;
+        p.radiusTarget = 3;
+        p.rotateSpeed = 0.03;
+        p.rotateTarget = Math.PI / 4 * 3;
+        p.animateOK = true;
       }
       particle_count++;
       if ((particle_count - particle_offset) >= Particles.length) {

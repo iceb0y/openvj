@@ -15,10 +15,11 @@ PARTICLE_MAP =
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 ]
 
-PARTICLE_COLORS = ['#FF4D4D', '#FF4D4D', '#FFBF00', '#00D900', '#26C9FF', '#FF73FF']
+PARTICLE_INVALID_COLOR = '#E8E8E8'
+PARTICLE_COLORS = ['#FF0606', '#FF9900', '#00C627', '#00B6F2', '#F064D8']
 
-PARTICLE_TYPE_SQURE = 0
-PARTICLE_TYPE_CIRCLE = 1
+PARTICLE_TYPE_CIRCLE = 0
+PARTICLE_TYPE_SQURE = 1
 
 PARTICLE_ROWS = 0
 PARTICLE_COLS = 0
@@ -36,8 +37,7 @@ ctx = null
 physics = null
 
 mouseParticle = null
-
-MOUSEOVER_PARTICLE = null
+lastParticle = null
 
 Particles = []
 ValidParticles = []
@@ -46,40 +46,42 @@ class Particle
 
     constructor: (@position, @data) ->
 
-        # @anchor = physics.makeParticle 1, 0, 0, 0
-        # @anchor.makeFixed()
-        # @restorePosition()
+        @particle = physics.makeParticle 0.5, 0, 0, 0
+        @anchor = physics.makeParticle 1, 0, 0, 0
 
-        @particle = physics.makeParticle 1, 0, 0, 0
-        @particle.position.x = @position.x
-        @particle.position.y = @position.y
+        if data.type is PARTICLE_TYPE_SQURE
+            @particle.position.x = @anchor.position.x = CANVAS_W
+            @particle.position.y = @anchor.position.y = CANVAS_H
+        else
+            @particle.position.x = @anchor.position.x = position.x
+            @particle.position.y = @anchor.position.y = position.y
 
-        @alpha = 1
+        @anchor.makeFixed()
+
+        @spring = physics.makeSpring @anchor, @particle, 0.03, 0.1, 0
+        @repelMouse = physics.makeAttraction @particle, mouseParticle, -1, 1
+
+        @alpha = 0
         @alphaSpeed = 0
-        @targetAlpha = 1
+        @alphaTarget = 0
         
         @rotate = 0
         @rotateSpeed = 0
-        @targetRotate = 0
+        @rotateTarget = 0
 
         @radius = 0
         @radiusSpeed = 0
-        @targetRadius = 0
+        @radiusTarget = 0
 
         @animateOK = false
 
-    restorePosition: ->
-
-        # @anchor.position.x = @position.x
-        # @anchor.position.y = @position.y
-
     update: ->
 
-        @radius += (@targetRadius - @radius) * @radiusSpeed
+        @radius += (@radiusTarget - @radius) * @radiusSpeed
+        @alpha += (@alphaTarget - @alpha) * @alphaSpeed
 
         if @data.type is PARTICLE_TYPE_SQURE
-            @alpha += (@targetAlpha - @alpha) * @alphaSpeed
-            @rotate += (@targetRotate - @rotate) * @rotateSpeed
+            @rotate += (@rotateTarget - @rotate) * @rotateSpeed
 
     distance: ->
 
@@ -109,29 +111,37 @@ class Particle
 
     over: ->
 
-        @targetAlpha = 0.3
+        document.body.style.cursor = 'pointer';
+
+        @particle.makeFixed()
+
+        @alphaTarget = 0.4
         @alphaSpeed = 0.5
 
-        @targetRadius = 70
-        @radiusSpeed = 0.2
+        @radiusTarget = 70
+        @radiusSpeed = 0.6
 
-        @targetRotate = Math.PI / 4 * 2
+        @rotateTarget = Math.PI / 4 * 2
         @rotateSpeed = 0.2
 
     out: ->
 
-        @targetAlpha = 1
+        document.body.style.cursor = 'default';
+
+        @particle.fixed = false
+
+        @alphaTarget = 1
         @alphaSpeed = 0.01
 
-        @targetRadius = 4
+        @radiusTarget = 3
         @radiusSpeed = 0.1
 
-        @targetRotate = Math.PI / 4 * 3
+        @rotateTarget = Math.PI / 4 * 3
         @rotateSpeed = 0.1
 
 init = ->
 
-    physics = new ParticleSystem 0, 0, 0, 0
+    physics = new ParticleSystem 0, 0, 0, 0.1
 
     mouseParticle = physics.makeParticle 200, 0, 0, 0
     mouseParticle.makeFixed()
@@ -159,20 +169,17 @@ init = ->
             do (line, l, v, c) ->
 
                 data = {}
-                data.type = [PARTICLE_TYPE_CIRCLE, PARTICLE_TYPE_SQURE][v]
+                data.type = v
 
-                if v is 1
+                if v is PARTICLE_TYPE_SQURE
                     data.color = PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)]
                 else
-                    data.color = '#000'
+                    data.color = PARTICLE_INVALID_COLOR
 
                 p = new Particle({x: WORLD_MARGIN + c * WORLD_GRID_DISTANCE, y: WORLD_MARGIN + l * WORLD_GRID_DISTANCE}, data)
                 
-                if v isnt 1
-                    p.alpha = 0.05
-
                 Particles.push p
-                ValidParticles.push p if v is 1
+                ValidParticles.push p if v is PARTICLE_TYPE_SQURE
 
 
 event_onResize = (e) ->
@@ -198,6 +205,8 @@ event_onUpdate = ->
     ctx.save()
     ctx.scale SCALE, SCALE
 
+    physics.tick()
+
     closestDistance = MOUSETHRESH * MOUSETHRESH
     closestParticle = null
 
@@ -207,13 +216,13 @@ event_onUpdate = ->
             closestDistance = d
             closestParticle = p
 
+    if lastParticle? and lastParticle isnt closestParticle
+        lastParticle.out() if lastParticle.animateOK
+
     if closestParticle?
-        closestParticle.over() if closestParticle.animateOK
+        closestParticle.over() if closestParticle.animateOK and lastParticle isnt closestParticle
 
-    if MOUSEOVER_PARTICLE? and MOUSEOVER_PARTICLE isnt closestParticle
-        MOUSEOVER_PARTICLE.out() if MOUSEOVER_PARTICLE.animateOK
-
-    MOUSEOVER_PARTICLE = closestParticle
+    lastParticle = closestParticle
 
     if closestParticle?
         closestParticle.update()
@@ -267,21 +276,46 @@ particle_start = ->
 
     particle_timer = setInterval ->
 
+        ########### Stage 1 ###########
+
         if particle_count < Particles.length
 
             idx = particle_next_index 0
-            Particles[idx].radiusSpeed = 0.2
-            Particles[idx].targetRadius = 8
-            Particles[idx].rotateSpeed = 0.2
-            Particles[idx].targetRotate = Math.PI / 4
+            p = Particles[idx]
+                
+            p.anchor.position.x = p.position.x
+            p.anchor.position.y = p.position.y
+
+            p.alphaSpeed = 0.3
+            p.alphaTarget = 0.3
+            
+            p.radiusSpeed = 0.2
+            p.radiusTarget = [10, 30][p.data.type]
+            
+            p.rotateSpeed = 0.2
+            p.rotateTarget = Math.PI / 4
+
+        ########### Stage 2 ###########
 
         if particle_count >= particle_offset
+            
             idx = particle_next_index 1
-            Particles[idx].radiusSpeed = 0.05
-            Particles[idx].targetRadius = 4
-            Particles[idx].rotateSpeed = 0.03
-            Particles[idx].targetRotate = Math.PI / 4 * 3
-            Particles[idx].animateOK = true
+            p = Particles[idx]
+            
+            if p.data.type is PARTICLE_TYPE_CIRCLE
+                p.alphaTarget = 0.7
+                p.alphaSpeed = 0.03
+            else
+                p.alphaTarget = 1
+                p.alphaSpeed = 0.08
+
+            p.radiusSpeed = 0.05
+            p.radiusTarget = 3
+            p.rotateSpeed = 0.03
+            p.rotateTarget = Math.PI / 4 * 3
+            p.animateOK = true
+
+        ###############################
 
         particle_count++
 
