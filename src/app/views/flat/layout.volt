@@ -7,13 +7,16 @@
 <meta name="keywords" content="{% block meta_keyword %}{{ META_KEYWORD }}{% endblock %}"/>
 <meta name="description" content="{% block meta_desc %}{{ META_DESC }}{% endblock %}"/>
 <title>{{ TITLE }}{{ TITLE_SUFFIX }}</title>
-<script type="text/javascript" charset="UTF-8">
+<script type="text/javascript">
 if(top.location!==self.location){top.location=self.location}else{if(top!==self){if(confirm("Reload?")){top.location.reload()}}};
 </script>
-<script type="text/jacascript" charset="UTF-8">
+<script type="text/javascript">
 //<![CDATA[
-var CONFIG = {{ APP_CONFIG|json }};
-var USER = {{ USER_DATA|json }};
+(function(global)
+{
+    global.CONFIG = {{ APP_CONFIG|json }};
+    global.USER = {{ USER_DATA|json }};
+})(window);
 //]]>
 </script>
 <link href="{{ view_static('css/base.css') }}" rel="stylesheet" type="text/css" charset="UTF-8" />

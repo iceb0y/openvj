@@ -196,7 +196,7 @@
     p.radiusSpeed = 0.1;
     p.radiusTarget = 0;
     return setTimeout(function() {
-      return window.location = '/';
+      return window.location = CONFIG.basePrefix + '/';
     }, 1000);
   };
 

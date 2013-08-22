@@ -39,7 +39,7 @@
       return scrollToId($attr.get(this, 'data-skip'));
     });
     $event.on(mass.query('.role-end'), 'click', function() {
-      return window.location = '/';
+      return window.location = CONFIG.basePrefix + '/';
     });
     jQuery(window).stellar();
     return jQuery('input').iCheck();

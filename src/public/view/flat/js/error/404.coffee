@@ -204,7 +204,7 @@ event_onClick = ->
     p.radiusTarget = 0
     
     setTimeout ->
-        window.location = '/'
+        window.location = CONFIG.basePrefix + '/'
     , 1000
 
 event_onResize = ->

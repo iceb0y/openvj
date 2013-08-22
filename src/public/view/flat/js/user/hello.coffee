@@ -42,7 +42,7 @@ $ready ->
 
     $event.on mass.query('.role-end'), 'click', ->
 
-        window.location = '/'
+        window.location = CONFIG.basePrefix + '/'
 
     jQuery(window).stellar()
     jQuery('input').iCheck()
