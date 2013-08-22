@@ -1,6 +1,6 @@
 <?php
 
-class IndexController extends \Phalcon\Mvc\Controller
+class IndexController extends \VJ\Controller\Basic
 {
 
     public function indexAction()

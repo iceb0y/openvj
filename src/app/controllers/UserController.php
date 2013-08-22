@@ -1,6 +1,6 @@
 <?php
 
-class UserController extends \Phalcon\Mvc\Controller
+class UserController extends \VJ\Controller\Basic
 {
 
     public function registerAction()

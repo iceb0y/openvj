@@ -61,4 +61,20 @@ class Utils
         return self::setCookie($name, '', time() - 36000);
     }
 
+    /**
+     * 判断是否是Ajax请求
+     *
+     * @return bool
+     */
+    public static function isAjax()
+    {
+
+        return (
+            (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && (strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) ||
+            isset($_POST['ajax']) ||
+            isset($_GET['ajax'])
+        );
+
+    }
+
 }

@@ -2,8 +2,27 @@
 
 use \VJ\I;
 
-class AjaxController extends \Phalcon\Mvc\Controller
+class AjaxController extends \VJ\Controller\Basic
 {
+
+    public function initialize()
+    {
+
+        if (!\VJ\Security\CSRF::checkToken() && $this->dispatcher->getActionName() !== 'general') {
+            return $this->raiseError('ARGUMENT_MISSING', 'token');
+        }
+
+    }
+
+    public function generalAction()
+    {
+
+        // Only accept forwarded calls
+        if ($this->view->AJAX_DATA == null) {
+            return $this->raise404();
+        }
+
+    }
 
     public function rsaAction()
     {

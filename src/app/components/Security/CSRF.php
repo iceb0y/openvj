@@ -23,4 +23,25 @@ class CSRF
 
     }
 
+    /**
+     * 检查CSRF-token
+     *
+     * @return bool
+     */
+    public static function checkToken()
+    {
+
+        global $__SESSION;
+
+        $token = strval($__SESSION['csrf-token']);
+
+        if (isset($_GET['token']) && strval($_GET['token']) === $token)
+            return true;
+
+        if (isset($_POST['token']) && strval($_POST['token']) === $token)
+            return true;
+
+        return false;
+    }
+
 }

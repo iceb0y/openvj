@@ -1,14 +1,13 @@
 <?php
 
-class TypographyController extends \Phalcon\Mvc\Controller
+class TypographyController extends \VJ\Controller\Basic
 {
 
     public function indexAction()
     {
         $this->view->setVars([
             'PAGE_CLASS' => 'typography',
-            'TITLE'      => gettext('Typography'),
-            'HEADLINE'   => gettext('Typography')
+            'TITLE'      => gettext('Typography')
         ]);
     }
 }
