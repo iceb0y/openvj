@@ -23,6 +23,7 @@ timeout = 2
 [Session]
 name = "VJSESS"
 TTL = 3600
+ignoreGuest = true
 
 [Discussion]
 contentMin = 2
