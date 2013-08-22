@@ -43,9 +43,7 @@ class AjaxController extends \VJ\Controller\Basic
         $result = \VJ\Validator::required($_POST, ['mail']);
 
         if (\VJ\I::isError($result)) {
-            $this->view->AJAX_DATA = $result;
-
-            return;
+            return $this->raiseError($result);
         }
 
         $result                = \VJ\User\Account\Register::sendVerificationEmail($_POST['mail']);
@@ -59,9 +57,7 @@ class AjaxController extends \VJ\Controller\Basic
         $result = \VJ\Validator::required($_POST, ['user', 'pass', 'nick', 'gender', 'agreement', 'email', 'code']);
 
         if (\VJ\I::isError($result)) {
-            $this->view->AJAX_DATA = $result;
-
-            return;
+            return $this->raiseError($result);
         }
 
         $result = \VJ\User\Account\Register::register(
@@ -77,18 +73,14 @@ class AjaxController extends \VJ\Controller\Basic
         );
 
         if (\VJ\I::isError($result)) {
-            $this->view->AJAX_DATA = $result;
-
-            return;
+            return $this->raiseError($result);
         }
 
         // Log in immediately
         $result = \VJ\User\Account\Login::fromPassword($_POST['user'], $_POST['pass']);
 
         if (\VJ\I::isError($result)) {
-            $this->view->AJAX_DATA = $result;
-
-            return;
+            return $this->raiseError($result);
         }
 
         $result                = \VJ\User\Account\Login::user($result);
@@ -102,9 +94,7 @@ class AjaxController extends \VJ\Controller\Basic
         $result = \VJ\Validator::required($_POST, ['encrypted']);
 
         if (\VJ\I::isError($result)) {
-            $this->view->AJAX_DATA = $result;
-
-            return;
+            return $this->raiseError($result);
         }
 
         global $__CONFIG;
@@ -119,18 +109,14 @@ class AjaxController extends \VJ\Controller\Basic
 
         // Timestamp validation
         if (abs(time() - (int)$msg['timestamp']) > 10) {
-            $result                = \VJ\I::error('EXPIRED');
-            $this->view->AJAX_DATA = $result;
-
-            return;
+            $result = \VJ\I::error('EXPIRED');
+            return $this->raiseError($result);
         }
 
         $result = \VJ\User\Account\Login::fromPassword($msg['user'], $msg['pass']);
 
         if (\VJ\I::isError($result)) {
-            $this->view->AJAX_DATA = $result;
-
-            return;
+            return $this->raiseError($result);
         }
 
         $result                = \VJ\User\Account\Login::user($result);

@@ -41,10 +41,12 @@ class ErrorController extends \VJ\Controller\Basic
 
     public function show404Action()
     {
+
         $this->view->setVars([
             'PAGE_CLASS' => 'error_404',
             'TITLE'      => gettext('404')
         ]);
+
     }
 
 }
