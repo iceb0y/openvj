@@ -16,13 +16,13 @@
 
 - php-mbstring (native extension)
 
+- php-gettext (native extension)
+
 - php-apc (extension)
 
 - php-mongo 1.4+ (extension)
 
 - php-phalcon 1.2+ (extension)
-
-- php-sundown (extension)
 
 ### Libraries
 

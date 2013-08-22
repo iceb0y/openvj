@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "39c6e60af6947c929dc41f6043cd1e5b",
+    "hash": "31b3b2410234a25553ca5809c471474d",
     "packages": [
         {
             "name": "ezyang/htmlpurifier",
@@ -101,6 +101,57 @@
             "time": "2013-08-06 20:39:59"
         },
         {
+            "name": "michelf/php-markdown",
+            "version": "dev-lib",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/michelf/php-markdown.git",
+                "reference": "9dbd8352deac7d3a00ba9e2360b0d9f1c31b4b4c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/michelf/php-markdown/zipball/9dbd8352deac7d3a00ba9e2360b0d9f1c31b4b4c",
+                "reference": "9dbd8352deac7d3a00ba9e2360b0d9f1c31b4b4c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-lib": "1.3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Michelf": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Michel Fortin",
+                    "email": "michel.fortin@michelf.ca",
+                    "homepage": "http://michelf.ca/",
+                    "role": "Developer"
+                },
+                {
+                    "name": "John Gruber",
+                    "homepage": "http://daringfireball.net/"
+                }
+            ],
+            "description": "PHP Markdown",
+            "homepage": "http://michelf.ca/projects/php-markdown/",
+            "keywords": [
+                "markdown"
+            ],
+            "time": "2013-08-02 10:50:14"
+        },
+        {
             "name": "phalcon/incubator",
             "version": "dev-master",
             "source": {
@@ -142,12 +193,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "ffca003225a3ae4582b7268a2bde2bf25d0f081e"
+                "reference": "55d43a9972cb0c3b08928114db2604682b0f35c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/ffca003225a3ae4582b7268a2bde2bf25d0f081e",
-                "reference": "ffca003225a3ae4582b7268a2bde2bf25d0f081e",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/55d43a9972cb0c3b08928114db2604682b0f35c8",
+                "reference": "55d43a9972cb0c3b08928114db2604682b0f35c8",
                 "shasum": ""
             },
             "require": {
@@ -208,7 +259,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2013-08-07 14:22:52"
+            "time": "2013-08-11 14:07:22"
         }
     ],
     "packages-dev": [
@@ -220,7 +271,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "phalcon/incubator": 20,
-        "phpseclib/phpseclib": 20
+        "phpseclib/phpseclib": 20,
+        "michelf/php-markdown": 20
     },
     "platform": [
 
