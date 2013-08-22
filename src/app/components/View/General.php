@@ -29,11 +29,11 @@ class General extends \VJ\View\Basic
                 'debug'        => $__CONFIG->Debug->enabled
             ],
             'USER_DATA'        => [
-                'csrf-token'   => $__SESSION['csrf-token'],
-                'uid'          => $__SESSION['user']['uid'],
-                'nick'         => $__SESSION['user']['nick'],
-                'gmd5'         => $__SESSION['user']['gmd5'],
-                'settings'     => $__SESSION['user']['settings']
+                'csrf-token' => $__SESSION['csrf-token'],
+                'uid'        => $__SESSION['user']['uid'],
+                'nick'       => $__SESSION['user']['nick'],
+                'gmd5'       => $__SESSION['user']['gmd5'],
+                'settings'   => $__SESSION['user']['settings']
             ]
         ]);
     }

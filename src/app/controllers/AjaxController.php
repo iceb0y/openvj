@@ -110,6 +110,7 @@ class AjaxController extends \VJ\Controller\Basic
         // Timestamp validation
         if (abs(time() - (int)$msg['timestamp']) > 10) {
             $result = \VJ\I::error('EXPIRED');
+
             return $this->raiseError($result);
         }
 
