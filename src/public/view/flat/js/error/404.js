@@ -1,5 +1,5 @@
 (function() {
-  var CANVAS_H, CANVAS_W, MAX_SCALE, MOUSETHRESH, PARTICLE_COLORS, PARTICLE_COLS, PARTICLE_INVALID_COLOR, PARTICLE_MAP, PARTICLE_ROWS, PARTICLE_TYPE_CIRCLE, PARTICLE_TYPE_SQURE, Particle, Particles, SCALE, ValidParticles, WORLD_GRID_DISTANCE, WORLD_MARGIN, canvas, ctx, event_onMouseMove, event_onResize, event_onUpdate, init, lastParticle, mouseParticle, particle_count, particle_next_index, particle_offset, particle_pos, particle_pos_max, particle_start, particle_timer, physics;
+  var CANVAS_H, CANVAS_W, MAX_SCALE, MOUSETHRESH, PARTICLE_COLORS, PARTICLE_COLS, PARTICLE_INVALID_COLOR, PARTICLE_MAP, PARTICLE_ROWS, PARTICLE_TYPE_CIRCLE, PARTICLE_TYPE_SQURE, Particle, Particles, SCALE, ValidParticles, WORLD_GRID_DISTANCE, WORLD_MARGIN, bind_events, canvas, ctx, event_onMouseMove, event_onResize, event_onUpdate, init, lastParticle, mouseParticle, particle_count, particle_next_index, particle_offset, particle_pos, particle_pos_max, particle_start, particle_timer, physics;
 
   PARTICLE_MAP = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
 
@@ -130,8 +130,6 @@
     mouseParticle.makeFixed();
     canvas = mass.query('#canvas')[0];
     ctx = canvas.getContext('2d');
-    $event.on([canvas], 'mousemove', event_onMouseMove);
-    $event.on([window], 'resize', event_onResize);
     PARTICLE_ROWS = PARTICLE_MAP.length;
     PARTICLE_COLS = PARTICLE_MAP[0].length;
     CANVAS_W = (PARTICLE_COLS - 1) * WORLD_GRID_DISTANCE + WORLD_MARGIN * 2;
@@ -171,7 +169,12 @@
     return _results;
   };
 
-  event_onResize = function(e) {
+  bind_events = function() {
+    $event.on([canvas], 'mousemove', event_onMouseMove);
+    return $event.on([window], 'resize', event_onResize);
+  };
+
+  event_onResize = function() {
     var w;
     w = jQuery(window).width() * 0.9;
     SCALE = w / CANVAS_W;
@@ -230,8 +233,9 @@
   };
 
   $ready(function() {
+    init();
     return setTimeout(function() {
-      init();
+      bind_events();
       event_onResize();
       particle_start();
       return event_onUpdate();

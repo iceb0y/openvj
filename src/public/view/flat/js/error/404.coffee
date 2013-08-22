@@ -149,9 +149,6 @@ init = ->
     canvas = mass.query('#canvas')[0]
     ctx = canvas.getContext '2d'
 
-    $event.on [canvas], 'mousemove', event_onMouseMove
-    $event.on [window], 'resize', event_onResize
-
     PARTICLE_ROWS = PARTICLE_MAP.length
     PARTICLE_COLS = PARTICLE_MAP[0].length
 
@@ -181,8 +178,12 @@ init = ->
                 Particles.push p
                 ValidParticles.push p if v is PARTICLE_TYPE_SQURE
 
+bind_events = ->
 
-event_onResize = (e) ->
+    $event.on [canvas], 'mousemove', event_onMouseMove
+    $event.on [window], 'resize', event_onResize
+
+event_onResize = ->
 
     w = jQuery(window).width() * 0.9
 
@@ -237,9 +238,11 @@ event_onUpdate = ->
 
 $ready ->
 
+    init()
+
     setTimeout ->
 
-        init()
+        bind_events()
         event_onResize()
         particle_start()
         event_onUpdate()
