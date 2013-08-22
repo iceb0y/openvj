@@ -10,7 +10,8 @@ global $__CONFIG;
 
 $di = \Phalcon\DI::getDefault();
 
-$di->setShared('mongo', function () use ($__CONFIG) {
+$di->setShared('mongo', function () use ($__CONFIG)
+{
 
     $mc = new \MongoClient($__CONFIG->Mongo->path, [
 
@@ -26,7 +27,10 @@ $di->setShared('mongo', function () use ($__CONFIG) {
 });
 
 $di->setShared('collectionManager', '\Phalcon\Mvc\Collection\Manager');
+
 $di->set('view', 'VJ\View\General');
+
+\VJ\ErrorHandler\Error404::attach($di);
 
 
 // Initialize session
