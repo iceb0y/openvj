@@ -232,3 +232,7 @@
   height: 106px;
   background: url("../img/parallax/13.png") no-repeat;
 }
+
+.error-404-canvas-container {
+  text-align: center;
+}
