@@ -6,14 +6,14 @@ class ManageController extends \VJ\Controller\Basic
     public function initialize()
     {
 
-        $this->view->STYLE_WIDE = true;
+        // TODO: Check privilege
 
     }
 
     public function indexAction()
     {
 
-        // Check privilege
+        // TODO: Check privilege
 
         $this->view->setVars([
             'PAGE_CLASS' => 'manage_index',

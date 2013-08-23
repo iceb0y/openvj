@@ -33,7 +33,7 @@ class UserController extends \VJ\Controller\Basic
     public function helloAction()
     {
 
-        // Check privilege
+        // TODO: Check privilege
 
         $this->view->setVars([
             'PAGE_CLASS' => 'user_hello',

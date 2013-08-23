@@ -236,3 +236,31 @@
 .error-404-canvas-container {
   text-align: center;
 }
+
+.manage-container {
+  border-top: 1px;
+}
+
+.manage-sidebar {
+  position: absolute;
+  top: 54px;
+  bottom: 100px;
+  background: #f0faff;
+  right: 0;
+  width: 250px;
+  border-left: 1px solid #d7f2ff;
+}
+
+.manage-main-bg {
+  position: absolute;
+  top: 54px;
+  bottom: 100px;
+  background: #fefefe;
+  right: 250px;
+  left: 0;
+  z-index: -1;
+}
+
+.manage-main {
+  margin-right: 260px;
+}

@@ -1587,6 +1587,36 @@ a.dark:hover {
   background: url("../img/loading.dark.svg") no-repeat;
 }
 
+.layout-col:after {
+  content: "\200B";
+  display: block;
+  height: 0;
+  clear: both;
+}
+
+.layout-col {
+  *zoom: 1;
+}
+
+.layout-col-cont {
+  position: relative;
+}
+
+.layout-col-left {
+  float: left;
+  width: 100%;
+  margin-left: -260px;
+}
+
+.layout-col-left-cont {
+  margin-left: 260px;
+}
+
+.layout-col-right {
+  float: right;
+  width: 250px;
+}
+
 ::-moz-selection {
   background: #72d0eb;
   color: #fff;
@@ -1614,6 +1644,7 @@ html {
   height: auto !important;
   height: 100%;
   padding-bottom: 100px;
+  position: relative;
 }
 
 .page_widescreen .cont-wrap {
