@@ -29,7 +29,7 @@ class Basic extends \Phalcon\Mvc\View
 
     public static function has_priv($priv)
     {
-        return \VJ\User\Security\Privilege::has($priv);
+        return \VJ\User\Security\ACL::has($priv);
     }
 
     public static function view_static($res, $static = false)

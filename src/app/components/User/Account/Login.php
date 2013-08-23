@@ -187,7 +187,7 @@ class Login
 
         global $__SESSION;
 
-        $priv = \VJ\User\Security\Privilege::merge($u->priv, $u->group);
+        $priv = \VJ\User\Security\ACL::merge($u->priv, $u->group);
 
         // 检查该账号是否可登录
         if (!isset($priv[PRIV_LOG_IN]) || $priv[PRIV_LOG_IN] !== true) {

@@ -4,7 +4,7 @@ namespace VJ\Discussion;
 
 use \VJ\I;
 use \VJ\Utils;
-use \VJ\User\Security\Privilege;
+use \VJ\User\Security\ACL;
 
 class Reply
 {
@@ -25,7 +25,7 @@ class Reply
             return I::error('ARGUMENT_TOO_LONG', 'topic_id', 50);
         }
 
-        if (!Privilege::has(PRIV_DISCUSSION_REPLY_TOPIC)) {
+        if (!ACL::has(PRIV_DISCUSSION_REPLY_TOPIC)) {
             return I::error('NO_PRIV', 'PRIV_DISCUSSION_REPLY_TOPIC');
         }
 
@@ -56,7 +56,7 @@ class Reply
             return I::error('ARGUMENT_TOO_LONG', 'topic_id', 50);
         }
 
-        if (!Privilege::has(PRIV_DISCUSSION_REPLY_COMMENT)) {
+        if (!ACL::has(PRIV_DISCUSSION_REPLY_COMMENT)) {
             return I::error('NO_PRIV', 'PRIV_DISCUSSION_REPLY_COMMENT');
         }
 

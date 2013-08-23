@@ -43,7 +43,7 @@ if ($__CONFIG->Security->enforceSSL) {
 \VJ\Security\CSRF::initToken();
 \VJ\Security\Session::initCharacter();
 
-\VJ\User\Security\Privilege::initialize();
+\VJ\User\Security\ACL::initialize();
 \VJ\User\Account::initialize();
 
 //============================================
