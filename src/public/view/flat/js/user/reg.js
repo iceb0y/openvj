@@ -123,7 +123,7 @@
         },
         freezer: freezer,
         onSuccess: function(d) {
-          return VJ.Dialog.alert('OK', 'OK');
+          return window.location = CONFIG.basePrefix + '/user/hello';
         },
         onFailure: function(d) {
           return VJ.Dialog.alert(d.errorMsg, 'Error');

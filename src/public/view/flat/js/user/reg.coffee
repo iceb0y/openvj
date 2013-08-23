@@ -139,7 +139,7 @@ init_step2 = ->
 
             onSuccess: (d) ->
 
-                VJ.Dialog.alert 'OK', 'OK'
+                window.location = CONFIG.basePrefix + '/user/hello'
 
             onFailure: (d) ->
 
