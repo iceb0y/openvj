@@ -15,17 +15,19 @@ class ACL
 
         global $__GROUP_PRIV;
 
-        $__GROUP_PRIV = apc_fetch('openvj-cache-grouppriv');
+        $cache = \Phalcon\DI::getDefault()->getShared('cache');
+        $key = 'openvj-cache-grouppriv';
+
+        $__GROUP_PRIV = $cache->get($key);
 
         if ($__GROUP_PRIV === false) {
-
-            $di    = \Phalcon\DI::getDefault();
-            $mongo = $di->getShared('mongo');
+            
+            $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
 
             $rec          = $mongo->System->findOne(['_id' => 'privtable']);
             $__GROUP_PRIV = $rec['v'];
 
-            apc_store('openvj-cache-grouppriv', $__GROUP_PRIV);
+            $cache->save($key, $__GROUP_PRIV);
 
         }
 

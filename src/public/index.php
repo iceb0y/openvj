@@ -11,7 +11,6 @@ global $__CONFIG;
 $di = \Phalcon\DI::getDefault();
 
 // MongoDB
-
 $di->setShared('mongo', function () use ($__CONFIG)
 {
 
@@ -28,10 +27,9 @@ $di->setShared('mongo', function () use ($__CONFIG)
 
 });
 
-$di->setShared('collectionManager', '\Phalcon\Mvc\Collection\Manager');
+$di->set('collectionManager', '\Phalcon\Mvc\Collection\Manager');
 
 // Redis
-
 $di->setShared('redis', function () use ($__CONFIG)
 {
 
@@ -43,8 +41,7 @@ $di->setShared('redis', function () use ($__CONFIG)
 });
 
 // Cache
-
-$di->set('cache', function() {
+$di->setShared('cache', function() {
 
     $redis = \Phalcon\DI::getDefault()->getShared('redis');
 
@@ -63,9 +60,9 @@ $di->set('cache', function() {
 
 $di->set('view', 'VJ\View\General');
 
-\VJ\ErrorHandler\Error404::attach($di);
+\VJ\ErrorHandler\Error404::attach();
 
-// Initialize session
+
 \VJ\Session\Utils::initialize(new \VJ\Session\MongoProvider());
 
 if ($__CONFIG->Security->enforceSSL) {

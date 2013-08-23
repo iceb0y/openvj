@@ -7,10 +7,12 @@ use \Phalcon\Mvc\Dispatcher as PhDispatcher;
 class Error404
 {
 
-    public static function attach($di)
+    public static function attach()
     {
 
-        $di->set('dispatcher', function () use ($di) {
+        $di = \Phalcon\DI::getDefault();
+
+        $di->setShared('dispatcher', function () use ($di) {
 
             $evManager = $di->getShared('eventsManager');
             $evManager->attach('dispatch:beforeException', function ($event, $dispatcher, $exception) {
@@ -34,7 +36,7 @@ class Error404
 
             return $dispatcher;
 
-        }, true);
+        });
     }
 
 }
