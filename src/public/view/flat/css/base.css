@@ -467,6 +467,14 @@
   float: right;
 }
 
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
 .clear:after {
   content: "\200B";
   display: block;
@@ -1714,4 +1722,8 @@ html {
   height: 80px;
   clear: both;
   line-height: 40px;
+}
+
+.cont-footer .float-right {
+  padding: 20px 0;
 }
