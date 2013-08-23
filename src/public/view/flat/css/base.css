@@ -1616,6 +1616,11 @@ html {
   padding-bottom: 100px;
 }
 
+.page_widescreen .cont-wrap {
+  width: auto !important;
+  padding: 0 20px !important;
+}
+
 .cont-navbar {
   padding: 20px 0;
 }

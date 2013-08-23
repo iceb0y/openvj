@@ -1,4 +1,4 @@
-<div class="cont-navbar"><div class="cont-wrap"><div class="grid_12">
+<div class="cont-navbar"><div class="cont-wrap">{% if STYLE_WIDE is not defined %}<div class="grid_12">{% endif %}
     <div class="cont-navbar-title float-left">
         <div class="cont-navbar-logo"><a class="cont-navbar-logo-a" href="{{ BASE_PREFIX }}/" title="Vijos"></a></div>
     </div>
@@ -10,4 +10,4 @@
         <div class="cont-nav-li"><a class="cont-nav-a cont-nav-discussion" href="{{ BASE_PREFIX }}/discuss"><span class="cont-nav-icon icon-symbol icon-discussion"></span><span class="cont-nav-text">Discussion</span></a></div>
     </div>
     <div class="clear"></div>
-</div><div class="clear"></div></div></div>
+{% if STYLE_WIDE is not defined %}</div>{% endif %}<div class="clear"></div></div></div>

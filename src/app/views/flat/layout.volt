@@ -25,7 +25,7 @@ if(top.location!==self.location){top.location=self.location}else{if(top!==self){
 <link href="{{ view_static(PATH, IS_BASE) }}" rel="stylesheet" type="text/css" charset="UTF-8" />
 {% endfor %}{% endif %}
 </head>
-<body id="page_{{ PAGE_CLASS }}">
+<body class="page_{{ PAGE_CLASS }}{% if STYLE_WIDE is defined %} page_widescreen{% endif %}">
 <div id="container" class="vj-dlg-under">
 {% include "vendor/userbar.volt" %}
 {% include "vendor/navbar.volt" %}
