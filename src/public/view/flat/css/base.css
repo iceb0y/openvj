@@ -1173,7 +1173,7 @@ a:visited {
 
 a:focus,
 a:hover {
-  color: #26a9ef;
+  color: #3eb2f1;
   text-decoration: underline;
 }
 
@@ -1725,6 +1725,8 @@ html {
   font-size: .85em;
   color: #aeaeae;
   border-top: 3px solid #dfdfdf;
+  position: relative;
+  z-index: 2;
 }
 
 .cont-userbar a,
@@ -1754,6 +1756,7 @@ html {
   padding: 30px 0;
   text-align: center;
   position: relative;
+  z-index: 2;
   margin-top: -100px;
   height: 80px;
   clear: both;
