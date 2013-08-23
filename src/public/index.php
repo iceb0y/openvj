@@ -10,6 +10,8 @@ global $__CONFIG;
 
 $di = \Phalcon\DI::getDefault();
 
+// MongoDB
+
 $di->setShared('mongo', function () use ($__CONFIG)
 {
 
@@ -28,10 +30,40 @@ $di->setShared('mongo', function () use ($__CONFIG)
 
 $di->setShared('collectionManager', '\Phalcon\Mvc\Collection\Manager');
 
+// Redis
+
+$di->setShared('redis', function () use ($__CONFIG)
+{
+
+    $redis = new \Redis();
+    $redis->connect($__CONFIG->Redis->path);
+
+    return $redis;
+
+});
+
+// Cache
+
+$di->set('cache', function() {
+
+    $redis = \Phalcon\DI::getDefault()->getShared('redis');
+
+    $frontend = new Phalcon\Cache\Frontend\Data([
+        'lifetime' => 7200
+    ]);
+
+    $cache = new Phalcon\Cache\Backend\Redis($frontend, [
+        'redis' => $redis
+    ]);
+
+    return $cache;
+});
+
+// View
+
 $di->set('view', 'VJ\View\General');
 
 \VJ\ErrorHandler\Error404::attach($di);
-
 
 // Initialize session
 \VJ\Session\Utils::initialize(new \VJ\Session\MongoProvider());

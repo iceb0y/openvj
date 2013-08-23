@@ -4,3 +4,6 @@ database = "openvj"
 username = "openvj"
 password = "openvj"
 timeout = 2000
+
+[Redis]
+path = "tcp://localhost:6379?weight=1&persistent=1"
