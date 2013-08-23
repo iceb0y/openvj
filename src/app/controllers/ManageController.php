@@ -16,7 +16,7 @@ class ManageController extends \VJ\Controller\Basic
         // TODO: Check privilege
 
         $this->view->setVars([
-            'PAGE_CLASS' => 'manage_index',
+            'PAGE_CLASS' => 'manage_index page_manage',
             'TITLE'      => gettext('Manage')
         ]);
 

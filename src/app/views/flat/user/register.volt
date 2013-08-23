@@ -1,6 +1,6 @@
 {% extends "layout.volt" %}
+{% block predefine %}{% set EXT_JS = ['js/user/reg.js': false] %}{% endblock %}
 {% block body %}
-{% set EXT_JS = ['js/user/reg.js': false] %}
 <div class="reg-bg-container">
 <div class="reg-bg-left"></div>
 <div class="reg-bg-right"></div>
