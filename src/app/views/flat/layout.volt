@@ -35,7 +35,7 @@ if(top.location!==self.location){top.location=self.location}else{if(top!==self){
 </div>
 </div>
 {% include "vendor/footer.volt" %}
-<script type="text/javascript" src="{{ view_static('lib/jquery/jquery-1.9.1.min.js', true) }}" charset="UTF-8"></script>
+<script type="text/javascript" src="{{ view_static('lib/jquery/jquery-1.10.2.min.js', true) }}" charset="UTF-8"></script>
 <script type="text/javascript" src="{{ view_static('lib/vijos-ext/vijos-ext.js', true) }}" charset="UTF-8"></script>
 <script type="text/javascript" src="{{ view_static('lib/vijos-ext/vijos.js', true) }}" charset="UTF-8"></script>
 <script type="text/javascript" src="{{ view_static('i18n/zh_CN.js', true) }}" charset="UTF-8"></script>
