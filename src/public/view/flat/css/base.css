@@ -797,7 +797,7 @@ table {
   }
 }
 
-@media (min-width:776px)and(max-width:979px) {
+@media (min-width:776px) {
   body {
     min-width: 756px;
   }
@@ -875,7 +875,7 @@ table {
   }
 }
 
-@media (min-width:980px)and(max-width:1219px) {
+@media (min-width:980px) {
   body {
     min-width: 960px;
   }
