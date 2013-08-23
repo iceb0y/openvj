@@ -187,10 +187,10 @@ class Login
 
         global $__SESSION;
 
-        $priv = \VJ\User\Security\ACL::merge($u->priv, $u->group);
+        $acl = \VJ\User\Security\ACL::merge($u->acl, $u->group);
 
         // 检查该账号是否可登录
-        if (!isset($priv[PRIV_LOG_IN]) || $priv[PRIV_LOG_IN] !== true) {
+        if (!isset($acl[PRIV_LOG_IN]) || $acl[PRIV_LOG_IN] !== true) {
             return I::error('NO_PRIV', 'PRIV_LOG_IN');
         }
 
@@ -214,7 +214,7 @@ class Login
 
         ]);
 
-        $data['priv'] = $priv;
+        $data['acl'] = $acl;
 
         $__SESSION['user'] = $data;
 
@@ -241,7 +241,7 @@ class Login
             'rank'     => 0,
             'rp'       => 0.0,
             'vjb'      => 0.0,
-            'priv'     => $__GROUP_PRIV[GROUP_GUEST],
+            'acl'      => $__GROUP_PRIV[GROUP_GUEST],
             'settings' => []
 
         ];

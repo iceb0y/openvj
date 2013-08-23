@@ -51,7 +51,9 @@ class User extends \VJ\Collection
 
     public $group;
 
-    public $priv; //privilege
+    public $acl; //privilege
+
+    public $aclrule;
 
     public $privacy;
 

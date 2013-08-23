@@ -1,5 +1,8 @@
 <?php
 
+//DO NOT REMOVE THE COMMENT BELOW!
+//PRIVILEGE-TABLE-BEGIN
+
 const PRIV = 0; //总权限
 
 //开发
@@ -47,3 +50,6 @@ const PRIV_ETC = 19000; //其他总权限
 
 //管理
 const PRIV_ADMIN = 20000; //进入管理后台
+
+//PRIVILEGE-TABLE-END
+//DO NOT REMOVE THE COMMENT ABOVE!

@@ -43,11 +43,11 @@ class Account
 
         }
 
-        global $_UID, $_NICK, $_PRIV;
+        global $_UID, $_NICK, $_ACL;
 
         $_UID  = $__SESSION['user']['uid'];
         $_NICK = $__SESSION['user']['nick'];
-        $_PRIV = $__SESSION['user']['priv'];
+        $_ACL  = $__SESSION['user']['acl'];
 
     }
 

@@ -13,20 +13,20 @@ class ACL
     public static function initialize()
     {
 
-        global $__GROUP_PRIV;
+        global $__GROUP_ACL;
 
         $cache = \Phalcon\DI::getDefault()->getShared('cache');
-        $key   = 'openvj-cache-grouppriv';
+        $key   = 'openvj-cache-groupacl';
 
-        $__GROUP_PRIV = $cache->get($key);
+        $__GROUP_ACL = $cache->get($key);
 
-        if ($__GROUP_PRIV === false) {
+        if ($__GROUP_ACL === false) {
 
             $mongo        = \Phalcon\DI::getDefault()->getShared('mongo');
-            $rec          = $mongo->System->findOne(['_id' => 'privtable']);
-            $__GROUP_PRIV = $rec['v'];
+            $rec          = $mongo->System->findOne(['_id' => 'acl']);
+            $__GROUP_ACL = $rec['v'];
 
-            $cache->save($key, $__GROUP_PRIV);
+            $cache->save($key, $__GROUP_ACL);
 
         }
 
@@ -40,12 +40,12 @@ class ACL
      *
      * @return mixed
      */
-    public static function merge($userPriv, $group)
+    public static function merge($userACL, $group)
     {
 
-        global $__GROUP_PRIV;
+        global $__GROUP_ACL;
 
-        return $userPriv + $__GROUP_PRIV[(int)$group];
+        return $userACL + $__GROUP_ACL[(int)$group];
     }
 
     /**
@@ -69,26 +69,127 @@ class ACL
                 return false;
             }
 
-            $_PRIV = self::merge($u->priv, $u->group);
+            $_ACL = self::merge($u->acl, $u->group);
 
-            if (!isset($_PRIV[$priv])) {
+            if (!isset($_ACL[$priv])) {
                 return false;
             }
 
-            return (bool)$_PRIV[$priv];
+            return (bool)$_ACL[$priv];
 
         } else {
 
-            global $_PRIV;
+            global $_ACL;
 
-            if ($_PRIV == null || !isset($_PRIV[$priv])) {
+            if ($_ACL == null || !isset($_ACL[$priv])) {
                 return false;
             }
 
-            return (bool)$_PRIV[$priv];
+            return (bool)$_ACL[$priv];
 
         }
 
     }
+
+    /**
+     * 查询权限表
+     *
+     * @return array
+     */
+    public static function queryPrivilegeTable()
+    {
+
+        $fp = fopen(APP_DIR.'includes/privilege.php', 'r');
+
+        $priv = [];
+        $flag = false;
+
+        while (!feof($fp)) {
+
+            $line = fgets($fp);
+
+            if (strpos($line, 'PRIVILEGE-TABLE-BEGIN') !== false) {
+                $flag = true;
+                continue;
+            }
+
+            if ($flag === false) {
+                continue;
+            }
+
+            if (strpos($line, 'PRIVILEGE-TABLE-END') !== false) {
+                break;
+            }
+
+            if (strlen(trim($line)) === 0) {
+                continue;
+            }
+
+            preg_match('/const\s*(\w+)\s*=\s*(\d+);\s*\/\/([\s\S]*)$/', $line, $matches);
+
+            if ($matches != null) {
+
+                $priv[$matches[1]] = [
+                    'v' => (int)$matches[2],
+                    'd' => trim($matches[3])
+                ];
+
+            }
+        }
+
+        fclose($fp);
+
+        return $priv;
+
+    }
+
+    /**
+     *
+     */
+    public static function queryRules()
+    {
+
+        $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
+        $rec   = $mongo->System->findOne(['_id' => 'acl_rules']);
+        return $rec['v'];
+
+    }
+
+    /**
+     * 将权限表转换为权限树
+     *
+     * @param $privFlat
+     *
+     * @return array
+     */
+    public static function convertToTree($privFlat)
+    {
+
+        $tree = [];
+
+        foreach ($privFlat as $name => $value) {
+
+            $namespace = explode('_', $name);
+
+            $ref = & $tree;
+
+            foreach ($namespace as $n) {
+
+                if (!isset($ref[$n])) {
+                    $ref[$n] = [];
+                }
+
+                $ref = & $ref[$n];
+            }
+
+            $ref['_v'] = $value['v'];
+            $ref['_d'] = $value['d'];
+
+        }
+
+        return $tree;
+
+    }
+
 
 }
