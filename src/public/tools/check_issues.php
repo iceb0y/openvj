@@ -26,31 +26,31 @@ echo '</p>';
 
 echo '<h2>Extensions</h2>';
 
-echo '<p>Phalcon:';
+echo '<p>phalcon:';
 echo_by_bool(extension_loaded('phalcon'));
 echo '</p>';
 
-echo '<p>sundown:';
-echo_by_bool(extension_loaded('sundown'));
+echo '<p>redis:';
+echo_by_bool(extension_loaded('redis'));
 echo '</p>';
 
-echo '<p>APC:';
-echo_by_bool(extension_loaded('apc'));
-echo '</p>';
-
-echo '<p>Mongo:';
+echo '<p>mongo:';
 echo_by_bool(extension_loaded('mongo'));
+echo '</p>';
+
+echo '<p>gettext:';
+echo_by_bool(extension_loaded('gettext'));
 echo '</p>';
 
 echo '<p>mbstring:';
 echo_by_bool(extension_loaded('mbstring'));
 echo '</p>';
 
-echo '<p>CURL:';
+echo '<p>curl:';
 echo_by_bool(extension_loaded('curl'));
 echo '</p>';
 
-echo '<p>OpenSSL:';
+echo '<p>openssl:';
 echo_by_bool(extension_loaded('openssl'));
 echo '</p>';
 
