@@ -19,7 +19,7 @@ class ManageController extends \VJ\Controller\Basic
             ['type' => 'link', 'href' => '/', 'text' => 'Error center', 'action' => 'error'],
             ['type' => 'link', 'href' => '/', 'text' => 'Cache', 'action' => 'cache'],
             ['type' => 'headline', 'text' => 'Settings'],
-            ['type' => 'link', 'href' => '/', 'text' => 'ACL', 'action' => 'acl'],
+            ['type' => 'link', 'href' => '/manage/acl', 'text' => 'ACL', 'action' => 'acl'],
             ['type' => 'link', 'href' => '/', 'text' => 'RP credit', 'action' => 'rp'],
             ['type' => 'headline', 'text' => 'Problem set'],
             ['type' => 'link', 'href' => '/', 'text' => 'Manage Problems', 'action' => 'problem'],
@@ -38,6 +38,27 @@ class ManageController extends \VJ\Controller\Basic
         $this->view->setVars([
             'PAGE_CLASS' => 'manage_statistics page_manage',
             'TITLE'      => gettext('Statistics')
+        ]);
+
+    }
+
+    public function aclAction()
+    {
+
+        $privTable = \VJ\User\Security\ACL::queryPrivilegeTable();
+        $privTree = \VJ\User\Security\ACL::convertToTree($privTable);
+        $aclRules = \VJ\User\Security\ACL::queryRules();
+
+        global $__GROUPS;
+
+        $this->view->setVars([
+            'PAGE_CLASS' => 'manage_acl page_manage',
+            'TITLE'      => gettext('ACL'),
+
+            'ACL_PRIVTABLE' => $privTable,
+            'ACL_PRIVTREE' => $privTree,
+            'ACL_RULES' => $aclRules,
+            'ACL_GROUPS' => $__GROUPS
         ]);
 
     }

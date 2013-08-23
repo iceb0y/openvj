@@ -144,13 +144,16 @@ class ACL
     }
 
     /**
+     * 查询权限规则表
      *
+     * @return mixed
      */
     public static function queryRules()
     {
 
         $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
         $rec   = $mongo->System->findOne(['_id' => 'acl_rules']);
+
         return $rec['v'];
 
     }
