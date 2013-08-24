@@ -212,6 +212,8 @@ class Login
         $u->save();
 
         \VJ\Session\Utils::newSession();
+        \VJ\Security\CSRF::initToken();
+        \VJ\Security\Session::initCharacter();
 
         $data = \VJ\Validator::filter((array)$u, [
 

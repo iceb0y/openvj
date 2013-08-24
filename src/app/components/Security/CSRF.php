@@ -33,6 +33,10 @@ class CSRF
 
         global $__SESSION;
 
+        if (!isset($__SESSION['csrf-token'])) {
+            return false;
+        }
+
         $token = strval($__SESSION['csrf-token']);
 
         if (isset($_GET['token']) && strval($_GET['token']) === $token)
