@@ -331,7 +331,7 @@
         if (!ACL_RULES[gid][pid].i) {
           acl_rule[gid][pid] = ACL_RULES[gid][pid].v;
         }
-        acl = ACL_RULES[gid][pid].v;
+        acl[gid][pid] = ACL_RULES[gid][pid].v;
       }
     }
     return VJ.ajax({
