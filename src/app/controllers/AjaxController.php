@@ -88,6 +88,24 @@ class AjaxController extends \VJ\Controller\Basic
 
     }
 
+    public function manageaclsaveAction()
+    {
+        $result = \VJ\Validator::required($_POST, ['acl', 'acl_rule']);
+
+        if (\VJ\I::isError($result)) {
+            return $this->raiseError($result);
+        }
+
+        // TODO: Check ACL
+
+        $result = \VJ\User\Security\ACL::save(
+            json_decode($_POST['acl'], true),
+            json_decode($_POST['acl_rule'], true)
+        );
+        $this->view->AJAX_DATA = $result;
+
+    }
+
     public function loginAction()
     {
 

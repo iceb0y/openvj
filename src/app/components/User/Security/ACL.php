@@ -7,6 +7,10 @@ use \VJ\Models;
 class ACL
 {
 
+    const CACHE_ACL_KEY = 'openvj-cache-groupacl';
+    const SYSTEM_ID_ACL = 'acl';
+    const SYSTEM_ID_ACL_RULES = 'acl_rules';
+
     /**
      * 初始化组权限表
      */
@@ -16,17 +20,16 @@ class ACL
         global $__GROUP_ACL;
 
         $cache = \Phalcon\DI::getDefault()->getShared('cache');
-        $key   = 'openvj-cache-groupacl';
 
-        $__GROUP_ACL = $cache->get($key);
+        $__GROUP_ACL = $cache->get(self::CACHE_ACL_KEY);
 
         if ($__GROUP_ACL === false) {
 
             $mongo        = \Phalcon\DI::getDefault()->getShared('mongo');
-            $rec          = $mongo->System->findOne(['_id' => 'acl']);
+            $rec          = $mongo->System->findOne(['_id' => self::SYSTEM_ID_ACL]);
             $__GROUP_ACL = $rec['v'];
 
-            $cache->save($key, $__GROUP_ACL);
+            $cache->save(self::CACHE_ACL_KEY, $__GROUP_ACL);
 
         }
 
@@ -92,6 +95,42 @@ class ACL
     }
 
     /**
+     * 保存ACL规则
+     *
+     * @param $ACL
+     * @param $ACLRule
+     */
+    public static function save($ACL, $ACLRule)
+    {
+
+        //TODO: Check privilege
+
+        global $__GROUP_ACL;
+
+        // update records
+        $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
+        $mongo->System->update(['_id' => self::SYSTEM_ID_ACL], [
+            '$set' => [
+                'v' => $ACL
+            ]
+        ], ['upsert' => true]);
+        $mongo->System->update(['_id' => self::SYSTEM_ID_ACL_RULES], [
+            '$set' => [
+                'v' => $ACLRule
+            ]
+        ], ['upsert' => true]);
+
+        // update cache
+        $cache = \Phalcon\DI::getDefault()->getShared('cache');
+        $cache->save(self::CACHE_ACL_KEY, $ACL);
+
+        $__GROUP_ACL = $ACL;
+
+        return true;
+
+    }
+
+    /**
      * 查询权限表
      *
      * @return array
@@ -152,7 +191,7 @@ class ACL
     {
 
         $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
-        $rec   = $mongo->System->findOne(['_id' => 'acl_rules']);
+        $rec   = $mongo->System->findOne(['_id' => self::SYSTEM_ID_ACL_RULES]);
 
         return $rec['v'];
 

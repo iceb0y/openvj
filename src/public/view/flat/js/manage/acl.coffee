@@ -6,6 +6,8 @@ ACL_GROUPS = window.ACL_GROUPS
 ACL_PRIVTREE = window.ACL_PRIVTREE
 ACL_PRIVTABLE = window.ACL_PRIVTABLE
 
+freezer = null
+
 repeatSpace = (n) ->
 
     s = ''
@@ -80,15 +82,15 @@ renderACLRules = (pid, gid) ->
 
 initDOM = ->
 
-    table = $new 'table'
+    table = $new 'table', class: 'acl-table'
 
     colgroup = '<colgroup><col class="c1"><col class="c2"><col class="c3">'
     groups = ''
-    ls = '<thead class="thead"><tr><th class="c1">#</th><th class="c2">Tag</th><th class="c3"><div>Description</div></th>'
+    ls = '<thead class="thead"><tr class="acl-table-headtr"><th class="c1 acl-table-th">#</th><th class="c2 acl-table-th">Tag</th><th class="c3 acl-table-th"><div>Description</div></th>'
 
     for gid, gname of ACL_GROUPS
 
-        ls += "<th title=\"value(#{gid})\" class=\"cx\">#{gname}</th>"
+        ls += "<th title=\"value(#{gid})\" class=\"cx acl-table-th\">#{gname}</th>"
         groups += "<td class=\"cx\" name=\"g#{gid}\"></td>"
         colgroup += '<col class="cx">'
     
@@ -111,7 +113,7 @@ initDOM = ->
 
             if node._v?
 
-                $tbody.append jQuery('<tr id="priv{v}" data-path="{full}"><td class="c1">{v}</td><td class="c2" title="{full}">{node}</td><td class="c3" title="{desc}"><div>{desc}</div></td>{groups}</tr>'.format
+                $tbody.append jQuery('<tr id="priv{v}" data-path="{full}" class="acl-table-bodytr"><td class="c1">{v}</td><td class="c2" title="{full}">{node}</td><td class="c3" title="{desc}"><div>{desc}</div></td>{groups}</tr>'.format
                     v:      node._v
                     node:   repeatSpace(depth * 4) + namespace + key
                     desc:   node._d
@@ -191,8 +193,6 @@ adjustACLRules = (e) ->
 
             break if ACL_RULES[gid][pid].root
             ACL_RULES[gid][pid] = {v: queryACLFromParent(gid, ptag), i: true}
-
-            console.log ACL_RULES[gid][pid]
 
     renderACLRules pid, gid
     updateSubACLRules gid, ptag, pid
@@ -293,9 +293,51 @@ onWindowScroll = (e) ->
         else
             $dom.hide()
 
+saveACLRule = ->
+
+    acl_rule = {}
+    acl = {}
+
+    for gid of ACL_GROUPS
+
+        acl_rule[gid] = {}
+        acl[gid] = {}
+
+        for tag, value of ACL_PRIVTABLE
+
+            pid = value.v
+
+            if not ACL_RULES[gid][pid].i
+                acl_rule[gid][pid] = ACL_RULES[gid][pid].v
+
+            acl = ACL_RULES[gid][pid].v
+
+    VJ.ajax
+
+        action:    'manageaclsave'
+        data:      {acl: JSON.stringify(acl), acl_rule: JSON.stringify(acl_rule)}
+        freezer:   freezer
+
+        onSuccess: (d) ->
+
+            VJ.Dialog.alert 'ACL list saved.', 'ACL'
+
+            setTimeout ->
+                window.location.reload()
+            , 1500
+
+        onFailure: (d) ->
+
+            VJ.Dialog.alert d.errorMsg, 'ACL Error'
+
 $ready ->
 
     # jQuery(window).scroll onWindowScroll
 
-    initACLRules()
+    freezer = new VJ.Freezer
+        container:  mass.query('.manage-acl')
+
     initDOM()
+    initACLRules()
+
+    jQuery('.role-acl-save').click saveACLRule
