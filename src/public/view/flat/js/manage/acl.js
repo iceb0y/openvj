@@ -36,7 +36,7 @@
   };
 
   initACLRules = function() {
-    var gid, pid, root_pid, root_ptag, tag, value, _, _ACL_RULES, _results;
+    var gid, pid, root_pid, root_ptag, tag, value, _ACL_RULES, _results;
     _ACL_RULES = {};
     for (gid in ACL_GROUPS) {
       _ACL_RULES[gid] = {};
@@ -80,7 +80,6 @@
         var _results1;
         _results1 = [];
         for (gid in ACL_GROUPS) {
-          _ = ACL_GROUPS[gid];
           _results1.push(renderACLRules(pid, gid));
         }
         return _results1;
@@ -99,7 +98,7 @@
   };
 
   initDOM = function() {
-    var $tbody, clonedDOM, colgroup, currentPath, generateTree, gid, gname, groups, ls, table;
+    var $tbody, colgroup, currentPath, generateTree, gid, gname, groups, ls, table;
     table = $new('table');
     colgroup = '<colgroup><col class="c1"><col class="c2"><col class="c3">';
     groups = '';
@@ -145,29 +144,36 @@
     };
     generateTree(ACL_PRIVTREE, 0, '');
     $tbody.on('mouseover', 'tr', function() {
-      var $dom, $freezeDOMs, node, parentPrivNodes, tag, _i, _len;
+      var parentPrivNodes, tag;
       $tbody.children('tr').removeClass('parent');
       tag = jQuery(this).attr('data-path');
-      parentPrivNodes = findInRouteNodes(tag);
-      $freezeDOMs = [];
-      for (_i = 0, _len = parentPrivNodes.length; _i < _len; _i++) {
-        node = parentPrivNodes[_i];
-        if (node._v != null) {
-          $dom = jQuery('#priv' + node._v);
-          $dom.addClass('parent');
-          $freezeDOMs.push($dom);
-        }
-      }
-      return freezeHeaders($freezeDOMs);
+      return parentPrivNodes = findInRouteNodes(tag);
+      /*
+      $freezeDOMs = []
+      
+      for node in parentPrivNodes
+      
+          if node._v?
+      
+              $dom = jQuery('#priv' + node._v)
+              $dom.addClass 'parent'
+              $freezeDOMs.push $dom
+      
+      freezeHeaders $freezeDOMs
+      */
+
     });
     $tbody.on('mousedown', 'td.cx', adjustACLRules);
     $tbody.on('contextmenu', 'td.cx', function() {
       return false;
     });
-    jQuery('#privTable').append(table);
-    clonedDOM = jQuery(table).find('thead>tr').clone();
-    frozenHeader = clonedDOM;
-    return rearrangeFixedRows(frozenHeader, jQuery(table).find('thead>tr'), jQuery('#freezing .thead'));
+    return jQuery('#privTable').append(table);
+    /*
+    clonedDOM = jQuery(table).find('thead>tr').clone()
+    frozenHeader = clonedDOM
+    rearrangeFixedRows frozenHeader, jQuery(table).find('thead>tr'), jQuery('#freezing .thead')
+    */
+
   };
 
   adjustACLRules = function(e) {
@@ -197,6 +203,7 @@
           v: queryACLFromParent(gid, ptag),
           i: true
         };
+        console.log(ACL_RULES[gid][pid]);
     }
     renderACLRules(pid, gid);
     updateSubACLRules(gid, ptag, pid);
@@ -204,7 +211,7 @@
   };
 
   updateSubACLRules = function(gid, ptag, pid) {
-    var key, node, p, ref, rule, tag, _i, _j, _len, _len1, _results;
+    var key, node, p, ref, rule, tag, _i, _len, _results;
     p = ptag.split('_');
     ref = ACL_PRIVTREE;
     for (_i = 0, _len = p.length; _i < _len; _i++) {
@@ -213,8 +220,8 @@
     }
     rule = ACL_RULES[gid][pid].v;
     _results = [];
-    for (node = _j = 0, _len1 = ref.length; _j < _len1; node = ++_j) {
-      key = ref[node];
+    for (key in ref) {
+      node = ref[key];
       if (key === '_v' || key === '_d') {
         continue;
       }
@@ -224,7 +231,7 @@
   };
 
   setSubACLRules = function(node, gid, rule) {
-    var cp, key, subnode, _i, _len, _results;
+    var cp, key, subnode, _results;
     if (node._v != null) {
       cp = ACL_RULES[gid][node._v];
       if (cp.i === false) {
@@ -235,8 +242,8 @@
       }
     }
     _results = [];
-    for (subnode = _i = 0, _len = node.length; _i < _len; subnode = ++_i) {
-      key = node[subnode];
+    for (key in node) {
+      subnode = node[key];
       if (key === '_v' || key === '_d') {
         continue;
       }
@@ -248,6 +255,7 @@
   queryACLFromParent = function(gid, ptag) {
     var p, pid, ref, tag, _i, _len;
     p = ptag.split('_');
+    p.pop();
     pid = null;
     ref = ACL_PRIVTREE;
     for (_i = 0, _len = p.length; _i < _len; _i++) {
@@ -308,7 +316,6 @@
   };
 
   $ready(function() {
-    jQuery(window).scroll(onWindowScroll);
     initACLRules();
     return initDOM();
   });

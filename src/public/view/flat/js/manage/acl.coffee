@@ -67,7 +67,7 @@ initACLRules = ->
         
         pid = parseInt value.v
 
-        for gid, _ of ACL_GROUPS
+        for gid of ACL_GROUPS
 
             renderACLRules pid, gid
 
@@ -144,7 +144,7 @@ initDOM = ->
         parentPrivNodes = findInRouteNodes tag
 
         # Freeze headers
-
+        ###
         $freezeDOMs = []
 
         for node in parentPrivNodes
@@ -156,16 +156,18 @@ initDOM = ->
                 $freezeDOMs.push $dom
 
         freezeHeaders $freezeDOMs
-
+        ###
     $tbody.on 'mousedown', 'td.cx', adjustACLRules
     $tbody.on 'contextmenu', 'td.cx', -> false
 
     jQuery('#privTable').append table
 
     # Freeze Table Header
+    ###
     clonedDOM = jQuery(table).find('thead>tr').clone()
     frozenHeader = clonedDOM
     rearrangeFixedRows frozenHeader, jQuery(table).find('thead>tr'), jQuery('#freezing .thead')
+    ###
 
 adjustACLRules = (e) ->
 
@@ -190,6 +192,8 @@ adjustACLRules = (e) ->
             break if ACL_RULES[gid][pid].root
             ACL_RULES[gid][pid] = {v: queryACLFromParent(gid, ptag), i: true}
 
+            console.log ACL_RULES[gid][pid]
+
     renderACLRules pid, gid
     updateSubACLRules gid, ptag, pid
 
@@ -204,7 +208,7 @@ updateSubACLRules = (gid, ptag, pid) ->
 
     rule = ACL_RULES[gid][pid].v
 
-    for key, node in ref
+    for key, node of ref
 
         continue if key is '_v' or key is '_d'
         
@@ -224,14 +228,16 @@ setSubACLRules = (node, gid, rule) ->
             cp.v = rule
             renderACLRules node._v, gid
 
-    for key, subnode in node
+    for key, subnode of node
 
         continue if key is '_v' or key is '_d'
+
         setSubACLRules subnode, gid, rule
 
 queryACLFromParent = (gid, ptag) ->
 
     p = ptag.split '_'
+    p.pop()
     pid = null
 
     ref = ACL_PRIVTREE
@@ -289,7 +295,7 @@ onWindowScroll = (e) ->
 
 $ready ->
 
-    jQuery(window).scroll onWindowScroll
+    # jQuery(window).scroll onWindowScroll
 
     initACLRules()
     initDOM()
