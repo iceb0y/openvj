@@ -1497,8 +1497,9 @@ a.dark:hover {
   -webkit-transform: scale(1.1);
   -ms-transform: scale(1.1);
   transform: scale(1.1);
-  -webkit-transition: all .2s ease-in-out;
-  transition: all .2s ease-in-out;
+  -webkit-transition: opacity .2s ease-in-out,-webkit-transform .2s ease-in-out;
+  transition: opacity .2s ease-in-out,-ms-transform .2s ease-in-out;
+  transition: opacity .2s ease-in-out,transform .2s ease-in-out;
 }
 
 .vj-dlg.show {
