@@ -71,19 +71,19 @@ class ManageController extends \VJ\Controller\Basic
         } else {
 
             $privTable = \VJ\User\Security\ACL::queryPrivilegeTable();
-            $privTree = \VJ\User\Security\ACL::convertToTree($privTable);
-            $aclRules = \VJ\User\Security\ACL::queryRules();
+            $privTree  = \VJ\User\Security\ACL::convertToTree($privTable);
+            $aclRules  = \VJ\User\Security\ACL::queryRules();
 
             global $__GROUPS;
 
             $this->view->setVars([
-                'PAGE_CLASS' => 'manage_acl page_manage',
-                'TITLE'      => gettext('ACL'),
+                'PAGE_CLASS'    => 'manage_acl page_manage',
+                'TITLE'         => gettext('ACL'),
 
                 'ACL_PRIVTABLE' => $privTable,
-                'ACL_PRIVTREE' => $privTree,
-                'ACL_RULES' => $aclRules,
-                'ACL_GROUPS' => $__GROUPS
+                'ACL_PRIVTREE'  => $privTree,
+                'ACL_RULES'     => $aclRules,
+                'ACL_GROUPS'    => $__GROUPS
             ]);
 
         }

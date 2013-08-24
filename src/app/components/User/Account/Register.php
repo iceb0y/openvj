@@ -264,7 +264,7 @@ class Register
         $user->sig      = '';
         $user->sigm     = '';
         $user->group    = GROUP_USER;
-        $user->acl      = serialize(['_' => null]);     //avoid unnecessary unserialization
+        $user->acl      = serialize(['_' => null]); //avoid unnecessary unserialization
         $user->aclrule  = serialize(['_' => null]);
         $user->privacy  = ['_' => null];
         $user->stars    = ['_' => null];

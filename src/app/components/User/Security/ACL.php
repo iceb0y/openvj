@@ -7,8 +7,8 @@ use \VJ\Models;
 class ACL
 {
 
-    const CACHE_ACL_KEY = 'openvj-cache-groupacl';
-    const SYSTEM_ID_ACL = 'acl';
+    const CACHE_ACL_KEY       = 'openvj-cache-groupacl';
+    const SYSTEM_ID_ACL       = 'acl';
     const SYSTEM_ID_ACL_RULES = 'acl_rules';
 
     /**
@@ -25,8 +25,8 @@ class ACL
 
         if ($__GROUP_ACL === false) {
 
-            $mongo        = \Phalcon\DI::getDefault()->getShared('mongo');
-            $rec          = $mongo->System->findOne(['_id' => self::SYSTEM_ID_ACL]);
+            $mongo       = \Phalcon\DI::getDefault()->getShared('mongo');
+            $rec         = $mongo->System->findOne(['_id' => self::SYSTEM_ID_ACL]);
             $__GROUP_ACL = $rec['v'];
 
             $cache->save(self::CACHE_ACL_KEY, $__GROUP_ACL);

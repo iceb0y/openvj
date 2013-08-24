@@ -21,7 +21,7 @@ class UserController extends \VJ\Controller\Basic
             if (!isset($_POST['user'])) {
 
                 // STEP1: Mail validation
-                
+
                 $result = \VJ\Validator::required($_POST, ['email']);
 
                 if (I::isError($result)) {
@@ -29,6 +29,7 @@ class UserController extends \VJ\Controller\Basic
                 }
 
                 $result = \VJ\User\Account\Register::sendVerificationEmail($_POST['email']);
+
                 return $this->forwardAjax($result);
 
 
@@ -69,6 +70,7 @@ class UserController extends \VJ\Controller\Basic
                 }
 
                 $result = \VJ\User\Account\Login::user($result);
+
                 return $this->forwardAjax($result);
 
             }
@@ -152,6 +154,7 @@ class UserController extends \VJ\Controller\Basic
         }
 
         $result = \VJ\User\Account\Login::user($result);
+
         return $this->forwardAjax($result);
 
     }

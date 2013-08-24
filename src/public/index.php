@@ -11,8 +11,7 @@ global $__CONFIG;
 $di = \Phalcon\DI::getDefault();
 
 // MongoDB
-$di->setShared('mongo', function () use ($__CONFIG)
-{
+$di->setShared('mongo', function () use ($__CONFIG) {
 
     $mc = new \MongoClient($__CONFIG->Mongo->path, [
 
@@ -30,8 +29,7 @@ $di->setShared('mongo', function () use ($__CONFIG)
 $di->set('collectionManager', '\Phalcon\Mvc\Collection\Manager');
 
 // Redis
-$di->setShared('redis', function () use ($__CONFIG)
-{
+$di->setShared('redis', function () use ($__CONFIG) {
 
     $redis = new \Redis();
     $redis->connect($__CONFIG->Redis->path);
@@ -41,7 +39,7 @@ $di->setShared('redis', function () use ($__CONFIG)
 });
 
 // Cache
-$di->setShared('cache', function() {
+$di->setShared('cache', function () {
 
     $redis = \Phalcon\DI::getDefault()->getShared('redis');
 
