@@ -25,8 +25,8 @@ class Reply
             return I::error('ARGUMENT_TOO_LONG', 'topic_id', 50);
         }
 
-        if (!ACL::has(PRIV_DISCUSSION_REPLY_TOPIC)) {
-            return I::error('NO_PRIV', 'PRIV_DISCUSSION_REPLY_TOPIC');
+        if (!ACL::has(PRIV_DISCUSSION_COMMENT_TOPIC)) {
+            return I::error('NO_PRIV', 'PRIV_DISCUSSION_COMMENT_TOPIC');
         }
 
         if (Utils::len($content) < $__CONFIG->Discussion->contentMin) {

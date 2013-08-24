@@ -148,24 +148,21 @@
     };
     generateTree(ACL_PRIVTREE, 0, '');
     $tbody.on('mouseover', 'tr', function() {
-      var parentPrivNodes, tag;
+      var $dom, node, parentPrivNodes, tag, _i, _len, _results;
       $tbody.children('tr').removeClass('parent');
       tag = jQuery(this).attr('data-path');
-      return parentPrivNodes = findInRouteNodes(tag);
-      /*
-      $freezeDOMs = []
-      
-      for node in parentPrivNodes
-      
-          if node._v?
-      
-              $dom = jQuery('#priv' + node._v)
-              $dom.addClass 'parent'
-              $freezeDOMs.push $dom
-      
-      freezeHeaders $freezeDOMs
-      */
-
+      parentPrivNodes = findInRouteNodes(tag);
+      _results = [];
+      for (_i = 0, _len = parentPrivNodes.length; _i < _len; _i++) {
+        node = parentPrivNodes[_i];
+        if (node._v != null) {
+          $dom = jQuery('#priv' + node._v);
+          _results.push($dom.addClass('parent'));
+        } else {
+          _results.push(void 0);
+        }
+      }
+      return _results;
     });
     $tbody.on('mousedown', 'td.cx', adjustACLRules);
     $tbody.on('contextmenu', 'td.cx', function() {

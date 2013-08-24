@@ -145,9 +145,7 @@ initDOM = ->
         tag = jQuery(@).attr 'data-path'
         parentPrivNodes = findInRouteNodes tag
 
-        # Freeze headers
-        ###
-        $freezeDOMs = []
+        # $freezeDOMs = []
 
         for node in parentPrivNodes
 
@@ -155,10 +153,10 @@ initDOM = ->
 
                 $dom = jQuery('#priv' + node._v)
                 $dom.addClass 'parent'
-                $freezeDOMs.push $dom
+                # $freezeDOMs.push $dom
 
-        freezeHeaders $freezeDOMs
-        ###
+        # freezeHeaders $freezeDOMs
+        
     $tbody.on 'mousedown', 'td.cx', adjustACLRules
     $tbody.on 'contextmenu', 'td.cx', -> false
 
