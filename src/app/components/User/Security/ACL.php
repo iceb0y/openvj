@@ -72,7 +72,7 @@ class ACL
                 return false;
             }
 
-            $_ACL = self::merge($u->acl, $u->group);
+            $_ACL = self::merge(unserialize($u->acl), $u->group);
 
             if (!isset($_ACL[$priv])) {
                 return false;

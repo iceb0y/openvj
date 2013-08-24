@@ -41,20 +41,14 @@ class Register
 
         // Generate new validation request
         $validateCode = \VJ\Security\Randomizer::toHex(10);
-
-        $record = Models\RegValidation::findFirst([
-            'conditions' => ['email' => $email]
-        ]);
-
-        if (!$record) {
-            $record        = new Models\RegValidation();
-            $record->email = $email;
-        }
-
-        $record->code = $validateCode;
-        $record->time = new \MongoDate();
-
-        $record->save();
+        
+        $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
+        $mongo->RegValidation->update(['email' => $email], [
+            '$set' => [
+                'code' => $validateCode,
+                'time' => new \MongoDate()
+            ]
+        ], ['upsert' => true]);
 
         // Send validation email
         global $__CONFIG;

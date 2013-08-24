@@ -131,10 +131,16 @@ class Login
 
         // Upgrade old passwords
         if ($u->passfmt == 0 && $md5 == false) {
-            $u->salt    = \VJ\Security\Randomizer::toHex(30);
-            $u->pass    = \VJ\User\Account::makeHash($pass, $u->salt);
-            $u->passfmt = 1;
-            $u->save();
+        
+            $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
+            $mongo->User->update(['uid' => $u->uid], [
+                '$set' => [
+                    'salt'    => \VJ\Security\Randomizer::toHex(30),
+                    'pass'    => \VJ\User\Account::makeHash($pass, $u->salt),
+                    'passfmt' => 1
+                ]
+            ]);
+            
         }
 
         return $u;
@@ -186,8 +192,8 @@ class Login
     {
 
         global $__SESSION;
-
-        $acl = \VJ\User\Security\ACL::merge($u->acl, $u->group);
+        
+        $acl = \VJ\User\Security\ACL::merge(unserialize($u->acl), $u->group);
 
         // 检查该账号是否可登录
         if (!isset($acl[PRIV_LOG_IN]) || $acl[PRIV_LOG_IN] !== true) {
@@ -195,8 +201,14 @@ class Login
         }
 
         // 修改最后登录时间
-        $u->tlogin  = time();
-        $u->iplogin = $_SERVER['REMOTE_ADDR'];
+        $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
+        $mongo->User->update(['uid' => $u->uid], [
+            '$set' => [
+                'tlogin'  => time(),
+                'iplogin' => $_SERVER['REMOTE_ADDR']
+            ]
+        ]);
+
         $u->save();
 
         \VJ\Session\Utils::newSession();

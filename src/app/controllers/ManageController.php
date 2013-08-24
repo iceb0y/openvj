@@ -1,5 +1,7 @@
 <?php
 
+use \VJ\I;
+
 class ManageController extends \VJ\Controller\Basic
 {
 
