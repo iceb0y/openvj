@@ -45,22 +45,48 @@ class ManageController extends \VJ\Controller\Basic
     public function aclAction()
     {
 
-        $privTable = \VJ\User\Security\ACL::queryPrivilegeTable();
-        $privTree = \VJ\User\Security\ACL::convertToTree($privTable);
-        $aclRules = \VJ\User\Security\ACL::queryRules();
+        if ($this->request->isPost() === true) {
 
-        global $__GROUPS;
+            $result = \VJ\Security\CSRF::checkToken();
 
-        $this->view->setVars([
-            'PAGE_CLASS' => 'manage_acl page_manage',
-            'TITLE'      => gettext('ACL'),
+            if (I::isError($result)) {
+                return $this->raiseError($result);
+            }
 
-            'ACL_PRIVTABLE' => $privTable,
-            'ACL_PRIVTREE' => $privTree,
-            'ACL_RULES' => $aclRules,
-            'ACL_GROUPS' => $__GROUPS
-        ]);
+            $result = \VJ\Validator::required($_POST, ['acl', 'acl_rule']);
 
+            if (\VJ\I::isError($result)) {
+                return $this->raiseError($result);
+            }
+
+            // TODO: Check ACL
+
+            $result = \VJ\User\Security\ACL::save(
+                json_decode($_POST['acl'], true),
+                json_decode($_POST['acl_rule'], true)
+            );
+
+            $this->forwardAjax($result);
+
+        } else {
+
+            $privTable = \VJ\User\Security\ACL::queryPrivilegeTable();
+            $privTree = \VJ\User\Security\ACL::convertToTree($privTable);
+            $aclRules = \VJ\User\Security\ACL::queryRules();
+
+            global $__GROUPS;
+
+            $this->view->setVars([
+                'PAGE_CLASS' => 'manage_acl page_manage',
+                'TITLE'      => gettext('ACL'),
+
+                'ACL_PRIVTABLE' => $privTable,
+                'ACL_PRIVTREE' => $privTree,
+                'ACL_RULES' => $aclRules,
+                'ACL_GROUPS' => $__GROUPS
+            ]);
+
+        }
     }
 
     public function indexAction()

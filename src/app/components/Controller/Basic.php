@@ -46,4 +46,27 @@ class Basic extends \Phalcon\Mvc\Controller
         return false;
     }
 
+    /**
+     * 重定向到Ajax反馈
+     *
+     * @param null $data
+     *
+     * @return bool
+     */
+    public function forwardAjax($data = null)
+    {
+        if ($data == null) {
+            $data = [];
+        }
+
+        $this->view->AJAX_DATA = $data;
+
+        $this->dispatcher->forward([
+            'controller' => 'ajax',
+            'action'     => 'forwarded'
+        ]);
+
+        return false;
+    }
+
 }

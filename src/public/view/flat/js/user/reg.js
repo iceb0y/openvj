@@ -15,9 +15,9 @@
         return;
       }
       return VJ.ajax({
-        action: 'registerstep1',
+        action: '/user/register',
         data: {
-          mail: target_mail
+          email: target_mail
         },
         freezer: freezer,
         onSuccess: function(d) {
@@ -111,7 +111,7 @@
         return false;
       }
       return VJ.ajax({
-        action: 'registerstep2',
+        action: '/user/register',
         data: {
           email: REG_PARAM.mail,
           code: REG_PARAM.code,

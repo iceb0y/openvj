@@ -8,14 +8,33 @@ class AjaxController extends \VJ\Controller\Basic
     public function initialize()
     {
 
-        if (!\VJ\Security\CSRF::checkToken() && $this->dispatcher->getActionName() !== 'general') {
-            return $this->raiseError('ARGUMENT_MISSING', 'token');
+        if ($this->dispatcher->getActionName() !== 'general') {
+
+            $result = \VJ\Security\CSRF::checkToken();
+
+            if (I::isError($result)) {
+                return $this->raiseError($result);
+            }
         }
 
     }
 
     public function generalAction()
     {
+
+        // This action should only be called from raiseError() / raise404()
+
+        // Only accept forwarded calls
+        if ($this->view->AJAX_DATA == null) {
+            return $this->raise404();
+        }
+
+    }
+
+    public function forwardedAction()
+    {
+
+        // This action checks CSRF-token (NOTE: after code execution)
 
         // Only accept forwarded calls
         if ($this->view->AJAX_DATA == null) {
@@ -37,109 +56,4 @@ class AjaxController extends \VJ\Controller\Basic
 
     }
 
-    public function registerstep1Action()
-    {
-
-        $result = \VJ\Validator::required($_POST, ['mail']);
-
-        if (\VJ\I::isError($result)) {
-            return $this->raiseError($result);
-        }
-
-        $result                = \VJ\User\Account\Register::sendVerificationEmail($_POST['mail']);
-        $this->view->AJAX_DATA = $result;
-
-    }
-
-    public function registerstep2Action()
-    {
-
-        $result = \VJ\Validator::required($_POST, ['user', 'pass', 'nick', 'gender', 'agreement', 'email', 'code']);
-
-        if (\VJ\I::isError($result)) {
-            return $this->raiseError($result);
-        }
-
-        $result = \VJ\User\Account\Register::register(
-            $_POST['user'],
-            $_POST['pass'],
-            $_POST['nick'],
-            $_POST['gender'],
-            $_POST['agreement'],
-            [
-                'email' => $_POST['email'],
-                'code'  => $_POST['code']
-            ]
-        );
-
-        if (\VJ\I::isError($result)) {
-            return $this->raiseError($result);
-        }
-
-        // Log in immediately
-        $result = \VJ\User\Account\Login::fromPassword($_POST['user'], $_POST['pass']);
-
-        if (\VJ\I::isError($result)) {
-            return $this->raiseError($result);
-        }
-
-        $result                = \VJ\User\Account\Login::user($result);
-        $this->view->AJAX_DATA = $result;
-
-    }
-
-    public function manageaclsaveAction()
-    {
-        $result = \VJ\Validator::required($_POST, ['acl', 'acl_rule']);
-
-        if (\VJ\I::isError($result)) {
-            return $this->raiseError($result);
-        }
-
-        // TODO: Check ACL
-
-        $result = \VJ\User\Security\ACL::save(
-            json_decode($_POST['acl'], true),
-            json_decode($_POST['acl_rule'], true)
-        );
-        $this->view->AJAX_DATA = $result;
-
-    }
-
-    public function loginAction()
-    {
-
-        $result = \VJ\Validator::required($_POST, ['encrypted']);
-
-        if (\VJ\I::isError($result)) {
-            return $this->raiseError($result);
-        }
-
-        global $__CONFIG;
-
-        // Decrypt data
-        $rsa = new Crypt_RSA();
-        $rsa->setEncryptionMode(CRYPT_RSA_ENCRYPTION_PKCS1);
-        $rsa->loadKey($__CONFIG->RSA->private, CRYPT_RSA_PRIVATE_FORMAT_PKCS1);
-        $s   = new Math_BigInteger($_POST['encrypted'], 16);
-        $msg = $rsa->decrypt($s->toBytes());
-        $msg = json_decode($msg, true);
-
-        // Timestamp validation
-        if (abs(time() - (int)$msg['timestamp']) > 10) {
-            $result = \VJ\I::error('EXPIRED');
-
-            return $this->raiseError($result);
-        }
-
-        $result = \VJ\User\Account\Login::fromPassword($msg['user'], $msg['pass']);
-
-        if (\VJ\I::isError($result)) {
-            return $this->raiseError($result);
-        }
-
-        $result                = \VJ\User\Account\Login::user($result);
-        $this->view->AJAX_DATA = $result;
-
-    }
 }

@@ -17,8 +17,8 @@ init_step1 = ->
 
         VJ.ajax
 
-            action:    'registerstep1'
-            data:      {mail: target_mail}
+            action:    '/user/register'
+            data:      {email: target_mail}
             freezer:   freezer
 
             onSuccess: (d) ->
@@ -125,7 +125,7 @@ init_step2 = ->
 
         VJ.ajax
 
-            action:    'registerstep2'
+            action:    '/user/register'
             data:      
                 email: REG_PARAM.mail
                 code: REG_PARAM.code

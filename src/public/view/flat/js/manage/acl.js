@@ -335,7 +335,7 @@
       }
     }
     return VJ.ajax({
-      action: 'manageaclsave',
+      action: '/manage/acl',
       data: {
         acl: JSON.stringify(acl),
         acl_rule: JSON.stringify(acl_rule)
