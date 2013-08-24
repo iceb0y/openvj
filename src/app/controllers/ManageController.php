@@ -1,6 +1,7 @@
 <?php
 
 use \VJ\I;
+use \VJ\User\Security\ACL;
 
 class ManageController extends \VJ\Controller\Basic
 {
@@ -8,7 +9,9 @@ class ManageController extends \VJ\Controller\Basic
     public function initialize()
     {
 
-        // TODO: Check privilege
+        if (!ACL::has(PRIV_ADMIN_ACCESS)) {
+            return $this->raiseError('NO_PRIV', 'PRIV_ADMIN_ACCESS');
+        }
 
         $this->view->CURRENT_ACTION = $this->dispatcher->getActionName();
 
@@ -60,8 +63,6 @@ class ManageController extends \VJ\Controller\Basic
             if (\VJ\I::isError($result)) {
                 return $this->raiseError($result);
             }
-
-            // TODO: Check ACL
 
             $result = \VJ\User\Security\ACL::save(
                 json_decode($_POST['acl'], true),

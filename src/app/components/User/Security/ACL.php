@@ -103,8 +103,6 @@ class ACL
     public static function save($ACL, $ACLRule)
     {
 
-        //TODO: Check privilege
-
         global $__GROUP_ACL;
 
         // update records
