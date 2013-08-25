@@ -15,7 +15,8 @@ src/app/configs/security.ini
 .DS_Store
 
 # Composer
-src/app/vendor
+src/app/vendor/
+devtool/vendor/
 
 # Nodejs
 node_modules/
