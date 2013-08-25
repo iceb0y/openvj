@@ -23,7 +23,7 @@ class ACL
 
         $__GROUP_ACL = $cache->get(self::CACHE_ACL_KEY);
 
-        if ($__GROUP_ACL === false) {
+        if ($__GROUP_ACL == null) {
 
             $mongo       = \Phalcon\DI::getDefault()->getShared('mongo');
             $rec         = $mongo->System->findOne(['_id' => self::SYSTEM_ID_ACL]);
