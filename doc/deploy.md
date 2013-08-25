@@ -82,7 +82,7 @@ Please ensure these indexes:
 
 ## Frontend
 
-Run [grunt](http://gruntjs.com/getting-started) tasks before deployment:
+Run [grunt](http://gruntjs.com/getting-started) tasks before production deployment:
 
 ```bash
 npm install -g grunt-cli  # install grunt
@@ -94,4 +94,18 @@ grunt production          # run tasks
 cd src/public/view/flat
 npm install
 grunt production
+```
+
+For development purpose:
+
+```bash
+npm install -g grunt-cli  # install grunt
+
+cd src/public/static/lib/vijos-ext
+npm install               # install grunt dependencies
+grunt                     # run tasks
+
+cd src/public/view/flat
+npm install
+grunt
 ```
