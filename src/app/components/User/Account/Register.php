@@ -139,6 +139,7 @@ class Register
 
                 no_checking:    bool    是否检查Email验证
                 uid:            int     指定UID
+                ipmatch:        regex   匹配指定登录IP
 
         */
 
