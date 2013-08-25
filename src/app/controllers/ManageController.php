@@ -73,22 +73,43 @@ class ManageController extends \VJ\Controller\Basic
 
         } else {
 
-            $privTable = \VJ\User\Security\ACL::queryPrivilegeTable();
-            $privTree  = \VJ\User\Security\ACL::convertToTree($privTable);
-            $aclRules  = \VJ\User\Security\ACL::queryRules();
+            if (isset($_GET['export'])) {
 
-            global $__GROUPS;
+                $result = \VJ\Security\CSRF::checkToken();
 
-            $this->view->setVars([
-                'PAGE_CLASS'    => 'manage_acl page_manage',
-                'TITLE'         => gettext('ACL'),
+                if (I::isError($result)) {
+                    return $this->raiseError($result);
+                }
 
-                'ACL_PRIVTABLE' => $privTable,
-                'ACL_PRIVTREE'  => $privTree,
-                'ACL_RULES'     => $aclRules,
-                'ACL_GROUPS'    => $__GROUPS
-            ]);
+                $this->view->disable();
 
+                header('Content-Type: application/javascript');
+                header('Content-Disposition: attachment; filename=acl.js');
+                header('Pragma: no-cache');
+
+                echo \VJ\User\Security\ACL::export();
+
+                return false;
+
+            } else {
+
+                $privTable = \VJ\User\Security\ACL::queryPrivilegeTable();
+                $privTree  = \VJ\User\Security\ACL::convertToTree($privTable);
+                $aclRules  = \VJ\User\Security\ACL::queryRules();
+
+                global $__GROUPS;
+
+                $this->view->setVars([
+                    'PAGE_CLASS'    => 'manage_acl page_manage',
+                    'TITLE'         => gettext('ACL'),
+
+                    'ACL_PRIVTABLE' => $privTable,
+                    'ACL_PRIVTREE'  => $privTree,
+                    'ACL_RULES'     => $aclRules,
+                    'ACL_GROUPS'    => $__GROUPS
+                ]);
+
+            }
         }
     }
 

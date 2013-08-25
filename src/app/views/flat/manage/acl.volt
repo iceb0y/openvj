@@ -7,7 +7,7 @@
 
 <div class="manage-cont">
 <div id="privTable"><div id="freezing"><div class="thead"></div><div class="tbody"></div></div></div>
-<div class="form-line"><input type="button" class="button button-def role-acl-save" value="保存ACL规则"></div>
+<div class="form-line"><input type="button" class="button button-def role-acl-save" value="保存ACL规则"><input type="button" class="button" value="Export" onclick="window.location='{{ BASE_PREFIX }}/manage/acl?export=true&token={{ USER_DATA['csrf-token'] }}'"></div>
 </div>
 
 {% include "manage/body_footer.volt" %}
