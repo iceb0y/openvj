@@ -328,6 +328,10 @@ saveACLRule = ->
 
             VJ.Dialog.alert d.errorMsg, 'ACL Error'
 
+        onError: (errorText) ->
+
+            VJ.Dialog.alert errorText, 'ACL Error'
+
 $ready ->
 
     # jQuery(window).scroll onWindowScroll

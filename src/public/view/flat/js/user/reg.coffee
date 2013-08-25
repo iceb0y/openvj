@@ -38,6 +38,10 @@ init_step1 = ->
 
                 $text mass.query('.reg-hint'), d.errorMsg
 
+            onError: (errorText) ->
+
+                VJ.Dialog.alert errorText, 'Error'
+
     $event.on mass.query('.role-reg-email'), 'keypress', (event) ->
 
         $empty mass.query('.reg-hint')
@@ -144,6 +148,10 @@ init_step2 = ->
             onFailure: (d) ->
 
                 VJ.Dialog.alert d.errorMsg, 'Error'
+
+            onError: (errorText) ->
+
+                VJ.Dialog.alert errorText, 'Error'
 
 $ready ->
 

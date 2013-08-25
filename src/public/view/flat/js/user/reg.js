@@ -32,6 +32,9 @@
         },
         onFailure: function(d) {
           return $text(mass.query('.reg-hint'), d.errorMsg);
+        },
+        onError: function(errorText) {
+          return VJ.Dialog.alert(errorText, 'Error');
         }
       });
     });
@@ -127,6 +130,9 @@
         },
         onFailure: function(d) {
           return VJ.Dialog.alert(d.errorMsg, 'Error');
+        },
+        onError: function(errorText) {
+          return VJ.Dialog.alert(errorText, 'Error');
         }
       });
     });

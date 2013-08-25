@@ -346,6 +346,9 @@
       },
       onFailure: function(d) {
         return VJ.Dialog.alert(d.errorMsg, 'ACL Error');
+      },
+      onError: function(errorText) {
+        return VJ.Dialog.alert(errorText, 'ACL Error');
       }
     });
   };
