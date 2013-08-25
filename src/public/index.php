@@ -58,7 +58,7 @@ $di->setShared('cache', function () {
 
 $di->set('view', 'VJ\View\General');
 
-\VJ\ErrorHandler\Error404::attach();
+\VJ\ErrorHandler\HTTPError::attach();
 
 
 \VJ\Session\Utils::initialize(new \VJ\Session\MongoProvider());
