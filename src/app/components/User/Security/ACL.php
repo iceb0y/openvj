@@ -23,7 +23,7 @@ class ACL
 
         $__GROUP_ACL = $cache->get(self::CACHE_ACL_KEY);
 
-        if ($__GROUP_ACL === false) {
+        if ($__GROUP_ACL == null) {
 
             $mongo       = \Phalcon\DI::getDefault()->getShared('mongo');
             $rec         = $mongo->System->findOne(['_id' => self::SYSTEM_ID_ACL]);
@@ -177,6 +177,34 @@ class ACL
         fclose($fp);
 
         return $priv;
+
+    }
+
+    /**
+     * Export ACL to .js file
+     *
+     * @return string
+     */
+    public static function export()
+    {
+
+        $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
+        $rec   = $mongo->System->findOne(['_id' => self::SYSTEM_ID_ACL]);
+        $acl   = $rec['v'];
+        $rec   = $mongo->System->findOne(['_id' => self::SYSTEM_ID_ACL_RULES]);
+        $acl_r = $rec['v'];
+
+        $result = '';
+        $result .= 'db.System.update('
+            .json_encode(['_id' => self::SYSTEM_ID_ACL]).', '
+            .json_encode(['$set' => ['v' => $acl]]).', '
+            .json_encode(['upsert' => true]).');';
+        $result .= 'db.System.update('
+            .json_encode(['_id' => self::SYSTEM_ID_ACL_RULES]).', '
+            .json_encode(['$set' => ['v' => $acl_r]]).', '
+            .json_encode(['upsert' => true]).');';
+
+        return $result;
 
     }
 
