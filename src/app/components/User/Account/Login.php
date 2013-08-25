@@ -193,10 +193,11 @@ class Login
 
         global $__SESSION;
 
-        $acl = \VJ\User\Security\ACL::merge(unserialize($u->acl), $u->group);
+        $acl = \Phalcon\DI::getDefault()->getShared('acl');
+        $acldata = $acl->merge(unserialize($u->acl), $u->group);
 
         // 检查该账号是否可登录
-        if (!isset($acl[PRIV_LOG_IN]) || $acl[PRIV_LOG_IN] !== true) {
+        if (!isset($acldata[PRIV_LOG_IN]) || $acldata[PRIV_LOG_IN] !== true) {
             return I::error('NO_PRIV', 'PRIV_LOG_IN');
         }
 
@@ -249,7 +250,9 @@ class Login
     public static function guest()
     {
 
-        global $__SESSION, $__GROUP_PRIV;
+        global $__SESSION;
+
+        $acl = \Phalcon\DI::getDefault()->getShared('acl');
 
         $__SESSION['user'] = [
 
@@ -260,7 +263,7 @@ class Login
             'rank'     => 0,
             'rp'       => 0.0,
             'vjb'      => 0.0,
-            'acl'      => $__GROUP_PRIV[GROUP_GUEST],
+            'acl'      => $acl->getGroupACL(GROUP_GUEST),
             'settings' => []
 
         ];

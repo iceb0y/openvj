@@ -29,7 +29,8 @@ class Basic extends \Phalcon\Mvc\View
 
     public static function has_priv($priv)
     {
-        return \VJ\User\Security\ACL::has($priv);
+        $acl = \Phalcon\DI::getDefault()->getShared('acl');
+        return $acl->has($priv);
     }
 
     public static function view_static($res, $static = false)

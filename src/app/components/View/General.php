@@ -5,6 +5,14 @@ namespace VJ\View;
 class General extends \VJ\View\Basic
 {
 
+    public static function initialize()
+    {
+
+        $di = \Phalcon\DI::getDefault();
+        $di->set('view', 'VJ\View\General');
+
+    }
+
     public function __construct($options = null)
     {
 

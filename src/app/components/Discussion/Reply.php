@@ -4,7 +4,6 @@ namespace VJ\Discussion;
 
 use \VJ\I;
 use \VJ\Utils;
-use \VJ\User\Security\ACL;
 
 class Reply
 {
@@ -21,11 +20,13 @@ class Reply
     {
         global $__CONFIG;
 
+        $acl = \Phalcon\DI::getDefault()->getShared('acl');
+
         if (strlen($topic_id) > 50) {
             return I::error('ARGUMENT_TOO_LONG', 'topic_id', 50);
         }
 
-        if (!ACL::has(PRIV_DISCUSSION_COMMENT_TOPIC)) {
+        if (!$acl->has(PRIV_DISCUSSION_COMMENT_TOPIC)) {
             return I::error('NO_PRIV', 'PRIV_DISCUSSION_COMMENT_TOPIC');
         }
 
@@ -51,12 +52,14 @@ class Reply
      */
     public static function comment($topic_id, $comment_id, $content)
     {
+        
+        $acl = \Phalcon\DI::getDefault()->getShared('acl');
 
         if (strlen($topic_id) > 50) {
             return I::error('ARGUMENT_TOO_LONG', 'topic_id', 50);
         }
 
-        if (!ACL::has(PRIV_DISCUSSION_REPLY_COMMENT)) {
+        if (!$acl->has(PRIV_DISCUSSION_REPLY_COMMENT)) {
             return I::error('NO_PRIV', 'PRIV_DISCUSSION_REPLY_COMMENT');
         }
 

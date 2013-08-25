@@ -86,3 +86,11 @@ textdomain('vijos');
 // Template
 global $__TEMPLATE_NAME;
 $__TEMPLATE_NAME = $__CONFIG->Template->default;
+
+
+// Initialize components
+\VJ\Database::initMongoDB();
+\VJ\Database::initRedis();
+\VJ\Cache::initialize();
+\VJ\Session\Utils::initialize(new \VJ\Session\MongoProvider());
+\VJ\User\ACL::initialize();
