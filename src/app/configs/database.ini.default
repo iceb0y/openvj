@@ -1,5 +1,5 @@
 [Mongo]
-path = "mongodb://127.0.0.1:27017"  # unix sock: mongodb:///tmp/mongodb-27017.sock
+path = "mongodb://127.0.0.1:27017"  ; unix sock: mongodb:///tmp/mongodb-27017.sock
 database = "openvj"
 username = "openvj"
 password = "openvj"
