@@ -41,7 +41,7 @@ class Register
 
         // Generate new validation request
         $validateCode = \VJ\Security\Randomizer::toHex(10);
-        
+
         $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
         $mongo->RegValidation->update(['email' => $email], [
             '$set' => [
@@ -277,7 +277,7 @@ class Register
             $user->ipmatch = $options['ipmatch'];
         }
 
-        $result         = $user->save();
+        $result = $user->save();
 
         return $result;
     }

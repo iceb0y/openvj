@@ -20,6 +20,7 @@ class HTTPError
                         'controller' => 'error',
                         'action'     => 'show404',
                     ]);
+
                     return false;
                 }
 

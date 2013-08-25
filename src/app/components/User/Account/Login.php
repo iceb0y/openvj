@@ -131,7 +131,7 @@ class Login
 
         // Upgrade old passwords
         if ($u->passfmt == 0 && $md5 == false) {
-        
+
             $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
             $mongo->User->update(['uid' => $u->uid], [
                 '$set' => [
@@ -140,7 +140,7 @@ class Login
                     'passfmt' => 1
                 ]
             ]);
-            
+
         }
 
         return $u;
@@ -192,7 +192,7 @@ class Login
     {
 
         global $__SESSION;
-        
+
         $acl = \VJ\User\Security\ACL::merge(unserialize($u->acl), $u->group);
 
         // 检查该账号是否可登录
