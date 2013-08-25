@@ -1,7 +1,6 @@
 <?php
 
 use \VJ\I;
-use \VJ\User\Security\ACL;
 
 class ManageController extends \VJ\Controller\Basic
 {
@@ -9,7 +8,8 @@ class ManageController extends \VJ\Controller\Basic
     public function initialize()
     {
 
-        if (!ACL::has(PRIV_ADMIN_ACCESS)) {
+        $acl = \Phalcon\DI::getDefault()->getShared('acl');
+        if (!$acl->has(PRIV_ADMIN_ACCESS)) {
             return $this->raiseError('NO_PRIV', 'PRIV_ADMIN_ACCESS');
         }
 
@@ -64,7 +64,7 @@ class ManageController extends \VJ\Controller\Basic
                 return $this->raiseError($result);
             }
 
-            $result = \VJ\User\Security\ACL::save(
+            $result = \VJ\User\ACL::save(
                 json_decode($_POST['acl'], true),
                 json_decode($_POST['acl_rule'], true)
             );
@@ -87,15 +87,15 @@ class ManageController extends \VJ\Controller\Basic
                 header('Content-Disposition: attachment; filename=acl.js');
                 header('Pragma: no-cache');
 
-                echo \VJ\User\Security\ACL::export();
+                echo \VJ\User\ACL::export();
 
                 return false;
 
             } else {
 
-                $privTable = \VJ\User\Security\ACL::queryPrivilegeTable();
-                $privTree  = \VJ\User\Security\ACL::convertToTree($privTable);
-                $aclRules  = \VJ\User\Security\ACL::queryRules();
+                $privTable = \VJ\User\ACL::queryPrivilegeTable();
+                $privTree  = \VJ\User\ACL::convertToTree($privTable);
+                $aclRules  = \VJ\User\ACL::queryRules();
 
                 global $__GROUPS;
 

@@ -202,7 +202,7 @@ class Login
         }
 
         // 检查是否有登录IP限制
-        if (isset($u['ipmatch']) && !preg_match($u['ipmatch'], $_SERVER['REMOTE_ADDR'])) {
+        if ($u->ipmatch != null && !preg_match($u->ipmatch, $_SERVER['REMOTE_ADDR'])) {
             return I::error('IP_MISMATCH');
         }
 
@@ -234,7 +234,7 @@ class Login
 
         ]);
 
-        $data['acl'] = $acl;
+        $data['acl'] = $acldata;
 
         $__SESSION['user'] = $data;
 
