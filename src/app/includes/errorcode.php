@@ -18,6 +18,7 @@ const ERR_NO_PRIV        = 'You do not have the privilege (%1$s) to perform this
 const ERR_USER_NOTFOUND  = 'User not found';
 const ERR_PASSWORD_WRONG = 'The password you entered is incorrect';
 const ERR_FAILED         = 'Operation failed';
+const ERR_IP_MISMATCH    = 'Your IP is not accepted';
 
 const ERR_CONTENT_TOOSHORT = 'Your content is too short (at least %1$d characters)';
 const ERR_CONTENT_TOOLONG  = 'Your content is too long (at most %1$d characters)';

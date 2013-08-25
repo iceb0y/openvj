@@ -21,6 +21,8 @@ class User extends \VJ\Collection
 
     public $passfmt; // should always be 1
 
+    public $ipmatch;
+
     public $mail;
 
     public $qq;

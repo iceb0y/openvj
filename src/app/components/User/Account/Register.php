@@ -272,6 +272,11 @@ class Register
         $user->settings = [
             'first_reg' => true
         ];
+
+        if (isset($options['ipmatch'])) {
+            $user->ipmatch = $options['ipmatch'];
+        }
+
         $result         = $user->save();
 
         return $result;

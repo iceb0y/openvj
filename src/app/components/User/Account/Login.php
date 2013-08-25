@@ -200,6 +200,11 @@ class Login
             return I::error('NO_PRIV', 'PRIV_LOG_IN');
         }
 
+        // 检查是否有登录IP限制
+        if (isset($u['ipmatch']) && !preg_match($u['ipmatch'], $_SERVER['REMOTE_ADDR'])) {
+            return I::error('IP_MISMATCH');
+        }
+
         // 修改最后登录时间
         $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
         $mongo->User->update(['uid' => $u->uid], [
