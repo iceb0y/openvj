@@ -6,61 +6,13 @@ require __DIR__.'/../app/includes/init.php';
 
 global $__CONFIG;
 
-// Register services
-
 $di = \Phalcon\DI::getDefault();
-
-// MongoDB
-$di->setShared('mongo', function () use ($__CONFIG) {
-
-    $mc = new \MongoClient($__CONFIG->Mongo->path, [
-
-        'db'               => $__CONFIG->Mongo->database,
-        'username'         => $__CONFIG->Mongo->username,
-        'password'         => $__CONFIG->Mongo->password,
-        'connectTimeoutMS' => $__CONFIG->Mongo->timeout
-
-    ]);
-
-    return $mc->selectDB($__CONFIG->Mongo->database);
-
-});
-
-$di->set('collectionManager', '\Phalcon\Mvc\Collection\Manager');
-
-// Redis
-$di->setShared('redis', function () use ($__CONFIG) {
-
-    $redis = new \Redis();
-    $redis->connect($__CONFIG->Redis->path);
-
-    return $redis;
-
-});
-
-// Cache
-$di->setShared('cache', function () {
-
-    $redis = \Phalcon\DI::getDefault()->getShared('redis');
-
-    $frontend = new Phalcon\Cache\Frontend\Data([
-        'lifetime' => 7200
-    ]);
-
-    $cache = new Phalcon\Cache\Backend\Redis($frontend, [
-        'redis' => $redis
-    ]);
-
-    return $cache;
-});
-
-// View
-
 $di->set('view', 'VJ\View\General');
 
+\VJ\Database::initMongoDB();
+\VJ\Database::initRedis();
+\VJ\Cache::initialize();
 \VJ\ErrorHandler\HTTPError::attach();
-
-
 \VJ\Session\Utils::initialize(new \VJ\Session\MongoProvider());
 
 if ($__CONFIG->Security->enforceSSL) {
