@@ -38,6 +38,8 @@ class Basic extends \Phalcon\Mvc\Controller
      */
     public function raise404()
     {
+        $this->response->setStatusCode(404, 'Not Found');
+
         $this->dispatcher->forward([
             'controller' => 'error',
             'action'     => 'show404',
