@@ -15,10 +15,15 @@ allowedHosts[] = "vijos.org"
 allowedHosts[] = "127.0.0.1"
 allowedHosts[] = "localhost"
 
-[Nodejs]
+[IO_Bgservice]
 host = "127.0.0.1"
-port = "4800"
 timeout = 2
+port = 4800
+
+[IO_Git]
+host = "127.0.0.1"
+timeout = 2
+port = 4801
 
 [Session]
 name = "VJSESS"

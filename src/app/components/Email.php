@@ -21,10 +21,10 @@ class Email
 
         global $__CONFIG;
 
-        $result = \VJ\IO\Node::request('/mail/send', null, [
-            'to'      => $email,
-            'subject' => $__CONFIG->Mail->subjectPrefix.$subject,
-            'html'    => $body
+        $result = \VJ\IO\Bgservice::post('/mail/send', [
+            'receiver'  => $email,
+            'subject'   => $__CONFIG->Mail->subjectPrefix.$subject,
+            'body'      => $body
         ]);
 
         if (I::isError($result)) {
