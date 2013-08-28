@@ -1,7 +1,6 @@
 <?php
 
 use \VJ\I;
-use \VJ\User\Security\ACL;
 
 class UserController extends \VJ\Controller\Basic
 {
@@ -109,7 +108,9 @@ class UserController extends \VJ\Controller\Basic
     public function helloAction()
     {
 
-        if (!ACL::has(PRIV_USER_MODIFY_SETTINGS)) {
+        $acl = \Phalcon\DI::getDefault()->getShared('acl');
+
+        if (!$acl->has(PRIV_USER_MODIFY_SETTINGS)) {
             return $this->raiseError('NO_PRIV', 'PRIV_USER_MODIFY_SETTINGS');
         }
 
