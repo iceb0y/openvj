@@ -98,7 +98,7 @@ class Login
         ]);
 
         if (!$u) {
-            return I::error('USER_NOTFOUND');
+            return I::error('NOT_FOUND', 'user');
         }
 
         if (!isset($u->passfmt)) {
