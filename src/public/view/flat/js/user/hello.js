@@ -3,9 +3,8 @@
 
   scrollToId = function(id) {
     var dom, pos;
-    console.log(id);
     dom = mass.query(".hello-screen[data-id=\"" + id + "\"]");
-    pos = jQuery(dom).offset().top;
+    pos = dom.offsetTop;
     return jQuery('body').animate({
       scrollTop: pos
     }, 800);
@@ -14,7 +13,7 @@
   $ready(function() {
     var docHeight, dom, dom_parallax_container, i, parallax_count, _i, _ref;
     $style.set(mass.query('.hello-screen'), 'height', jQuery(window).height() + 'px');
-    docHeight = jQuery('#container').height();
+    docHeight = mass.query('#container')[0].offsetHeight;
     dom_parallax_container = mass.query('.hello-parallax-container')[0];
     parallax_count = 50;
     for (i = _i = 0, _ref = parallax_count - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
@@ -29,9 +28,6 @@
       });
       $append(dom_parallax_container, dom);
     }
-    $css.set(document.body, {
-      height: 'auto'
-    });
     $event.on(mass.query('.role-next'), 'click', function() {
       return scrollToId(jQuery(this).closest('.hello-screen').next().attr('data-id'));
     });

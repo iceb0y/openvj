@@ -1,16 +1,14 @@
 scrollToId = (id) ->
 
-    console.log id
-
     dom = mass.query ".hello-screen[data-id=\"#{id}\"]"
-    pos = jQuery(dom).offset().top
+    pos = dom.offsetTop
     jQuery('body').animate {scrollTop:pos}, 800
 
 $ready ->
 
     $style.set mass.query('.hello-screen'), 'height', jQuery(window).height() + 'px'
 
-    docHeight = jQuery('#container').height() 
+    docHeight = mass.query('#container')[0].offsetHeight 
     dom_parallax_container = mass.query('.hello-parallax-container')[0]
     parallax_count = 50
 
@@ -27,11 +25,7 @@ $ready ->
             top:      (docHeight * 1 / parallax_count * (i+1)) + 'px'
 
         $append dom_parallax_container, dom
-
-    $css.set document.body,
-
-        height: 'auto'
-
+    
     $event.on mass.query('.role-next'), 'click', ->
 
         scrollToId jQuery(@).closest('.hello-screen').next().attr('data-id')
