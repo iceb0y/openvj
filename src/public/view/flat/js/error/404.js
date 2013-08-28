@@ -202,7 +202,7 @@
 
   event_onResize = function() {
     var WINDOW_W;
-    WINDOW_W = jQuery(window).width();
+    WINDOW_W = document.body.offsetWidth;
     SCALE = WINDOW_W * 0.9 / CANVAS_W;
     if (SCALE > MAX_SCALE) {
       SCALE = MAX_SCALE;
@@ -213,8 +213,8 @@
   };
 
   event_onMouseMove = function(e) {
-    mouseParticle.position.x = (e.clientX - CANVAS_OFFSET_LEFT) / SCALE;
-    return mouseParticle.position.y = (e.clientY - CANVAS_OFFSET_TOP) / SCALE;
+    mouseParticle.position.x = (e.clientX + document.body.scrollLeft - CANVAS_OFFSET_LEFT) / SCALE;
+    return mouseParticle.position.y = (e.clientY + document.body.scrollTop - CANVAS_OFFSET_TOP) / SCALE;
   };
 
   event_onUpdate = function() {
@@ -261,9 +261,9 @@
 
   $ready(function() {
     init();
+    event_onResize();
     return setTimeout(function() {
       bind_events();
-      event_onResize();
       particle_start();
       return event_onUpdate();
     }, 500);

@@ -209,7 +209,7 @@ event_onClick = ->
 
 event_onResize = ->
 
-    WINDOW_W = jQuery(window).width()
+    WINDOW_W = document.body.offsetWidth
 
     SCALE = WINDOW_W * 0.9 / CANVAS_W
     SCALE = MAX_SCALE if SCALE > MAX_SCALE
@@ -221,8 +221,8 @@ event_onResize = ->
 
 event_onMouseMove = (e) ->
 
-    mouseParticle.position.x = (e.clientX - CANVAS_OFFSET_LEFT) / SCALE
-    mouseParticle.position.y = (e.clientY - CANVAS_OFFSET_TOP) / SCALE
+    mouseParticle.position.x = (e.clientX + document.body.scrollLeft - CANVAS_OFFSET_LEFT) / SCALE
+    mouseParticle.position.y = (e.clientY + document.body.scrollTop - CANVAS_OFFSET_TOP) / SCALE
 
 event_onUpdate = ->
 
@@ -265,11 +265,11 @@ event_onUpdate = ->
 $ready ->
 
     init()
+    event_onResize()
 
     setTimeout ->
 
         bind_events()
-        event_onResize()
         particle_start()
         event_onUpdate()
 

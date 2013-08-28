@@ -1630,10 +1630,9 @@ a.dark:hover {
   text-shadow: none;
 }
 
-body,
-html {
+html,
+body {
   height: 100%;
-  overflow-x: hidden;
 }
 
 html {
