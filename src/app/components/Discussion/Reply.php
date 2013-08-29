@@ -19,12 +19,12 @@ class Reply
     public static function toTopic($topic_id, $content)
     {
 
-        $di = \Phalcon\DI::getDefault();
-        $acl = $di->getShared('acl');
+        $di    = \Phalcon\DI::getDefault();
+        $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
         $topic_id = (string)$topic_id;
-        $content = (string)$content;
+        $content  = (string)$content;
 
         global $__CONFIG, $_UID;
 
@@ -44,7 +44,7 @@ class Reply
             return I::error('CONTENT_TOOLONG', $__CONFIG->Discussion->contentMax);
         }
 
-        $document = self::createReplyDocument($content);
+        $document      = self::createReplyDocument($content);
         $document['r'] = [];
 
         $mongo->Discussion->update(
@@ -53,7 +53,7 @@ class Reply
             ],
             [
                 '$push' => ['r' => $document],
-                '$set' => [
+                '$set'  => [
                     'luser' => $_UID,
                     'ltime' => time(),
                     'count' => ['$inc' => 1]
@@ -78,13 +78,13 @@ class Reply
     public static function editComment($topic_id, $comment_id, $content)
     {
 
-        $di = \Phalcon\DI::getDefault();
-        $acl = $di->getShared('acl');
+        $di    = \Phalcon\DI::getDefault();
+        $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
-        $topic_id = (string)$topic_id;
+        $topic_id   = (string)$topic_id;
         $comment_id = (string)$comment_id;
-        $content = (string)$content;
+        $content    = (string)$content;
 
         global $__CONFIG, $_UID;
 
@@ -106,11 +106,11 @@ class Reply
         }
 
         $comment_target = null;
-        $comment_index = -1;
+        $comment_index  = -1;
         foreach ($record['r'] as $index => &$comment) {
             if ($comment['_id'] == $comment_id) {
-                $comment_index = $index;
-                $comment_target = &$comment;
+                $comment_index  = $index;
+                $comment_target = & $comment;
                 break;
             }
         }
@@ -155,13 +155,13 @@ class Reply
     public static function toComment($topic_id, $comment_id, $content)
     {
 
-        $di = \Phalcon\DI::getDefault();
-        $acl = $di->getShared('acl');
+        $di    = \Phalcon\DI::getDefault();
+        $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
-        $topic_id = (string)$topic_id;
+        $topic_id   = (string)$topic_id;
         $comment_id = (string)$comment_id;
-        $content = (string)$content;
+        $content    = (string)$content;
 
         global $__CONFIG, $_UID;
 
@@ -185,7 +185,7 @@ class Reply
 
         $result = $mongo->Discussion->update(
             [
-                '_id' => $topic_id,
+                '_id'   => $topic_id,
                 'r._id' => $comment_id
             ],
             [
@@ -222,14 +222,14 @@ class Reply
     public static function editReply($topic_id, $comment_id, $reply_id, $content)
     {
 
-        $di = \Phalcon\DI::getDefault();
-        $acl = $di->getShared('acl');
+        $di    = \Phalcon\DI::getDefault();
+        $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
-        $topic_id = (string)$topic_id;
+        $topic_id   = (string)$topic_id;
         $comment_id = (string)$comment_id;
-        $reply_id = (string)$reply_id;
-        $content = (string)$content;
+        $reply_id   = (string)$reply_id;
+        $content    = (string)$content;
 
         global $__CONFIG, $_UID;
 
@@ -251,11 +251,11 @@ class Reply
         }
 
         $comment_target = null;
-        $comment_index = -1;
+        $comment_index  = -1;
         foreach ($record['r'] as $index => &$comment) {
             if ($comment['_id'] == $comment_id) {
-                $comment_index = $index;
-                $comment_target = &$comment;
+                $comment_index  = $index;
+                $comment_target = & $comment;
                 break;
             }
         }
@@ -266,11 +266,11 @@ class Reply
 
         // Get the reply
         $reply_target = null;
-        $reply_index = -1;
+        $reply_index  = -1;
         foreach ($comment_target['r'] as $index => &$reply) {
             if ($reply['_id'] == $reply_id) {
-                $reply_index = $index;
-                $reply_target = &$reply;
+                $reply_index  = $index;
+                $reply_target = & $reply;
             }
         }
 
