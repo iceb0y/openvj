@@ -14,9 +14,9 @@ class Reply
      * @param $topic_id
      * @param $content
      *
-     * @return array
+     * @return array|string
      */
-    public static function topic($topic_id, $content)
+    public static function toTopic($topic_id, $content)
     {
 
         $di = \Phalcon\DI::getDefault();
@@ -46,7 +46,7 @@ class Reply
 
         $document = self::createReplyDocument($content);
         $document['r'] = [];
-        
+
         $mongo->Discussion->update(
             [
                 '_id' => $topic_id
@@ -67,15 +67,92 @@ class Reply
     }
 
     /**
+     * 修改评论
+     *
+     * @param $topic_id
+     * @param $comment_id
+     * @param $content
+     *
+     * @return array|bool
+     */
+    public static function editComment($topic_id, $comment_id, $content)
+    {
+
+        $di = \Phalcon\DI::getDefault();
+        $acl = $di->getShared('acl');
+        $mongo = $di->getShared('mongo');
+
+        $topic_id = (string)$topic_id;
+        $comment_id = (string)$comment_id;
+        $content = (string)$content;
+
+        global $__CONFIG, $_UID;
+
+        if (Utils::len($content) < $__CONFIG->Discussion->contentMin) {
+            return I::error('CONTENT_TOOSHORT', $__CONFIG->Discussion->contentMin);
+        }
+
+        if (Utils::len($content) > $__CONFIG->Discussion->contentMax) {
+            return I::error('CONTENT_TOOLONG', $__CONFIG->Discussion->contentMax);
+        }
+
+        // Get the comment
+        $record = $mongo->Discussion->findOne(
+            ['_id' => $topic_id]
+        );
+
+        if ($record == null) {
+            return I::error('NOT_FOUND', 'topic');
+        }
+
+        $comment_target = null;
+        $comment_index = -1;
+        foreach ($record['r'] as $index => &$comment) {
+            if ($comment['_id'] == $comment_id) {
+                $comment_index = $index;
+                $comment_target = &$comment;
+                break;
+            }
+        }
+
+        if ($comment_target == null) {
+            return I::error('NOT_FOUND', 'comment');
+        }
+
+        // has privilege?
+        if ($_UID == $comment_target['uid']) {
+            if (!$acl->has(PRIV_DISCUSSION_COMMENT_MODIFY_SELF)) {
+                return I::error('NO_PRIV', 'PRIV_DISCUSSION_COMMENT_MODIFY_SELF');
+            }
+        } else {
+            if (!$acl->has(PRIV_DISCUSSION_MODIFY_ANY)) {
+                return I::error('NO_PRIV', 'PRIV_DISCUSSION_MODIFY_ANY');
+            }
+        }
+
+        // modify
+        $mongo->Discussion->update(
+            [
+                '_id' => $topic_id
+            ],
+            [
+                '$set' => self::createReplyModifySchema($content), 'r.'.$comment_index.'.'
+            ]
+        );
+
+        return true;
+    }
+
+    /**
      * 回复评论
      *
      * @param $topic_id
      * @param $comment_id
      * @param $content
      *
-     * @return array
+     * @return array|string
      */
-    public static function comment($topic_id, $comment_id, $content)
+    public static function toComment($topic_id, $comment_id, $content)
     {
 
         $di = \Phalcon\DI::getDefault();
@@ -112,7 +189,9 @@ class Reply
                 'r._id' => $comment_id
             ],
             [
-                '$push' => ['r.$.r' => $document],
+                '$push' => [
+                    'r.$.r' => $document
+                ],
                 '$set'  => [
                     'luser' => $_UID,
                     'ltime' => time(),
@@ -123,11 +202,104 @@ class Reply
 
         if ($result['n'] == 0) {
             //no document found
-            return I::error('NOT_FOUND', 'discussion or topic');
+            return I::error('NOT_FOUND', 'topic or comment');
         }
 
         return $document['_id'];
 
+    }
+
+    /**
+     * 修改回复
+     *
+     * @param $topic_id
+     * @param $comment_id
+     * @param $reply_id
+     * @param $content
+     *
+     * @return array|bool
+     */
+    public static function editReply($topic_id, $comment_id, $reply_id, $content)
+    {
+
+        $di = \Phalcon\DI::getDefault();
+        $acl = $di->getShared('acl');
+        $mongo = $di->getShared('mongo');
+
+        $topic_id = (string)$topic_id;
+        $comment_id = (string)$comment_id;
+        $reply_id = (string)$reply_id;
+        $content = (string)$content;
+
+        global $__CONFIG, $_UID;
+
+        if (Utils::len($content) < $__CONFIG->Discussion->contentMin) {
+            return I::error('CONTENT_TOOSHORT', $__CONFIG->Discussion->contentMin);
+        }
+
+        if (Utils::len($content) > $__CONFIG->Discussion->contentMax) {
+            return I::error('CONTENT_TOOLONG', $__CONFIG->Discussion->contentMax);
+        }
+
+        // Get the comment
+        $record = $mongo->Discussion->findOne(
+            ['_id' => $topic_id]
+        );
+
+        if ($record == null) {
+            return I::error('NOT_FOUND', 'topic');
+        }
+
+        $comment_target = null;
+        $comment_index = -1;
+        foreach ($record['r'] as $index => &$comment) {
+            if ($comment['_id'] == $comment_id) {
+                $comment_index = $index;
+                $comment_target = &$comment;
+                break;
+            }
+        }
+
+        if ($comment_target == null) {
+            return I::error('NOT_FOUND', 'comment');
+        }
+
+        // Get the reply
+        $reply_target = null;
+        $reply_index = -1;
+        foreach ($comment_target['r'] as $index => &$reply) {
+            if ($reply['_id'] == $reply_id) {
+                $reply_index = $index;
+                $reply_target = &$reply;
+            }
+        }
+
+        if ($reply_target == null) {
+            return I::error('NOT_FOUND', 'reply');
+        }
+
+        // has privilege?
+        if ($_UID == $reply_target['uid']) {
+            if (!$acl->has(PRIV_DISCUSSION_REPLY_MODIFY_SELF)) {
+                return I::error('NO_PRIV', 'PRIV_DISCUSSION_REPLY_MODIFY_SELF');
+            }
+        } else {
+            if (!$acl->has(PRIV_DISCUSSION_MODIFY_ANY)) {
+                return I::error('NO_PRIV', 'PRIV_DISCUSSION_MODIFY_ANY');
+            }
+        }
+
+        // modify
+        $mongo->Discussion->update(
+            [
+                '_id' => $topic_id
+            ],
+            [
+                '$set' => self::createReplyModifySchema($content), 'r.'.$comment_index.'.r.'.$reply_index
+            ]
+        );
+
+        return true;
     }
 
     /**
@@ -151,6 +323,29 @@ class Reply
             'text' => \VJ\Formatter\Markdown::parse($markdownContent),
             'vote' => ['sp' => new \stdClass(), 'ob' => new \stdClass()],
             'xtra' => new \stdClass(),
+
+        ];
+
+    }
+
+    /**
+     * 创建标准化回复更新文档
+     *
+     * @param $markdownContent
+     *
+     * @return array
+     */
+    private static function createReplyModifySchema($markdownContent, $keyPrefix = '')
+    {
+
+        global $_UID;
+
+        return [
+
+            $keyPrefix.'muid'  => $_UID,
+            $keyPrefix.'mtime' => time(),
+            $keyPrefix.'md'    => $markdownContent,
+            $keyPrefix.'text'  => \VJ\Formatter\Markdown::parse($markdownContent)
 
         ];
 
