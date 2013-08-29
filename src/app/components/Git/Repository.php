@@ -1,6 +1,6 @@
 <?php
 
-namespace VJ;
+namespace VJ\Git;
 
 use \VJ\IO\Gitservice;
 
