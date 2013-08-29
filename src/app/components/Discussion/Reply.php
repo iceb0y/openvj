@@ -135,11 +135,78 @@ class Reply
 
         $mongo->Discussion->update(
             [
-                '_id'          => $topic_id,
+                '_id'         => $topic_id,
                 $finder.'_id' => $comment_id
             ],
             [
                 '$set' => self::createReplyModifySchema($content), $finder
+            ]
+        );
+
+        return true;
+    }
+
+    /**
+     * 删除评论
+     *
+     * @param $topic_id
+     * @param $comment_id
+     *
+     * @return array|bool
+     */
+    public static function deleteComment($topic_id, $comment_id)
+    {
+
+        $di    = \Phalcon\DI::getDefault();
+        $acl   = $di->getShared('acl');
+        $mongo = $di->getShared('mongo');
+
+        $topic_id   = (string)$topic_id;
+        $comment_id = (string)$comment_id;
+
+        global $_UID;
+
+        // Get the comment
+        $record = $mongo->Discussion->findOne(
+            ['_id' => $topic_id]
+        );
+
+        if ($record == null) {
+            return I::error('NOT_FOUND', 'topic');
+        }
+
+        $comment_target = null;
+        foreach ($record['r'] as &$comment) {
+            if ($comment['_id'] == $comment_id) {
+                $comment_target = & $comment;
+                break;
+            }
+        }
+
+        if ($comment_target == null) {
+            return I::error('NOT_FOUND', 'comment');
+        }
+
+        // has privilege?
+        if ($_UID == $comment_target['uid']) {
+            if (!$acl->has(PRIV_DISCUSSION_COMMENT_DELETE_SELF)) {
+                return I::error('NO_PRIV', 'PRIV_DISCUSSION_COMMENT_DELETE_SELF');
+            }
+        } else {
+            if (!$acl->has(PRIV_DISCUSSION_DELETE_ANY)) {
+                return I::error('NO_PRIV', 'PRIV_DISCUSSION_DELETE_ANY');
+            }
+        }
+
+        // remove
+        $mongo->Discussion->update(
+            [
+                '_id' => $topic_id
+            ],
+            [
+                '$pull' => [
+                    'r' => ['_id' => $comment_id]
+                ]
             ]
         );
 
@@ -297,11 +364,94 @@ class Reply
 
         $mongo->Discussion->update(
             [
-                '_id'          => $topic_id,
+                '_id'         => $topic_id,
                 $finder.'_id' => $reply_id
             ],
             [
                 '$set' => self::createReplyModifySchema($content), $finder
+            ]
+        );
+
+        return true;
+    }
+
+    /**
+     * 删除回复
+     *
+     * @param $topic_id
+     * @param $comment_id
+     * @param $reply_id
+     *
+     * @return array|bool
+     */
+    public static function deleteReply($topic_id, $comment_id, $reply_id)
+    {
+
+        $di    = \Phalcon\DI::getDefault();
+        $acl   = $di->getShared('acl');
+        $mongo = $di->getShared('mongo');
+
+        $topic_id   = (string)$topic_id;
+        $comment_id = (string)$comment_id;
+        $reply_id   = (string)$reply_id;
+
+        global $_UID;
+
+        // Get the comment
+        $record = $mongo->Discussion->findOne(
+            ['_id' => $topic_id]
+        );
+
+        if ($record == null) {
+            return I::error('NOT_FOUND', 'topic');
+        }
+
+        $comment_target = null;
+        $comment_index  = -1;
+        foreach ($record['r'] as $index => &$comment) {
+            if ($comment['_id'] == $comment_id) {
+                $comment_index  = $index;
+                $comment_target = & $comment;
+                break;
+            }
+        }
+
+        if ($comment_target == null) {
+            return I::error('NOT_FOUND', 'comment');
+        }
+
+        // Get the reply
+        $reply_target = null;
+        foreach ($comment_target['r'] as &$reply) {
+            if ($reply['_id'] == $reply_id) {
+                $reply_target = & $reply;
+            }
+        }
+
+        if ($reply_target == null) {
+            return I::error('NOT_FOUND', 'reply');
+        }
+
+        // has privilege?
+        if ($_UID == $reply_target['uid']) {
+            if (!$acl->has(PRIV_DISCUSSION_REPLY_DELETE_SELF)) {
+                return I::error('NO_PRIV', 'PRIV_DISCUSSION_REPLY_DELETE_SELF');
+            }
+        } else {
+            if (!$acl->has(PRIV_DISCUSSION_DELETE_ANY)) {
+                return I::error('NO_PRIV', 'PRIV_DISCUSSION_DELETE_ANY');
+            }
+        }
+
+        // delete
+        $mongo->Discussion->update(
+            [
+                '_id' => $topic_id
+            ],
+            [
+                '$pull' => [
+                    'r.'.$comment_index.'.r' => ['_id' => $reply_id]
+                ]
             ]
         );
 
@@ -337,7 +487,8 @@ class Reply
     /**
      * 创建标准化回复更新文档
      *
-     * @param $markdownContent
+     * @param        $markdownContent
+     * @param string $keyPrefix
      *
      * @return array
      */
