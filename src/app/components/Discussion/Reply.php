@@ -131,12 +131,15 @@ class Reply
         }
 
         // modify
+        $finder = 'r.'.$comment_index.'.';
+
         $mongo->Discussion->update(
             [
-                '_id' => $topic_id
+                '_id'          => $topic_id,
+                $finder.'_id' => $comment_id
             ],
             [
-                '$set' => self::createReplyModifySchema($content), 'r.'.$comment_index.'.'
+                '$set' => self::createReplyModifySchema($content), $finder
             ]
         );
 
@@ -290,12 +293,15 @@ class Reply
         }
 
         // modify
+        $finder = 'r.'.$comment_index.'.r.'.$reply_index.'.';
+
         $mongo->Discussion->update(
             [
-                '_id' => $topic_id
+                '_id'          => $topic_id,
+                $finder.'_id' => $reply_id
             ],
             [
-                '$set' => self::createReplyModifySchema($content), 'r.'.$comment_index.'.r.'.$reply_index
+                '$set' => self::createReplyModifySchema($content), $finder
             ]
         );
 
