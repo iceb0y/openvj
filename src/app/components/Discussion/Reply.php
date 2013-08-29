@@ -46,15 +46,21 @@ class Reply
 
         $document = self::createReplyDocument($content);
         $document['r'] = [];
-
-        $update = [
-            'luser' => $_UID,
-            'ltime' => time(),
-            'count' => ['$inc' => 1],
-            'r'     => ['$push' => $document]
-        ];
-
-        $mongo->Discussion->update(['_id' => $topic_id], $update, ['upsert' => true]);
+        
+        $mongo->Discussion->update(
+            [
+                '_id' => $topic_id
+            ],
+            [
+                '$push' => ['r' => $document],
+                '$set' => [
+                    'luser' => $_UID,
+                    'ltime' => time(),
+                    'count' => ['$inc' => 1]
+                ]
+            ],
+            ['upsert' => true]
+        );
 
         return $document['_id'];
 
@@ -90,6 +96,14 @@ class Reply
             return I::error('NO_PRIV', 'PRIV_DISCUSSION_REPLY_COMMENT');
         }
 
+        if (Utils::len($content) < $__CONFIG->Discussion->contentMin) {
+            return I::error('CONTENT_TOOSHORT', $__CONFIG->Discussion->contentMin);
+        }
+
+        if (Utils::len($content) > $__CONFIG->Discussion->contentMax) {
+            return I::error('CONTENT_TOOLONG', $__CONFIG->Discussion->contentMax);
+        }
+
         $document = self::createReplyDocument($content);
 
         $result = $mongo->Discussion->update(
@@ -98,7 +112,12 @@ class Reply
                 'r._id' => $comment_id
             ],
             [
-                '$push' => ['r.$.r' => $document]
+                '$push' => ['r.$.r' => $document],
+                '$set'  => [
+                    'luser' => $_UID,
+                    'ltime' => time(),
+                    'count' => ['$inc' => 1]
+                ]
             ]
         );
 
