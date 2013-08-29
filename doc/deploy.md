@@ -26,6 +26,14 @@
 
 - php-phalcon 1.2+ (extension)
 
+### OpenVJ Services
+
+The following services are components of OpenVJ and should be running in the background. Please follow their own deployment instructions.
+
+- [openvj-bg-service](https://github.com/vijos/openvj-bg-service)
+
+- [openvj-git-service](https://github.com/vijos/openvj-git-service)
+
 ### Libraries
 
 OpenVJ uses [Composer](http://getcomposer.org/) to manage library dependencies.
