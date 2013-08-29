@@ -62,6 +62,9 @@ class UserController extends \VJ\Controller\Basic
                     return $this->raiseError($result);
                 }
 
+                // Prepare Git repository
+                \VJ\Git\Repository::create('uid_'.$result['uid']);
+
                 // Log in immediately
                 $result = \VJ\User\Account\Login::fromPassword($_POST['user'], $_POST['pass']);
 

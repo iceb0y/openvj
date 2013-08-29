@@ -2,6 +2,7 @@
 
 namespace VJ;
 
+use \VJ\IO\Bgservice;
 use \VJ\I;
 
 class Email
@@ -21,7 +22,7 @@ class Email
 
         global $__CONFIG;
 
-        $result = \VJ\IO\Bgservice::post('/mail/send', [
+        $result = Bgservice::post('/mail/send', [
             'receiver'  => $email,
             'subject'   => $__CONFIG->Mail->subjectPrefix.$subject,
             'body'      => $body

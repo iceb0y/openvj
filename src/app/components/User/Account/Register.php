@@ -278,9 +278,11 @@ class Register
             $user->ipmatch = $options['ipmatch'];
         }
 
-        $result = $user->save();
+        $user->save();
 
-        return $result;
+        return [
+            'uid' => $uid
+        ];
     }
 
 }
