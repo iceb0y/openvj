@@ -12,6 +12,8 @@
 
 - Redis
 
+- RabbitMQ
+
 - php-openssl (native extension)
 
 - php-curl (native extension)
