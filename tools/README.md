@@ -4,7 +4,7 @@
 
 Find which essential PHP extension is missing.
 
-You should **execute this script before deployment** to check the environments.
+You should **execute this script before deployment** to check your environment.
 
 ```bash
 #cd openvj/tools
@@ -49,4 +49,4 @@ Username: root
 Password: openvjroot
 ```
 
-**Notice**: This account could only be logged in from local (127.0.0.1)
+**Notice**: This account could only be logged in from local (127.0.0.1).
