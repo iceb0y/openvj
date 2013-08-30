@@ -16,7 +16,7 @@ src/app/configs/security.ini
 
 # Composer
 src/app/vendor/
-devtool/vendor/
+tools/phalcon_dev/vendor/
 
 # Nodejs
 node_modules/
