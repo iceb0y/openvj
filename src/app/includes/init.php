@@ -35,24 +35,33 @@ require APP_DIR.'vendor/autoload.php';
     ->register();
 
 
-// Headers
-header('X-Frame-Options: SAMEORIGIN');
-header('Content-Type: text/html;charset=utf-8');
-header('X-XSS-Protection: 1;mode=block');
+if (PHP_SAPI !== 'cli') {
+
+    // Headers
+    header('X-Frame-Options: SAMEORIGIN');
+    header('Content-Type: text/html;charset=utf-8');
+    header('X-XSS-Protection: 1;mode=block');
 
 
-//===========================================================================
-// Check whether the requested hostname is in the allowed host list, which is
-// defined in define/global.php. If not, generate a HTTP 403 error
-if ($__CONFIG->Security->checkHost && !in_array(ENV_HOST, (array)$__CONFIG->Security->allowedHosts)) {
-    header('HTTP/1.1 403 Forbidden', true, 403);
-    exit('Bad Request: Header field "host" is invalid.');
-}
-//===========================================================================
+    //===========================================================================
+    // Check whether the requested hostname is in the allowed host list, which is
+    // defined in define/global.php. If not, generate a HTTP 403 error
+    if ($__CONFIG->Security->checkHost && !in_array(ENV_HOST, (array)$__CONFIG->Security->allowedHosts)) {
+        header('HTTP/1.1 403 Forbidden', true, 403);
+        exit('Bad Request: Header field "host" is invalid.');
+    }
+    //===========================================================================
 
 
-if ($__CONFIG->Compatibility->redirectOldURI) {
-    \VJ\Compatibility::redirectOldURI();
+    if ($__CONFIG->Compatibility->redirectOldURI) {
+        \VJ\Compatibility::redirectOldURI();
+    }
+
+
+    // Template
+    global $__TEMPLATE_NAME;
+    $__TEMPLATE_NAME = $__CONFIG->Template->default;
+
 }
 
 
@@ -81,11 +90,6 @@ mb_internal_encoding('UTF-8');
 setlocale(LC_ALL, 'zh_CN');
 bindtextdomain('vijos', APP_DIR.'i18n');
 textdomain('vijos');
-
-
-// Template
-global $__TEMPLATE_NAME;
-$__TEMPLATE_NAME = $__CONFIG->Template->default;
 
 
 // Initialize components
