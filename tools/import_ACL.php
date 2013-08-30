@@ -1,8 +1,6 @@
 <?php
 
-require __DIR__.'/../../app/includes/init.php';
-
-header('content-type:text/plain');
+require __DIR__.'/../src/app/includes/init.php';
 
 $aclScript = file_get_contents(__DIR__.'/acl.js');
 

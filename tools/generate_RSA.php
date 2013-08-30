@@ -1,9 +1,7 @@
 <?php
 
-set_include_path(__DIR__.'/../../app/vendor/phpseclib/phpseclib/phpseclib/');
+set_include_path(__DIR__.'/../src/app/vendor/phpseclib/phpseclib/phpseclib/');
 require_once('Crypt/RSA.php');
-
-header('content-type:text/plain');
 
 define('CRYPT_RSA_MODE', CRYPT_RSA_MODE_INTERNAL);
 $rsa = new Crypt_RSA();

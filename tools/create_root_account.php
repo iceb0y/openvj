@@ -1,8 +1,6 @@
 <?php
 
-require __DIR__.'/../../app/includes/init.php';
-
-header('content-type:text/plain');
+require __DIR__.'/../src/app/includes/init.php';
 
 $result = \VJ\User\Account\Register::register('root', 'openvjroot', 'root', 1, 'accept', [
 
