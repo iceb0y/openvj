@@ -52,11 +52,16 @@ class Reply
                 '_id' => $topic_id
             ],
             [
-                '$push' => ['r' => $document],
+                '$push' => [
+                    'r' => $document
+                ],
                 '$set'  => [
                     'luser' => $_UID,
-                    'ltime' => time(),
-                    'count' => ['$inc' => 1]
+                    'ltime' => time()
+                ],
+                '$inc'  => [
+                    'count'  => 1,
+                    'countc' => 1
                 ]
             ],
             ['upsert' => true]
@@ -139,7 +144,7 @@ class Reply
                 $finder.'_id' => $comment_id
             ],
             [
-                '$set' => self::createReplyModifySchema($content), $finder
+                '$set' => self::createReplyModifySchema($content, $finder)
             ]
         );
 
@@ -206,6 +211,10 @@ class Reply
             [
                 '$pull' => [
                     'r' => ['_id' => $comment_id]
+                ],
+                '$inc'  => [
+                    'count'  => -1,
+                    'countc' => -1
                 ]
             ]
         );
@@ -264,8 +273,10 @@ class Reply
                 ],
                 '$set'  => [
                     'luser' => $_UID,
-                    'ltime' => time(),
-                    'count' => ['$inc' => 1]
+                    'ltime' => time()
+                ],
+                '$inc'  => [
+                    'count' => 1
                 ]
             ]
         );
@@ -368,7 +379,7 @@ class Reply
                 $finder.'_id' => $reply_id
             ],
             [
-                '$set' => self::createReplyModifySchema($content), $finder
+                '$set' => self::createReplyModifySchema($content, $finder)
             ]
         );
 
@@ -451,6 +462,9 @@ class Reply
             [
                 '$pull' => [
                     'r.'.$comment_index.'.r' => ['_id' => $reply_id]
+                ],
+                '$inc'  => [
+                    'count' => -1
                 ]
             ]
         );
