@@ -28,7 +28,7 @@ class Topic
             $mongo    = \Phalcon\DI::getDefault()->getShared('mongo');
             $topic_id = (string)$topic_id;
 
-            $record = $mongo->findOne(
+            $record = $mongo->Discussion->findOne(
                 ['_id' => $topic_id],
                 ['r' => 0]
             );
@@ -76,18 +76,19 @@ class Topic
             return I::error('ARGUMENT_INVALID', 'page');
         }
 
-        $record = $mongo->findOne(
+        $record = $mongo->Discussion->findOne(
             ['_id' => $topic_id],
             [
-                'r' => ['$slice' => [$page * self::RECORDS_PER_PAGE, self::RECORDS_PER_PAGE]],
-                'count' => 1,
+                'r'      => ['$slice' => [$page * self::RECORDS_PER_PAGE, self::RECORDS_PER_PAGE]],
+                'count'  => 1,
                 'countc' => 1
             ]
         );
 
         $result = [
-            'info'      => self::getInfo($record),
-            'comment'   => []
+            'id'      => $topic_id,
+            'info'    => self::getInfo($record),
+            'comment' => []
         ];
 
         if ($record != null) {
