@@ -16,16 +16,24 @@ class Topic
      *
      * @return array
      */
-    public static function initInfo($topic_id)
+    public static function getInfo($topic_id)
     {
 
-        $mongo    = \Phalcon\DI::getDefault()->getShared('mongo');
-        $topic_id = (string)$topic_id;
+        if (is_array($topic_id) || $topic_id == null) {
 
-        $record = $mongo->findOne(
-            ['_id' => $topic_id],
-            ['r' => 0]
-        );
+            $record = $topic_id;
+
+        } else {
+
+            $mongo    = \Phalcon\DI::getDefault()->getShared('mongo');
+            $topic_id = (string)$topic_id;
+
+            $record = $mongo->findOne(
+                ['_id' => $topic_id],
+                ['r' => 0]
+            );
+
+        }
 
         if ($record == null) {
 
@@ -50,7 +58,7 @@ class Topic
     }
 
     /**
-     * 获取讨论评论内容
+     * 获取讨论的评论内容和基本信息
      *
      * @param     $topic_id
      * @param int $page
@@ -70,16 +78,24 @@ class Topic
 
         $record = $mongo->findOne(
             ['_id' => $topic_id],
-            ['r' => ['$slice' => [$page * self::RECORDS_PER_PAGE, self::RECORDS_PER_PAGE]]]
+            [
+                'r' => ['$slice' => [$page * self::RECORDS_PER_PAGE, self::RECORDS_PER_PAGE]],
+                'count' => 1,
+                'countc' => 1
+            ]
         );
 
-        if ($record == null) {
-            return [];
+        $result = [
+            'info'      => self::getInfo($record),
+            'comment'   => []
+        ];
+
+        if ($record != null) {
+            $result['comment'] = $record['r'];
         }
 
-        return $record['r'];
+        return $result;
 
     }
-
 
 }
