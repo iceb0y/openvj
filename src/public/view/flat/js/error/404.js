@@ -171,9 +171,9 @@
   };
 
   bind_events = function() {
-    $event.on([window], 'mousemove', event_onMouseMove);
-    $event.on([window], 'resize', event_onResize);
-    return $event.on([canvas], 'click', event_onClick);
+    $event.on(window, 'mousemove', event_onMouseMove);
+    $event.on(window, 'resize', event_onResize);
+    return $event.on(canvas, 'click', event_onClick);
   };
 
   event_onClick = function() {
