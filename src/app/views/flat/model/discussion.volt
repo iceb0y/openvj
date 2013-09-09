@@ -1,7 +1,10 @@
-<div class="dcz-container">
-<div class="dcz-item">
 {{ DCZ|json }}
+<div class="dcz-container" data-id="{{ DCZ['id']|attr }}">
+{% for dcz in DCZ['comment'] %}
+<div class="dcz-item">
+    {{ dcz['text'] }}
 </div>
+{% endfor %}
 <div class="dcz-item">
     <div class="dcz-form">
         <div class="form-line">
