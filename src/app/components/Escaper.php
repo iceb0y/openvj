@@ -95,6 +95,7 @@ class Escaper
             $all = '*[style|title]';
 
         $pconfig = \HTMLPurifier_Config::createDefault();
+        $pconfig->set('Cache.SerializerPath', ROOT_DIR.'runtime/htmlpurifier_cache/');
         $pconfig->set('Core.Encoding', 'UTF-8');
         $pconfig->set('AutoFormat.AutoParagraph', true);
         $pconfig->set('AutoFormat.RemoveEmpty', true);

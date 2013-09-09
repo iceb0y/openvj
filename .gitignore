@@ -2,7 +2,10 @@ Thumbs.db
 Desktop.ini
 .htaccess
 
-*.compiled
+# Runtime
+!.gitkeep
+src/runtime/htmlpurifier_cache/*
+src/runtime/compiled_templates/*
 
 src/app/configs/app.ini
 src/app/configs/database.ini
