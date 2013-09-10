@@ -1785,3 +1785,13 @@ html {
 .dcz-form {
   position: relative;
 }
+
+.dcz-item-left {
+  border: 1px solid #f00;
+  width: 80px;
+}
+
+.dcz-item-right {
+  border: 1px solid #f00;
+  margin-left: 80px;
+}

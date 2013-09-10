@@ -1,1 +1,1 @@
-<img src="//www.gravatar.com/avatar/{{ USER['gmd5'] }}?s=200&d={{ constant('ENV_HOST_URL') }}/static/img/default_user.png" width="{{ SIZE|default(60) }}" height="{{ SIZE|default(60) }}">
+<div class="dcz-face"><a href="{{ BASE_PREFIX }}/user/{{ USER['uid'] }}" target="_blank"><img src="//www.gravatar.com/avatar/{{ USER['gmd5'] }}?s=200&d={{ constant('ENV_HOST_URL') }}/static/img/default_user.png" class="user-face user-face-{{ SIZE|default(60) }}" width="{{ SIZE|default(60) }}" height="{{ SIZE|default(60) }}"/></a></div>
