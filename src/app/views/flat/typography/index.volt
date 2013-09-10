@@ -9,7 +9,7 @@ text-align: center;
 }
 </style>
 
-{% include "model/discussion" with ['DCZ': DATA_DISCUSSION] %}
+{% include "model/discussion/page" with ['DCZ': DATA_DISCUSSION] %}
 
 <h1>Grid</h1>
 

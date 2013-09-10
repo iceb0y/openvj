@@ -19,14 +19,15 @@ class Volt extends \Phalcon\Mvc\View\Engine\Volt
         ]);
 
         $compiler = $this->getCompiler();
+
         $compiler->addFunction('view_static', '\VJ\View\Basic::view_static');
         $compiler->addFunction('view_processTime', '\VJ\View\Basic::view_processTime');
         $compiler->addFunction('has_priv', '\VJ\View\Basic::has_priv');
+
         $compiler->addFilter('i18n', '\VJ\View\Basic::i18n');
-        //$compiler->addFilter('html', '\VJ\Escaper::html');
-        //$compiler->addFilter('attr', '\VJ\Escaper::htmlAttr');
-        //$compiler->addFilter('uri', '\VJ\Escaper::uri');
-        //$compiler->addFilter('json', '\json_encode');
+
+        // Functional
+        $compiler->addFunction('getuser', '\VJ\User\Utils::getUserInfo');
 
     }
 

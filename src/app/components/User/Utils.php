@@ -5,8 +5,8 @@ namespace VJ\User;
 class Utils
 {
 
-    private static $userInfoFilter = ['uid' => 1, 'nick' => 1, 'g' => 1];
-    private static $emptyUserModel = ['uid' => 1, 'nick' => '[Deleted]', 'g' => '', 'flag_missing' => true];
+    private static $userInfoFilter = ['_id' => 0, 'uid' => 1, 'nick' => 1, 'gmd5' => 1];
+    private static $emptyUserModel = ['uid' => 1, 'nick' => '[Deleted]', 'gmd5' => '', 'flag_missing' => true];
 
     const queryMaxChunk = 30;
 

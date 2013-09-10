@@ -1,0 +1,1 @@
+<img src="//www.gravatar.com/avatar/{{ USER['gmd5'] }}?s=200&d={{ constant('ENV_HOST_URL') }}/static/img/default_user.png" width="{{ SIZE|default(60) }}" height="{{ SIZE|default(60) }}">

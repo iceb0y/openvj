@@ -1,0 +1,1 @@
+<a href="{{ BASE_PREFIX }}/user/{{ USER['uid'] }}" target="_blank">{{ USER['nick']|e }}</a>
