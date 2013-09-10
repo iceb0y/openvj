@@ -15,8 +15,8 @@ if(top.location!==self.location){top.location=self.location}else{if(top!==self){
 //<![CDATA[
 (function(global)
 {
-    global.CONFIG = {{ APP_CONFIG|json }};
-    global.USER = {{ USER_DATA|json }};
+    global.CONFIG = {{ APP_CONFIG|json_encode }};
+    global.USER = {{ USER_DATA|json_encode }};
 })(window);
 //]]>
 </script>

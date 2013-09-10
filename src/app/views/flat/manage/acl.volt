@@ -3,7 +3,7 @@
 {% block body %}
 {% include "manage/body_header.volt" %}
 
-<script>var ACL_PRIVTREE = {{ ACL_PRIVTREE|json }}, ACL_PRIVTABLE = {{ ACL_PRIVTABLE|json }}, ACL_GROUPS = {{ ACL_GROUPS|json }}, ACL_RULES = {{ ACL_RULES|json }};</script>
+<script>var ACL_PRIVTREE = {{ ACL_PRIVTREE|json_encode }}, ACL_PRIVTABLE = {{ ACL_PRIVTABLE|json_encode }}, ACL_GROUPS = {{ ACL_GROUPS|json_encode }}, ACL_RULES = {{ ACL_RULES|json_encode }};</script>
 
 <div class="manage-cont">
 <div id="privTable"><div id="freezing"><div class="thead"></div><div class="tbody"></div></div></div>
