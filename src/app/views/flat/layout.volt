@@ -1,6 +1,6 @@
 {{ get_doctype() }}
 {% block predefine %}{% endblock %}
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" class="page_{{ PAGE_CLASS }}{% if STYLE_WIDE is defined %} page_widescreen{% endif %}">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -26,7 +26,7 @@ if(top.location!==self.location){top.location=self.location}else{if(top!==self){
 <link href="{{ view_static(PATH, IS_BASE) }}" rel="stylesheet" type="text/css" charset="UTF-8" />
 {% endfor %}{% endif %}
 </head>
-<body class="page_{{ PAGE_CLASS }}{% if STYLE_WIDE is defined %} page_widescreen{% endif %}">
+<body>
 <div id="container" class="vj-dlg-under">
 {% if STYLE_NO_USERBAR is not defined %}{% include "vendor/userbar.volt" %}{% endif %}
 {% if STYLE_NO_NAVBAR is not defined %}{% include "vendor/navbar.volt" %}{% endif %}
