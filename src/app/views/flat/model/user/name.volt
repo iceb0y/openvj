@@ -1,0 +1,1 @@
+<div class="dcz-name"><a href="{{ BASE_PREFIX }}/user/{{ USER['uid'] }}" target="_blank" class="user-name">{{ USER['nick']|e }}</a></div>

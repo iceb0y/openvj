@@ -9,11 +9,11 @@
     <div class="reg-form"><div class="reg-form-content">
         <h1>Register</h1>
         <div class="reg-cont">
-            <script>var REG_STEP = {{ STEP|json }};</script>
+            <script>var REG_STEP = {{ STEP|json_encode }};</script>
 {% if STEP == 0 %}
             <div class="reg-step reg-step0" style="opacity:0;">
                 <h2>Error</h2>
-                <p>{{ ERROR|html }}</p>
+                <p>{{ ERROR|e }}</p>
                 <p><a href="{{ BASE_PREFIX }}/user/register" class="role-resend dark">Enter a new email</a></p>
             </div>
 {% elseif STEP == 1 %}
@@ -30,7 +30,7 @@
             </div>
 {% elseif STEP == 2 %}
             <div class="reg-step reg-step2" style="opacity:0;">
-                <script>var REG_PARAM = {{ REG_PARAM|json }};</script>
+                <script>var REG_PARAM = {{ REG_PARAM|json_encode }};</script>
                 <div class="form-line"><label class="reg-label-t">Email:</label>{{ REG_MAIL }}</div>
                 <div class="form-line"><label class="reg-label-t">Nickname:</label><input type="text" class="textbox role-reg-nickname" autocomplete="off" data-tip="用于显示的昵称，长度1~15字符，不能有空格"></div>
                 <div class="form-line"><label class="reg-label-t">Username:</label><input type="text" class="textbox role-reg-username" autocomplete="off" data-tip="登录用户名，长度3~30字符，不能有空格"></div>

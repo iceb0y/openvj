@@ -1775,3 +1775,23 @@ html {
 .cont-footer .float-right {
   padding: 20px 0;
 }
+
+.dcz-item {
+  position: relative;
+  padding: 10px;
+  border: 1px solid #f00;
+}
+
+.dcz-form {
+  position: relative;
+}
+
+.dcz-item-left {
+  border: 1px solid #f00;
+  width: 80px;
+}
+
+.dcz-item-right {
+  border: 1px solid #f00;
+  margin-left: 80px;
+}
