@@ -27,6 +27,9 @@ class Volt extends \Phalcon\Mvc\View\Engine\Volt
         $compiler->addFilter('attr', '\VJ\Escaper::htmlAttr');
         $compiler->addFilter('uri', '\VJ\Escaper::uri');
         $compiler->addFilter('json', '\json_encode');
+        $compiler->addFilter('date', '\VJ\Utils::formatDate');
+        $compiler->addFilter('time', '\VJ\Utils::formatTime');
+        $compiler->addFilter('datetime', '\VJ\Utils::formatDateTime');
 
     }
 

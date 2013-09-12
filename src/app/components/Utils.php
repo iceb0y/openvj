@@ -77,4 +77,52 @@ class Utils
 
     }
 
+    /**
+     * 格式化日期
+     *
+     * @param $timestamp
+     *
+     * @return bool|string
+     */
+    public static function formatDate($timestamp)
+    {
+
+        global $__DATE_FORMAT;
+
+        return date($__DATE_FORMAT, $timestamp);
+
+    }
+
+    /**
+     * 格式化时间
+     *
+     * @param $timestamp
+     *
+     * @return bool|string
+     */
+    public static function formatTime($timestamp)
+    {
+
+        global $__TIME_FORMAT;
+
+        return date($__TIME_FORMAT, $timestamp);
+
+    }
+
+    /**
+     * 格式化日期时间
+     *
+     * @param $timestamp
+     *
+     * @return bool|string
+     */
+    public static function formatDateTime($timestamp)
+    {
+
+        global $__DATE_FORMAT, $__TIME_FORMAT;
+
+        return date($__DATE_FORMAT.' '.$__TIME_FORMAT, $timestamp);
+
+    }
+
 }
