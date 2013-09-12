@@ -1,6 +1,6 @@
 {{ DCZ|json_encode }}
 <div class="dcz-container" data-id="{{ DCZ['id']|escape_attr }}">
-{% include "model/discussion/comments" with ['DCZ': DCZ] %}
+{% include "model/discussion/comments.volt" %}
 <div class="dcz-item">
     <div class="dcz-form">
         <div class="form-line">

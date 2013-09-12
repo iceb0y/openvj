@@ -7,7 +7,8 @@ class TypographyController extends \VJ\Controller\Basic
     {
         $this->view->setVars([
             'PAGE_CLASS' => 'typography',
-            'TITLE'      => gettext('Typography')
+            'TITLE'      => gettext('Typography'),
+            'DATA_DISCUSSION' => \VJ\Discussion\Topic::get('typography')
         ]);
     }
 }
