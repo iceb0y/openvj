@@ -78,8 +78,13 @@ if (!$__CONFIG->Debug->enabled) {
 }
 
 
-// Set timezone
+// Set timezone and datetime locale
+global $__DATE_FORMAT, $__TIME_FORMAT;
+
 date_default_timezone_set($__CONFIG->Localization->timezone);
+
+$__DATE_FORMAT = $__CONFIG->Localization->defaultDateFormat;
+$__TIME_FORMAT = $__CONFIG->Localization->defaultTimeFormat;
 
 
 // Using UTF-8 as default mbstring encoding

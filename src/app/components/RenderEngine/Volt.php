@@ -24,6 +24,9 @@ class Volt extends \Phalcon\Mvc\View\Engine\Volt
         $compiler->addFunction('view_processTime', '\VJ\View\Basic::view_processTime');
         $compiler->addFunction('has_priv', '\VJ\View\Basic::has_priv');
 
+        $compiler->addFilter('date', '\VJ\Utils::formatDate');
+        $compiler->addFilter('time', '\VJ\Utils::formatTime');
+        $compiler->addFilter('datetime', '\VJ\Utils::formatDateTime');
         $compiler->addFilter('i18n', '\VJ\View\Basic::i18n');
 
         // Functional
