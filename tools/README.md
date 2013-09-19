@@ -49,4 +49,4 @@ Username: root
 Password: openvjroot
 ```
 
-**Notice**: This account could only be logged in from local (127.0.0.1).
+**Notice**: This account could only be logged in from local (127.0.0.1 or 192.168.\*.\*).
