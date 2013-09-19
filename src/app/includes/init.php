@@ -92,7 +92,7 @@ mb_internal_encoding('UTF-8');
 
 
 // I18N
-setlocale(LC_ALL, 'zh_CN');
+setlocale(LC_ALL, 'zh_CN.UTF-8');
 bindtextdomain('vijos', APP_DIR.'i18n');
 textdomain('vijos');
 
