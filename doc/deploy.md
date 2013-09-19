@@ -53,6 +53,10 @@ You can also install dependencies below by yourself without using Vagrant. [inst
 
 - php-gettext (native extension)
 
+- php-bcmath (native extension)
+
+- php-gmp (native extension)
+
 - php-mongo 1.4+ (extension)
 
 - php-redis (extension)

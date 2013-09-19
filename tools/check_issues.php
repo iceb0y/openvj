@@ -38,3 +38,9 @@ echo_by_bool(extension_loaded('curl'));
 echo "\topenssl: ";
 echo_by_bool(extension_loaded('openssl'));
 
+echo "\tbcmath: ";
+echo_by_bool(extension_loaded('bcmath'));
+
+echo "\tgmp: ";
+echo_by_bool(extension_loaded('gmp'));
+
