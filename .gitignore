@@ -24,3 +24,6 @@ tools/phalcon_dev/vendor/
 
 # Nodejs
 node_modules/
+
+# Vagrant
+.vagrant/
