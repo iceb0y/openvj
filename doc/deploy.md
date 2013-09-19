@@ -1,8 +1,39 @@
 # Deployment
 
-## Backend
+## Backend Depencencies
 
-### Binary Dependencies
+### Hints for developers
+
+You can use [Vagrant](http://www.vagrantup.com/) to quickly initialize your development environment. 
+
+1. Download [Vagrant](http://downloads.vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
+
+2. Download OpenVJ Vagrant box image. *Please contact the project owner to get the image.*
+
+3. In a same directory, `git clone` [openvj](https://github.com/vijos/openvj.git), [openvj-git-service](https://github.com/vijos/openvj-git-service.git) and [openvg-bg-service](https://github.com/vijos/openvj-bg-service.git).
+
+4. mkdir: `openvj-data`, `openvj-data/git`
+
+5. Run the following commands:
+ 
+   ```bash
+cd openvj
+vagrant init
+vagrant up
+   ```
+   
+6. Modify `/etc/hosts`:
+
+   ```
+192.168.22.222 vijos.org
+192.168.22.222 www.vijos.org
+   ```
+
+7. Copy `openvj/src/app/configs/*.ini.default` to `*.ini`
+
+You can also install dependencies below by yourself without using Vagrant. [installing instructions references](env_links.md)
+
+### Binaries
 
 - PHP 5.4+
 
@@ -47,9 +78,9 @@ cd src/app
 php composer.phar install
 ```
 
-### Config
+## Backend Configrations
 
-#### Rewrite rules
+### Rewrite rules
 
 **Apache**
 
@@ -67,32 +98,51 @@ See http://docs.phalconphp.com/en/latest/reference/apache.html for more informat
 **Nginx**
 
 ```
-    location @rewrite {
-        rewrite ^/(.*)$ /index.php?_url=/$1;
+location / {
+    # if file exists return it right away
+    if (-f $request_filename) {
+        break;
     }
+
+    # otherwise rewrite it
+    if (!-e $request_filename) {
+        rewrite ^(.+)$ /index.php?_url=$1 last;
+        break;
+    }
+}
 ```
 
 See http://docs.phalconphp.com/en/latest/reference/nginx.html for more information
 
-#### Crossdomain
+### Crossdomain rules
+
+**Apache**
 
 ```
-<FilesMatch "\.(ttf|otf|eot|woff|svg)$">
+<FilesMatch "\.(ico|css|js|gif|jpe?g|png|ttf|otf|eot|woff|svg)(\?[0-9]+)?$">
     <IfModule mod_headers.c>
         Header set Access-Control-Allow-Origin "*"
     </IfModule>
 </FilesMatch>
 ```
 
-### MongoDB Database
+**Nginx**
 
-Please ensure these indexes:
+```
+location ~* \.(ico|css|js|gif|jpe?g|png|ttf|otf|eot|woff|svg)(\?[0-9]+)?$ {
+    add_header Access-Control-Allow-Origin "*";
+}
+```
 
-- Session.session_id
+### MongoDB
+
+Ensure index:
+
+- `Session.session_id`
 
 ## Frontend
 
-Run [grunt](http://gruntjs.com/getting-started) tasks before production deployment:
+Run [grunt](http://gruntjs.com/getting-started) tasks before a production deployment:
 
 ```bash
 npm install -g grunt-cli  # install grunt
@@ -106,7 +156,7 @@ npm install
 grunt production
 ```
 
-For development purpose:
+Development:
 
 ```bash
 npm install -g grunt-cli  # install grunt

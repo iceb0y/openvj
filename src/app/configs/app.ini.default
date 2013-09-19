@@ -28,7 +28,7 @@ timeout = 2
 port = 4801
 
 [Data]
-gitPath = "/home/openvj/data/git"
+gitPath = "/home/openvj/src/openvj-data/git"
 
 [Session]
 name = "VJSESS"
