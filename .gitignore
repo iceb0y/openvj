@@ -6,6 +6,7 @@ Desktop.ini
 !.gitkeep
 src/runtime/htmlpurifier_cache/*
 src/runtime/compiled_templates/*
+src/runtime/xdebug_profiler/*
 
 src/app/configs/app.ini
 src/app/configs/database.ini
