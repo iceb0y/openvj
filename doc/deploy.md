@@ -6,7 +6,7 @@
 
 You can use [Vagrant](http://www.vagrantup.com/) to quickly initialize your development environment. 
 
-1. Download [Vagrant](http://downloads.vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
+1. Download & install [Vagrant](http://downloads.vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
 
 2. Download [OpenVJ Vagrant box image](http://pan.baidu.com/share/link?shareid=4281126144&uk=3255084544) (`openvj-package.box`).
 
