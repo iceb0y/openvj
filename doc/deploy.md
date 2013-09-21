@@ -55,19 +55,19 @@ You can use [Vagrant](http://www.vagrantup.com/) to quickly initialize your deve
    Run the following commands:
    
    ```bash
-   #cd the-openvj-project
-   cd openvj
-   vagrant ssh    # log into the virtual machine
-     sudo -i      # get sudo
-       rm -f /etc/udev/rules.d/70-persistent-net.rules
-       rm -f /etc/sysconfig/network-scripts/ifcfg-eth1
-       /etc/init.d/network restart
-     exit
-   exit           # return OS terminal
-   vagrant reload # restart Vagrant
+    #cd the-openvj-project
+    cd openvj
+    vagrant ssh    # log into the virtual machine
+      sudo -i      # get sudo
+        rm -f /etc/udev/rules.d/70-persistent-net.rules
+        rm -f /etc/sysconfig/network-scripts/ifcfg-eth1
+        /etc/init.d/network restart
+      exit
+    exit           # return OS terminal
+    vagrant reload # restart Vagrant
    ```
 
-8. Modify `/etc/hosts`:
+8. Modify `/etc/hosts` on UNIX-like OS or `.../system32/drivers/etc/hosts` on Windows. Add the following 2 lines:
 
    ```
    192.168.22.222 vijos.org
