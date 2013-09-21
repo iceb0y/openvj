@@ -8,9 +8,11 @@ You can use [Vagrant](http://www.vagrantup.com/) to quickly initialize your deve
 
 1. Download [Vagrant](http://downloads.vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
 
-2. Download OpenVJ Vagrant box image. *Please contact the project owner to get the image.*
+2. Download [OpenVJ Vagrant box image](http://pan.baidu.com/share/link?shareid=4281126144&uk=3255084544) (`openvj-package.box`).
 
-3. In a same directory, `git clone` [openvj](https://github.com/vijos/openvj.git), [openvj-git-service](https://github.com/vijos/openvj-git-service.git) and [openvg-bg-service](https://github.com/vijos/openvj-bg-service.git).
+3. In a same directory, `git clone` [openvj](https://github.com/vijos/openvj.git), [openvj-git-service](https://github.com/vijos/openvj-git-service.git) and [openvg-bg-service](https://github.com/vijos/openvj-bg-service.git). 
+   
+   Put `openvj-package.box` into `openvj` directory.
 
 4. mkdir: `openvj-data`, `openvj-data/git`
 
@@ -18,20 +20,40 @@ You can use [Vagrant](http://www.vagrantup.com/) to quickly initialize your deve
  
    ```bash
 cd openvj
-vagrant init
 vagrant up
    ```
+
+6. If you get Vagrant startup errors like: 
+
+   ```
+The following SSH command responded with a non-zero exit status.
+Vagrant assumes that this means the command failed!
+ARPCHECK=no /sbin/ifup eth1 2> /dev/null
+   ```
    
-6. Modify `/etc/hosts`:
+   Run the following commands:
+   
+   ```bash
+vagrant ssh    # log into the virtual machine
+ sudo -i       # get sudo
+  rm -f /etc/udev/rules.d/70-persistent-net.rules
+  rm -f /etc/sysconfig/network-scripts/ifcfg-eth1
+  /etc/init.d/network restart
+ exit
+exit           # return OS terminal
+vagrant reload # restart Vagrant
+   ```
+
+7. Modify `/etc/hosts`:
 
    ```
 192.168.22.222 vijos.org
 192.168.22.222 www.vijos.org
    ```
 
-7. Copy `openvj/src/app/configs/*.ini.default` to `*.ini`
+8. Copy `openvj/src/app/configs/*.ini.default` to `*.ini`
 
-You can also install dependencies below by yourself without using Vagrant. [installing instructions references](env_links.md)
+PS: You can also install dependencies below by yourself without using Vagrant. [installing instructions references](env_links.md)
 
 ### Binaries
 
