@@ -19,21 +19,21 @@ You can use [Vagrant](http://www.vagrantup.com/) to quickly initialize your deve
 5. Your directory tree should be similar to this:
    
    ```
-   + the-openvj-project/       (any name)
-     + openvj/                 (git://openvj)
-       - openvj-package.box
-       + .git/
-       + doc/
-       + src/
-       + ...
-     + openvj-git-service/     (git://openvj-git-service)
-       + .git/
-       + ...
-     + openvj-bg-service/      (git://openvj-bg-service)
-       + .git/
-       + ...
-     + openvj-data/
-       - git
+    + the-openvj-project/       (any name)
+      + openvj/                 (git://openvj)
+        - openvj-package.box
+        + .git/
+        + doc/
+        + src/
+        - …
+      + openvj-git-service/     (git://openvj-git-service)
+        + .git/
+        - …
+      + openvj-bg-service/      (git://openvj-bg-service)
+        + .git/
+        - …
+      + openvj-data/
+        + git/
    ```
 
 6. Run the following commands:
