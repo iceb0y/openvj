@@ -16,42 +16,65 @@ You can use [Vagrant](http://www.vagrantup.com/) to quickly initialize your deve
 
 4. mkdir: `openvj-data`, `openvj-data/git`
 
-5. Run the following commands:
+5. Your directory tree should be similar to this:
+   
+   ```
+   + the-openvj-project/       (any name)
+     + openvj/                 (git://openvj)
+       - openvj-package.box
+       + .git/
+       + doc/
+       + src/
+       + ...
+     + openvj-git-service/     (git://openvj-git-service)
+       + .git/
+       + ...
+     + openvj-bg-service/      (git://openvj-bg-service)
+       + .git/
+       + ...
+     + openvj-data/
+       - git
+   ```
+
+6. Run the following commands:
  
    ```bash
-cd openvj
-vagrant up
+   #cd the-openvj-project
+   cd openvj
+   vagrant up
    ```
 
-6. If you get Vagrant startup errors like: 
+7. If you get Vagrant startup errors like: 
 
    ```
-The following SSH command responded with a non-zero exit status.
-Vagrant assumes that this means the command failed!
-ARPCHECK=no /sbin/ifup eth1 2> /dev/null
+   The following SSH command responded with a non-zero exit status.
+   Vagrant assumes that this means the command failed!
+   ARPCHECK=no /sbin/ifup eth1 2> /dev/null
    ```
    
    Run the following commands:
    
    ```bash
-vagrant ssh    # log into the virtual machine
- sudo -i       # get sudo
-  rm -f /etc/udev/rules.d/70-persistent-net.rules
-  rm -f /etc/sysconfig/network-scripts/ifcfg-eth1
-  /etc/init.d/network restart
- exit
-exit           # return OS terminal
-vagrant reload # restart Vagrant
+   #cd the-openvj-project
+   cd openvj
+   vagrant ssh    # log into the virtual machine
+     sudo -i      # get sudo
+       rm -f /etc/udev/rules.d/70-persistent-net.rules
+       rm -f /etc/sysconfig/network-scripts/ifcfg-eth1
+       /etc/init.d/network restart
+     exit
+   exit           # return OS terminal
+   vagrant reload # restart Vagrant
    ```
 
-7. Modify `/etc/hosts`:
+8. Modify `/etc/hosts`:
 
    ```
-192.168.22.222 vijos.org
-192.168.22.222 www.vijos.org
+   192.168.22.222 vijos.org
+   192.168.22.222 www.vijos.org
    ```
 
-8. Copy `openvj/src/app/configs/*.ini.default` to `*.ini`
+9. Copy `(the-openvj-project)/openvj/src/app/configs/*.ini.default` to `*.ini`
 
 PS: You can also install dependencies below by yourself without using Vagrant. [installing instructions references](env_links.md)
 
