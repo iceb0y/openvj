@@ -8,6 +8,8 @@
         <div class="cont-nav-li"><a class="cont-nav-a cont-nav-problems" href="{{ BASE_PREFIX }}/p"><span class="cont-nav-icon icon-symbol icon-problems"></span><span class="cont-nav-text">Problems</span></a></div>
         <div class="cont-nav-li cont-nav-devider">/</div>
         <div class="cont-nav-li"><a class="cont-nav-a cont-nav-discussion" href="{{ BASE_PREFIX }}/discuss"><span class="cont-nav-icon icon-symbol icon-discussion"></span><span class="cont-nav-text">Discussion</span></a></div>
+        <div class="cont-nav-li cont-nav-devider">/</div>
+        <div class="cont-nav-li"><a class="cont-nav-a cont-nav-contest" href="{{ BASE_PREFIX }}/contest"><span class="cont-nav-icon icon-symbol icon-contest"></span><span class="cont-nav-text">contest</span></a></div>
     </div>
     <div class="clear"></div>
 {% if STYLE_WIDE is not defined %}</div>{% endif %}<div class="clear"></div></div></div>
