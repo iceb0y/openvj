@@ -157,18 +157,23 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalcon/incubator.git",
-                "reference": "453c7e71ec67ec506adc4b6ed4740da0f524c5e1"
+                "reference": "f048c98b3fee26af3be035f32c904e74eac4795f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/incubator/zipball/453c7e71ec67ec506adc4b6ed4740da0f524c5e1",
-                "reference": "453c7e71ec67ec506adc4b6ed4740da0f524c5e1",
+                "url": "https://api.github.com/repos/phalcon/incubator/zipball/f048c98b3fee26af3be035f32c904e74eac4795f",
+                "reference": "f048c98b3fee26af3be035f32c904e74eac4795f",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.6"
             },
             "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Phalcon": "Library/"
+                }
+            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3"
@@ -185,7 +190,7 @@
                 "framework",
                 "phalcon"
             ],
-            "time": "2013-08-06 22:26:12"
+            "time": "2013-09-23 02:10:36"
         },
         {
             "name": "phpseclib/phpseclib",
@@ -193,12 +198,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "55d43a9972cb0c3b08928114db2604682b0f35c8"
+                "reference": "77447a3fc7869773007fa3beeb8d6f8de842ec2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/55d43a9972cb0c3b08928114db2604682b0f35c8",
-                "reference": "55d43a9972cb0c3b08928114db2604682b0f35c8",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/77447a3fc7869773007fa3beeb8d6f8de842ec2a",
+                "reference": "77447a3fc7869773007fa3beeb8d6f8de842ec2a",
                 "shasum": ""
             },
             "require": {
@@ -259,7 +264,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2013-08-11 14:07:22"
+            "time": "2013-09-20 17:14:01"
         }
     ],
     "packages-dev": [
