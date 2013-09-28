@@ -17,6 +17,10 @@ class Contest extends \VJ\Collection
 
     public $problem;
 
-    public type;
+    public $type;
+    
+    public $starttime;
+    
+    public $endtime;
 
 }
