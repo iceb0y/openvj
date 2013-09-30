@@ -562,7 +562,6 @@ dfn {
 
 hr {
   -moz-box-sizing: content-box;
-  -webkit-box-sizing: content-box;
   box-sizing: content-box;
   height: 0;
 }
@@ -666,7 +665,6 @@ html input[disabled] {
 
 input[type="checkbox"],
 input[type="radio"] {
-  -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   padding: 0;
@@ -675,7 +673,6 @@ input[type="radio"] {
 input[type="search"] {
   -webkit-appearance: textfield;
   -moz-box-sizing: content-box;
-  -webkit-box-sizing: content-box;
   box-sizing: content-box;
 }
 
@@ -733,48 +730,363 @@ table {
 }
 
 @font-face {
-  font-family: 'Vijos Symbols';
+  font-family: 'openvj-symbols';
+  src: url("../fonts/openvj-symbols.eot");
+  src: url("../fonts/openvj-symbols.eot?#iefix") format('embedded-opentype'),url("../fonts/openvj-symbols.woff") format('woff'),url("../fonts/openvj-symbols.ttf") format('truetype'),url("../fonts/openvj-symbols.svg#openvj-symbols") format('svg');
+  font-weight: normal;
   font-style: normal;
-  font-weight: 400;
-  src: url("../fonts/vijossymbols.eot");
-  src: local('Vijos Symbols'),local('VijosSymbols'),url("../fonts/vijossymbols.eot") format('embedded-opentype'),url("../fonts/vijossymbols.woff") format('woff'),url("../fonts/vijossymbols.ttf") format('truetype'),url("../fonts/vijossymbols.svg#VijosSymbols") format('svg');
 }
 
-.icon-symbol {
-  font-family: "Vijos Symbols";
+[data-icon]:before {
+  font-family: 'openvj-symbols';
+  content: attr(data-icon);
   speak: none;
-  display: inline-block;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
   line-height: 1;
-  text-decoration: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-zoom-out,
+.icon-zoom-in,
+.icon-write,
+.icon-windows,
+.icon-vote-up,
+.icon-vote-down,
+.icon-user,
+.icon-upload,
+.icon-unstar,
+.icon-unordered-list,
+.icon-unlike,
+.icon-undo2,
+.icon-undo,
+.icon-tag,
+.icon-star,
+.icon-share,
+.icon-settings,
+.icon-secure,
+.icon-rss,
+.icon-report,
+.icon-remove,
+.icon-refresh,
+.icon-redo2,
+.icon-redo,
+.icon-quote,
+.icon-problems,
+.icon-plus,
+.icon-password,
+.icon-osx,
+.icon-ordered-list,
+.icon-opera,
+.icon-openvj,
+.icon-minus,
+.icon-mail2,
+.icon-mail,
+.icon-logout,
+.icon-location,
+.icon-linux,
+.icon-link2,
+.icon-link,
+.icon-like2,
+.icon-like,
+.icon-italic,
+.icon-ip,
+.icon-ie,
+.icon-home,
+.icon-help,
+.icon-fullscreen,
+.icon-firefox,
+.icon-earth,
+.icon-download,
+.icon-discussion,
+.icon-cursor,
+.icon-contests,
+.icon-code2,
+.icon-code,
+.icon-cloud,
+.icon-cloud-upload,
+.icon-cloud-download,
+.icon-clock,
+.icon-chrome,
+.icon-bookmark,
+.icon-bold,
+.icon-board,
+.icon-apple,
+.icon-android {
+  font-family: 'openvj-symbols';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
   -webkit-font-smoothing: antialiased;
 }
 
-.icon-home:before {
-  content: "\0021";
+.icon-zoom-out:before {
+  content: "\e000";
 }
 
-.icon-problems:before {
-  content: "\0022";
+.icon-zoom-in:before {
+  content: "\e001";
 }
 
-.icon-discussion:before {
-  content: "\0023";
+.icon-write:before {
+  content: "\e002";
 }
 
-.icon-tags:before {
-  content: "\0024";
+.icon-windows:before {
+  content: "\e003";
 }
 
-.icon-contests:before {
-  content: "\0025";
+.icon-vote-up:before {
+  content: "\e004";
 }
 
-.icon-records:before {
-  content: "\0026";
+.icon-vote-down:before {
+  content: "\e005";
 }
 
 .icon-user:before {
-  content: "\0027";
+  content: "\e006";
+}
+
+.icon-upload:before {
+  content: "\e007";
+}
+
+.icon-unstar:before {
+  content: "\e008";
+}
+
+.icon-unordered-list:before {
+  content: "\e009";
+}
+
+.icon-unlike:before {
+  content: "\e00a";
+}
+
+.icon-undo2:before {
+  content: "\e00b";
+}
+
+.icon-undo:before {
+  content: "\e00c";
+}
+
+.icon-tag:before {
+  content: "\e00d";
+}
+
+.icon-star:before {
+  content: "\e00e";
+}
+
+.icon-share:before {
+  content: "\e00f";
+}
+
+.icon-settings:before {
+  content: "\e010";
+}
+
+.icon-secure:before {
+  content: "\e011";
+}
+
+.icon-rss:before {
+  content: "\e012";
+}
+
+.icon-report:before {
+  content: "\e013";
+}
+
+.icon-remove:before {
+  content: "\e014";
+}
+
+.icon-refresh:before {
+  content: "\e015";
+}
+
+.icon-redo2:before {
+  content: "\e016";
+}
+
+.icon-redo:before {
+  content: "\e017";
+}
+
+.icon-quote:before {
+  content: "\e018";
+}
+
+.icon-problems:before {
+  content: "\e019";
+}
+
+.icon-plus:before {
+  content: "\e01a";
+}
+
+.icon-password:before {
+  content: "\e01b";
+}
+
+.icon-osx:before {
+  content: "\e01c";
+}
+
+.icon-ordered-list:before {
+  content: "\e01d";
+}
+
+.icon-opera:before {
+  content: "\e01e";
+}
+
+.icon-openvj:before {
+  content: "\e01f";
+}
+
+.icon-minus:before {
+  content: "\e020";
+}
+
+.icon-mail2:before {
+  content: "\e021";
+}
+
+.icon-mail:before {
+  content: "\e022";
+}
+
+.icon-logout:before {
+  content: "\e023";
+}
+
+.icon-location:before {
+  content: "\e024";
+}
+
+.icon-linux:before {
+  content: "\e025";
+}
+
+.icon-link2:before {
+  content: "\e026";
+}
+
+.icon-link:before {
+  content: "\e027";
+}
+
+.icon-like2:before {
+  content: "\e028";
+}
+
+.icon-like:before {
+  content: "\e029";
+}
+
+.icon-italic:before {
+  content: "\e02a";
+}
+
+.icon-ip:before {
+  content: "\e02b";
+}
+
+.icon-ie:before {
+  content: "\e02c";
+}
+
+.icon-home:before {
+  content: "\e02d";
+}
+
+.icon-help:before {
+  content: "\e02e";
+}
+
+.icon-fullscreen:before {
+  content: "\e02f";
+}
+
+.icon-firefox:before {
+  content: "\e030";
+}
+
+.icon-earth:before {
+  content: "\e031";
+}
+
+.icon-download:before {
+  content: "\e032";
+}
+
+.icon-discussion:before {
+  content: "\e033";
+}
+
+.icon-cursor:before {
+  content: "\e034";
+}
+
+.icon-contests:before {
+  content: "\e035";
+}
+
+.icon-code2:before {
+  content: "\e036";
+}
+
+.icon-code:before {
+  content: "\e037";
+}
+
+.icon-cloud:before {
+  content: "\e038";
+}
+
+.icon-cloud-upload:before {
+  content: "\e039";
+}
+
+.icon-cloud-download:before {
+  content: "\e03a";
+}
+
+.icon-clock:before {
+  content: "\e03b";
+}
+
+.icon-chrome:before {
+  content: "\e03c";
+}
+
+.icon-bookmark:before {
+  content: "\e03d";
+}
+
+.icon-bold:before {
+  content: "\e03e";
+}
+
+.icon-board:before {
+  content: "\e03f";
+}
+
+.icon-apple:before {
+  content: "\e040";
+}
+
+.icon-android:before {
+  content: "\e041";
 }
 
 @media (max-width:775px) {
@@ -1182,7 +1494,6 @@ a:hover {
 
 a:focus {
   background: #fffce5;
-  -webkit-box-shadow: 0 0 5px #ffdf00;
   box-shadow: 0 0 5px #ffdf00;
   outline: 1px solid #ffdf00;
 }
@@ -1201,7 +1512,6 @@ a.dark:hover {
 
 .textbox {
   margin: 0;
-  -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
   height: 26px;
@@ -1222,7 +1532,6 @@ a.dark:hover {
 .textbox:focus {
   border-color: #ffdf00;
   background: #fefefe;
-  -webkit-box-shadow: 0 0 5px #ffdf00;
   box-shadow: 0 0 5px #ffdf00;
 }
 
@@ -1235,7 +1544,6 @@ a.dark:hover {
   display: inline-block;
   *display: inline;
   height: 28px;
-  -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
   padding: 4px 25px;
@@ -1252,7 +1560,6 @@ a.dark:hover {
 }
 
 .button:focus {
-  -webkit-box-shadow: 0 0 5px #ffdf00;
   box-shadow: 0 0 5px #ffdf00;
   outline: 1px solid #ffdf00;
 }
@@ -1351,7 +1658,6 @@ a.dark:hover {
   .icheckbox,
   .iradio {
     background-image: url("../img/checkbox@2x.png");
-    -webkit-background-size: 240px 24px;
     background-size: 240px 24px;
   }
 }
@@ -1506,7 +1812,6 @@ a.dark:hover {
 .vj-dlg {
   background: #fefefe;
   border-top: 5px solid #26a9ef;
-  -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.3);
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
   position: absolute;
   z-index: 1;
@@ -1517,6 +1822,7 @@ a.dark:hover {
   -ms-transform: scale(1.1);
   transform: scale(1.1);
   -webkit-transition: opacity .2s ease-in-out,-webkit-transform .2s ease-in-out;
+  transition: opacity .2s ease-in-out,-ms-transform .2s ease-in-out;
   transition: opacity .2s ease-in-out,transform .2s ease-in-out;
 }
 
