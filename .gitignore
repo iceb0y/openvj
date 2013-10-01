@@ -1,0 +1,33 @@
+Thumbs.db
+Desktop.ini
+.htaccess
+openvj-package.box
+
+# Runtime
+!.gitkeep
+src/runtime/htmlpurifier_cache/*
+src/runtime/compiled_templates/*
+src/runtime/xdebug_profiler/*
+
+src/app/configs/app.ini
+src/app/configs/database.ini
+src/app/configs/security.ini
+
+# PHPStorm
+.idea/
+
+# Mac OS X
+.DS_Store
+
+# Composer
+src/app/vendor/
+tools/phalcon_dev/vendor/
+
+# Nodejs
+node_modules/
+
+# Vagrant
+.vagrant/
+
+# Vim
+*~

@@ -1,3 +1,0 @@
-{% extends "layout.volt" %}
-<BR>这是比赛</BR>
-TTTT

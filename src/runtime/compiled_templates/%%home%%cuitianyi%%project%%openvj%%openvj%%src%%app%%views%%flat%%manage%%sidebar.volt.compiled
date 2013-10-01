@@ -1,7 +1,0 @@
-<?php foreach ($MANAGE_MENU as $li) { ?>
-<?php if ($li['type'] == 'link') { ?>
-<div><a class="manage-sidebar-a<?php if ($CURRENT_ACTION == $li['action']) { ?> active<?php } ?>" href="<?php echo $BASE_PREFIX; ?><?php echo $this->escaper->escapeHtmlAttr($li['href']); ?>" target="_self"><?php echo $this->escaper->escapeHtml($li['text']); ?></a></div>
-<?php } elseif ($li['type'] == 'headline') { ?>
-<div><h4 class="manage-sidebar-headline"><?php echo $this->escaper->escapeHtml($li['text']); ?></h4></div>
-<?php } ?>
-<?php } ?>

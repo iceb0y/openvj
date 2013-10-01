@@ -1,3 +1,0 @@
-<?php $STYLE_NO_NAVBAR = true; ?>
-<?php $STYLE_WIDE = true; ?>
-<?php $EXT_CSS = array('css/page_manage.css' => false); ?>
