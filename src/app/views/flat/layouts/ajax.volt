@@ -1,1 +1,0 @@
-{{ AJAX_DATA|json_encode }}

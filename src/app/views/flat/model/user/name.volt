@@ -1,1 +1,0 @@
-<a href="{{ BASE_PREFIX }}/user/{{ _data_user['uid'] }}" target="_blank" class="user-name">{{ _data_user['nick']|e }}</a>

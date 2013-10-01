@@ -1,1 +1,0 @@
-<p>{{ 'This email was sent to %1$s because you signed up in <a href="%2$s" target="_blank">%3$s</a>. Please do not reply to this email as this email address is not monitored.'|i18n(TARGET_MAIL, SITE_URI, SITE_NAME) }}</p>
