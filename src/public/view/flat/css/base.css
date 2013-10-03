@@ -1506,7 +1506,7 @@ a.dark:visited {
 
 a.dark:focus,
 a.dark:hover {
-  color: $link-dark-color-color;
+  color: #25ccfb;
   text-decoration: underline;
 }
 
