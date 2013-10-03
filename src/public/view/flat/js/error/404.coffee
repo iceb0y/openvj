@@ -146,7 +146,7 @@ init = ->
     mouseParticle = physics.makeParticle 200, 0, 0, 0
     mouseParticle.makeFixed()
 
-    canvas = mass.query('#canvas')[0]
+    canvas = $_query('#canvas')[0]
     ctx = canvas.getContext '2d'
 
     CANVAS_OFFSET_TOP = canvas.offsetTop
@@ -262,7 +262,7 @@ event_onUpdate = ->
 
     ctx.restore()
 
-$ready ->
+window.onInitEnd.push ->
 
     init()
     event_onResize()

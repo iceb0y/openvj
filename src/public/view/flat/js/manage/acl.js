@@ -353,9 +353,9 @@
     });
   };
 
-  $ready(function() {
+  window.onInitEnd.push(function() {
     freezer = new VJ.Freezer({
-      container: mass.query('.manage-acl')
+      container: $_query('.manage-acl')
     });
     initDOM();
     initACLRules();

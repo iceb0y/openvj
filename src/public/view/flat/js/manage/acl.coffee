@@ -332,12 +332,12 @@ saveACLRule = ->
 
             VJ.Dialog.alert errorText, 'ACL Error'
 
-$ready ->
+window.onInitEnd.push ->
 
     # jQuery(window).scroll onWindowScroll
 
     freezer = new VJ.Freezer
-        container:  mass.query('.manage-acl')
+        container:  $_query('.manage-acl')
 
     initDOM()
     initACLRules()

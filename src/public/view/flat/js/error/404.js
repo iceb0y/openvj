@@ -128,7 +128,7 @@
     physics = new ParticleSystem(0, 0, 0, 0.1);
     mouseParticle = physics.makeParticle(200, 0, 0, 0);
     mouseParticle.makeFixed();
-    canvas = mass.query('#canvas')[0];
+    canvas = $_query('#canvas')[0];
     ctx = canvas.getContext('2d');
     CANVAS_OFFSET_TOP = canvas.offsetTop;
     PARTICLE_ROWS = PARTICLE_MAP.length;
@@ -259,7 +259,7 @@
     return ctx.restore();
   };
 
-  $ready(function() {
+  window.onInitEnd.push(function() {
     init();
     event_onResize();
     return setTimeout(function() {

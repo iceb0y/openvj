@@ -42,5 +42,6 @@ if(top.location!==self.location){top.location=self.location}else{if(top!==self){
 {% if EXT_JS is defined %}{% for PATH, IS_BASE in EXT_JS %}
 <script type="text/javascript" src="{{ view_static(PATH, IS_BASE) }}" charset="UTF-8"></script>
 {% endfor %}{% endif %}
+{% block footer %}{% endblock %}
 </body>
 </html>

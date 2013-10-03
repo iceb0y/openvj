@@ -5,13 +5,13 @@
 
   init_step1 = function() {
     setTimeout(function() {
-      return mass.query('.role-reg-email')[0].focus();
+      return $_query('.role-reg-email')[0].focus();
     }, 100);
-    $event.on(mass.query('.role-reg-email-confirm'), 'click', function() {
+    $event.on($_query('.role-reg-email-confirm'), 'click', function() {
       var target_mail;
-      target_mail = mass.query('.role-reg-email')[0].value;
+      target_mail = $_query('.role-reg-email')[0].value;
       if (!/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/.test(target_mail)) {
-        $text(mass.query('.reg-hint'), 'Invalid email address ∑(O_O；)');
+        $text($_query('.reg-hint'), 'Invalid email address ∑(O_O；)');
         return;
       }
       return VJ.ajax({
@@ -21,36 +21,36 @@
         },
         freezer: freezer,
         onSuccess: function(d) {
-          $text(mass.query('.role-email'), target_mail);
-          return $fadeout(mass.query('.reg-step1'), 100, function() {
-            $style.set(mass.query('.reg-step1'), 'display', 'none');
-            $style.set(mass.query('.reg-step1-result'), 'display', 'block');
+          $text($_query('.role-email'), target_mail);
+          return $fadeout($_query('.reg-step1'), 100, function() {
+            $style.set($_query('.reg-step1'), 'display', 'none');
+            $style.set($_query('.reg-step1-result'), 'display', 'block');
             return setTimeout(function() {
-              return $fadein(mass.query('.reg-step1-result'), 100);
+              return $fadein($_query('.reg-step1-result'), 100);
             });
           });
         },
         onFailure: function(d) {
-          return $text(mass.query('.reg-hint'), d.errorMsg);
+          return $text($_query('.reg-hint'), d.errorMsg);
         },
         onError: function(errorText) {
           return VJ.Dialog.alert(errorText, 'Error');
         }
       });
     });
-    $event.on(mass.query('.role-reg-email'), 'keypress', function(event) {
-      $empty(mass.query('.reg-hint'));
+    $event.on($_query('.role-reg-email'), 'keypress', function(event) {
+      $empty($_query('.reg-hint'));
       if (event.which === 13) {
         return jQuery('.role-reg-email-confirm').click();
       }
     });
-    return $event.on(mass.query('.role-resend'), 'click', function() {
-      return $fadeout(mass.query('.reg-step1-result'), 100, function() {
-        $style.set(mass.query('.reg-step1-result'), 'display', 'none');
-        $style.set(mass.query('.reg-step1'), 'display', 'block');
+    return $event.on($_query('.role-resend'), 'click', function() {
+      return $fadeout($_query('.reg-step1-result'), 100, function() {
+        $style.set($_query('.reg-step1-result'), 'display', 'none');
+        $style.set($_query('.reg-step1'), 'display', 'block');
         return setTimeout(function() {
-          $fadein(mass.query('.reg-step1'), 100);
-          return mass.query('.role-reg-email')[0].select();
+          $fadein($_query('.reg-step1'), 100);
+          return $_query('.role-reg-email')[0].select();
         });
       });
     });
@@ -59,7 +59,7 @@
   init_step2 = function() {
     var dom_password;
     setTimeout(function() {
-      return mass.query('.role-reg-nickname')[0].focus();
+      return $_query('.role-reg-nickname')[0].focus();
     }, 100);
     jQuery('.textbox').tipsy({
       title: 'data-tip',
@@ -79,7 +79,7 @@
     jQuery('.role-reg-agree').on('ifChecked', function() {
       return jQuery(this).tipsy('hide');
     });
-    dom_password = mass.query('.role-reg-password');
+    dom_password = $_query('.role-reg-password');
     $event.on(dom_password, 'focus', function() {
       return this.type = 'text';
     });
@@ -91,24 +91,24 @@
         return this.value = this.value.replace(/[^\x00-\xff]/g, '');
       }
     });
-    return $event.on(mass.query('.role-reg-submit'), 'click', function() {
+    return $event.on($_query('.role-reg-submit'), 'click', function() {
       var dom;
-      dom = mass.query('.role-reg-nickname')[0];
+      dom = $_query('.role-reg-nickname')[0];
       if (!dom.value.match(/^[^ ^\t]{1,15}$/)) {
         dom.select();
         return false;
       }
-      dom = mass.query('.role-reg-username')[0];
+      dom = $_query('.role-reg-username')[0];
       if (!dom.value.match(/^[^ ^\t]{3,30}$/)) {
         dom.select();
         return false;
       }
-      dom = mass.query('.role-reg-password')[0];
+      dom = $_query('.role-reg-password')[0];
       if (!dom.value.match(/^.{5,30}$/)) {
         dom.select();
         return false;
       }
-      dom = mass.query('.role-reg-agree')[0];
+      dom = $_query('.role-reg-agree')[0];
       if (!dom.checked) {
         jQuery('.role-reg-agree').tipsy('show');
         return false;
@@ -118,10 +118,10 @@
         data: {
           email: REG_PARAM.mail,
           code: REG_PARAM.code,
-          nick: mass.query('.role-reg-nickname')[0].value,
-          user: mass.query('.role-reg-username')[0].value,
-          pass: mass.query('.role-reg-password')[0].value,
-          gender: mass.query('[name="reg-gender"]:checked')[0].value,
+          nick: $_query('.role-reg-nickname')[0].value,
+          user: $_query('.role-reg-username')[0].value,
+          pass: $_query('.role-reg-password')[0].value,
+          gender: $_query('[name="reg-gender"]:checked')[0].value,
           agreement: 'accept'
         },
         freezer: freezer,
@@ -138,12 +138,12 @@
     });
   };
 
-  $ready(function() {
+  window.onInitEnd.push(function() {
     freezer = new VJ.Freezer({
-      container: mass.query('.reg-step'),
+      container: $_query('.reg-step'),
       dark: true
     });
-    $fadein(mass.query('.reg-step'), 1000);
+    $fadein($_query('.reg-step'), 1000);
     if (REG_STEP === 1) {
       return init_step1();
     } else if (REG_STEP === 2) {
