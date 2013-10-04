@@ -10,7 +10,7 @@ You can use [Vagrant](http://www.vagrantup.com/) to quickly initialize your deve
 
 2. Download [OpenVJ Vagrant box image](http://pan.baidu.com/share/link?shareid=4281126144&uk=3255084544) (`openvj-package.box`).
 
-3. In a same directory, `git clone` [openvj](https://github.com/vijos/openvj.git), [openvj-git-service](https://github.com/vijos/openvj-git-service.git) and [openvg-bg-service](https://github.com/vijos/openvj-bg-service.git). 
+3. In a same directory, `git clone --recursive` [openvj](https://github.com/vijos/openvj.git), [openvj-git-service](https://github.com/vijos/openvj-git-service.git) and [openvg-bg-service](https://github.com/vijos/openvj-bg-service.git). 
    
    Put the downloaded `openvj-package.box` into `openvj` directory.
 
@@ -82,9 +82,11 @@ You can use [Vagrant](http://www.vagrantup.com/) to quickly initialize your deve
 
 10. Copy `(the-openvj-project)/openvj/src/app/configs/*.ini.default` to `*.ini`
 
-PS: You can also install dependencies below by yourself without using Vagrant. [installing instructions references](env_links.md)
+PS: You can also install dependencies below by yourself without using Vagrant. See [installing instructions references](env_links.md).
 
 PPS: Due to [a bug of VirtualBox](http://stackoverflow.com/questions/9479117/vagrant-virtualbox-apache2-strange-cache-behaviour), you may need to turn off sendfile (`sendfile off`) in `/etc/nginx/nginx.conf` in the VM.
+
+PPPS: Do not forget to update submodules when pulling openvj: `git submodule foreach git pull`
 
 ### Binaries
 
