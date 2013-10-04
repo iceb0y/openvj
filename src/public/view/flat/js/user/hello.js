@@ -4,7 +4,7 @@
   scrollToId = function(id) {
     var dom, pos;
     dom = $_query(".hello-screen[data-id=\"" + id + "\"]");
-    pos = dom.offsetTop;
+    pos = dom[0].offsetTop;
     return jQuery('body').animate({
       scrollTop: pos
     }, 800);

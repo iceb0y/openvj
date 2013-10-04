@@ -1,8 +1,8 @@
 scrollToId = (id) ->
 
     dom = $_query ".hello-screen[data-id=\"#{id}\"]"
-    pos = dom.offsetTop
-    jQuery('body').animate {scrollTop:pos}, 800
+    pos = dom[0].offsetTop
+    jQuery('body').animate {scrollTop: pos}, 800
 
 window.onInitEnd.push ->
 
@@ -25,7 +25,7 @@ window.onInitEnd.push ->
             top:      (docHeight * 1 / parallax_count * (i+1)) + 'px'
 
         $append dom_parallax_container, dom
-    
+
     $event.on $_query('.role-next'), 'click', ->
 
         scrollToId jQuery(@).closest('.hello-screen').next().attr('data-id')
