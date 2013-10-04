@@ -206,7 +206,7 @@ Run [grunt](http://gruntjs.com/getting-started) tasks before a production deploy
 ```bash
 npm install -g grunt-cli  # install grunt
 
-cd src/public/static/lib/vijos-ext
+cd src/public/static/lib
 npm install               # install grunt dependencies
 grunt production          # run tasks
 
@@ -220,7 +220,7 @@ Development:
 ```bash
 npm install -g grunt-cli  # install grunt
 
-cd src/public/static/lib/vijos-ext
+cd src/public/static/lib
 npm install               # install grunt dependencies
 grunt                     # run tasks
 

@@ -1,5 +1,5 @@
 {
-    "name":"vijos-theme-deploy",
+    "name":"openvj-theme-grunt",
     "version":"0.0.1",
     "dependencies":{
         "grunt":"*",
