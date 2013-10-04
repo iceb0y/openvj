@@ -183,7 +183,7 @@ init = ->
 bind_events = ->
 
     $event.on window, 'mousemove', event_onMouseMove
-    $event.on window, 'resize', event_onResize
+    $event.on window, 'resize', _.debounce(event_onResize, 300)
     $event.on canvas, 'click', event_onClick
 
 event_onClick = ->

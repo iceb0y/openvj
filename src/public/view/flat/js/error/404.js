@@ -172,7 +172,7 @@
 
   bind_events = function() {
     $event.on(window, 'mousemove', event_onMouseMove);
-    $event.on(window, 'resize', event_onResize);
+    $event.on(window, 'resize', _.debounce(event_onResize, 300));
     return $event.on(canvas, 'click', event_onClick);
   };
 
