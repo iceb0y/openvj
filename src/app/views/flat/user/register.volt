@@ -1,5 +1,4 @@
 {% extends "layout.volt" %}
-{% block predefine %}{% set EXT_JS = ['js/user/reg.js': false] %}{% endblock %}
 {% block body %}
 <div class="reg-bg-container">
 <div class="reg-bg-left"></div>
@@ -52,4 +51,7 @@
     </div></div>
 </div>
 </div>
+{% endblock %}
+{% block footer %}
+<script>$_init([{{ view_static('js/user/reg.js', false)|json_encode }}]);</script>
 {% endblock %}

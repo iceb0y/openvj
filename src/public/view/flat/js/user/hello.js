@@ -3,18 +3,18 @@
 
   scrollToId = function(id) {
     var dom, pos;
-    dom = mass.query(".hello-screen[data-id=\"" + id + "\"]");
+    dom = $_query(".hello-screen[data-id=\"" + id + "\"]");
     pos = dom.offsetTop;
     return jQuery('body').animate({
       scrollTop: pos
     }, 800);
   };
 
-  $ready(function() {
+  window.onInitEnd.push(function() {
     var docHeight, dom, dom_parallax_container, i, parallax_count, _i, _ref;
-    $style.set(mass.query('.hello-screen'), 'height', jQuery(window).height() + 'px');
-    docHeight = mass.query('#container')[0].offsetHeight;
-    dom_parallax_container = mass.query('.hello-parallax-container')[0];
+    $style.set($_query('.hello-screen'), 'height', jQuery(window).height() + 'px');
+    docHeight = $_query('#container')[0].offsetHeight;
+    dom_parallax_container = $_query('.hello-parallax-container')[0];
     parallax_count = 50;
     for (i = _i = 0, _ref = parallax_count - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
       dom = $new('div', {
@@ -28,13 +28,13 @@
       });
       $append(dom_parallax_container, dom);
     }
-    $event.on(mass.query('.role-next'), 'click', function() {
+    $event.on($_query('.role-next'), 'click', function() {
       return scrollToId(jQuery(this).closest('.hello-screen').next().attr('data-id'));
     });
-    $event.on(mass.query('.role-skip'), 'click', function() {
+    $event.on($_query('.role-skip'), 'click', function() {
       return scrollToId($attr.get(this, 'data-skip'));
     });
-    $event.on(mass.query('.role-end'), 'click', function() {
+    $event.on($_query('.role-end'), 'click', function() {
       return window.location = CONFIG.basePrefix + '/';
     });
     jQuery(window).stellar();

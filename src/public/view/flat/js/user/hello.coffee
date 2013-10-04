@@ -1,15 +1,15 @@
 scrollToId = (id) ->
 
-    dom = mass.query ".hello-screen[data-id=\"#{id}\"]"
+    dom = $_query ".hello-screen[data-id=\"#{id}\"]"
     pos = dom.offsetTop
     jQuery('body').animate {scrollTop:pos}, 800
 
-$ready ->
+window.onInitEnd.push ->
 
-    $style.set mass.query('.hello-screen'), 'height', jQuery(window).height() + 'px'
+    $style.set $_query('.hello-screen'), 'height', jQuery(window).height() + 'px'
 
-    docHeight = mass.query('#container')[0].offsetHeight 
-    dom_parallax_container = mass.query('.hello-parallax-container')[0]
+    docHeight = $_query('#container')[0].offsetHeight 
+    dom_parallax_container = $_query('.hello-parallax-container')[0]
     parallax_count = 50
 
     for i in [0..parallax_count-1]
@@ -26,15 +26,15 @@ $ready ->
 
         $append dom_parallax_container, dom
     
-    $event.on mass.query('.role-next'), 'click', ->
+    $event.on $_query('.role-next'), 'click', ->
 
         scrollToId jQuery(@).closest('.hello-screen').next().attr('data-id')
 
-    $event.on mass.query('.role-skip'), 'click', ->
+    $event.on $_query('.role-skip'), 'click', ->
 
         scrollToId $attr.get(@, 'data-skip')
 
-    $event.on mass.query('.role-end'), 'click', ->
+    $event.on $_query('.role-end'), 'click', ->
 
         window.location = CONFIG.basePrefix + '/'
 

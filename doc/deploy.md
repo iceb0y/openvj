@@ -12,16 +12,22 @@ You can use [Vagrant](http://www.vagrantup.com/) to quickly initialize your deve
 
 3. In a same directory, `git clone` [openvj](https://github.com/vijos/openvj.git), [openvj-git-service](https://github.com/vijos/openvj-git-service.git) and [openvg-bg-service](https://github.com/vijos/openvj-bg-service.git). 
    
-   Put `openvj-package.box` into `openvj` directory.
+   Put the downloaded `openvj-package.box` into `openvj` directory.
 
-4. mkdir: `openvj-data`, `openvj-data/git`
+4. mkdir: `openvj-data`, `openvj-data/git`.
 
-5. Your directory tree should be similar to this:
+5. Copy `Vagrantfile.default` to `Vagrantfile`.
+   
+   ( You can follow the [Vagrantfile documentation](http://docs.vagrantup.com/v2/vagrantfile/index.html) and make your own changes, for example, use port-forwarding instead of private-network. )
+
+6. Your directory tree should be similar to this:
    
    ```
     + the-openvj-project/       (any name)
       + openvj/                 (git://openvj)
         - openvj-package.box
+        - Vagrantfile
+        - Vagrantfile.default
         + .git/
         + doc/
         + src/
@@ -36,7 +42,7 @@ You can use [Vagrant](http://www.vagrantup.com/) to quickly initialize your deve
         + git/
    ```
 
-6. Run the following commands:
+7. Run the following commands:
  
    ```bash
    #cd the-openvj-project
@@ -44,7 +50,7 @@ You can use [Vagrant](http://www.vagrantup.com/) to quickly initialize your deve
    vagrant up
    ```
 
-7. If you get Vagrant startup errors like: 
+8. If you get Vagrant startup errors like: 
 
    ```
    The following SSH command responded with a non-zero exit status.
@@ -67,16 +73,18 @@ You can use [Vagrant](http://www.vagrantup.com/) to quickly initialize your deve
     vagrant reload # restart Vagrant
    ```
 
-8. Modify `/etc/hosts` on UNIX-like OS or `.../system32/drivers/etc/hosts` on Windows. Add the following 2 lines:
+9. Modify `/etc/hosts` on UNIX-like OS or `.../system32/drivers/etc/hosts` on Windows. Add the following 2 lines:
 
    ```
    192.168.22.222 vijos.org
    192.168.22.222 www.vijos.org
    ```
 
-9. Copy `(the-openvj-project)/openvj/src/app/configs/*.ini.default` to `*.ini`
+10. Copy `(the-openvj-project)/openvj/src/app/configs/*.ini.default` to `*.ini`
 
 PS: You can also install dependencies below by yourself without using Vagrant. [installing instructions references](env_links.md)
+
+PPS: Due to [a bug of VirtualBox](http://stackoverflow.com/questions/9479117/vagrant-virtualbox-apache2-strange-cache-behaviour), you may need to turn off sendfile (`sendfile off`) in `/etc/nginx/nginx.conf` in the VM.
 
 ### Binaries
 

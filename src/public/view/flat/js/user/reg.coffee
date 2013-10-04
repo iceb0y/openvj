@@ -3,16 +3,16 @@ freezer = null
 init_step1 = ->
 
     setTimeout ->
-        mass.query('.role-reg-email')[0].focus()
+        $_query('.role-reg-email')[0].focus()
     , 100
 
-    $event.on mass.query('.role-reg-email-confirm'), 'click', ->
+    $event.on $_query('.role-reg-email-confirm'), 'click', ->
 
-        target_mail = mass.query('.role-reg-email')[0].value
+        target_mail = $_query('.role-reg-email')[0].value
 
         if not /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/.test target_mail
 
-            $text mass.query('.reg-hint'), 'Invalid email address ∑(O_O；)'
+            $text $_query('.reg-hint'), 'Invalid email address ∑(O_O；)'
             return
 
         VJ.ajax
@@ -23,47 +23,47 @@ init_step1 = ->
 
             onSuccess: (d) ->
 
-                $text mass.query('.role-email'), target_mail
+                $text $_query('.role-email'), target_mail
 
-                $fadeout mass.query('.reg-step1'), 100, ->
+                $fadeout $_query('.reg-step1'), 100, ->
 
-                    $style.set mass.query('.reg-step1'), 'display', 'none'
-                    $style.set mass.query('.reg-step1-result'), 'display', 'block'
+                    $style.set $_query('.reg-step1'), 'display', 'none'
+                    $style.set $_query('.reg-step1-result'), 'display', 'block'
 
                     setTimeout ->
 
-                        $fadein mass.query('.reg-step1-result'), 100
+                        $fadein $_query('.reg-step1-result'), 100
 
             onFailure: (d) ->
 
-                $text mass.query('.reg-hint'), d.errorMsg
+                $text $_query('.reg-hint'), d.errorMsg
 
             onError: (errorText) ->
 
                 VJ.Dialog.alert errorText, 'Error'
 
-    $event.on mass.query('.role-reg-email'), 'keypress', (event) ->
+    $event.on $_query('.role-reg-email'), 'keypress', (event) ->
 
-        $empty mass.query('.reg-hint')
+        $empty $_query('.reg-hint')
 
         jQuery('.role-reg-email-confirm').click() if event.which is 13
 
-    $event.on mass.query('.role-resend'), 'click', ->
+    $event.on $_query('.role-resend'), 'click', ->
 
-        $fadeout mass.query('.reg-step1-result'), 100, ->
+        $fadeout $_query('.reg-step1-result'), 100, ->
 
-            $style.set mass.query('.reg-step1-result'), 'display', 'none'
-            $style.set mass.query('.reg-step1'), 'display', 'block'
+            $style.set $_query('.reg-step1-result'), 'display', 'none'
+            $style.set $_query('.reg-step1'), 'display', 'block'
 
             setTimeout ->
 
-                $fadein mass.query('.reg-step1'), 100
-                mass.query('.role-reg-email')[0].select()
+                $fadein $_query('.reg-step1'), 100
+                $_query('.role-reg-email')[0].select()
 
 init_step2 = ->
 
     setTimeout ->
-        mass.query('.role-reg-nickname')[0].focus()
+        $_query('.role-reg-nickname')[0].focus()
     , 100
 
     jQuery('.textbox').tipsy
@@ -86,7 +86,7 @@ init_step2 = ->
 
         jQuery(@).tipsy 'hide'
 
-    dom_password = mass.query '.role-reg-password'
+    dom_password = $_query '.role-reg-password'
 
     $event.on dom_password, 'focus', ->
 
@@ -101,27 +101,27 @@ init_step2 = ->
         if this.value.match /[^\x00-\xff]/g
             this.value = this.value.replace /[^\x00-\xff]/g, ''
 
-    $event.on mass.query('.role-reg-submit'), 'click', ->
+    $event.on $_query('.role-reg-submit'), 'click', ->
 
-        dom = mass.query('.role-reg-nickname')[0]
+        dom = $_query('.role-reg-nickname')[0]
 
         if not dom.value.match /^[^ ^\t]{1,15}$/
             dom.select()
             return false
 
-        dom = mass.query('.role-reg-username')[0]
+        dom = $_query('.role-reg-username')[0]
 
         if not dom.value.match /^[^ ^\t]{3,30}$/
             dom.select()
             return false
         
-        dom = mass.query('.role-reg-password')[0]
+        dom = $_query('.role-reg-password')[0]
 
         if not dom.value.match /^.{5,30}$/
             dom.select()
             return false
 
-        dom = mass.query('.role-reg-agree')[0]
+        dom = $_query('.role-reg-agree')[0]
 
         if not dom.checked
             jQuery('.role-reg-agree').tipsy 'show'
@@ -133,10 +133,10 @@ init_step2 = ->
             data:      
                 email: REG_PARAM.mail
                 code: REG_PARAM.code
-                nick: mass.query('.role-reg-nickname')[0].value
-                user: mass.query('.role-reg-username')[0].value
-                pass: mass.query('.role-reg-password')[0].value
-                gender: mass.query('[name="reg-gender"]:checked')[0].value
+                nick: $_query('.role-reg-nickname')[0].value
+                user: $_query('.role-reg-username')[0].value
+                pass: $_query('.role-reg-password')[0].value
+                gender: $_query('[name="reg-gender"]:checked')[0].value
                 agreement: 'accept'
 
             freezer:   freezer
@@ -153,13 +153,13 @@ init_step2 = ->
 
                 VJ.Dialog.alert errorText, 'Error'
 
-$ready ->
+window.onInitEnd.push ->
 
     freezer = new VJ.Freezer
-        container:  mass.query('.reg-step')
+        container:  $_query('.reg-step')
         dark:       true
 
-    $fadein mass.query('.reg-step'), 1000
+    $fadein $_query('.reg-step'), 1000
 
     if REG_STEP is 1
 

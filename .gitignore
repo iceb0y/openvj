@@ -2,6 +2,7 @@ Thumbs.db
 Desktop.ini
 .htaccess
 openvj-package.box
+Vagrantfile
 
 # Runtime
 !.gitkeep

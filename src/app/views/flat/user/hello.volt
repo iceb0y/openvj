@@ -1,6 +1,5 @@
 {% extends "layout.volt" %}
 {% block body %}
-{% set EXT_JS = ['js/user/hello.js': false] %}
 <div class="hello-container">
     
     <div class="hello-screen" data-id="land"><div class="cont-wrap"><div class="grid_12">
@@ -71,4 +70,7 @@
 <div class="hello-parallax-container">
 
 </div>
+{% endblock %}
+{% block footer %}
+<script>$_init(['stellar', {{ view_static('js/user/reg.js', false)|json_encode }}]);</script>
 {% endblock %}
