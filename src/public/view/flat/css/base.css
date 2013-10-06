@@ -2059,6 +2059,23 @@ html {
 }
 
 .cont-userbar a:hover {
+  color: #119eea;
+  text-decoration: none;
+}
+
+.cont-userbar .user-face {
+  display: inline-block;
+  margin: 0 5px 2px 0;
+  vertical-align: middle;
+}
+
+.userbar-link {
+  margin-left: 15px;
+}
+
+a.userbar-link,
+.userbar-link a,
+.userbar-link a:visited {
   color: #7c7c7c;
 }
 
