@@ -15,11 +15,13 @@ class ManageController extends \VJ\Controller\Basic
 
         $this->view->CURRENT_ACTION = $this->dispatcher->getActionName();
 
+        global $__SESSION;
+
         $this->view->MANAGE_MENU = [
 
             ['type' => 'link', 'href' => '/manage/statistics', 'text' => 'Statistics', 'action' => 'statistics'],
             ['type' => 'link', 'href' => '/', 'text' => 'Vijos homepage', 'action' => 'home'],
-            ['type' => 'link', 'href' => '/user/logout', 'text' => 'Logout', 'action' => 'logout'],
+            ['type' => 'link', 'href' => '/user/logout?token='.$__SESSION['csrf-token'], 'text' => 'Logout', 'action' => 'logout'],
             ['type' => 'headline', 'text' => 'System'],
             ['type' => 'link', 'href' => '/', 'text' => 'Error center', 'action' => 'error'],
             ['type' => 'link', 'href' => '/', 'text' => 'Cache', 'action' => 'cache'],
