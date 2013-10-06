@@ -197,7 +197,7 @@ location ~* \.(ico|css|js|gif|jpe?g|png|ttf|otf|eot|woff|svg)(\?[0-9]+)?$ {
 
 Ensure index:
 
-- `Session.session_id`
+- (TTL) `Session.time`
 
 ## Frontend
 
