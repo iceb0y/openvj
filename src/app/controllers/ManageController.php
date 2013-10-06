@@ -30,9 +30,9 @@ class ManageController extends \VJ\Controller\Basic
             ['type' => 'link', 'href' => '/', 'text' => 'Manage Problems', 'action' => 'problem'],
             ['type' => 'link', 'href' => '/', 'text' => 'Manage Data', 'action' => 'problemdata'],
             ['type' => 'headline', 'text' => 'Other'],
-            ['type' => 'link', 'href' => '/', 'text' => 'Manage Team', 'action' => 'team'],
-            ['type' => 'link', 'href' => '/', 'text' => 'Manage App', 'action' => 'app'],
-            ['type' => 'link', 'href' => '/', 'text' => 'Manage Contest', 'action' => 'contest'],
+            ['type' => 'link', 'href' => '/', 'text' => 'Manage Teams', 'action' => 'team'],
+            ['type' => 'link', 'href' => '/', 'text' => 'Manage Apps', 'action' => 'app'],
+            ['type' => 'link', 'href' => '/', 'text' => 'Manage Contests', 'action' => 'contest'],
         ];
 
     }
