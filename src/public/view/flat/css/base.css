@@ -2079,6 +2079,7 @@ html {
 }
 
 a.userbar-link,
+a.userbar-link:visited,
 .userbar-link a,
 .userbar-link a:visited {
   color: #7c7c7c;
