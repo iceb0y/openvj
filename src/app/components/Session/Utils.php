@@ -10,6 +10,8 @@ class Utils
     public static $sessid;
     public static $save = false;
 
+    const SESSION_ID_LENGTH = 44;
+
     public static function initialize(SessionProvider $provider)
     {
 
@@ -23,7 +25,7 @@ class Utils
         // no sessions yet or session_id is invalid
         if (
             !isset($_COOKIE[self::$sessname])
-            || strlen($_COOKIE[self::$sessname]) !== 20
+            || strlen($_COOKIE[self::$sessname]) !== self::SESSION_ID_LENGTH
             || ($__SESSION = self::$provider->getSession($_COOKIE[self::$sessname])) == false
         ) {
 
@@ -44,6 +46,7 @@ class Utils
             } else {
 
                 self::newSession();
+                self::sendNoCache();
 
             }
 
@@ -51,6 +54,7 @@ class Utils
 
             self::$save   = true;
             self::$sessid = $_COOKIE[self::$sessname];
+            self::sendNoCache();
 
         }
 
@@ -106,6 +110,16 @@ class Utils
     }
 
     /**
+     * 强制浏览器不缓存
+     */
+    private static function sendNoCache()
+    {
+        header('Expires: Thu, 19 Nov 1981 08:52:00 GMT');
+        header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
+        header('Pragma: no-cache');
+    }
+
+    /**
      * 使SESSION_ID过期
      *
      * @return bool
@@ -134,7 +148,7 @@ class Utils
      */
     private static function generateGuestSessionId()
     {
-        return str_repeat('0', 44);
+        return str_repeat('0', self::SESSION_ID_LENGTH);
     }
 
     /**
