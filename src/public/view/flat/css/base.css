@@ -794,7 +794,6 @@ table {
 .icon-italic,
 .icon-ip,
 .icon-ie,
-.icon-home,
 .icon-help,
 .icon-fullscreen,
 .icon-firefox,
@@ -814,7 +813,9 @@ table {
 .icon-bold,
 .icon-board,
 .icon-apple,
-.icon-android {
+.icon-android,
+.icon-dashboard,
+.icon-home {
   font-family: 'openvj-symbols';
   speak: none;
   font-style: normal;
@@ -1005,10 +1006,6 @@ table {
   content: "\e02c";
 }
 
-.icon-home:before {
-  content: "\e02d";
-}
-
 .icon-help:before {
   content: "\e02e";
 }
@@ -1087,6 +1084,14 @@ table {
 
 .icon-android:before {
   content: "\e041";
+}
+
+.icon-dashboard:before {
+  content: "\f0e4";
+}
+
+.icon-home:before {
+  content: "\21b8";
 }
 
 @media (max-width:775px) {
