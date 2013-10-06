@@ -2063,7 +2063,16 @@ html {
   color: #aeaeae;
 }
 
-.cont-userbar a:hover {
+a.userbar-link,
+a.userbar-link:visited,
+.userbar-link a,
+.userbar-link a:visited {
+  color: #7c7c7c;
+}
+
+.cont-userbar a:hover,
+a.userbar-link:hover,
+.userbar-link a:hover {
   color: #119eea;
   text-decoration: none;
 }
@@ -2076,13 +2085,6 @@ html {
 
 .userbar-link {
   margin-left: 15px;
-}
-
-a.userbar-link,
-a.userbar-link:visited,
-.userbar-link a,
-.userbar-link a:visited {
-  color: #7c7c7c;
 }
 
 #page_home .cont-userbar {

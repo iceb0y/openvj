@@ -15,7 +15,11 @@
     
     color       darkenT($bg-color, 30%)
 
-.cont-userbar a:hover
+a.userbar-link, a.userbar-link:visited, .userbar-link a, .userbar-link a:visited
+
+    color       darkenT($bg-color, 50%)
+
+.cont-userbar a:hover, a.userbar-link:hover, .userbar-link a:hover
     
     color       $link-color
     text-decoration none
@@ -29,10 +33,6 @@
 .userbar-link
     
     margin-left 15px
-
-a.userbar-link, a.userbar-link:visited, .userbar-link a, .userbar-link a:visited
-
-    color       darkenT($bg-color, 50%)
 
 for list in $page-color
     #page_{list[0]} .cont-userbar
