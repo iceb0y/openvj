@@ -134,7 +134,7 @@ class Utils
      */
     private static function generateGuestSessionId()
     {
-        return str_repeat('0', 20);
+        return str_repeat('0', 44);
     }
 
     /**
@@ -144,7 +144,7 @@ class Utils
      */
     private static function generateSessionId()
     {
-        return \VJ\Security\Randomizer::toHex(10);
+        return uniqid('', true).'.'.\VJ\Security\Randomizer::toHex(10);
     }
 
 }
