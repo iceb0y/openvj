@@ -11,7 +11,7 @@ freezer = null
 repeatSpace = (n) ->
 
     s = ''
-    s += '&nbsp;' for i in [1..n]
+    s += '&nbsp;' for i in [0...n]
 
     s
 

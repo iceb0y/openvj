@@ -11,12 +11,12 @@
   };
 
   window.onInitEnd.push(function() {
-    var docHeight, dom, dom_parallax_container, i, parallax_count, _i, _ref;
+    var docHeight, dom, dom_parallax_container, i, parallax_count, _i;
     $style.set($_query('.hello-screen'), 'height', jQuery(window).height() + 'px');
     docHeight = $_query('#container')[0].offsetHeight;
     dom_parallax_container = $_query('.hello-parallax-container')[0];
     parallax_count = 50;
-    for (i = _i = 0, _ref = parallax_count - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
+    for (i = _i = 0; 0 <= parallax_count ? _i < parallax_count : _i > parallax_count; i = 0 <= parallax_count ? ++_i : --_i) {
       dom = $new('div', {
         "class": 'hello-parallax hello-parallax-' + ((i % 13) + 1).toString(),
         'data-stellar-ratio': Math.random() * 0.8 + 0.2

@@ -12,7 +12,7 @@ window.onInitEnd.push ->
     dom_parallax_container = $_query('.hello-parallax-container')[0]
     parallax_count = 50
 
-    for i in [0..parallax_count-1]
+    for i in [0...parallax_count]
 
         dom = $new 'div',
             class: 'hello-parallax hello-parallax-' + ((i % 13)+1).toString()

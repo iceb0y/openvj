@@ -18,7 +18,7 @@
   repeatSpace = function(n) {
     var i, s, _i;
     s = '';
-    for (i = _i = 1; 1 <= n ? _i <= n : _i >= n; i = 1 <= n ? ++_i : --_i) {
+    for (i = _i = 0; 0 <= n ? _i < n : _i > n; i = 0 <= n ? ++_i : --_i) {
       s += '&nbsp;';
     }
     return s;
