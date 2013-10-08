@@ -2,6 +2,8 @@
 
 namespace VJ\User;
 
+use \VJ\Models;
+
 class Utils
 {
 
@@ -9,6 +11,31 @@ class Utils
     private static $emptyUserModel = ['uid' => 1, 'nick' => '[Deleted]', 'gmd5' => '', 'flag_missing' => true];
 
     const queryMaxChunk = 30;
+
+    /**
+     * 根据登录用户名获取UID
+     *
+     * @param $username
+     *
+     * @return int|null
+     */
+    public static function getUidByUsername($username)
+    {
+
+        $username = strtolower($username);
+
+        $user = Models\User::findFirst([
+            'conditions' => ['luser' => $username],
+            'fields'     => ['uid' => 1]
+        ]);
+
+        if ($user) {
+            return (int)$user->uid;
+        } else {
+            return null;
+        }
+
+    }
 
     /**
      * 查询单个用户的信息

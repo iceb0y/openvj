@@ -236,23 +236,25 @@ class Account
     }
 
     /**
-     * 检查一个用户名是否存在
+     * 检查用户名是否存在
      *
-     * @param $username
+     * @param      $username
+     * @param null $uid
      *
      * @return bool
      */
-    public static function usernameExists($username)
+    public static function usernameExists($username, &$uid = null)
     {
 
         $username = strtolower($username);
 
         $user = Models\User::findFirst([
             'conditions' => ['luser' => $username],
-            'fields'     => ['_id' => 1]
+            'fields'     => ['uid' => 1]
         ]);
 
         if ($user) {
+            $uid = (int)$user->uid;
             return true;
         } else {
             return false;
@@ -261,23 +263,25 @@ class Account
     }
 
     /**
-     * 检查一个昵称是否存在
+     * 检查昵称是否存在
      *
-     * @param $nick
+     * @param      $nickname
+     * @param null $uid
      *
      * @return bool
      */
-    public static function nicknameExists($nickname)
+    public static function nicknameExists($nickname, &$uid = null)
     {
 
         $nickname = strtolower($nickname);
 
         $user = Models\User::findFirst([
             'conditions' => ['lnick' => $nickname],
-            'fields'     => ['_id' => 1]
+            'fields'     => ['uid' => 1]
         ]);
 
         if ($user) {
+            $uid = (int)$user->uid;
             return true;
         } else {
             return false;
