@@ -76,8 +76,8 @@ You can use [Vagrant](http://www.vagrantup.com/) to quickly initialize your deve
 9. Modify `/etc/hosts` on UNIX-like OS or `.../system32/drivers/etc/hosts` on Windows. Add the following 2 lines:
 
    ```
-   192.168.22.222 vijos.org
-   192.168.22.222 www.vijos.org
+   10.22.22.22 vijos.org
+   10.22.22.22 www.vijos.org
    ```
 
 10. Copy `(the-openvj-project)/openvj/src/app/configs/*.ini.default` to `*.ini`
