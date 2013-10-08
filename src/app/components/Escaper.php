@@ -77,6 +77,22 @@ class Escaper
     }
 
     /**
+     * Safely generate JSON string
+     * Avoid XSS like this:
+     * <script>var a = <?php echo json_encode('</script><script>alert(1)//'); ?>;</script>
+     *
+     * @param $obj
+     *
+     * @return string
+     */
+    public static function json($obj)
+    {
+
+        return json_encode($obj, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
+
+    }
+
+    /**
      * Init escaper object
      */
     private static function _initEscaper()

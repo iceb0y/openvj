@@ -8,7 +8,7 @@
     <div class="reg-form"><div class="reg-form-content">
         <h1>Register</h1>
         <div class="reg-cont">
-            <script>var REG_STEP = {{ STEP|json_encode }};</script>
+            <script>var REG_STEP = {{ STEP|json }};</script>
 {% if STEP == 0 %}
             <div class="reg-step reg-step0" style="opacity:0;">
                 <h2>Error</h2>
@@ -29,7 +29,7 @@
             </div>
 {% elseif STEP == 2 %}
             <div class="reg-step reg-step2" style="opacity:0;">
-                <script>var REG_PARAM = {{ REG_PARAM|json_encode }};</script>
+                <script>var REG_PARAM = {{ REG_PARAM|json }};</script>
                 <div class="form-line"><label class="reg-label-t">Email:</label>{{ REG_MAIL }}</div>
                 <div class="form-line"><label class="reg-label-t">Nickname:</label><input type="text" class="textbox role-reg-nickname" autocomplete="off" data-tip="用于显示的昵称，长度1~15字符，不能有空格"></div>
                 <div class="form-line"><label class="reg-label-t">Username:</label><input type="text" class="textbox role-reg-username" autocomplete="off" data-tip="登录用户名，长度3~30字符，不能有空格"></div>
@@ -53,5 +53,5 @@
 </div>
 {% endblock %}
 {% block footer %}
-<script>$_init([{{ view_static('js/user/reg.js', false)|json_encode }}]);</script>
+<script>$_init([{{ view_static('js/user/reg.js', false)|json }}]);</script>
 {% endblock %}

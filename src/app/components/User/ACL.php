@@ -222,13 +222,13 @@ class ACL
 
         $result = '';
         $result .= 'db.System.update('
-            .json_encode(['_id' => self::SYSTEM_ID_ACL]).', '
-            .json_encode(['$set' => ['v' => $acl]]).', '
-            .json_encode(['upsert' => true]).');';
+            .\VJ\Escaper::json(['_id' => self::SYSTEM_ID_ACL]).', '
+            .\VJ\Escaper::json(['$set' => ['v' => $acl]]).', '
+            .\VJ\Escaper::json(['upsert' => true]).');';
         $result .= 'db.System.update('
-            .json_encode(['_id' => self::SYSTEM_ID_ACL_RULES]).', '
-            .json_encode(['$set' => ['v' => $acl_r]]).', '
-            .json_encode(['upsert' => true]).');';
+            .\VJ\Escaper::json(['_id' => self::SYSTEM_ID_ACL_RULES]).', '
+            .\VJ\Escaper::json(['$set' => ['v' => $acl_r]]).', '
+            .\VJ\Escaper::json(['upsert' => true]).');';
 
         return $result;
 

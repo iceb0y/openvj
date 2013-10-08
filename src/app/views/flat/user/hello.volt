@@ -72,5 +72,5 @@
 </div>
 {% endblock %}
 {% block footer %}
-<script>$_init(['stellar', {{ view_static('js/user/hello.js', false)|json_encode }}]);</script>
+<script>$_init(['stellar', {{ view_static('js/user/hello.js', false)|json }}]);</script>
 {% endblock %}

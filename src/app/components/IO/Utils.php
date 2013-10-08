@@ -27,7 +27,7 @@ class Utils
 
         if ($post != null && is_array($post)) {
             curl_setopt($curl, CURLOPT_POST, true);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($post));
+            curl_setopt($curl, CURLOPT_POSTFIELDS, \VJ\Escaper::json($post));
         }
 
         $data = curl_exec($curl);

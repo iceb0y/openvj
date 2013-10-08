@@ -5,5 +5,5 @@
 </div>
 {% endblock %}
 {% block footer %}
-<script>$_init(['traer', 'raf', {{ view_static('js/error/404.js', false)|json_encode }}]);</script>
+<script>$_init(['traer', 'raf', {{ view_static('js/error/404.js', false)|json }}]);</script>
 {% endblock %}
