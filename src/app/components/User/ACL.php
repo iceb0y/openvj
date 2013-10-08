@@ -92,6 +92,10 @@ class ACL
     public function has($priv, $uid = null)
     {
 
+        if (defined('OPENVJ_ACL_DISABLE')) {
+            return true;
+        }
+
         if ($uid !== null) {
 
             $u = Models\User::findFirst([
