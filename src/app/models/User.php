@@ -65,4 +65,8 @@ class User extends \VJ\Collection
 
     public $settings;
 
+    public $banned;
+
+    public $deleted;
+
 }

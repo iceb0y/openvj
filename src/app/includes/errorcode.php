@@ -16,7 +16,7 @@ const ERR_USED    = 'Your %1$s %2$s is already existed or in use, please try ano
 const ERR_EXPIRED = 'Operation is expired. Please retry.';
 
 const ERR_NO_PRIV        = 'You do not have the privilege (%1$s) to perform this action';
-const ERR_USER_NOTFOUND  = 'User not found';
+const ERR_USER_BANNED    = 'The account is banned';
 const ERR_PASSWORD_WRONG = 'The password you entered is incorrect';
 const ERR_FAILED         = 'Operation failed';
 const ERR_IP_MISMATCH    = 'Your IP is not accepted';

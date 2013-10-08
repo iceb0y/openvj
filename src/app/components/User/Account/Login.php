@@ -63,6 +63,11 @@ class Login
             return I::error('FAILED');
         }
 
+        // User is banned or marked deleted
+        if ($u->banned !== null || $u->deleted !== null) {
+            return I::error('FAILED');
+        }
+
         // Login succeeded
         self::_log($uid, self::LOGIN_FROM_COOKIE, true);
 
@@ -99,6 +104,14 @@ class Login
 
         if (!$u) {
             return I::error('NOT_FOUND', 'user');
+        }
+
+        if ($u->deleted) {
+            return I::error('NOT_FOUND', 'user');
+        }
+
+        if ($u->banned) {
+            return I::error('USER_BANNED');
         }
 
         if (!isset($u->passfmt)) {
