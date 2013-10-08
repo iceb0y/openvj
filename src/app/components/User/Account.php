@@ -52,6 +52,140 @@ class Account
     }
 
     /**
+     * 删除用户
+     *
+     * @param      $uid
+     * @param bool $permanent
+     *
+     * @return array|bool
+     */
+    public static function delete($uid, $permanent = false)
+    {
+
+        $di    = \Phalcon\DI::getDefault();
+        $acl   = $di->getShared('acl');
+        $mongo = $di->getShared('mongo');
+
+        $uid   = (int)$uid;
+
+        if ($permanent) {
+
+            if (!$acl->has(PRIV_USER_DELETE_PERM)) {
+                return I::error('NO_PRIV', 'PRIV_USER_DELETE_PERM');
+            }
+
+            $result = $mongo->User->remove(
+                ['uid' => $uid],
+                ['justOne' => true]
+            );
+
+            return ($result['n'] === 1);
+
+        } else {
+
+            if (!$acl->has(PRIV_USER_DELETE_FLAG)) {
+                return I::error('NO_PRIV', 'PRIV_USER_DELETE_FLAG');
+            }
+
+            $result = $mongo->User->update(
+                ['uid' => $uid],
+                ['$set' => ['deleted' => true]]
+            );
+
+            return ($result['n'] === 1);
+
+        }
+
+    }
+
+    /**
+     * 取消用户已删除的标记
+     *
+     * @param $uid
+     *
+     * @return array|bool
+     */
+    public static function unDelete($uid)
+    {
+
+        $di    = \Phalcon\DI::getDefault();
+        $acl   = $di->getShared('acl');
+        $mongo = $di->getShared('mongo');
+
+        $uid   = (int)$uid;
+
+        if (!$acl->has(PRIV_USER_DELETE_FLAG)) {
+            return I::error('NO_PRIV', 'PRIV_USER_DELETE_FLAG');
+        }
+
+        $result = $mongo->User->update(
+            ['uid' => $uid],
+            ['$unset' => ['deleted' => 1]]
+        );
+
+        return ($result['n'] === 1);
+
+    }
+
+    /**
+     * 封禁用户
+     *
+     * @param $uid
+     *
+     * @return array|bool
+     */
+    public static function ban($uid)
+    {
+
+        $di    = \Phalcon\DI::getDefault();
+        $acl   = $di->getShared('acl');
+        $mongo = $di->getShared('mongo');
+
+        $uid   = (int)$uid;
+
+        if (!$acl->has(PRIV_USER_BAN)) {
+            return I::error('NO_PRIV', 'PRIV_USER_BAN');
+        }
+
+        $result = $mongo->User->update(
+            ['uid' => $uid],
+            ['$set' => ['banned' => true]]
+        );
+
+        return ($result['n'] === 1);
+
+    }
+
+    /**
+     * 取消封禁用户
+     *
+     * @param $uid
+     *
+     * @return array|bool
+     */
+    public static function unBan($uid)
+    {
+
+        $di    = \Phalcon\DI::getDefault();
+        $acl   = $di->getShared('acl');
+        $mongo = $di->getShared('mongo');
+
+        $uid   = (int)$uid;
+
+        if (!$acl->has(PRIV_USER_BAN)) {
+            return I::error('NO_PRIV', 'PRIV_USER_BAN');
+        }
+
+        $result = $mongo->User->update(
+            ['uid' => $uid],
+            ['$unset' => ['banned' => 1]]
+        );
+
+        return ($result['n'] === 1);
+
+    }
+
+    /**
      * 通过用户名、密码、salt计算最终密码哈希值
      * 该函数仅用于兼容数据库中已有的密码。
      *

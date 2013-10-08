@@ -27,6 +27,9 @@ const PRIV_USER_MODIFY_ACCOUNT = 10003; //修改账号信息
 const PRIV_USER_GET_DETAILS_PUBLIC = 10101; //获取特定用户详细信息
 const PRIV_USER_GET_DETAILS_ANY = 10102; //不受隐私限制获取特定用户所有信息
 const PRIV_USER_GET_LOGININFO = 10103; //获取特定用户登录记录
+const PRIV_USER_DELETE_FLAG = 10201; //标记用户为已删除
+const PRIV_USER_DELETE_PERM = 10202; //彻底删除用户
+const PRIV_USER_BAN = 10203; //封禁用户
 
 //题目
 const PRIV_PROBLEM = 11000; //题库总权限
