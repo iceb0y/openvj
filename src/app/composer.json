@@ -4,6 +4,7 @@
         "filp/whoops": "1.*",
         "phalcon/incubator": "dev-master",
         "phpseclib/phpseclib": "0.3.*@dev",
-        "michelf/php-markdown": "1.3.*@dev"
+        "michelf/php-markdown": "1.3.*@dev",
+        "gregwar/captcha": "dev-master"
     }
 }

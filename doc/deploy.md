@@ -118,6 +118,8 @@ PPPS: Do not forget to update submodules when pulling openvj: `git submodule for
 
 - php-phalcon 1.2+ (extension)
 
+- php-opcache(ZendOptimizerPlus) (extension, recommended)
+
 ### OpenVJ Services
 
 The following services are components of OpenVJ and should be running in the background. Please follow their own deployment instructions.
