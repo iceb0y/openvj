@@ -491,7 +491,6 @@ class Reply
             'time' => time(),
             'md'   => $markdownContent,
             'text' => \VJ\Formatter\Markdown::parse($markdownContent),
-            'vote' => ['sp' => new \stdClass(), 'ob' => new \stdClass()],
             'xtra' => new \stdClass(),
 
         ];

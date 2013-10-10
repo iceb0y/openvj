@@ -24,6 +24,8 @@ const ERR_IP_MISMATCH    = 'Your IP is not accepted';
 const ERR_CONTENT_TOOSHORT = 'Your content is too short (at least %1$d characters)';
 const ERR_CONTENT_TOOLONG  = 'Your content is too long (at most %1$d characters)';
 
+const ERR_VOTE_VOTED = 'You have already voted';
+
 const ERR_REG_ACCEPT_NEEDED       = 'You must accept the agreement';
 const ERR_REG_VERFICATION_FAILED  = 'Your verfication code is invalid';
 const ERR_REG_VERFICATION_EXPIRED = 'Your verfication has expired';

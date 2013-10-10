@@ -70,13 +70,10 @@ const PRIV_DISCUSSION_REPLY_DELETE_SELF = 13005; //删除自己的回复
 const PRIV_DISCUSSION_REPLY_MODIFY_SELF = 13006; //修改自己的回复
 const PRIV_DISCUSSION_DELETE_ANY = 13007; //删除任意评论或回复
 const PRIV_DISCUSSION_MODIFY_ANY = 13008; //修改任意评论或回复
-//LIKE
-const PRIV_LIKE = 13100; //LIKE总权限
-const PRIV_LIKE_LIKE = 13101; //LIKE
-const PRIV_LIKE_DISLIKE = 13102; //DISLIKE
-//评分
-const PRIV_VOTE = 13200; //评分总权限
-const PRIV_VOTE_VOTE = 13201; //评分
+
+//评价
+const PRIV_STAR = 13101; //标星
+const PRIV_VOTE = 13102; //支持或反对
 
 //话题
 const PRIV_TOPIC = 14000; //话题总权限
