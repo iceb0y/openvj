@@ -129,7 +129,7 @@ class Register
      *
      * @return array|bool
      */
-    public static function register($username, $password, $nickname, $gender, $agreement, $options = null)
+    public static function register($username, $password, $nickname, $gender, $agreement, $options = [])
     {
         /*
             Options:
@@ -145,10 +145,6 @@ class Register
 
         if (strtolower($agreement) !== 'accept') {
             return I::error('REG_ACCEPT_NEEDED');
-        }
-
-        if ($options == null) {
-            $options = [];
         }
 
         $data = [

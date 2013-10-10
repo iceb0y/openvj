@@ -111,17 +111,17 @@ class Vote
         }
 
         $argv = [
-            'vote_id' => &$vote_id,
+            'vote_id'  => &$vote_id,
             'attitude' => &$attitude
         ];
 
         \VJ\Validator::filter($argv, [
-            'vote_id' => 'trim',
+            'vote_id'  => 'trim',
             'attitude' => 'int'
         ]);
 
         $validateResult = \VJ\Validator::validate($argv, [
-            'vote_id' => [
+            'vote_id'  => [
                 'length' => [0, 50]
             ],
             'attitude' => [
@@ -197,8 +197,8 @@ class Vote
     public static function _deleteEntity($vote_id)
     {
 
-        $vote_id  = (string)$vote_id;
-        $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
+        $vote_id = (string)$vote_id;
+        $mongo   = \Phalcon\DI::getDefault()->getShared('mongo');
 
         $result = $mongo->Vote->remove(
             ['_id' => $vote_id],

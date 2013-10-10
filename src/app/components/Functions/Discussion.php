@@ -123,7 +123,7 @@ class Discussion
 
         $argv = [
             'topic_id' => &$topic_id,
-            'content' => &$content
+            'content'  => &$content
         ];
 
         \VJ\Validator::filter($argv, [
@@ -135,7 +135,7 @@ class Discussion
             'topic_id' => [
                 'length' => [0, 50]
             ],
-            'content' => [
+            'content'  => [
                 'contentlength' => [$__CONFIG->Discussion->contentMin, $__CONFIG->Discussion->contentMax]
             ]
         ]);
@@ -185,12 +185,12 @@ class Discussion
         $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
 
         $argv = [
-            'topic_id' => &$topic_id,
+            'topic_id'   => &$topic_id,
             'comment_id' => &$comment_id
         ];
 
         \VJ\Validator::filter($argv, [
-            'topic_id' => 'trim',
+            'topic_id'   => 'trim',
             'comment_id' => 'trim'
         ]);
 
@@ -238,15 +238,15 @@ class Discussion
         global $__CONFIG, $_UID;
 
         $argv = [
-            'topic_id' => &$topic_id,
+            'topic_id'   => &$topic_id,
             'comment_id' => &$comment_id,
-            'content' => &$content
+            'content'    => &$content
         ];
 
         \VJ\Validator::filter($argv, [
-            'topic_id' => 'trim',
+            'topic_id'   => 'trim',
             'comment_id' => 'trim',
-            'content'  => 'trim'
+            'content'    => 'trim'
         ]);
 
         $validateResult = \VJ\Validator::validate($argv, [
@@ -327,12 +327,12 @@ class Discussion
         global $_UID;
 
         $argv = [
-            'topic_id' => &$topic_id,
+            'topic_id'   => &$topic_id,
             'comment_id' => &$comment_id
         ];
 
         \VJ\Validator::filter($argv, [
-            'topic_id' => 'trim',
+            'topic_id'   => 'trim',
             'comment_id' => 'trim'
         ]);
 
@@ -415,22 +415,22 @@ class Discussion
         }
 
         $argv = [
-            'topic_id' => &$topic_id,
+            'topic_id'   => &$topic_id,
             'comment_id' => &$comment_id,
-            'content' => &$content
+            'content'    => &$content
         ];
 
         \VJ\Validator::filter($argv, [
-            'topic_id' => 'trim',
+            'topic_id'   => 'trim',
             'comment_id' => 'trim',
-            'content'  => 'trim'
+            'content'    => 'trim'
         ]);
 
         $validateResult = \VJ\Validator::validate($argv, [
             'topic_id' => [
                 'length' => [0, 50]
             ],
-            'content' => [
+            'content'  => [
                 'contentlength' => [$__CONFIG->Discussion->contentMin, $__CONFIG->Discussion->contentMax]
             ]
         ]);
@@ -484,15 +484,15 @@ class Discussion
         $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
 
         $argv = [
-            'topic_id' => &$topic_id,
+            'topic_id'   => &$topic_id,
             'comment_id' => &$comment_id,
-            'reply_id' => &$reply_id
+            'reply_id'   => &$reply_id
         ];
 
         \VJ\Validator::filter($argv, [
-            'topic_id' => 'trim',
+            'topic_id'   => 'trim',
             'comment_id' => 'trim',
-            'reply_id' => 'trim'
+            'reply_id'   => 'trim'
         ]);
 
         // Get the comment
@@ -552,17 +552,17 @@ class Discussion
         global $__CONFIG, $_UID;
 
         $argv = [
-            'topic_id' => &$topic_id,
+            'topic_id'   => &$topic_id,
             'comment_id' => &$comment_id,
-            'reply_id' => &$reply_id,
-            'content' => &$content
+            'reply_id'   => &$reply_id,
+            'content'    => &$content
         ];
 
         \VJ\Validator::filter($argv, [
-            'topic_id' => 'trim',
+            'topic_id'   => 'trim',
             'comment_id' => 'trim',
-            'reply_id' => 'trim',
-            'content'  => 'trim'
+            'reply_id'   => 'trim',
+            'content'    => 'trim'
         ]);
 
         $validateResult = \VJ\Validator::validate($argv, [
@@ -658,15 +658,15 @@ class Discussion
         global $_UID;
 
         $argv = [
-            'topic_id' => &$topic_id,
+            'topic_id'   => &$topic_id,
             'comment_id' => &$comment_id,
-            'reply_id' => &$reply_id
+            'reply_id'   => &$reply_id
         ];
 
         \VJ\Validator::filter($argv, [
-            'topic_id' => 'trim',
+            'topic_id'   => 'trim',
             'comment_id' => 'trim',
-            'reply_id' => 'trim'
+            'reply_id'   => 'trim'
         ]);
 
         // Get the comment

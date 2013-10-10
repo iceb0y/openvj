@@ -73,7 +73,7 @@ class Topic
      *
      * @return array|string
      */
-    public static function create($title, $content, $node, $options = array())
+    public static function create($title, $content, $node, $options = [])
     {
         /*
 
@@ -86,10 +86,6 @@ class Topic
         $di    = \Phalcon\DI::getDefault();
         $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
-
-        $title   = (string)$title;
-        $content = (string)$content;
-        $node    = (string)$node;
 
         global $_UID, $__CONFIG;
 
@@ -104,15 +100,15 @@ class Topic
         }
 
         $argv = [
-            'title' => &$title,
+            'title'   => &$title,
             'content' => &$content,
-            'node' => &$node
+            'node'    => &$node
         ];
 
         \VJ\Validator::filter($argv, [
-            'title' => 'html',
+            'title'   => 'html',
             'content' => 'trim',
-            'node' => 'lower'
+            'node'    => 'lower'
         ]);
 
         $validateResult = \VJ\Validator::validate($argv, [
