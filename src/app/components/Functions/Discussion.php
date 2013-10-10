@@ -115,25 +115,33 @@ class Discussion
         $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
-        $topic_id = (string)$topic_id;
-        $content  = (string)$content;
-
         global $__CONFIG, $_UID;
-
-        if (strlen($topic_id) > 50) {
-            return I::error('ARGUMENT_TOO_LONG', 'topic_id', 50);
-        }
 
         if (!$acl->has(PRIV_DISCUSSION_COMMENT_TOPIC)) {
             return I::error('NO_PRIV', 'PRIV_DISCUSSION_COMMENT_TOPIC');
         }
 
-        if (Utils::len($content) < $__CONFIG->Discussion->contentMin) {
-            return I::error('CONTENT_TOOSHORT', $__CONFIG->Discussion->contentMin);
-        }
+        $argv = [
+            'topic_id' => &$topic_id,
+            'content' => &$content
+        ];
 
-        if (Utils::len($content) > $__CONFIG->Discussion->contentMax) {
-            return I::error('CONTENT_TOOLONG', $__CONFIG->Discussion->contentMax);
+        \VJ\Validator::filter($argv, [
+            'topic_id' => 'trim',
+            'content'  => 'trim'
+        ]);
+
+        $validateResult = \VJ\Validator::validate($argv, [
+            'topic_id' => [
+                'length' => [0, 50]
+            ],
+            'content' => [
+                'contentlength' => [$__CONFIG->Discussion->contentMin, $__CONFIG->Discussion->contentMax]
+            ]
+        ]);
+
+        if ($validateResult !== true) {
+            return $validateResult;
         }
 
         $document      = self::createReplyDocument($content);
@@ -176,8 +184,15 @@ class Discussion
 
         $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
 
-        $topic_id   = (string)$topic_id;
-        $comment_id = (string)$comment_id;
+        $argv = [
+            'topic_id' => &$topic_id,
+            'comment_id' => &$comment_id
+        ];
+
+        \VJ\Validator::filter($argv, [
+            'topic_id' => 'trim',
+            'comment_id' => 'trim'
+        ]);
 
         // Get the comment
         $record = $mongo->Discussion->findOne(
@@ -220,18 +235,28 @@ class Discussion
         $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
-        $topic_id   = (string)$topic_id;
-        $comment_id = (string)$comment_id;
-        $content    = (string)$content;
-
         global $__CONFIG, $_UID;
 
-        if (Utils::len($content) < $__CONFIG->Discussion->contentMin) {
-            return I::error('CONTENT_TOOSHORT', $__CONFIG->Discussion->contentMin);
-        }
+        $argv = [
+            'topic_id' => &$topic_id,
+            'comment_id' => &$comment_id,
+            'content' => &$content
+        ];
 
-        if (Utils::len($content) > $__CONFIG->Discussion->contentMax) {
-            return I::error('CONTENT_TOOLONG', $__CONFIG->Discussion->contentMax);
+        \VJ\Validator::filter($argv, [
+            'topic_id' => 'trim',
+            'comment_id' => 'trim',
+            'content'  => 'trim'
+        ]);
+
+        $validateResult = \VJ\Validator::validate($argv, [
+            'content' => [
+                'contentlength' => [$__CONFIG->Discussion->contentMin, $__CONFIG->Discussion->contentMax]
+            ]
+        ]);
+
+        if ($validateResult !== true) {
+            return $validateResult;
         }
 
         // Get the comment
@@ -299,10 +324,17 @@ class Discussion
         $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
-        $topic_id   = (string)$topic_id;
-        $comment_id = (string)$comment_id;
-
         global $_UID;
+
+        $argv = [
+            'topic_id' => &$topic_id,
+            'comment_id' => &$comment_id
+        ];
+
+        \VJ\Validator::filter($argv, [
+            'topic_id' => 'trim',
+            'comment_id' => 'trim'
+        ]);
 
         // Get the comment
         $record = $mongo->Discussion->findOne(
@@ -376,26 +408,35 @@ class Discussion
         $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
-        $topic_id   = (string)$topic_id;
-        $comment_id = (string)$comment_id;
-        $content    = (string)$content;
-
         global $__CONFIG, $_UID;
-
-        if (strlen($topic_id) > 50) {
-            return I::error('ARGUMENT_TOO_LONG', 'topic_id', 50);
-        }
 
         if (!$acl->has(PRIV_DISCUSSION_REPLY_COMMENT)) {
             return I::error('NO_PRIV', 'PRIV_DISCUSSION_REPLY_COMMENT');
         }
 
-        if (Utils::len($content) < $__CONFIG->Discussion->contentMin) {
-            return I::error('CONTENT_TOOSHORT', $__CONFIG->Discussion->contentMin);
-        }
+        $argv = [
+            'topic_id' => &$topic_id,
+            'comment_id' => &$comment_id,
+            'content' => &$content
+        ];
 
-        if (Utils::len($content) > $__CONFIG->Discussion->contentMax) {
-            return I::error('CONTENT_TOOLONG', $__CONFIG->Discussion->contentMax);
+        \VJ\Validator::filter($argv, [
+            'topic_id' => 'trim',
+            'comment_id' => 'trim',
+            'content'  => 'trim'
+        ]);
+
+        $validateResult = \VJ\Validator::validate($argv, [
+            'topic_id' => [
+                'length' => [0, 50]
+            ],
+            'content' => [
+                'contentlength' => [$__CONFIG->Discussion->contentMin, $__CONFIG->Discussion->contentMax]
+            ]
+        ]);
+
+        if ($validateResult !== true) {
+            return $validateResult;
         }
 
         $document = self::createReplyDocument($content);
@@ -442,9 +483,17 @@ class Discussion
 
         $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
 
-        $topic_id   = (string)$topic_id;
-        $comment_id = (string)$comment_id;
-        $reply_id   = (string)$reply_id;]
+        $argv = [
+            'topic_id' => &$topic_id,
+            'comment_id' => &$comment_id,
+            'reply_id' => &$reply_id
+        ];
+
+        \VJ\Validator::filter($argv, [
+            'topic_id' => 'trim',
+            'comment_id' => 'trim',
+            'reply_id' => 'trim'
+        ]);
 
         // Get the comment
         $record = $mongo->Discussion->findOne(
@@ -500,19 +549,30 @@ class Discussion
         $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
-        $topic_id   = (string)$topic_id;
-        $comment_id = (string)$comment_id;
-        $reply_id   = (string)$reply_id;
-        $content    = (string)$content;
-
         global $__CONFIG, $_UID;
 
-        if (Utils::len($content) < $__CONFIG->Discussion->contentMin) {
-            return I::error('CONTENT_TOOSHORT', $__CONFIG->Discussion->contentMin);
-        }
+        $argv = [
+            'topic_id' => &$topic_id,
+            'comment_id' => &$comment_id,
+            'reply_id' => &$reply_id,
+            'content' => &$content
+        ];
 
-        if (Utils::len($content) > $__CONFIG->Discussion->contentMax) {
-            return I::error('CONTENT_TOOLONG', $__CONFIG->Discussion->contentMax);
+        \VJ\Validator::filter($argv, [
+            'topic_id' => 'trim',
+            'comment_id' => 'trim',
+            'reply_id' => 'trim',
+            'content'  => 'trim'
+        ]);
+
+        $validateResult = \VJ\Validator::validate($argv, [
+            'content' => [
+                'contentlength' => [$__CONFIG->Discussion->contentMin, $__CONFIG->Discussion->contentMax]
+            ]
+        ]);
+
+        if ($validateResult !== true) {
+            return $validateResult;
         }
 
         // Get the comment
@@ -595,11 +655,19 @@ class Discussion
         $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
-        $topic_id   = (string)$topic_id;
-        $comment_id = (string)$comment_id;
-        $reply_id   = (string)$reply_id;
-
         global $_UID;
+
+        $argv = [
+            'topic_id' => &$topic_id,
+            'comment_id' => &$comment_id,
+            'reply_id' => &$reply_id
+        ];
+
+        \VJ\Validator::filter($argv, [
+            'topic_id' => 'trim',
+            'comment_id' => 'trim',
+            'reply_id' => 'trim'
+        ]);
 
         // Get the comment
         $record = $mongo->Discussion->findOne(

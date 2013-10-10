@@ -62,6 +62,7 @@ class Validator
                         break;
 
                     case 'length':
+                    case 'contentlength':
 
                         if ($ruleValue[0] == null) {
                             $ruleValue[0] = (int)(PHP_INT_MAX + 1);
@@ -72,8 +73,18 @@ class Validator
 
                         $length = Utils::len($value);
 
-                        if ((int)$length < $ruleValue[0] || (int)$length > $ruleValue[1]) {
-                            return I::error('ARGUMENT_INVALID', $key);
+                        if ($length < $ruleValue[0]) {
+                            if ($ruleName == 'length') {
+                                return I::error('ARGUMENT_INVALID', $key);
+                            } else {
+                                return I::error('CONTENT_TOOSHORT', $ruleValue[0]);
+                            }
+                        } else if ($length > $ruleValue[1]) {
+                            if ($ruleName == 'length') {
+                                return I::error('ARGUMENT_INVALID', $key);
+                            } else {
+                                return I::error('CONTENT_TOOLONG', $ruleValue[1]);
+                            }
                         }
 
                         break;
@@ -102,16 +113,12 @@ class Validator
      * @param $data
      * @param $rules
      *
-     * @return array
+     * @return bool
      */
     public static function filter($data, $rules)
     {
 
-        $ret = [];
-
         foreach ($rules as $key => $_rule) {
-
-            $ret[$key] = $data[$key];
 
             if (!is_array($_rule)) {
                 $_rule = [$_rule];
@@ -122,27 +129,27 @@ class Validator
                 switch ($rule) {
 
                     case 'int':
-                        $ret[$key] = (int)$ret[$key];
+                        $data[$key] = (int)$data[$key];
                         break;
 
                     case 'string':
-                        $ret[$key] = (string)$ret[$key];
+                        $data[$key] = (string)$data[$key];
                         break;
 
                     case 'html':
-                        $ret[$key] = \VJ\Escaper::html($ret[$key]);
+                        $data[$key] = \VJ\Escaper::html($data[$key]);
                         break;
 
                     case 'trim':
-                        $ret[$key] = trim($ret[$key]);
+                        $data[$key] = trim($data[$key]);
                         break;
 
                     case 'lower':
-                        $ret[$key] = strtolower($ret[$key]);
+                        $ret[$key] = strtolower($data[$key]);
                         break;
 
                     case 'upper':
-                        $ret[$key] = strtoupper($ret[$key]);
+                        $data[$key] = strtoupper($data[$key]);
                         break;
 
                 }
@@ -151,7 +158,7 @@ class Validator
 
         }
 
-        return $ret;
+        return true;
 
     }
 
