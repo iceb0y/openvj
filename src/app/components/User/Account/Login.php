@@ -234,7 +234,8 @@ class Login
         \VJ\Security\CSRF::initToken();
         \VJ\Security\Session::initCharacter();
 
-        $data = \VJ\Validator::filter((array)$u, [
+        $data = (array)$u;
+        \VJ\Validator::filter($data, [
 
             'uid'      => 'int',
             'nick'     => null,

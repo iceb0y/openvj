@@ -152,13 +152,13 @@ class Register
         }
 
         $data = [
-            'username' => $username,
-            'password' => $password,
-            'nickname' => $nickname,
-            'gender'   => $gender
+            'username' => &$username,
+            'password' => &$password,
+            'nickname' => &$nickname,
+            'gender'   => &$gender
         ];
 
-        $data = \VJ\Validator::filter($data, [
+        \VJ\Validator::filter($data, [
             'username' => ['trim', 'lower'],
             'password' => 'string',
             'nickname' => 'trim',
@@ -185,12 +185,12 @@ class Register
         }
 
         // Exists?
-        if (\VJ\User\Account::usernameExists($data['username'])) {
-            return I::error('USED', 'username', $data['username']);
+        if (\VJ\User\Account::usernameExists($username)) {
+            return I::error('USED', 'username', $username);
         }
 
-        if (\VJ\User\Account::nicknameExists($data['nickname'])) {
-            return I::error('USED', 'nickname', $data['nickname']);
+        if (\VJ\User\Account::nicknameExists($nickname)) {
+            return I::error('USED', 'nickname', $nickname);
         }
 
         // Check session
@@ -228,7 +228,7 @@ class Register
 
         // Begin
         $salt = \VJ\Security\Randomizer::toHex(30);
-        $pass = \VJ\User\Account::makeHash($data['password'], $salt);
+        $pass = \VJ\User\Account::makeHash($password, $salt);
 
         if (isset($options['uid'])) {
             $uid = (int)$options['uid'];
@@ -238,9 +238,9 @@ class Register
 
         $user           = new Models\User();
         $user->uid      = $uid;
-        $user->luser    = $data['username'];
-        $user->nick     = $data['nickname'];
-        $user->lnick    = strtolower($data['nickname']);
+        $user->luser    = $username;
+        $user->nick     = $nickname;
+        $user->lnick    = strtolower($nickname);
         $user->salt     = $salt;
         $user->pass     = $pass;
         $user->passfmt  = 1; //password format 1
@@ -251,7 +251,7 @@ class Register
         $user->rank     = 0;
         $user->g        = $mail; //gravatar
         $user->gmd5     = md5($mail);
-        $user->gender   = $data['gender'];
+        $user->gender   = $gender;
         $user->tlogin   = time();
         $user->iplogin  = '';
         $user->treg     = time();
