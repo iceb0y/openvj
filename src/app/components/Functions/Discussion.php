@@ -311,6 +311,11 @@ class Discussion
             ]
         );
 
+        // delete votes
+        foreach ($comment_target['r'] as $reply) {
+            \VJ\Functions\Vote::_deleteEntity($reply['vote_id']);
+        }
+
         return true;
     }
 
@@ -561,6 +566,9 @@ class Discussion
             ]
         );
 
+        // delete votes
+        \VJ\Functions\Vote::_deleteEntity($reply_target['vote_id']);
+
         return true;
     }
 
@@ -576,7 +584,7 @@ class Discussion
 
         global $_UID;
 
-        return [
+        $doc = [
 
             '_id'  => uniqid(),
             'uid'  => $_UID,
@@ -586,6 +594,10 @@ class Discussion
             'xtra' => new \stdClass(),
 
         ];
+
+        $doc['vote_id'] = 'dcz_'.$doc['_id'];
+
+        return $doc;
 
     }
 

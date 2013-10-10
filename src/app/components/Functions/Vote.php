@@ -15,7 +15,7 @@ class Vote
     private static $emptyVoteModel = ['up_count' => 0, 'down_count' => 0];
 
     /**
-     * 获取投票内容
+     * 获取评价内容
      *
      * @param int $vote_id
      *
@@ -43,6 +43,13 @@ class Vote
 
     }
 
+    /**
+     * 批量获取评价内容
+     *
+     * @param $vidList
+     *
+     * @return array
+     */
     public static function getArray($vidList)
     {
 
@@ -161,6 +168,29 @@ class Vote
             ['_id' => $vote_id],
             $updater,
             ['upsert' => true]
+        );
+
+        return ($result['n'] === 1);
+
+    }
+
+    /**
+     * 删除整个评价数据，不单独被调用
+     * [不检查权限]
+     *
+     * @param $vote_id
+     *
+     * @return bool
+     */
+    public static function _deleteEntity($vote_id)
+    {
+
+        $vote_id  = (string)$vote_id;
+        $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
+
+        $result = $mongo->Vote->remove(
+            ['_id' => $vote_id],
+            ['justOne' => true]
         );
 
         return ($result['n'] === 1);
