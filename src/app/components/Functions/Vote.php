@@ -7,8 +7,12 @@ use \VJ\I;
 class Vote
 {
 
-    const ATTITUDE_UP = 0;
+    const ATTITUDE_UP   = 0;
     const ATTITUDE_DOWN = 1;
+
+    const _QUERY_MAX_CHUNK = 30;
+
+    private static $emptyVoteModel = ['up_count' => 0, 'down_count' => 0];
 
     /**
      * 获取投票内容
@@ -28,18 +32,54 @@ class Vote
             ['upc' => 1, 'dnc' => 1]
         );
 
-        $result = [
-            'up_count'      => 0,
-            'down_count'    => 0
-        ];
+        $result = self::$emptyVoteModel;
 
         if ($record != null) {
-            $result['up_count'] = $record['upc'];
+            $result['up_count']   = $record['upc'];
             $result['down_count'] = $record['dnc'];
         }
 
         return $result;
 
+    }
+
+    public static function getArray($vidList)
+    {
+
+        $vidList  = array_map('strval', $vidList);
+        $vidLists = array_chunk($vidList, self::_QUERY_MAX_CHUNK);
+
+        $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
+
+        $result = [];
+
+        // Separate into many chunks.
+        foreach ($vidLists as $list) {
+
+            $cursor = $mongo->Vote->find(
+                ['_id' => ['$in' => $list]],
+                ['upc' => 1, 'dnc' => 1]
+            );
+
+            foreach ($cursor as $vote) {
+                $result[$vote['_id']] = [
+                    'up_count'   => $vote['upc'],
+                    'down_count' => $vote['dnc']
+                ];
+            }
+
+        }
+
+        // Fill missing data
+        foreach ($vidList as $vid) {
+
+            if (!isset($result[$vid])) {
+                $result[$vid] = self::$emptyVoteModel;
+            }
+
+        }
+
+        return $result;
     }
 
     /**
@@ -59,7 +99,7 @@ class Vote
         $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
-        $vote_id = (string)$vote_id;
+        $vote_id  = (string)$vote_id;
         $attitude = (int)$attitude;
 
         if (strlen($vote_id) > 50) {
@@ -90,18 +130,18 @@ class Vote
 
             if ($attitude === self::ATTITUDE_UP) {
                 $updater['$set']['up.'.$_UID] = time();
-                $updater['$inc']['upc'] = 1;
+                $updater['$inc']['upc']       = 1;
             } else {
                 $updater['$set']['dn.'.$_UID] = time();
-                $updater['$inc']['dnc'] = 1;
+                $updater['$inc']['dnc']       = 1;
             }
 
         } else {
 
             $updater = [
                 '$set' => [
-                    'up' => new \stdClass(),
-                    'dn' => new \stdClass(),
+                    'up'  => new \stdClass(),
+                    'dn'  => new \stdClass(),
                     'upc' => 0,
                     'dnc' => 0
                 ]
@@ -109,10 +149,10 @@ class Vote
 
             if ($attitude === self::ATTITUDE_UP) {
                 $updater['$set']['up']->{$_UID} = time();
-                $updater['$set']['upc'] = 1;
+                $updater['$set']['upc']         = 1;
             } else {
                 $updater['$set']['dn']->{$_UID} = time();
-                $updater['$set']['dnc'] = 1;
+                $updater['$set']['dnc']         = 1;
             }
 
         }
