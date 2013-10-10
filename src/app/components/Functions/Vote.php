@@ -100,25 +100,37 @@ class Vote
     public static function vote($vote_id, $attitude)
     {
 
-        global $_UID;
-
         $di    = \Phalcon\DI::getDefault();
         $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
-        $vote_id  = (string)$vote_id;
-        $attitude = (int)$attitude;
-
-        if (strlen($vote_id) > 50) {
-            return I::error('ARGUMENT_TOO_LONG', 'vote_id', 50);
-        }
-
-        if ($attitude !== self::ATTITUDE_UP && $attitude !== self::ATTITUDE_DOWN) {
-            return I::error('ARGUMENT_INVALID', 'attitude');
-        }
+        global $_UID;
 
         if (!$acl->has(PRIV_VOTE)) {
             return I::error('NO_PRIV', 'PRIV_VOTE');
+        }
+
+        $argv = [
+            'vote_id' => &$vote_id,
+            'attitude' => &$attitude
+        ];
+
+        \VJ\Validator::filter($argv, [
+            'vote_id' => 'trim',
+            'attitude' => 'int'
+        ]);
+
+        $validateResult = \VJ\Validator::validate($argv, [
+            'vote_id' => [
+                'length' => [0, 50]
+            ],
+            'attitude' => [
+                'in' => [self::ATTITUDE_UP, self::ATTITUDE_DOWN]
+            ]
+        ]);
+
+        if ($validateResult !== true) {
+            return $validateResult;
         }
 
         $record = $mongo->Vote->findOne(
