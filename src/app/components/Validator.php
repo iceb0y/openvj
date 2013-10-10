@@ -158,6 +158,13 @@ class Validator
 
         }
 
+        //unset not used members
+        foreach ($data as $key => &$value) {
+            if (!isset($rules[$key])) {
+                unset($data[$key]);
+            }
+        }
+
         return true;
 
     }
