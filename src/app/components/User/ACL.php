@@ -37,8 +37,8 @@ class ACL
 
         if ($this->acl == null) {
 
-            $mongo     = \Phalcon\DI::getDefault()->getShared('mongo');
-            $rec       = $mongo->System->findOne(['_id' => self::SYSTEM_ID_ACL]);
+            $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
+            $rec   = $mongo->System->findOne(['_id' => self::SYSTEM_ID_ACL]);
 
             if ($rec == null) {
                 throw new \Exception('ACL list not exist');

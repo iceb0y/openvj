@@ -18,7 +18,6 @@ class ContestController extends \VJ\Controller\Basic
         global $__CONFIG;
 
 
-
         $this->view->setVars([
             'PAGE_CLASS' => 'home',
             'TITLE'      => gettext('Home')

@@ -206,7 +206,7 @@ class Login
 
         global $__SESSION;
 
-        $acl = \Phalcon\DI::getDefault()->getShared('acl');
+        $acl     = \Phalcon\DI::getDefault()->getShared('acl');
         $acldata = $acl->merge(unserialize($u->acl), $u->group);
 
         // 检查该账号是否可登录

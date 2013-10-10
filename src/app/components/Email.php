@@ -23,9 +23,9 @@ class Email
         global $__CONFIG;
 
         $result = Bgservice::post('/mail/send', [
-            'receiver'  => $email,
-            'subject'   => $__CONFIG->Mail->subjectPrefix.$subject,
-            'body'      => $body
+            'receiver' => $email,
+            'subject'  => $__CONFIG->Mail->subjectPrefix.$subject,
+            'body'     => $body
         ]);
 
         if (I::isError($result)) {

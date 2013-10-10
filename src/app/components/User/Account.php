@@ -66,7 +66,7 @@ class Account
         $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
-        $uid   = (int)$uid;
+        $uid = (int)$uid;
 
         if ($permanent) {
 
@@ -112,7 +112,7 @@ class Account
         $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
-        $uid   = (int)$uid;
+        $uid = (int)$uid;
 
         if (!$acl->has(PRIV_USER_DELETE_FLAG)) {
             return I::error('NO_PRIV', 'PRIV_USER_DELETE_FLAG');
@@ -141,7 +141,7 @@ class Account
         $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
-        $uid   = (int)$uid;
+        $uid = (int)$uid;
 
         if (!$acl->has(PRIV_USER_BAN)) {
             return I::error('NO_PRIV', 'PRIV_USER_BAN');
@@ -170,7 +170,7 @@ class Account
         $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
-        $uid   = (int)$uid;
+        $uid = (int)$uid;
 
         if (!$acl->has(PRIV_USER_BAN)) {
             return I::error('NO_PRIV', 'PRIV_USER_BAN');
@@ -255,6 +255,7 @@ class Account
 
         if ($user) {
             $uid = (int)$user->uid;
+
             return true;
         } else {
             return false;
@@ -282,6 +283,7 @@ class Account
 
         if ($user) {
             $uid = (int)$user->uid;
+
             return true;
         } else {
             return false;

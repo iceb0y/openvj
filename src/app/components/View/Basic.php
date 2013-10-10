@@ -30,6 +30,7 @@ class Basic extends \Phalcon\Mvc\View
     public static function has_priv($priv)
     {
         $acl = \Phalcon\DI::getDefault()->getShared('acl');
+
         return $acl->has(constant('PRIV_'.$priv));
     }
 

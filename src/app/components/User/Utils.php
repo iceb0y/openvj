@@ -74,7 +74,7 @@ class Utils
     public static function getUserInfoArray($uidList)
     {
 
-        $uidList = array_map('intval', $uidList);
+        $uidList  = array_map('intval', $uidList);
         $uidLists = array_chunk($uidList, self::queryMaxChunk);
 
         $mongo = \Phalcon\DI::getDefault()->getShared('mongo');

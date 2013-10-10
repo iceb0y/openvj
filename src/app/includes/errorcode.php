@@ -10,7 +10,7 @@ const ERR_404 = 'Page not found';
 const ERR_CURL_ERROR = 'CURL error (%1$d): %2$s';
 
 const ERR_NOT_IMPLEMENTED = 'Not implemented';
-const ERR_NOT_FOUND = '%1$s not found';
+const ERR_NOT_FOUND       = '%1$s not found';
 
 const ERR_USED    = 'Your %1$s %2$s is already existed or in use, please try another';
 const ERR_EXPIRED = 'Operation is expired. Please retry.';
