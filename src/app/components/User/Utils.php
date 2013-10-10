@@ -7,10 +7,9 @@ use \VJ\Models;
 class Utils
 {
 
-    private static $userInfoFilter = ['_id' => 0, 'uid' => 1, 'nick' => 1, 'gmd5' => 1];
     private static $emptyUserModel = ['uid' => 1, 'nick' => '[Deleted]', 'gmd5' => '', 'flag_missing' => true];
 
-    const queryMaxChunk = 30;
+    const _QUERY_MAX_CHUNK = 30;
 
     /**
      * 根据登录用户名获取UID
@@ -53,7 +52,7 @@ class Utils
 
         $result = $mongo->User->findOne(
             ['uid' => $uid],
-            self::$userInfoFilter
+            ['_id' => 0, 'uid' => 1, 'nick' => 1, 'gmd5' => 1]
         );
 
         if ($result == null) {
@@ -75,7 +74,7 @@ class Utils
     {
 
         $uidList  = array_map('intval', $uidList);
-        $uidLists = array_chunk($uidList, self::queryMaxChunk);
+        $uidLists = array_chunk($uidList, self::_QUERY_MAX_CHUNK);
 
         $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
 
@@ -86,7 +85,7 @@ class Utils
 
             $cursor = $mongo->User->find(
                 ['uid' => ['$in' => $list]],
-                self::$userInfoFilter
+                ['_id' => 0, 'uid' => 1, 'nick' => 1, 'gmd5' => 1]
             );
 
             foreach ($cursor as $user) {

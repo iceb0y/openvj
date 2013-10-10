@@ -7,7 +7,7 @@ use \VJ\I;
 class Discussion
 {
 
-    const RECORDS_PER_PAGE = 80;
+    const RECORDS_PER_PAGE = 50;
 
     /**
      * 获取一个讨论主题的基本信息
