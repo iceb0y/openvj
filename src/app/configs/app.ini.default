@@ -37,7 +37,11 @@ ignoreGuest = true
 
 [Discussion]
 contentMin = 2
-contentMax = 4096
+contentMax = 20480
+
+[Topic]
+contentMin = 2
+contentMax = 40960
 
 [Register]
 validationTTL = 86400

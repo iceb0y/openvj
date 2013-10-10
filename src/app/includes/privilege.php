@@ -82,6 +82,7 @@ const PRIV_TOPIC_DELETE_SELF = 14002; //删除自己的话题
 const PRIV_TOPIC_DELETE_ANY = 14003; //删除任意话题
 const PRIV_TOPIC_MODIFY_SELF = 14004; //修改自己的话题
 const PRIV_TOPIC_MODIFY_ANY = 14005; //修改任意话题
+const PRIV_TOPIC_HIGHLIGHT = 14006; //高亮话题
 //题解
 const PRIV_SOLUTION = 14500; //题解总权限
 const PRIV_SOLUTION_CREATE = 14501; //创建题解
