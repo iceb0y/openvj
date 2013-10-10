@@ -103,12 +103,26 @@ class Topic
             }
         }
 
-        if (Utils::len($content) < $__CONFIG->Topic->contentMin) {
-            return I::error('CONTENT_TOOSHORT', $__CONFIG->Topic->contentMin);
-        }
+        $argv = [
+            'title' => &$title,
+            'content' => &$content,
+            'node' => &$node
+        ];
 
-        if (Utils::len($content) > $__CONFIG->Topic->contentMax) {
-            return I::error('CONTENT_TOOLONG', $__CONFIG->Topic->contentMax);
+        \VJ\Validator::filter($argv, [
+            'title' => 'html',
+            'content' => 'trim',
+            'node' => 'lower'
+        ]);
+
+        $validateResult = \VJ\Validator::validate($argv, [
+            'content' => [
+                'contentlength' => [$__CONFIG->Topic->contentMin, $__CONFIG->Topic->contentMax]
+            ]
+        ]);
+
+        if ($validateResult !== true) {
+            return $validateResult;
         }
 
         $node = self::queryNodeName($node);
