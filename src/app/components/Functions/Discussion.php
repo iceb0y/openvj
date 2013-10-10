@@ -164,6 +164,47 @@ class Discussion
     }
 
     /**
+     * 获取评论原始内容
+     *
+     * @param $topic_id
+     * @param $comment_id
+     *
+     * @return array|string
+     */
+    public static function getCommentContent($topic_id, $comment_id)
+    {
+
+        $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
+
+        $topic_id   = (string)$topic_id;
+        $comment_id = (string)$comment_id;
+
+        // Get the comment
+        $record = $mongo->Discussion->findOne(
+            ['_id' => $topic_id]
+        );
+
+        if ($record == null) {
+            return I::error('NOT_FOUND', 'topic');
+        }
+
+        $comment_target = null;
+        foreach ($record['r'] as &$comment) {
+            if ($comment['_id'] == $comment_id) {
+                $comment_target = & $comment;
+                break;
+            }
+        }
+
+        if ($comment_target == null) {
+            return I::error('NOT_FOUND', 'comment');
+        }
+
+        return gzuncompress($comment_target['md']);
+
+    }
+
+    /**
      * 修改评论
      *
      * @param $topic_id
@@ -388,6 +429,61 @@ class Discussion
     }
 
     /**
+     * 获取回复原始内容
+     *
+     * @param $topic_id
+     * @param $comment_id
+     * @param $reply_id
+     *
+     * @return array|string
+     */
+    public static function getReplyContent($topic_id, $comment_id, $reply_id)
+    {
+
+        $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
+
+        $topic_id   = (string)$topic_id;
+        $comment_id = (string)$comment_id;
+        $reply_id   = (string)$reply_id;]
+
+        // Get the comment
+        $record = $mongo->Discussion->findOne(
+            ['_id' => $topic_id]
+        );
+
+        if ($record == null) {
+            return I::error('NOT_FOUND', 'topic');
+        }
+
+        $comment_target = null;
+        foreach ($record['r'] as &$comment) {
+            if ($comment['_id'] == $comment_id) {
+                $comment_target = & $comment;
+                break;
+            }
+        }
+
+        if ($comment_target == null) {
+            return I::error('NOT_FOUND', 'comment');
+        }
+
+        // Get the reply
+        $reply_target = null;
+        foreach ($comment_target['r'] as &$reply) {
+            if ($reply['_id'] == $reply_id) {
+                $reply_target = & $reply;
+            }
+        }
+
+        if ($reply_target == null) {
+            return I::error('NOT_FOUND', 'reply');
+        }
+
+        return gzuncompress($reply_target['md']);
+
+    }
+
+    /**
      * 修改回复
      *
      * @param $topic_id
@@ -589,7 +685,7 @@ class Discussion
             '_id'  => uniqid(),
             'uid'  => $_UID,
             'time' => time(),
-            'md'   => $markdownContent,
+            'md'   => new \MongoBinData(gzcompress($markdownContent)),
             'text' => \VJ\Formatter\Markdown::parse($markdownContent),
             'xtra' => new \stdClass(),
 
@@ -618,7 +714,7 @@ class Discussion
 
             $keyPrefix.'muid'  => $_UID,
             $keyPrefix.'mtime' => time(),
-            $keyPrefix.'md'    => $markdownContent,
+            $keyPrefix.'md'    => new \MongoBinData(gzcompress($markdownContent)),
             $keyPrefix.'text'  => \VJ\Formatter\Markdown::parse($markdownContent)
 
         ];
