@@ -20,7 +20,7 @@ class DiscussionController extends \VJ\Controller\Basic
             return $this->raiseError($result);
         }
 
-        $result = \VJ\Functions\Discussion\Reply::toTopic($_POST['id'], $_POST['text']);
+        $result = \VJ\Functions\Discussion::replyTopic($_POST['id'], $_POST['text']);
 
         return $this->forwardAjax($result);
 
