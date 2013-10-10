@@ -1,10 +1,10 @@
 <?php
 
-namespace VJ\Functions\Discussion;
+namespace VJ\Functions;
 
 use \VJ\I;
 
-class Topic
+class Discussion
 {
 
     const RECORDS_PER_PAGE = 80;
