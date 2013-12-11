@@ -251,7 +251,7 @@ class Register
         $user->tlogin   = time();
         $user->iplogin  = '';
         $user->treg     = time();
-        $user->ipreg    = $_SERVER['REMOTE_ADDR'];
+        $user->ipreg    = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '0.0.0.0';
         $user->sig      = '';
         $user->sigm     = '';
         $user->group    = GROUP_USER;

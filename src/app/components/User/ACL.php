@@ -99,7 +99,7 @@ class ACL
         if ($uid !== null) {
 
             $u = Models\User::findFirst([
-                'conditions' => ['_id' => (int)$uid]
+                'conditions' => ['uid' => (int)$uid]
             ]);
 
             if ($u == false) {
