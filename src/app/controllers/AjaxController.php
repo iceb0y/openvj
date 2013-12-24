@@ -25,7 +25,7 @@ class AjaxController extends \VJ\Controller\Basic
         // This action should only be called from raiseError() / raise404()
 
         // Only accept forwarded calls
-        if ($this->view->AJAX_DATA == null) {
+        if ($this->view->AJAX_DATA === null) {
             return $this->raise404();
         }
 
@@ -37,7 +37,7 @@ class AjaxController extends \VJ\Controller\Basic
         // This action checks CSRF-token (NOTE: after code execution)
 
         // Only accept forwarded calls
-        if ($this->view->AJAX_DATA == null) {
+        if ($this->view->AJAX_DATA === null) {
             return $this->raise404();
         }
 
