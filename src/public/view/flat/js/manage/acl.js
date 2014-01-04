@@ -38,7 +38,7 @@
   };
 
   initACLRules = function() {
-    var gid, pid, root_pid, root_ptag, tag, value, _ACL_RULES, _results;
+    var gid, pid, root_pid, root_ptag, tag, value, _ACL_RULES, _ref, _results;
     _ACL_RULES = {};
     for (gid in ACL_GROUPS) {
       _ACL_RULES[gid] = {};
@@ -47,7 +47,7 @@
       value = ACL_PRIVTABLE[tag];
       pid = parseInt(value.v);
       for (gid in ACL_GROUPS) {
-        if (ACL_RULES[gid][pid] == null) {
+        if (((_ref = ACL_RULES[gid]) != null ? _ref[pid] : void 0) == null) {
           _ACL_RULES[gid][pid] = {
             i: true,
             v: false

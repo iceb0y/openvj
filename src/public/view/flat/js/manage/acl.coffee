@@ -39,7 +39,7 @@ initACLRules = ->
 
         for gid of ACL_GROUPS
 
-            if not ACL_RULES[gid][pid]?
+            if not ACL_RULES[gid]?[pid]?
                 _ACL_RULES[gid][pid] = {i: true, v: false} 
             else
                 _ACL_RULES[gid][pid] = {i: false, v: ACL_RULES[gid][pid]}
