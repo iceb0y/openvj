@@ -30,32 +30,22 @@ class Session
 
         }
 
+        if (!isset($_SERVER['HTTP_USER_AGENT'])) {
+
+            $_SERVER['HTTP_USER_AGENT'] = '';
+
+        }
+
         if (!isset($__SESSION['session-ua'])) {
 
-            if (isset($_SERVER['HTTP_USER_AGENT'])) {
+            $__SESSION['session-ua'] = $_SERVER['HTTP_USER_AGENT'];
 
-                $__SESSION['session-ua'] = $_SERVER['HTTP_USER_AGENT'];
+        } else if ($__SESSION['session-ua'] !== $_SERVER['HTTP_USER_AGENT']) {
 
-            } else {
+            echo 'Your User-Agent has changed. Please re-login.';
+            \VJ\Session\Utils::destroy();
 
-                $__SESSION['session-ua'] = '';
-
-            }
-
-        } else {
-
-            if (
-                !isset($_SERVER['HTTP_USER_AGENT']) && $__SESSION['session-ua'] !== ''
-                || isset($_SERVER['HTTP_USER_AGENT']) && $__SESSION['session-ua'] !== $_SERVER['HTTP_USER_AGENT']
-            )
-            {
-
-                echo 'Your User-Agent has changed. Please re-login.';
-                \VJ\Session\Utils::destroy();
-
-                exit();
-
-            }
+            exit();
 
         }
 
