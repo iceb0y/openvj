@@ -224,15 +224,10 @@ class ACL
         $rec   = $mongo->System->findOne(['_id' => self::SYSTEM_ID_ACL_RULES]);
         $acl_r = $rec['v'];
 
-        $result = '';
-        $result .= 'db.System.update('
-            .\VJ\Escaper::json(['_id' => self::SYSTEM_ID_ACL]).', '
-            .\VJ\Escaper::json(['$set' => ['v' => $acl]]).', '
-            .\VJ\Escaper::json(['upsert' => true]).');';
-        $result .= 'db.System.update('
-            .\VJ\Escaper::json(['_id' => self::SYSTEM_ID_ACL_RULES]).', '
-            .\VJ\Escaper::json(['$set' => ['v' => $acl_r]]).', '
-            .\VJ\Escaper::json(['upsert' => true]).');';
+        $result = \VJ\Escaper::json([
+            'acl'           => $acl,
+            'acl_rules'     => $acl_r
+        ]);
 
         return $result;
 
