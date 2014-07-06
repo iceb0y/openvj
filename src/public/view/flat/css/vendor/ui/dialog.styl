@@ -5,67 +5,67 @@
     //filter: blur(4px)
 
 .vj-dlg-layer
-    position    absolute
-    position    fixed
-    left        0
-    top         0
-    width       100%
-    height      100%
-    background  #000
-    opacity     0
-    z-index     5
-    transition          opacity .5s linear
-    pointer-events      none
+    position: absolute
+    position: fixed
+    left: 0
+    top: 0
+    width: 100%
+    height: 100%
+    background: #000
+    opacity: 0
+    z-index: 5
+    transition: opacity .5s linear
+    pointer-events: none
     &.show
-        opacity         0.4
-        pointer-events  all
+        opacity: 0.4
+        pointer-events: all
 
 .vj-dlg-wrap
-    position    absolute
-    left        0
-    top         0
-    width       100%
-    height      100%
-    overflow    hidden
+    position: absolute
+    left: 0
+    top: 0
+    width: 100%
+    height: 100%
+    overflow: hidden
 
 .vj-dlg
-    background  $dialog-bg-color
-    border-top  5px solid $dialog-title-color
-    box-shadow  0 0 10px rgba(0,0,0,0.3)
-    position    absolute
-    z-index     1
-    left        0
-    width       100%
-    opacity     0
-    transform           scale(1.1)
-    transition          opacity .2s ease-in-out, transform .2s ease-in-out
+    background: $dialog-bg-color
+    border-top: 5px solid $dialog-title-color
+    box-shadow: 0 0 10px rgba(0,0,0,0.3)
+    position: absolute
+    z-index: 1
+    left: 0
+    width: 100%
+    opacity: 0
+    transform: scale(1.1)
+    transition: opacity .2s ease-in-out, transform .2s ease-in-out
     &.show
-        opacity         1
-        transform       none
-        pointer-events  all
+        opacity: 1
+        transform: none
+        pointer-events: all
 
 .vj-dlg-title
-    background  $dialog-title-color
-    padding     10px 0 15px 0
-    color       $bg-color
-    margin      0
+    background: $dialog-title-color
+    padding: 10px 0 15px 0
+    color: $bg-color
+    margin: 0
 
 .vj-dlg-cont
-    padding     25px 0
-    line-height 1.5
+    padding: 25px 0
+    line-height: 1.5
 
 .vj-dlg-btn
-    background  $dialog-button-color
-    padding     10px 0
+    background: $dialog-button-color
+    padding: 10px 0
 
 .vj-dlg-ctr
-    width       700px
-    margin      0 auto
+    width: 700px
+    margin: 0 auto
 
 .vj-dlg-btn .vj-dlg-ctr
-    text-align  right
+    text-align: right
 
 .dialog-login label
-    display     inline-block
-    *display    inline
-    width       100px
+    display: inline-block
+    *display: inline
+    width: 100px

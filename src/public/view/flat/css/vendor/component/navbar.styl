@@ -1,35 +1,35 @@
 .cont-navbar
-    padding     20px 0
+    padding: 20px 0
 
 .cont-navbar-logo-a
-    width       220px
-    height      80px
-    display     block
-    background  url(../img/logo.png) no-repeat
+    width: 220px
+    height: 80px
+    display: block
+    background: url(../img/logo.png) no-repeat
 
 .cont-nav-li
-    float       left
-    margin-top  20px
-    line-height 40px
-    color       darkenT($bg-color, 40%)
+    float: left
+    margin-top: 20px
+    line-height: 40px
+    color: darkenT($bg-color, 40%)
 
 .cont-nav-devider
-    padding     0 10px
+    padding: 0 10px
 
 .cont-nav-a, .cont-nav-a:visited
-    font-size   1.2em
-    color       darkenT($bg-color, 40%)
-    font-weight 300
+    font-size: 1.2em
+    color: darkenT($bg-color, 40%)
+    font-weight: 300
 
 .cont-nav-a:hover
-    text-decoration none
+    text-decoration: none
 
 for $name, $color in $page-color
     .cont-nav-{$name}:hover
-        color   $color
+        color: $color
 
 .cont-nav-icon
-    padding-right 10px
+    padding-right: 10px
 
 @media(max-width:979px) {
 

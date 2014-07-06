@@ -1,39 +1,39 @@
 .cont-userbar
     
-    padding     10px
-    background  darkenT($bg-color, 2%)
+    padding: 10px
+    background: darkenT($bg-color, 2%)
     
-    font-size   0.85em
-    color       darkenT($bg-color, 30%)
+    font-size: 0.85em
+    color: darkenT($bg-color, 30%)
 
-    border-top  3px solid darkenT($bg-color, 10%)
+    border-top: 3px solid darkenT($bg-color, 10%)
 
-    position    relative
-    z-index     2
+    position: relative
+    z-index: 2
 
 .cont-userbar a, .cont-userbar a:visited
     
-    color       darkenT($bg-color, 30%)
+    color: darkenT($bg-color, 30%)
 
 a.userbar-link, a.userbar-link:visited, .userbar-link a, .userbar-link a:visited
 
-    color       darkenT($bg-color, 50%)
+    color: darkenT($bg-color, 50%)
 
 .cont-userbar a:hover, a.userbar-link:hover, .userbar-link a:hover
     
-    color       $link-color
-    text-decoration none
+    color: $link-color
+    text-decoration: none
 
 .cont-userbar .user-face
     
-    display     inline-block
-    margin      0 5px 2px 0
-    vertical-align middle
+    display: inline-block
+    margin: 0 5px 2px 0
+    vertical-align: middle
 
 .userbar-link
     
-    margin-left 15px
+    margin-left: 15px
 
 for $name, $color in $page-color
     #page_{$name} .cont-userbar
-        border-color   $color
+        border-color: $color
