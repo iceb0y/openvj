@@ -5,7 +5,6 @@ openvj-package.box
 Vagrantfile
 
 # Runtime
-!.gitkeep
 src/runtime/htmlpurifier_cache/*
 src/runtime/compiled_templates/*
 src/runtime/xdebug_profiler/*
@@ -32,3 +31,5 @@ node_modules/
 
 # Vim
 *~
+
+!.gitkeep
