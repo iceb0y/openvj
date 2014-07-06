@@ -12,6 +12,10 @@ http://veryi.com/w/651.html
 
 https://github.com/zendtech/ZendOptimizerPlus/
 
+### Composer
+
+http://getcomposer.org/download/
+
 ### Nginx+SPDY
 
 http://breeswish.org/blog/2013/08/20/centos6-nginx-spdy/
