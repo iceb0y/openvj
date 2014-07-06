@@ -24,9 +24,9 @@
 .cont-nav-a:hover
     text-decoration none
 
-for list in $page-color
-    .cont-nav-{list[0]}:hover
-        color   list[1]
+for $name, $color in $page-color
+    .cont-nav-{$name}:hover
+        color   $color
 
 .cont-nav-icon
     padding-right 10px

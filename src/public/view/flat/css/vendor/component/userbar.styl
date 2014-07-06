@@ -34,6 +34,6 @@ a.userbar-link, a.userbar-link:visited, .userbar-link a, .userbar-link a:visited
     
     margin-left 15px
 
-for list in $page-color
-    #page_{list[0]} .cont-userbar
-        border-color   list[1]
+for $name, $color in $page-color
+    #page_{$name} .cont-userbar
+        border-color   $color
