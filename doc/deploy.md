@@ -108,10 +108,6 @@ PPPS: Do not forget to update submodules when pulling openvj: `git submodule for
 
 - php-gettext (native extension)
 
-- php-bcmath (native extension)
-
-- php-gmp (native extension)
-
 - php-mongo 1.4+ (extension)
 
 - php-redis (extension)
