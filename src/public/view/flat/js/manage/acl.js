@@ -169,12 +169,12 @@
       return false;
     });
     return jQuery('#privTable').append(table);
+
     /*
     clonedDOM = jQuery(table).find('thead>tr').clone()
     frozenHeader = clonedDOM
     rearrangeFixedRows frozenHeader, jQuery(table).find('thead>tr'), jQuery('#freezing .thead')
-    */
-
+     */
   };
 
   adjustACLRules = function(e) {
@@ -364,6 +364,4 @@
 
 }).call(this);
 
-/*
-//@ sourceMappingURL=acl.js.map
-*/
+//# sourceMappingURL=acl.js.map

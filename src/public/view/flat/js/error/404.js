@@ -337,6 +337,4 @@
 
 }).call(this);
 
-/*
-//@ sourceMappingURL=404.js.map
-*/
+//# sourceMappingURL=404.js.map

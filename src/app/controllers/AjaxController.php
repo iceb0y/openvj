@@ -43,17 +43,4 @@ class AjaxController extends \VJ\Controller\Basic
 
     }
 
-    public function rsaAction()
-    {
-
-        global $__CONFIG;
-
-        $this->view->AJAX_DATA = [
-            'key'       => $__CONFIG->RSA->public,
-            'e'         => $__CONFIG->RSA->e,
-            'timestamp' => time()
-        ];
-
-    }
-
 }

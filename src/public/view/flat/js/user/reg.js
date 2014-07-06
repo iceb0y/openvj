@@ -153,6 +153,4 @@
 
 }).call(this);
 
-/*
-//@ sourceMappingURL=reg.js.map
-*/
+//# sourceMappingURL=reg.js.map

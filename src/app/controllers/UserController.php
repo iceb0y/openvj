@@ -133,28 +133,13 @@ class UserController extends \VJ\Controller\Basic
             return $this->raiseError($result);
         }
 
-        $result = \VJ\Validator::required($_POST, ['encrypted']);
+        $result = \VJ\Validator::required($_POST, ['user', 'pass']);
 
         if (I::isError($result)) {
             return $this->raiseError($result);
         }
 
-        global $__CONFIG;
-
-        // Decrypt data
-        $rsa = new Crypt_RSA();
-        $rsa->setEncryptionMode(CRYPT_RSA_ENCRYPTION_PKCS1);
-        $rsa->loadKey($__CONFIG->RSA->private, CRYPT_RSA_PRIVATE_FORMAT_PKCS1);
-        $s   = new Math_BigInteger($_POST['encrypted'], 16);
-        $msg = $rsa->decrypt($s->toBytes());
-        $msg = json_decode($msg, true);
-
-        // Timestamp validation: accpet 10s delay
-        if (abs(time() - (int)$msg['timestamp']) > 10) {
-            return $this->raiseError('EXPIRED');
-        }
-
-        $result = \VJ\User\Account\Login::fromPassword($msg['user'], $msg['pass']);
+        $result = \VJ\User\Account\Login::fromPassword($_POST['user'], $_POST['pass']);
 
         if (I::isError($result)) {
             return $this->raiseError($result);
