@@ -4,6 +4,6 @@
         "filp/whoops": "1.*",
         "phalcon/incubator": "dev-master",
         "gregwar/captcha": "dev-master",
-        "kzykhys/ciconia": "1.1.*@dev"
+        "breeswish/php-marked": "dev-master"
     }
 }
