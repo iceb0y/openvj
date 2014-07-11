@@ -17,6 +17,7 @@ class Session
             return;
         }
 
+        /*
         if (!isset($__SESSION['session-ip'])) {
 
             $__SESSION['session-ip'] = $_SERVER['REMOTE_ADDR'];
@@ -28,7 +29,7 @@ class Session
 
             exit();
 
-        }
+        }*/
 
         if (!isset($_SERVER['HTTP_USER_AGENT'])) {
 
