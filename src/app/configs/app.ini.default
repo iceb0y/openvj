@@ -6,8 +6,7 @@ redirectOldURI = true
 
 [Localization]
 timezone = "Asia/Shanghai"
-defaultDateFormat = "dS F,Y"
-defaultTimeFormat = "h:i:s A"
+defaultLanguage = "zh_CN"
 
 [Security]
 enforceSSL = true

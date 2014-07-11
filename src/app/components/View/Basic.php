@@ -17,7 +17,7 @@ class Basic extends \Phalcon\Mvc\View
     public static function i18n()
     {
         $argv = func_get_args();
-        $text = gettext($argv[0]);
+        $text = constant('I18N_'.$argv[0]);
 
         if (count($argv) > 1) {
             $argv[0] = $text;
@@ -51,7 +51,7 @@ class Basic extends \Phalcon\Mvc\View
         if (file_exists($fp)) {
             $mtime = filemtime(ROOT_DIR.'public/'.$file);
         } else {
-            $mtime = '0';
+            $mtime = '0x14CC27';
         }
 
         $output .= '?v='.$mtime;
