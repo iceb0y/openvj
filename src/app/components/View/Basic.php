@@ -7,11 +7,9 @@ class Basic extends \Phalcon\Mvc\View
 
     public function __construct($options = null)
     {
-
         parent::__construct($options);
 
         $this->registerEngines(['.volt' => 'VJ\RenderEngine\Volt']);
-
     }
 
     public static function i18n()
@@ -29,9 +27,7 @@ class Basic extends \Phalcon\Mvc\View
 
     public static function hasPriv($priv)
     {
-        $acl = \Phalcon\DI::getDefault()->getShared('acl');
-
-        return $acl->has(constant('PRIV_'.$priv));
+        return \VJ\User\ACL::has(constant($priv));
     }
 
     public static function template($res, $version = true)

@@ -28,6 +28,19 @@ class ACL
 
     }
 
+    public static function check($priv, $uid = null)
+    {
+        if (!self::has($priv, $uid)) {
+            throw new \VJ\Exception('ERR_NO_PRIV', $priv);
+        }
+    }
+
+    public static function has($priv, $uid = null)
+    {
+        $acl = \Phalcon\DI::getDefault()->getShared('acl');
+        return $acl->hasPriv($priv, $uid);
+    }
+
     public function __construct()
     {
 
@@ -89,7 +102,7 @@ class ACL
      *
      * @return bool
      */
-    public function has($priv, $uid = null)
+    public function hasPriv($priv, $uid = null)
     {
 
         if (defined('OPENVJ_ACL_DISABLE')) {
