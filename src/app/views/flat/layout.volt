@@ -1,4 +1,4 @@
-{{ get_doctype() }}
+<!DOCTYPE html>
 {% block predefine %}{% endblock %}
 <html xmlns="http://www.w3.org/1999/xhtml" class="page_{{ PAGE_CLASS }}{% if STYLE_WIDE is defined %} page_widescreen{% endif %}">
 <head>
@@ -20,11 +20,8 @@ if(top.location!==self.location){top.location=self.location}else{if(top!==self){
 })(window);
 //]]>
 </script>
-<link href="{{ view_static('css/base.css') }}" rel="stylesheet" type="text/css" charset="UTF-8" />
-<link href="{{ view_static('css/page.css') }}" rel="stylesheet" type="text/css" charset="UTF-8" />
-{% if EXT_CSS is defined %}{% for PATH, IS_BASE in EXT_CSS %}
-<link href="{{ view_static(PATH, IS_BASE) }}" rel="stylesheet" type="text/css" charset="UTF-8" />
-{% endfor %}{% endif %}
+<link href="{{ template('css/base.css') }}" rel="stylesheet" type="text/css" charset="UTF-8" />
+<link href="{{ template('css/page.css') }}" rel="stylesheet" type="text/css" charset="UTF-8" />
 </head>
 <body>
 <div id="container" class="vj-dlg-under">
@@ -35,13 +32,11 @@ if(top.location!==self.location){top.location=self.location}else{if(top!==self){
 </div>
 </div>
 {% include "vendor/footer.volt" %}
-<script type="text/javascript" src="{{ view_static('lib/jquery/jquery-1.10.2.min.js', true) }}" charset="UTF-8"></script>
-<script type="text/javascript" src="{{ view_static('lib/vijos-ext/vijos-ext.js', true) }}" charset="UTF-8"></script>
-<script type="text/javascript" src="{{ view_static('lib/vijos-ext/vijos.js', true) }}" charset="UTF-8"></script>
-<script type="text/javascript" src="{{ view_static('i18n/zh_CN.js', true) }}" charset="UTF-8"></script>
-{% if EXT_JS is defined %}{% for PATH, IS_BASE in EXT_JS %}
-<script type="text/javascript" src="{{ view_static(PATH, IS_BASE) }}" charset="UTF-8"></script>
-{% endfor %}{% endif %}
+<script type="text/javascript" src="{{ asset('lib/bower_components/requirejs/require.js') }}" charset="UTF-8"></script>
+<script type="text/javascript">
+require.config({ baseUrl: {{ asset('lib', false)|json }} });
+</script>
+<script type="text/javascript" src="{{ asset('lib/require-config.js') }}" charset="UTF-8"></script>
 {% block footer %}{% endblock %}
 </body>
 </html>
