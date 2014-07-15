@@ -139,7 +139,7 @@ class Vote
 
             if (isset($record['up'][$_UID]) || isset($record['dn'][$_UID])) {
                 // already voted
-                return I::error('VOTE_VOTED');
+                throw new \VJ\Exception('ERR_VOTE_VOTED');
             }
 
             $updater = ['$set' => [], '$inc' => []];

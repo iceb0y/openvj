@@ -76,10 +76,6 @@ class Register
             ]
         );
 
-//        if (!I::isError($result)) {
-//            $result = true;
-//        }
-
         return true;
     }
 

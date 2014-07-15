@@ -53,9 +53,7 @@ class Login
         // Session expired?
         if (time() > $sess->exptime->sec) {
             $sess->delete();
-
 			throw new \VJ\Exception('ERR_FAILED');
-           // return I::error('FAILED');
         }
 
         $u = Models\User::findFirst([

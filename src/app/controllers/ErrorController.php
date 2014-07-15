@@ -12,6 +12,7 @@ class ErrorController extends \VJ\Controller\Basic
         if (Utils::isAjax()) {
 
             if ($this->dispatcher->getActionName() == 'show404') {
+                // TODO
                 $this->view->ERROR_OBJECT = I::error('404');
             }
 

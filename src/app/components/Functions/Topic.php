@@ -119,7 +119,7 @@ class Topic
         $node = self::queryNodeName($node);
 
         if ($node === false) {
-            return I::error('NOT_FOUND', 'node');
+            throw new \VJ\Exception('ERR_NOT_FOUND', 'node');
         }
 
         $nodel = strtolower($node);

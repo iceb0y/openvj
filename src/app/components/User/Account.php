@@ -25,13 +25,13 @@ class Account
             ) {
                 // Saved-session exists
 
-                if (
-                I::isError(\VJ\User\Account\Login::fromCookie(
-                    $_COOKIE['VJ_SESSION_TOKEN'],
-                    $_COOKIE['VJ_SESSION_UID'],
-                    $_COOKIE['VJ_SESSION_KEY']
-                ))
-                ) {
+                try {
+                    \VJ\User\Account\Login::fromCookie(
+                        $_COOKIE['VJ_SESSION_TOKEN'],
+                        $_COOKIE['VJ_SESSION_UID'],
+                        $_COOKIE['VJ_SESSION_KEY']
+                    );
+                } catch (\VJ\Exception $e) {
                     \VJ\User\Account\Login::guest();
                 }
 
