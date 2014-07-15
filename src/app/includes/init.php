@@ -36,6 +36,10 @@ require APP_DIR.'vendor/autoload.php';
 
 if (PHP_SAPI !== 'cli') {
 
+    if ($__CONFIG->Compatibility->redirectOldURI) {
+        \VJ\Compatibility::redirectOldURI();
+    }
+
     // Headers
     header('X-Frame-Options: SAMEORIGIN');
     header('Content-Type: text/html;charset=utf-8');
@@ -44,18 +48,12 @@ if (PHP_SAPI !== 'cli') {
 
     //===========================================================================
     // Check whether the requested hostname is in the allowed host list, which is
-    // defined in define/global.php. If not, generate a HTTP 403 error
+    // defined in config file. If not, generate a HTTP 403 error
     if ($__CONFIG->Security->checkHost && !in_array(ENV_HOST, (array)$__CONFIG->Security->allowedHosts)) {
         header('HTTP/1.1 403 Forbidden', true, 403);
         exit('Bad Request: Header field "host" is invalid.');
     }
     //===========================================================================
-
-
-    if ($__CONFIG->Compatibility->redirectOldURI) {
-        \VJ\Compatibility::redirectOldURI();
-    }
-
 
     // Template
     global $__TEMPLATE_NAME;
@@ -77,20 +75,27 @@ if (!$__CONFIG->Debug->enabled) {
 }
 
 
-// Set timezone and datetime locale
-global $__DATE_FORMAT, $__TIME_FORMAT;
-
-date_default_timezone_set($__CONFIG->Localization->timezone);
-
-$__DATE_FORMAT = $__CONFIG->Localization->defaultDateFormat;
-$__TIME_FORMAT = $__CONFIG->Localization->defaultTimeFormat;
-
-
 // Using UTF-8 as default mbstring encoding
 mb_internal_encoding('UTF-8');
 
 
 // I18N
+date_default_timezone_set($__CONFIG->Localization->timezone);
+global $__LANG, $__LANG_DEFAULT;
+$__LANG_DEFAULT = $__CONFIG->Localization->defaultLanguage;
+$__LANG = $__LANG_DEFAULT;
+\VJ\I18N::detectLanguage();
+\VJ\I18N::loadLanguage();
+
+
+// Set timezone and datetime locale
+global $__DATE_FORMAT, $__TIME_FORMAT;
+
+$__DATE_FORMAT = I18N_DATE_FORMAT;
+$__TIME_FORMAT = I18N_TIME_FORMAT;
+
+
+// I18N (deprecated)
 setlocale(LC_ALL, 'zh_CN.UTF-8');
 bindtextdomain('vijos', APP_DIR.'i18n');
 textdomain('vijos');
