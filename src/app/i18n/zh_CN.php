@@ -20,7 +20,6 @@ const I18N_ERR_NOT_FOUND       = '%1$s not found';
 const I18N_ERR_USED    = 'Your %1$s %2$s is already existed or in use, please try another';
 const I18N_ERR_EXPIRED = 'Operation is expired. Please retry.';
 
-const I18N_ERR_NO_PRIV        = 'You do not have the privilege (%1$s) to perform this action';
 const I18N_ERR_USER_BANNED    = 'The account is banned';
 const I18N_ERR_PASSWORD_WRONG = 'The password you entered is incorrect';
 const I18N_ERR_FAILED         = 'Operation failed';
