@@ -52,36 +52,27 @@ class ManageController extends \VJ\Controller\Basic
     public function aclAction()
     {
 
-        if ($this->request->isPost() === true) {
+		try {
 
-            $result = \VJ\Security\CSRF::checkToken();
+			if ($this->request->isPost() === true) {
 
-            if (I::isError($result)) {
-                return $this->raiseError($result);
-            }
+				\VJ\Security\CSRF::checkToken();
 
-            $result = \VJ\Validator::required($_POST, ['acl', 'acl_rule']);
+				\VJ\Validator::required($_POST, ['acl', 'acl_rule']);
 
-            if (\VJ\I::isError($result)) {
-                return $this->raiseError($result);
-            }
+				$result = \VJ\User\ACL::save(
+					json_decode($_POST['acl'], true),
+					json_decode($_POST['acl_rule'], true)
+				);
 
-            $result = \VJ\User\ACL::save(
-                json_decode($_POST['acl'], true),
-                json_decode($_POST['acl_rule'], true)
-            );
+				$this->forwardAjax($result);
 
-            $this->forwardAjax($result);
+			} else {
 
-        } else {
+				if (isset($_GET['export'])) {
 
-            if (isset($_GET['export'])) {
+					\VJ\Security\CSRF::checkToken();
 
-                $result = \VJ\Security\CSRF::checkToken();
-
-                if (I::isError($result)) {
-                    return $this->raiseError($result);
-                }
 
                 $this->view->disable();
 
@@ -109,11 +100,13 @@ class ManageController extends \VJ\Controller\Basic
                     'ACL_PRIVTREE'  => $privTree,
                     'ACL_RULES'     => $aclRules,
                     'ACL_GROUPS'    => $__GROUPS
-                ]);
-
-            }
-        }
-    }
+				]);
+			}
+			}
+		} catch (\VJ\Ex $e) {
+			return $this->raiseError(I::error($e->getArgs()));
+		}
+	}
 
     public function indexAction()
     {

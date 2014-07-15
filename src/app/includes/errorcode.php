@@ -29,3 +29,6 @@ const ERR_VOTE_VOTED = 'You have already voted';
 const ERR_REG_ACCEPT_NEEDED       = 'You must accept the agreement';
 const ERR_REG_VERFICATION_FAILED  = 'Your verfication code is invalid';
 const ERR_REG_VERFICATION_EXPIRED = 'Your verfication has expired';
+
+const ERR_TOKEN_UNSET = 'Token has not been set';
+const ERR_TOKEN_INVALID = 'Token is invalid';

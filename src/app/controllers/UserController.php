@@ -8,105 +8,93 @@ class UserController extends \VJ\Controller\Basic
     public function registerAction()
     {
 
-        if ($this->request->isPost() === true) {
+		try {
 
-            // Check TOKENs
+			if ($this->request->isPost() === true) {
 
-            $result = \VJ\Security\CSRF::checkToken();
+				// Check TOKENs
 
-            if (I::isError($result)) {
-                return $this->raiseError($result);
-            }
+				\VJ\Security\CSRF::checkToken();
 
-            if (!isset($_POST['user'])) {
+				if (!isset($_POST['user'])) {
 
-                // STEP1: Mail validation
+					// STEP1: Mail validation
 
-                $result = \VJ\Validator::required($_POST, ['email']);
+					\VJ\Validator::required($_POST, ['email']);
 
-                if (I::isError($result)) {
-                    return $this->raiseError($result);
-                }
+					$result = \VJ\User\Account\Register::sendVerificationEmail($_POST['email']);
 
-                $result = \VJ\User\Account\Register::sendVerificationEmail($_POST['email']);
-
-                return $this->forwardAjax($result);
+					return $this->forwardAjax($result);
 
 
-            } else {
+				} else {
 
-                // STEP2: Sign up
+					// STEP2: Sign up
 
-                $result = \VJ\Validator::required(
-                    $_POST,
-                    ['user', 'pass', 'nick', 'gender', 'agreement', 'email', 'code']
-                );
+					\VJ\Validator::required(
+						$_POST,
+						['user', 'pass', 'nick', 'gender', 'agreement', 'email', 'code']
+					);
 
-                if (I::isError($result)) {
-                    return $this->raiseError($result);
-                }
-
-                $result = \VJ\User\Account\Register::register(
-                    $_POST['user'],
+					$result = \VJ\User\Account\Register::register(
+						$_POST['user'],
                     $_POST['pass'],
                     $_POST['nick'],
                     $_POST['gender'],
                     $_POST['agreement'],
                     [
                         'email' => $_POST['email'],
-                        'code'  => $_POST['code']
-                    ]
-                );
+						'code'  => $_POST['code']
+					]
+				);
 
-                if (I::isError($result)) {
-                    return $this->raiseError($result);
-                }
 
-                // Prepare Git repository
-                \VJ\Git\Repository::create('uid_'.$result['uid']);
+					// Prepare Git repository
+					\VJ\Git\Repository::create('uid_'.$result['uid']);
 
-                // Log in immediately
-                $result = \VJ\User\Account\Login::fromPassword($_POST['user'], $_POST['pass']);
+					// Log in immediately
+					$result = \VJ\User\Account\Login::fromPassword($_POST['user'], $_POST['pass']);
 
-                if (I::isError($result)) {
-                    return $this->raiseError($result);
-                }
 
-                $result = \VJ\User\Account\Login::user($result);
+					$result = \VJ\User\Account\Login::user($result);
 
-                return $this->forwardAjax($result);
+					return $this->forwardAjax($result);
 
-            }
+				}
 
-        } else {
+			} else {
 
-            $this->view->setVars([
-                'PAGE_CLASS' => 'user_reg',
-                'TITLE'      => gettext('Register')
-            ]);
+				$this->view->setVars([
+					'PAGE_CLASS' => 'user_reg',
+					'TITLE'      => gettext('Register')
+				]);
 
-            if (isset($_GET['code']) && isset($_GET['email'])) {
+				if (isset($_GET['code']) && isset($_GET['email'])) {
 
-                $result = \VJ\User\Account\Register::verificateEmail($_GET['email'], $_GET['code']);
+					$result = \VJ\User\Account\Register::verificateEmail($_GET['email'], $_GET['code']);
 
-                if (\VJ\I::isError($result)) {
-                    $this->view->setVar('STEP', 0);
-                    $this->view->setVar('ERROR', $result['errorMsg']);
-                } else {
-                    $this->view->setVar('REG_MAIL', $result['mail']);
-                    $this->view->setVar('STEP', 2);
-                    $this->view->setVar('REG_PARAM', $result);
-                }
+//					if (\VJ\I::isError($result)) {
+//						$this->view->setVar('STEP', 0);
+//						$this->view->setVar('ERROR', $result['errorMsg']);
+//					} else {
+					$this->view->setVar('REG_MAIL', $result['mail']);
+					$this->view->setVar('STEP', 2);
+					$this->view->setVar('REG_PARAM', $result);
+//					}
 
-            } else {
+				} else {
 
-                $this->view->setVar('STEP', 1);
+					$this->view->setVar('STEP', 1);
 
-            }
+				}
 
-        }
+			}
 
-    }
+		} catch (\VJ\Ex $e) {
+			return $this->raiseError(I::error($e->getArgs()));
+		}
+	
+	}
 
     public function helloAction()
     {
@@ -127,28 +115,20 @@ class UserController extends \VJ\Controller\Basic
     public function loginAction()
     {
 
-        $result = \VJ\Security\CSRF::checkToken();
+		try {
 
-        if (I::isError($result)) {
-            return $this->raiseError($result);
-        }
+			\VJ\Security\CSRF::checkToken();
 
-        $result = \VJ\Validator::required($_POST, ['user', 'pass']);
+			\VJ\Validator::required($_POST, ['user', 'pass']);
 
-        if (I::isError($result)) {
-            return $this->raiseError($result);
-        }
+			$result = \VJ\User\Account\Login::fromPassword($_POST['user'], $_POST['pass']);
 
-        $result = \VJ\User\Account\Login::fromPassword($_POST['user'], $_POST['pass']);
+			$result = \VJ\User\Account\Login::user($result);
 
-        if (I::isError($result)) {
-            return $this->raiseError($result);
-        }
-
-        $result = \VJ\User\Account\Login::user($result);
-
-        return $this->forwardAjax($result);
-
-    }
+			return $this->forwardAjax($result);
+		} catch (\VJ\Ex $e) {
+			$this->raiseError(I::error($e->getArgs()));
+		}
+	}
 
 }

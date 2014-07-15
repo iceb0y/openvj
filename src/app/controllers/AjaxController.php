@@ -8,14 +8,15 @@ class AjaxController extends \VJ\Controller\Basic
     public function initialize()
     {
 
-        if ($this->dispatcher->getActionName() !== 'general') {
+		try {
+			if ($this->dispatcher->getActionName() !== 'general') {
 
-            $result = \VJ\Security\CSRF::checkToken();
+				\VJ\Security\CSRF::checkToken();
 
-            if (I::isError($result)) {
-                return $this->raiseError($result);
-            }
-        }
+			}
+		} catch (\VJ\Ex $e) {
+			return $this->raiseError(I::error($e->getArgs()));
+		}
 
     }
 

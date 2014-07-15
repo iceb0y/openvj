@@ -8,22 +8,18 @@ class DiscussionController extends \VJ\Controller\Basic
     public function commentAction()
     {
 
-        $result = \VJ\Security\CSRF::checkToken();
+		try {
 
-        if (I::isError($result)) {
-            return $this->raiseError($result);
-        }
+			\VJ\Security\CSRF::checkToken();
 
-        $result = \VJ\Validator::required($_POST, ['id', 'text']);
+			\VJ\Validator::required($_POST, ['id', 'text']);
 
-        if (I::isError($result)) {
-            return $this->raiseError($result);
-        }
+			$result = \VJ\Functions\Discussion::replyTopic($_POST['id'], $_POST['text']);
 
-        $result = \VJ\Functions\Discussion::replyTopic($_POST['id'], $_POST['text']);
+			return $this->forwardAjax($result);
+		} catch (\VJ\Ex $e) {
+			$this->raiseError(I::error($e->getArgs()));
+		}
 
-        return $this->forwardAjax($result);
-
-    }
-
+	}
 }

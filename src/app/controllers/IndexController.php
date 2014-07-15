@@ -1,5 +1,7 @@
 <?php
 
+use \VJ\I;
+
 class IndexController extends \VJ\Controller\Basic
 {
 

@@ -34,18 +34,21 @@ class CSRF
         global $__SESSION;
 
         if (!isset($__SESSION['csrf-token'])) {
-            return false;
+			throw new \VJ\Ex('TOKEN_UNSET');
+            //return false;
         }
 
         $token = strval($__SESSION['csrf-token']);
 
-        if (isset($_GET['token']) && strval($_GET['token']) === $token)
+		if (isset($_GET['token']) && strval($_GET['token']) === $token) {
             return true;
+		}
 
-        if (isset($_POST['token']) && strval($_POST['token']) === $token)
-            return true;
+        if (isset($_POST['token']) && strval($_POST['token']) === $token) {
+			return true;
+		}
 
-        return false;
+        throw new \VJ\Ex('TOKEN_UNSET');
     }
 
 }

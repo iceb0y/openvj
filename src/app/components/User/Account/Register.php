@@ -22,11 +22,13 @@ class Register
         $email = strtolower((string)$email);
 
         if (Utils::len($email) > 40) {
-            return I::error('ARGUMENT_INVALID', 'email');
+			throw new \VJ\Ex('ARGUMENT_INVALID','email');
+            //return I::error('ARGUMENT_INVALID', 'email');
         }
 
         if (!\VJ\Validator::email($email)) {
-            return I::error('ARGUMENT_INVALID', 'email');
+			throw new \VJ\Ex('ARGUMENT_INVALID','email');
+            //return I::error('ARGUMENT_INVALID', 'email');
         }
 
         // Mail already in use
@@ -36,7 +38,8 @@ class Register
             'fields'     => ['_id' => 1]
         ])
         ) {
-            return I::error('USED', 'email', $email);
+			throw new \VJ\Ex('USED','email',$email);
+            //return I::error('USED', 'email', $email);
         }
 
         // Generate new validation request
@@ -65,7 +68,7 @@ class Register
             'email' => sha1($email)
         ]);
 
-        $result = \VJ\Email::sendByTemplate(
+        \VJ\Email::sendByTemplate(
             $email,
             gettext('Just one more step!'),
             'user',
@@ -76,11 +79,11 @@ class Register
             ]
         );
 
-        if (!I::isError($result)) {
-            $result = true;
-        }
+//        if (!I::isError($result)) {
+//            $result = true;
+//        }
 
-        return $result;
+        return true;
     }
 
     /**
@@ -103,15 +106,18 @@ class Register
         ]);
 
         if (!$record) {
-            return I::error('REG_VERFICATION_FAILED');
+			throw new \VJ\Ex('REG_VERFICATION_FAILED');
+            //return I::error('REG_VERFICATION_FAILED');
         }
 
         if (sha1(strtolower($record->email)) !== (string)$mailHash) {
-            return I::error('REG_VERFICATION_FAILED');
+			throw new \VJ\Ex('REG_VERFICATION_FAILED');
+            //return I::error('REG_VERFICATION_FAILED');
         }
 
         if (time() - $record->time->sec > (int)$__CONFIG->Register->validationTTL) {
-            return I::error('REG_VERFICATION_EXPIRED');
+			throw new \VJ\Ex('REG_VERFICATION_EXPIRED');
+            //return I::error('REG_VERFICATION_EXPIRED');
         }
 
         return ['mail' => $record->email, 'code' => $code];
@@ -144,7 +150,8 @@ class Register
         */
 
         if (strtolower($agreement) !== 'accept') {
-            return I::error('REG_ACCEPT_NEEDED');
+			throw new \VJ\Ex('REG_ACCEPT_NEEDED');
+            //return I::error('REG_ACCEPT_NEEDED');
         }
 
         $data = [
@@ -182,18 +189,21 @@ class Register
 
         // Exists?
         if (\VJ\User\Account::usernameExists($username)) {
-            return I::error('USED', 'username', $username);
+			throw new \VJ\Ex('USED','username',$username);
+            //return I::error('USED', 'username', $username);
         }
 
         if (\VJ\User\Account::nicknameExists($nickname)) {
-            return I::error('USED', 'nickname', $nickname);
+			throw new \VJ\Ex('USED','username',$nickname);
+            //return I::error('USED', 'nickname', $nickname);
         }
 
         // Check session
         if (!isset($options['no_checking'])) {
 
             if (!isset($options['email']) || !isset($options['code'])) {
-                return I::error('REG_VERFICATION_FAILED');
+				throw new \VJ\Ex('REG_VERFICATION_FAILED');
+                //return I::error('REG_VERFICATION_FAILED');
             }
 
             $mail           = $options['email'];
@@ -211,7 +221,8 @@ class Register
             if ($validate_record) {
                 $validate_record->delete();
             } else {
-                return I::error('REG_VERFICATION_FAILED');
+				throw new \VJ\Ex('REG_VERFICATION_FAILED');
+                //return I::error('REG_VERFICATION_FAILED');
             }
 
             unset($validate_record);

@@ -118,7 +118,7 @@ class Discussion
         global $__CONFIG, $_UID;
 
         if (!$acl->has(PRIV_DISCUSSION_COMMENT_TOPIC)) {
-            return I::error('NO_PRIV', 'PRIV_DISCUSSION_COMMENT_TOPIC');
+			throw new \VJ\Ex('NO_PRIV','PRIV_DISCUSSION_COMMENT_TOPIC');
         }
 
         $argv = [
