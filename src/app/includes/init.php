@@ -91,8 +91,8 @@ $__LANG = $__LANG_DEFAULT;
 // Set timezone and datetime locale
 global $__DATE_FORMAT, $__TIME_FORMAT;
 
-$__DATE_FORMAT = I18N_DATE_FORMAT;
-$__TIME_FORMAT = I18N_TIME_FORMAT;
+$__DATE_FORMAT = \VJ\I18N::get('DATE_FORMAT');
+$__TIME_FORMAT = \VJ\I18N::get('TIME_FORMAT');
 
 
 // I18N (deprecated)
