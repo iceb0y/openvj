@@ -101,14 +101,11 @@ class Vote
     {
 
         $di    = \Phalcon\DI::getDefault();
-        $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
         global $_UID;
 
-        if (!$acl->has(PRIV_VOTE)) {
-            return I::error('NO_PRIV', 'PRIV_VOTE');
-        }
+        \VJ\User\ACL::check('PRIV_VOTE');
 
         $argv = [
             'vote_id'  => &$vote_id,

@@ -34,8 +34,7 @@ class CSRF
         global $__SESSION;
 
         if (!isset($__SESSION['csrf-token'])) {
-			throw new \VJ\Ex('TOKEN_UNSET');
-            //return false;
+			throw new \VJ\Exception('ERR_CSRF_TOKEN_MISSING');
         }
 
         $token = strval($__SESSION['csrf-token']);
@@ -47,8 +46,6 @@ class CSRF
         if (isset($_POST['token']) && strval($_POST['token']) === $token) {
 			return true;
 		}
-
-        throw new \VJ\Ex('TOKEN_UNSET');
     }
 
 }

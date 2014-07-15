@@ -12,6 +12,7 @@ class Basic extends \Phalcon\Mvc\Controller
      *
      * @return bool
      */
+    /*
     public function raiseError($err = null)
     {
 
@@ -30,7 +31,7 @@ class Basic extends \Phalcon\Mvc\Controller
 
         return false;
     }
-
+    */
     /**
      * 重定向到404页面
      *

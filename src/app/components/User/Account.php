@@ -63,16 +63,13 @@ class Account
     {
 
         $di    = \Phalcon\DI::getDefault();
-        $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
         $uid = (int)$uid;
 
         if ($permanent) {
 
-            if (!$acl->has(PRIV_USER_DELETE_PERM)) {
-                return I::error('NO_PRIV', 'PRIV_USER_DELETE_PERM');
-            }
+            \VJ\User\ACL::check('PRIV_USER_DELETE_PERM');
 
             $result = $mongo->User->remove(
                 ['uid' => $uid],
@@ -83,9 +80,7 @@ class Account
 
         } else {
 
-            if (!$acl->has(PRIV_USER_DELETE_FLAG)) {
-                return I::error('NO_PRIV', 'PRIV_USER_DELETE_FLAG');
-            }
+            \VJ\User\ACL::check('PRIV_USER_DELETE_FLAG');
 
             $result = $mongo->User->update(
                 ['uid' => $uid],
@@ -109,14 +104,11 @@ class Account
     {
 
         $di    = \Phalcon\DI::getDefault();
-        $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
         $uid = (int)$uid;
 
-        if (!$acl->has(PRIV_USER_DELETE_FLAG)) {
-            return I::error('NO_PRIV', 'PRIV_USER_DELETE_FLAG');
-        }
+        \VJ\User\ACL::check('PRIV_USER_DELETE_FLAG');
 
         $result = $mongo->User->update(
             ['uid' => $uid],
@@ -138,14 +130,11 @@ class Account
     {
 
         $di    = \Phalcon\DI::getDefault();
-        $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
         $uid = (int)$uid;
 
-        if (!$acl->has(PRIV_USER_BAN)) {
-            return I::error('NO_PRIV', 'PRIV_USER_BAN');
-        }
+        \VJ\User\ACL::check('PRIV_USER_BAN');
 
         $result = $mongo->User->update(
             ['uid' => $uid],
@@ -167,14 +156,11 @@ class Account
     {
 
         $di    = \Phalcon\DI::getDefault();
-        $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
         $uid = (int)$uid;
 
-        if (!$acl->has(PRIV_USER_BAN)) {
-            return I::error('NO_PRIV', 'PRIV_USER_BAN');
-        }
+        \VJ\User\ACL::check('PRIV_USER_BAN');
 
         $result = $mongo->User->update(
             ['uid' => $uid],

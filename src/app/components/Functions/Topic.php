@@ -84,19 +84,14 @@ class Topic
          */
 
         $di    = \Phalcon\DI::getDefault();
-        $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
         global $_UID, $__CONFIG;
 
-        if (!$acl->has(PRIV_TOPIC_CREATE)) {
-            return I::error('NO_PRIV', 'PRIV_TOPIC_CREATE');
-        }
+        \VJ\User\ACL::check('PRIV_TOPIC_CREATE');
 
         if (isset($options['highlight'])) {
-            if (!$acl->has(PRIV_TOPIC_HIGHLIGHT)) {
-                return I::error('NO_PRIV', 'PRIV_TOPIC_HIGHLIGHT');
-            }
+            \VJ\User\ACL::check('PRIV_TOPIC_HIGHLIGHT');
         }
 
         $argv = [

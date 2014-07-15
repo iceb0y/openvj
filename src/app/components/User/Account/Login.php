@@ -30,7 +30,7 @@ class Login
 
         $token = \VJ\Validator::mongoId($token);
         if ($token == null) {
-			throw new \VJ\Ex('ARGUMENT_INVALID','token');
+			throw new \VJ\Exception('ERR_ARGUMENT_INVALID', 'token');
             //return I::error('ARGUMENT_INVALID', 'token');
         }
 
@@ -40,13 +40,13 @@ class Login
         $sess = Models\SavedSession::findById($token);
 
         if (!$sess) {
-			throw new \VJ\Ex('FAILED');
+			throw new \VJ\Exception('ERR_FAILED');
             //return I::error('FAILED');
         }
 
         // Valid?
         if ($sess->uid !== $uid || $sess->key !== $key) {
-			throw new \VJ\Ex('FAILED');
+			throw new \VJ\Exception('ERR_FAILED');
             //return I::error('FAILED');
         }
 
@@ -54,7 +54,7 @@ class Login
         if (time() > $sess->exptime->sec) {
             $sess->delete();
 
-			throw new \VJ\Ex('FAILED');
+			throw new \VJ\Exception('ERR_FAILED');
            // return I::error('FAILED');
         }
 
@@ -64,13 +64,13 @@ class Login
 
         // User is deleted
         if ($u == false) {
-			throw new \VJ\Ex('FAILED');
+			throw new \VJ\Exception('ERR_FAILED');
             //return I::error('FAILED');
         }
 
         // User is banned or marked deleted
         if ($u->banned !== null || $u->deleted !== null) {
-			throw new \VJ\Ex('FAILED');
+			throw new \VJ\Exception('ERR_FAILED');
             //return I::error('FAILED');
         }
 
@@ -97,13 +97,11 @@ class Login
         $pass = (string)$pass;
 
         if (strlen($user) === 0) {
-			throw new \VJ\Ex('ARGUMENT_REQUIRED','username');
-            //return I::error('ARGUMENT_REQUIRED', 'username');
+			throw new \VJ\Exception('ERR_ARGUMENT_MISSING','username');
         }
 
         if (strlen($pass) === 0) {
-			throw new \VJ\Ex('ARGUMENT_REQUIRED','password');
-            //return I::error('ARGUMENT_REQUIRED', 'password');
+			throw new \VJ\Exception('ERR_ARGUMENT_MISSING','password');
         }
 
         $u = Models\User::findFirst([
@@ -111,17 +109,17 @@ class Login
         ]);
 
         if (!$u) {
-			throw new \VJ\Ex('NOT_FOUND','user');
+			throw new \VJ\Exception('ERR_NOT_FOUND','user');
             //return I::error('NOT_FOUND', 'user');
         }
 
         if ($u->deleted) {
-			throw new \VJ\Ex('NOT_FOUND','user');
+			throw new \VJ\Exception('ERR_NOT_FOUND','user');
             //return I::error('NOT_FOUND', 'user');
         }
 
         if ($u->banned) {
-			throw new \VJ\Ex('USER_BANNED');
+			throw new \VJ\Exception('ERR_USER_BANNED');
             //return I::error('USER_BANNED');
         }
 
@@ -150,7 +148,7 @@ class Login
         self::_log($u->uid, $from, $login_OK);
 
         if (!$login_OK) {
-			throw new \VJ\Ex('PASSWORD_WRONG');
+			throw new \VJ\Exception('ERR_PASSWORD_WRONG');
             //return I::error('PASSWORD_WRONG');
         }
 
@@ -223,13 +221,13 @@ class Login
 
         // 检查该账号是否可登录
         if (!isset($acldata[PRIV_LOG_IN]) || $acldata[PRIV_LOG_IN] !== true) {
-			throw new \VJ\Ex('NO_PRIV','PRIV_LOG_IN');
+			throw new \VJ\Exception('ERR_NO_PRIV','PRIV_LOG_IN');
             //return I::error('NO_PRIV', 'PRIV_LOG_IN');
         }
 
         // 检查是否有登录IP限制
         if ($u->ipmatch != null && !preg_match($u->ipmatch, $_SERVER['REMOTE_ADDR'])) {
-			throw new \VJ\Ex('IP_MISMATCH');
+			throw new \VJ\Exception('ERR_IP_MISMATCH');
             //return I::error('IP_MISMATCH');
         }
 
