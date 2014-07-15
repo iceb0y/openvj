@@ -19,5 +19,7 @@ class IndexController extends \VJ\Controller\Basic
             'PAGE_CLASS' => 'home',
             'TITLE'      => gettext('Home')
         ]);
+
     }
+		
 }
