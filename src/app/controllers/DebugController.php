@@ -2,7 +2,6 @@
 
 class DebugController extends \VJ\Controller\Basic
 {
-
     public function initialize()
     {
         global $__CONFIG;
