@@ -1,14 +1,5 @@
 <?php
-/*	class ContestController extends \VJ\Controller\Basic
-	{
-		public function Indexaction(){
-			//Hard Code
-			$Group = ['a','b'];
-			foreach($Group as $GroupName){
-				
-			}
-		}
-*/
+
 class ContestController extends \VJ\Controller\Basic
 {
 
@@ -16,7 +7,6 @@ class ContestController extends \VJ\Controller\Basic
     {
 
         global $__CONFIG;
-
 
         $this->view->setVars([
             'PAGE_CLASS' => 'home',
