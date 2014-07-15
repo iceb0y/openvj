@@ -104,17 +104,17 @@ class Register
 
         if (!$record) {
 			throw new \VJ\Exception('ERR_REG_VERFICATION_FAILED');
-            //return I::error('REG_VERFICATION_FAILED');
+            
         }
 
         if (sha1(strtolower($record->email)) !== (string)$mailHash) {
 			throw new \VJ\Exception('ERR_REG_VERFICATION_FAILED');
-            //return I::error('REG_VERFICATION_FAILED');
+            
         }
 
         if (time() - $record->time->sec > (int)$__CONFIG->Register->validationTTL) {
 			throw new \VJ\Exception('ERR_REG_VERFICATION_EXPIRED');
-            //return I::error('REG_VERFICATION_EXPIRED');
+            
         }
 
         return ['mail' => $record->email, 'code' => $code];
@@ -148,7 +148,7 @@ class Register
 
         if (strtolower($agreement) !== 'accept') {
 			throw new \VJ\Exception('ERR_REG_ACCEPT_NEEDED');
-            //return I::error('REG_ACCEPT_NEEDED');
+            
         }
 
         $data = [
@@ -187,12 +187,12 @@ class Register
         // Exists?
         if (\VJ\User\Account::usernameExists($username)) {
 			throw new \VJ\Exception('ERR_USED','username',$username);
-            //return I::error('USED', 'username', $username);
+            
         }
 
         if (\VJ\User\Account::nicknameExists($nickname)) {
 			throw new \VJ\Exception('ERR_USED','username',$nickname);
-            //return I::error('USED', 'nickname', $nickname);
+            
         }
 
         // Check session
@@ -200,7 +200,7 @@ class Register
 
             if (!isset($options['email']) || !isset($options['code'])) {
 				throw new \VJ\Exception('ERR_REG_VERFICATION_FAILED');
-                //return I::error('REG_VERFICATION_FAILED');
+                
             }
 
             $mail           = $options['email'];
@@ -219,7 +219,7 @@ class Register
                 $validate_record->delete();
             } else {
 				throw new \VJ\Exception('ERR_REG_VERFICATION_FAILED');
-                //return I::error('REG_VERFICATION_FAILED');
+                
             }
 
             unset($validate_record);

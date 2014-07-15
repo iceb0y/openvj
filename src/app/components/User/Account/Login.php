@@ -31,7 +31,7 @@ class Login
         $token = \VJ\Validator::mongoId($token);
         if ($token == null) {
 			throw new \VJ\Exception('ERR_ARGUMENT_INVALID', 'token');
-            //return I::error('ARGUMENT_INVALID', 'token');
+            
         }
 
         $uid = (int)$uid;
@@ -41,13 +41,13 @@ class Login
 
         if (!$sess) {
 			throw new \VJ\Exception('ERR_FAILED');
-            //return I::error('FAILED');
+            
         }
 
         // Valid?
         if ($sess->uid !== $uid || $sess->key !== $key) {
 			throw new \VJ\Exception('ERR_FAILED');
-            //return I::error('FAILED');
+            
         }
 
         // Session expired?
@@ -65,13 +65,13 @@ class Login
         // User is deleted
         if ($u == false) {
 			throw new \VJ\Exception('ERR_FAILED');
-            //return I::error('FAILED');
+            
         }
 
         // User is banned or marked deleted
         if ($u->banned !== null || $u->deleted !== null) {
 			throw new \VJ\Exception('ERR_FAILED');
-            //return I::error('FAILED');
+            
         }
 
         // Login succeeded
@@ -110,17 +110,17 @@ class Login
 
         if (!$u) {
 			throw new \VJ\Exception('ERR_NOT_FOUND','user');
-            //return I::error('NOT_FOUND', 'user');
+            
         }
 
         if ($u->deleted) {
 			throw new \VJ\Exception('ERR_NOT_FOUND','user');
-            //return I::error('NOT_FOUND', 'user');
+            
         }
 
         if ($u->banned) {
 			throw new \VJ\Exception('ERR_USER_BANNED');
-            //return I::error('USER_BANNED');
+            
         }
 
         if (!isset($u->passfmt)) {
@@ -149,7 +149,7 @@ class Login
 
         if (!$login_OK) {
 			throw new \VJ\Exception('ERR_PASSWORD_WRONG');
-            //return I::error('PASSWORD_WRONG');
+            
         }
 
         // Upgrade old passwords
@@ -222,13 +222,13 @@ class Login
         // 检查该账号是否可登录
         if (!isset($acldata[PRIV_LOG_IN]) || $acldata[PRIV_LOG_IN] !== true) {
 			throw new \VJ\Exception('ERR_NO_PRIV','PRIV_LOG_IN');
-            //return I::error('NO_PRIV', 'PRIV_LOG_IN');
+            
         }
 
         // 检查是否有登录IP限制
         if ($u->ipmatch != null && !preg_match($u->ipmatch, $_SERVER['REMOTE_ADDR'])) {
 			throw new \VJ\Exception('ERR_IP_MISMATCH');
-            //return I::error('IP_MISMATCH');
+            
         }
 
         // 修改最后登录时间
