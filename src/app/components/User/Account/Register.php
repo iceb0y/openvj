@@ -202,10 +202,6 @@ class Register
             $mail           = $options['email'];
             $validateResult = self::verificateEmail(sha1($mail), $options['code']);
 
-            if (I::isError($validateResult)) {
-                return $validateResult;
-            }
-
             // Remove validation records
             $validate_record = Models\RegValidation::findFirst([
                 'conditions' => ['email' => $mail]

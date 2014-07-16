@@ -66,12 +66,8 @@ new \Phalcon\DI\FactoryDefault();
 
 
 // Error Reporting
-if (!$__CONFIG->Debug->enabled) {
-    error_reporting(0);
-} else {
-    error_reporting(E_ALL | E_STRICT);
-    new \VJ\ErrorHandler\WhoopsServiceProvider();
-}
+\VJ\ErrorHandler::whoops();
+\VJ\ErrorHandler::phalcon();
 
 
 // Using UTF-8 as default mbstring encoding

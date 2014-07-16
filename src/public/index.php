@@ -7,7 +7,6 @@ require __DIR__.'/../app/includes/init.php';
 global $__CONFIG;
 
 \VJ\View\General::initialize();
-\VJ\ErrorHandler\HTTPError::attach();
 
 if ($__CONFIG->Security->enforceSSL) {
     \VJ\Security\SSL::enforce();

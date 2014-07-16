@@ -1,21 +1,14 @@
 <?php
 
-namespace VJ\ErrorHandler;
+namespace VJ;
 
-class WhoopsServiceProvider
+class ErrorHandler
 {
 
-    /**
-     * 初始化Whoops错误处理系统
-     * modify from https://github.com/filp/whoops/blob/master/src/Whoops/Provider/Phalcon/WhoopsServiceProvider.php
-     */
-    public function __construct($di = null)
+    public static function whoops()
     {
-
-        if (!$di) {
-            $di = \Phalcon\DI::getDefault();
-        }
-
+        $di = \Phalcon\DI::getDefault();
+        
         // There's only ever going to be one error page...right?
         $di->setShared('whoops.error_page_handler', function () {
             return new \Whoops\Handler\PrettyPageHandler;
@@ -72,6 +65,7 @@ class WhoopsServiceProvider
 
         $di->setShared('whoops', function () use ($di, $phalcon_info_handler, $json_handler) {
             $run = new \Whoops\Run;
+            //$run->pushHandler(new MyHandler());
             $run->pushHandler($di['whoops.error_page_handler']);
             $run->pushHandler($json_handler);
             $run->pushHandler($phalcon_info_handler);
@@ -80,7 +74,48 @@ class WhoopsServiceProvider
         });
 
         $di['whoops']->register();
+    }
 
+    public static function phalcon()
+    {
+        $di = \Phalcon\DI::getDefault();
+
+        $di->setShared('dispatcher', function () use ($di) {
+
+            $eventsManager = new \Phalcon\Events\Manager();
+
+            $eventsManager->attach('dispatch:beforeException', function ($event, $dispatcher, $exception) use ($di) {
+
+                if ($exception instanceof \VJ\Exception) {
+
+                    $di->getShared('view')->EXCEPTION = $exception;
+
+                    $dispatcher->forward([
+                        'controller' => 'error',
+                        'action'     => 'general'
+                    ]);
+
+                    return false;
+                }
+
+                if ($exception instanceof \Phalcon\Mvc\Dispatcher\Exception) {
+                    
+                    $dispatcher->forward([
+                        'controller' => 'error',
+                        'action'     => 'show404',
+                    ]);
+
+                    return false;
+                }
+
+            });
+
+            $dispatcher = new \VJ\Dispatcher();
+            $dispatcher->setEventsManager($eventsManager);
+
+            return $dispatcher;
+
+        });
     }
 
 }
