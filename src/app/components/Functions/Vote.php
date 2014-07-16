@@ -117,7 +117,7 @@ class Vote
             'attitude' => 'int'
         ]);
 
-        $validateResult = \VJ\Validator::validate($argv, [
+        \VJ\Validator::validate($argv, [
             'vote_id'  => [
                 'length' => [0, 50]
             ],
@@ -125,10 +125,6 @@ class Vote
                 'in' => [self::ATTITUDE_UP, self::ATTITUDE_DOWN]
             ]
         ]);
-
-        if ($validateResult !== true) {
-            return $validateResult;
-        }
 
         $record = $mongo->Vote->findOne(
             ['_id' => $vote_id],

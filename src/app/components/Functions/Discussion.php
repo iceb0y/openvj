@@ -129,7 +129,7 @@ class Discussion
             'content'  => 'trim'
         ]);
 
-        $validateResult = \VJ\Validator::validate($argv, [
+        \VJ\Validator::validate($argv, [
             'topic_id' => [
                 'length' => [0, 50]
             ],
@@ -137,10 +137,6 @@ class Discussion
                 'contentlength' => [$__CONFIG->Discussion->contentMin, $__CONFIG->Discussion->contentMax]
             ]
         ]);
-
-        if ($validateResult !== true) {
-            return $validateResult;
-        }
 
         $document      = self::createReplyDocument($content);
         $document['r'] = [];
@@ -247,15 +243,11 @@ class Discussion
             'content'    => 'trim'
         ]);
 
-        $validateResult = \VJ\Validator::validate($argv, [
+        \VJ\Validator::validate($argv, [
             'content' => [
                 'contentlength' => [$__CONFIG->Discussion->contentMin, $__CONFIG->Discussion->contentMax]
             ]
         ]);
-
-        if ($validateResult !== true) {
-            return $validateResult;
-        }
 
         // Get the comment
         $record = $mongo->Discussion->findOne(
@@ -413,7 +405,7 @@ class Discussion
             'content'    => 'trim'
         ]);
 
-        $validateResult = \VJ\Validator::validate($argv, [
+        \VJ\Validator::validate($argv, [
             'topic_id' => [
                 'length' => [0, 50]
             ],
@@ -421,10 +413,6 @@ class Discussion
                 'contentlength' => [$__CONFIG->Discussion->contentMin, $__CONFIG->Discussion->contentMax]
             ]
         ]);
-
-        if ($validateResult !== true) {
-            return $validateResult;
-        }
 
         $document = self::createReplyDocument($content);
 
@@ -551,15 +539,11 @@ class Discussion
             'content'    => 'trim'
         ]);
 
-        $validateResult = \VJ\Validator::validate($argv, [
+        \VJ\Validator::validate($argv, [
             'content' => [
                 'contentlength' => [$__CONFIG->Discussion->contentMin, $__CONFIG->Discussion->contentMax]
             ]
         ]);
-
-        if ($validateResult !== true) {
-            return $validateResult;
-        }
 
         // Get the comment
         $record = $mongo->Discussion->findOne(

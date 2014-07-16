@@ -106,15 +106,11 @@ class Topic
             'node'    => 'lower'
         ]);
 
-        $validateResult = \VJ\Validator::validate($argv, [
+        \VJ\Validator::validate($argv, [
             'content' => [
                 'contentlength' => [$__CONFIG->Topic->contentMin, $__CONFIG->Topic->contentMax]
             ]
         ]);
-
-        if ($validateResult !== true) {
-            return $validateResult;
-        }
 
         $node = self::queryNodeName($node);
 

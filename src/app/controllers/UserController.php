@@ -29,10 +29,7 @@ class UserController extends \VJ\Controller\Basic
 
                 // STEP2: Sign up
 
-                \VJ\Validator::required(
-                    $_POST,
-                    ['user', 'pass', 'nick', 'gender', 'agreement', 'email', 'code']
-                );
+                \VJ\Validator::required($_POST, ['user', 'pass', 'nick', 'gender', 'agreement', 'email', 'code']);
 
                 $result = \VJ\User\Account\Register::register(
                     $_POST['user'],
