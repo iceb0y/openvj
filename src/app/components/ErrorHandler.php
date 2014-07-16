@@ -15,7 +15,6 @@ class ErrorHandler
         });
 
         $json_handler = new \Whoops\Handler\JsonResponseHandler();
-        $json_handler->onlyForAjaxRequests(true);
 
         // Retrieves info on the Phalcon environment and ships it off
         // to the PrettyPageHandler's data tables:
@@ -65,10 +64,13 @@ class ErrorHandler
 
         $di->setShared('whoops', function () use ($di, $phalcon_info_handler, $json_handler) {
             $run = new \Whoops\Run;
-            //$run->pushHandler(new MyHandler());
-            $run->pushHandler($di['whoops.error_page_handler']);
-            $run->pushHandler($json_handler);
-            $run->pushHandler($phalcon_info_handler);
+            
+            if (\VJ\Utils::isAjax()) {
+                $run->pushHandler($json_handler);
+            } else {
+                $run->pushHandler($di['whoops.error_page_handler']);
+                $run->pushHandler($phalcon_info_handler);
+            }
 
             return $run;
         });
@@ -99,7 +101,7 @@ class ErrorHandler
                 }
 
                 if ($exception instanceof \Phalcon\Mvc\Dispatcher\Exception) {
-                    
+
                     $dispatcher->forward([
                         'controller' => 'error',
                         'action'     => 'show404',
