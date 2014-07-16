@@ -24,6 +24,10 @@ class I18N
     public static function get()
     {
         $argv = func_get_args();
+        if (count($argv) == 0) {
+            return '';
+        }
+        
         $argv[0] = 'I18N_'.$argv[0];
         if (defined($argv[0])) {
             $argv[0] = constant($argv[0]);
