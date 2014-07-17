@@ -18,7 +18,6 @@ require APP_DIR.'includes/errorcode.php';
 require APP_DIR.'includes/user.php';
 require APP_DIR.'includes/privilege.php';
 
-
 // Autoloader
 require APP_DIR.'vendor/autoload.php';
 
