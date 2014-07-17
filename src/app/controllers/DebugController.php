@@ -2,7 +2,6 @@
 
 class DebugController extends \VJ\Controller\Basic
 {
-
     public function initialize()
     {
         global $__CONFIG;
@@ -12,8 +11,13 @@ class DebugController extends \VJ\Controller\Basic
         }
     }
 
-    public function errorAction()
+    public function exceptionAction()
     {
         throw new Exception();
+    }
+
+    public function vjexceptionAction()
+    {
+        throw new \VJ\Exception();
     }
 }

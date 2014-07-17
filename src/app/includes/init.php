@@ -14,7 +14,6 @@ $__CONFIG->merge(new Phalcon\Config((array)new Phalcon\Config\Adapter\Ini(APP_DI
 
 
 // Constants
-require APP_DIR.'includes/errorcode.php';
 require APP_DIR.'includes/user.php';
 require APP_DIR.'includes/privilege.php';
 
@@ -66,12 +65,8 @@ new \Phalcon\DI\FactoryDefault();
 
 
 // Error Reporting
-if (!$__CONFIG->Debug->enabled) {
-    error_reporting(0);
-} else {
-    error_reporting(E_ALL | E_STRICT);
-    new \VJ\ErrorHandler\WhoopsServiceProvider();
-}
+\VJ\ErrorHandler::whoops();
+\VJ\ErrorHandler::phalcon();
 
 
 // Using UTF-8 as default mbstring encoding
@@ -90,8 +85,8 @@ $__LANG = $__LANG_DEFAULT;
 // Set timezone and datetime locale
 global $__DATE_FORMAT, $__TIME_FORMAT;
 
-$__DATE_FORMAT = I18N_DATE_FORMAT;
-$__TIME_FORMAT = I18N_TIME_FORMAT;
+$__DATE_FORMAT = \VJ\I18N::get('DATE_FORMAT');
+$__TIME_FORMAT = \VJ\I18N::get('TIME_FORMAT');
 
 
 // I18N (deprecated)

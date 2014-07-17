@@ -7,11 +7,7 @@ class ManageController extends \VJ\Controller\Basic
 
     public function initialize()
     {
-
-        $acl = \Phalcon\DI::getDefault()->getShared('acl');
-        if (!$acl->has(PRIV_ADMIN_ACCESS)) {
-            return $this->raiseError('NO_PRIV', 'PRIV_ADMIN_ACCESS');
-        }
+        \VJ\User\ACL::check('PRIV_ADMIN_ACCESS');
 
         $this->view->CURRENT_ACTION = $this->dispatcher->getActionName();
 
@@ -51,28 +47,24 @@ class ManageController extends \VJ\Controller\Basic
 
     public function aclAction()
     {
+        if ($this->request->isPost() === true) {
 
-		try {
+            \VJ\Security\CSRF::checkToken();
 
-			if ($this->request->isPost() === true) {
+            \VJ\Validator::required($_POST, ['acl', 'acl_rule']);
 
-				\VJ\Security\CSRF::checkToken();
+            $result = \VJ\User\ACL::save(
+                json_decode($_POST['acl'], true),
+                json_decode($_POST['acl_rule'], true)
+            );
 
-				\VJ\Validator::required($_POST, ['acl', 'acl_rule']);
+            $this->forwardAjax($result);
 
-				$result = \VJ\User\ACL::save(
-					json_decode($_POST['acl'], true),
-					json_decode($_POST['acl_rule'], true)
-				);
+        } else {
 
-				$this->forwardAjax($result);
+            if (isset($_GET['export'])) {
 
-			} else {
-
-				if (isset($_GET['export'])) {
-
-					\VJ\Security\CSRF::checkToken();
-
+                \VJ\Security\CSRF::checkToken();
 
                 $this->view->disable();
 
@@ -100,13 +92,10 @@ class ManageController extends \VJ\Controller\Basic
                     'ACL_PRIVTREE'  => $privTree,
                     'ACL_RULES'     => $aclRules,
                     'ACL_GROUPS'    => $__GROUPS
-				]);
-			}
-			}
-		} catch (\VJ\Ex $e) {
-			return $this->raiseError(I::error($e->getArgs()));
-		}
-	}
+                ]);
+            }
+        }
+    }
 
     public function indexAction()
     {

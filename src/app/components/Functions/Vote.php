@@ -101,14 +101,11 @@ class Vote
     {
 
         $di    = \Phalcon\DI::getDefault();
-        $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
         global $_UID;
 
-        if (!$acl->has(PRIV_VOTE)) {
-            return I::error('NO_PRIV', 'PRIV_VOTE');
-        }
+        \VJ\User\ACL::check('PRIV_VOTE');
 
         $argv = [
             'vote_id'  => &$vote_id,
@@ -120,7 +117,7 @@ class Vote
             'attitude' => 'int'
         ]);
 
-        $validateResult = \VJ\Validator::validate($argv, [
+        \VJ\Validator::validate($argv, [
             'vote_id'  => [
                 'length' => [0, 50]
             ],
@@ -128,10 +125,6 @@ class Vote
                 'in' => [self::ATTITUDE_UP, self::ATTITUDE_DOWN]
             ]
         ]);
-
-        if ($validateResult !== true) {
-            return $validateResult;
-        }
 
         $record = $mongo->Vote->findOne(
             ['_id' => $vote_id],
@@ -142,7 +135,7 @@ class Vote
 
             if (isset($record['up'][$_UID]) || isset($record['dn'][$_UID])) {
                 // already voted
-                return I::error('VOTE_VOTED');
+                throw new \VJ\Exception('ERR_VOTE_VOTED');
             }
 
             $updater = ['$set' => [], '$inc' => []];

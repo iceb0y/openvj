@@ -28,11 +28,7 @@ class Email
             'body'     => $body
         ]);
 
-        if (I::isError($result)) {
-            return $result;
-        } else {
-            return true;
-        }
+        return true;
     }
 
     /**

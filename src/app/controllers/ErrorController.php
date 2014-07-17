@@ -12,10 +12,10 @@ class ErrorController extends \VJ\Controller\Basic
         if (Utils::isAjax()) {
 
             if ($this->dispatcher->getActionName() == 'show404') {
-                $this->view->ERROR_OBJECT = I::error('404');
+                $this->view->EXCEPTION = new \VJ\Exception('ERR_404');
             }
 
-            $this->view->AJAX_DATA = $this->view->ERROR_OBJECT;
+            $this->view->AJAX_DATA = $this->view->EXCEPTION->toAjaxObject();
 
             $this->dispatcher->forward([
                 'controller' => 'ajax',
@@ -25,13 +25,15 @@ class ErrorController extends \VJ\Controller\Basic
 
     }
 
-    public function generalAction()
+    public function generalAction($exception = null)
     {
 
         // Only accept forwarded calls
-        if ($this->view->ERROR_OBJECT == null) {
+        if ($this->view->EXCEPTION == null) {
             return $this->raise404();
         }
+
+        $this->view->ERROR_OBJECT = $this->view->EXCEPTION->toAjaxObject();
 
         $this->view->setVars([
             'PAGE_CLASS' => 'error',

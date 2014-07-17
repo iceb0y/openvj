@@ -74,7 +74,7 @@ class Discussion
         $page     = (int)$page;
 
         if ($page < 0) {
-            return I::error('ARGUMENT_INVALID', 'page');
+            throw new \VJ\Exception('ERR_ARGUMENT_INVALID', 'page');
         }
 
         $record = $mongo->Discussion->findOne(
@@ -117,9 +117,7 @@ class Discussion
 
         global $__CONFIG, $_UID;
 
-        if (!$acl->has(PRIV_DISCUSSION_COMMENT_TOPIC)) {
-			throw new \VJ\Ex('NO_PRIV','PRIV_DISCUSSION_COMMENT_TOPIC');
-        }
+        \VJ\User\ACL::check('PRIV_DISCUSSION_COMMENT_TOPIC');
 
         $argv = [
             'topic_id' => &$topic_id,
@@ -131,7 +129,7 @@ class Discussion
             'content'  => 'trim'
         ]);
 
-        $validateResult = \VJ\Validator::validate($argv, [
+        \VJ\Validator::validate($argv, [
             'topic_id' => [
                 'length' => [0, 50]
             ],
@@ -139,10 +137,6 @@ class Discussion
                 'contentlength' => [$__CONFIG->Discussion->contentMin, $__CONFIG->Discussion->contentMax]
             ]
         ]);
-
-        if ($validateResult !== true) {
-            return $validateResult;
-        }
 
         $document      = self::createReplyDocument($content);
         $document['r'] = [];
@@ -200,7 +194,7 @@ class Discussion
         );
 
         if ($record == null) {
-            return I::error('NOT_FOUND', 'topic');
+            throw new \VJ\Exception('ERR_NOT_FOUND', 'topic');
         }
 
         $comment_target = null;
@@ -212,7 +206,7 @@ class Discussion
         }
 
         if ($comment_target == null) {
-            return I::error('NOT_FOUND', 'comment');
+            throw new \VJ\Exception('ERR_NOT_FOUND', 'comment');
         }
 
         return gzuncompress($comment_target['md']);
@@ -249,15 +243,11 @@ class Discussion
             'content'    => 'trim'
         ]);
 
-        $validateResult = \VJ\Validator::validate($argv, [
+        \VJ\Validator::validate($argv, [
             'content' => [
                 'contentlength' => [$__CONFIG->Discussion->contentMin, $__CONFIG->Discussion->contentMax]
             ]
         ]);
-
-        if ($validateResult !== true) {
-            return $validateResult;
-        }
 
         // Get the comment
         $record = $mongo->Discussion->findOne(
@@ -265,7 +255,7 @@ class Discussion
         );
 
         if ($record == null) {
-            return I::error('NOT_FOUND', 'topic');
+            throw new \VJ\Exception('ERR_NOT_FOUND', 'topic');
         }
 
         $comment_target = null;
@@ -279,18 +269,14 @@ class Discussion
         }
 
         if ($comment_target == null) {
-            return I::error('NOT_FOUND', 'comment');
+            throw new \VJ\Exception('ERR_NOT_FOUND', 'comment');
         }
 
         // has privilege?
         if ($_UID == $comment_target['uid']) {
-            if (!$acl->has(PRIV_DISCUSSION_COMMENT_MODIFY_SELF)) {
-                return I::error('NO_PRIV', 'PRIV_DISCUSSION_COMMENT_MODIFY_SELF');
-            }
+            \VJ\User\ACL::check('PRIV_DISCUSSION_COMMENT_MODIFY_SELF');
         } else {
-            if (!$acl->has(PRIV_DISCUSSION_MODIFY_ANY)) {
-                return I::error('NO_PRIV', 'PRIV_DISCUSSION_MODIFY_ANY');
-            }
+            \VJ\User\ACL::check('PRIV_DISCUSSION_MODIFY_ANY');
         }
 
         // modify
@@ -321,7 +307,6 @@ class Discussion
     {
 
         $di    = \Phalcon\DI::getDefault();
-        $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
         global $_UID;
@@ -342,7 +327,7 @@ class Discussion
         );
 
         if ($record == null) {
-            return I::error('NOT_FOUND', 'topic');
+            throw new \VJ\Exception('ERR_NOT_FOUND', 'topic');
         }
 
         $comment_target = null;
@@ -354,18 +339,14 @@ class Discussion
         }
 
         if ($comment_target == null) {
-            return I::error('NOT_FOUND', 'comment');
+            throw new \VJ\Exception('ERR_NOT_FOUND', 'comment');
         }
 
         // has privilege?
         if ($_UID == $comment_target['uid']) {
-            if (!$acl->has(PRIV_DISCUSSION_COMMENT_DELETE_SELF)) {
-                return I::error('NO_PRIV', 'PRIV_DISCUSSION_COMMENT_DELETE_SELF');
-            }
+            \VJ\User\ACL::check('PRIV_DISCUSSION_COMMENT_DELETE_SELF');
         } else {
-            if (!$acl->has(PRIV_DISCUSSION_DELETE_ANY)) {
-                return I::error('NO_PRIV', 'PRIV_DISCUSSION_DELETE_ANY');
-            }
+            \VJ\User\ACL::check('PRIV_DISCUSSION_DELETE_ANY');
         }
 
         // remove
@@ -410,9 +391,7 @@ class Discussion
 
         global $__CONFIG, $_UID;
 
-        if (!$acl->has(PRIV_DISCUSSION_REPLY_COMMENT)) {
-            return I::error('NO_PRIV', 'PRIV_DISCUSSION_REPLY_COMMENT');
-        }
+        \VJ\User\ACL::check('PRIV_DISCUSSION_REPLY_COMMENT');
 
         $argv = [
             'topic_id'   => &$topic_id,
@@ -426,7 +405,7 @@ class Discussion
             'content'    => 'trim'
         ]);
 
-        $validateResult = \VJ\Validator::validate($argv, [
+        \VJ\Validator::validate($argv, [
             'topic_id' => [
                 'length' => [0, 50]
             ],
@@ -434,10 +413,6 @@ class Discussion
                 'contentlength' => [$__CONFIG->Discussion->contentMin, $__CONFIG->Discussion->contentMax]
             ]
         ]);
-
-        if ($validateResult !== true) {
-            return $validateResult;
-        }
 
         $document = self::createReplyDocument($content);
 
@@ -462,7 +437,7 @@ class Discussion
 
         if ($result['n'] == 0) {
             //no document found
-            return I::error('NOT_FOUND', 'topic or comment');
+            throw new \VJ\Exception('ERR_NOT_FOUND', 'topic or comment');
         }
 
         return $document['_id'];
@@ -501,7 +476,7 @@ class Discussion
         );
 
         if ($record == null) {
-            return I::error('NOT_FOUND', 'topic');
+            throw new \VJ\Exception('ERR_NOT_FOUND', 'topic');
         }
 
         $comment_target = null;
@@ -513,7 +488,7 @@ class Discussion
         }
 
         if ($comment_target == null) {
-            return I::error('NOT_FOUND', 'comment');
+            throw new \VJ\Exception('ERR_NOT_FOUND', 'comment');
         }
 
         // Get the reply
@@ -525,7 +500,7 @@ class Discussion
         }
 
         if ($reply_target == null) {
-            return I::error('NOT_FOUND', 'reply');
+            throw new \VJ\Exception('ERR_NOT_FOUND', 'reply');
         }
 
         return gzuncompress($reply_target['md']);
@@ -546,7 +521,6 @@ class Discussion
     {
 
         $di    = \Phalcon\DI::getDefault();
-        $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
         global $__CONFIG, $_UID;
@@ -565,15 +539,11 @@ class Discussion
             'content'    => 'trim'
         ]);
 
-        $validateResult = \VJ\Validator::validate($argv, [
+        \VJ\Validator::validate($argv, [
             'content' => [
                 'contentlength' => [$__CONFIG->Discussion->contentMin, $__CONFIG->Discussion->contentMax]
             ]
         ]);
-
-        if ($validateResult !== true) {
-            return $validateResult;
-        }
 
         // Get the comment
         $record = $mongo->Discussion->findOne(
@@ -581,7 +551,7 @@ class Discussion
         );
 
         if ($record == null) {
-            return I::error('NOT_FOUND', 'topic');
+            throw new \VJ\Exception('ERR_NOT_FOUND', 'topic');
         }
 
         $comment_target = null;
@@ -595,7 +565,7 @@ class Discussion
         }
 
         if ($comment_target == null) {
-            return I::error('NOT_FOUND', 'comment');
+            throw new \VJ\Exception('ERR_NOT_FOUND', 'comment');
         }
 
         // Get the reply
@@ -609,18 +579,14 @@ class Discussion
         }
 
         if ($reply_target == null) {
-            return I::error('NOT_FOUND', 'reply');
+            throw new \VJ\Exception('ERR_NOT_FOUND', 'reply');
         }
 
         // has privilege?
         if ($_UID == $reply_target['uid']) {
-            if (!$acl->has(PRIV_DISCUSSION_REPLY_MODIFY_SELF)) {
-                return I::error('NO_PRIV', 'PRIV_DISCUSSION_REPLY_MODIFY_SELF');
-            }
+            \VJ\User\ACL::check('PRIV_DISCUSSION_REPLY_MODIFY_SELF');
         } else {
-            if (!$acl->has(PRIV_DISCUSSION_MODIFY_ANY)) {
-                return I::error('NO_PRIV', 'PRIV_DISCUSSION_MODIFY_ANY');
-            }
+            \VJ\User\ACL::check('PRIV_DISCUSSION_MODIFY_ANY');
         }
 
         // modify
@@ -652,7 +618,6 @@ class Discussion
     {
 
         $di    = \Phalcon\DI::getDefault();
-        $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
         global $_UID;
@@ -675,7 +640,7 @@ class Discussion
         );
 
         if ($record == null) {
-            return I::error('NOT_FOUND', 'topic');
+            throw new \VJ\Exception('ERR_NOT_FOUND', 'topic');
         }
 
         $comment_target = null;
@@ -689,7 +654,7 @@ class Discussion
         }
 
         if ($comment_target == null) {
-            return I::error('NOT_FOUND', 'comment');
+            throw new \VJ\Exception('ERR_NOT_FOUND', 'comment');
         }
 
         // Get the reply
@@ -701,18 +666,14 @@ class Discussion
         }
 
         if ($reply_target == null) {
-            return I::error('NOT_FOUND', 'reply');
+            throw new \VJ\Exception('ERR_NOT_FOUND', 'reply');
         }
 
         // has privilege?
         if ($_UID == $reply_target['uid']) {
-            if (!$acl->has(PRIV_DISCUSSION_REPLY_DELETE_SELF)) {
-                return I::error('NO_PRIV', 'PRIV_DISCUSSION_REPLY_DELETE_SELF');
-            }
+            \VJ\User\ACL::check('PRIV_DISCUSSION_REPLY_DELETE_SELF');
         } else {
-            if (!$acl->has(PRIV_DISCUSSION_DELETE_ANY)) {
-                return I::error('NO_PRIV', 'PRIV_DISCUSSION_DELETE_ANY');
-            }
+            \VJ\User\ACL::check('PRIV_DISCUSSION_DELETE_ANY');
         }
 
         // delete

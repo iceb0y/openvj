@@ -8,102 +8,83 @@ class UserController extends \VJ\Controller\Basic
     public function registerAction()
     {
 
-		try {
+        if ($this->request->isPost() === true) {
 
-			if ($this->request->isPost() === true) {
+            // Check TOKENs
 
-				// Check TOKENs
+            \VJ\Security\CSRF::checkToken();
 
-				\VJ\Security\CSRF::checkToken();
+            if (!isset($_POST['user'])) {
 
-				if (!isset($_POST['user'])) {
+                // STEP1: Mail validation
 
-					// STEP1: Mail validation
+                \VJ\Validator::required($_POST, ['email']);
 
-					\VJ\Validator::required($_POST, ['email']);
+                $result = \VJ\User\Account\Register::sendVerificationEmail($_POST['email']);
 
-					$result = \VJ\User\Account\Register::sendVerificationEmail($_POST['email']);
-
-					return $this->forwardAjax($result);
+                return $this->forwardAjax($result);
 
 
-				} else {
+            } else {
 
-					// STEP2: Sign up
+                // STEP2: Sign up
 
-					\VJ\Validator::required(
-						$_POST,
-						['user', 'pass', 'nick', 'gender', 'agreement', 'email', 'code']
-					);
+                \VJ\Validator::required($_POST, ['user', 'pass', 'nick', 'gender', 'agreement', 'email', 'code']);
 
-					$result = \VJ\User\Account\Register::register(
-						$_POST['user'],
+                $result = \VJ\User\Account\Register::register(
+                    $_POST['user'],
                     $_POST['pass'],
                     $_POST['nick'],
                     $_POST['gender'],
                     $_POST['agreement'],
                     [
                         'email' => $_POST['email'],
-						'code'  => $_POST['code']
-					]
-				);
+                        'code'  => $_POST['code']
+                    ]
+                );
 
+                // Prepare Git repository
+                \VJ\Git\Repository::create('uid_'.$result['uid']);
 
-					// Prepare Git repository
-					\VJ\Git\Repository::create('uid_'.$result['uid']);
+                // Log in immediately
+                $result = \VJ\User\Account\Login::fromPassword($_POST['user'], $_POST['pass']);
 
-					// Log in immediately
-					$result = \VJ\User\Account\Login::fromPassword($_POST['user'], $_POST['pass']);
+                $result = \VJ\User\Account\Login::user($result);
 
+                return $this->forwardAjax($result);
 
-					$result = \VJ\User\Account\Login::user($result);
+            }
 
-					return $this->forwardAjax($result);
+        } else {
 
-				}
+            $this->view->setVars([
+                'PAGE_CLASS' => 'user_reg',
+                'TITLE'      => gettext('Register')
+            ]);
 
-			} else {
+            if (isset($_GET['code']) && isset($_GET['email'])) {
 
-				$this->view->setVars([
-					'PAGE_CLASS' => 'user_reg',
-					'TITLE'      => gettext('Register')
-				]);
+                $result = \VJ\User\Account\Register::verificateEmail($_GET['email'], $_GET['code']);
+                $this->view->setVar('REG_MAIL', $result['mail']);
+                $this->view->setVar('STEP', 2);
+                $this->view->setVar('REG_PARAM', $result);
 
-				if (isset($_GET['code']) && isset($_GET['email'])) {
+            } else {
 
-					$result = \VJ\User\Account\Register::verificateEmail($_GET['email'], $_GET['code']);
+                $this->view->setVar('STEP', 1);
 
-//					if (\VJ\I::isError($result)) {
-//						$this->view->setVar('STEP', 0);
-//						$this->view->setVar('ERROR', $result['errorMsg']);
-//					} else {
-					$this->view->setVar('REG_MAIL', $result['mail']);
-					$this->view->setVar('STEP', 2);
-					$this->view->setVar('REG_PARAM', $result);
-//					}
+            }
 
-				} else {
-
-					$this->view->setVar('STEP', 1);
-
-				}
-
-			}
-
-		} catch (\VJ\Ex $e) {
-			return $this->raiseError(I::error($e->getArgs()));
-		}
-	
-	}
+        }
+    
+    }
 
     public function helloAction()
     {
 
         $acl = \Phalcon\DI::getDefault()->getShared('acl');
 
-        if (!$acl->has(PRIV_USER_MODIFY_SETTINGS)) {
-            return $this->raiseError('NO_PRIV', 'PRIV_USER_MODIFY_SETTINGS');
-        }
+        \VJ\User\ACL::check('PRIV_USER_MODIFY_SETTINGS');
 
         $this->view->setVars([
             'PAGE_CLASS' => 'user_hello',
@@ -115,20 +96,16 @@ class UserController extends \VJ\Controller\Basic
     public function loginAction()
     {
 
-		try {
+        \VJ\Security\CSRF::checkToken();
 
-			\VJ\Security\CSRF::checkToken();
+        \VJ\Validator::required($_POST, ['user', 'pass']);
 
-			\VJ\Validator::required($_POST, ['user', 'pass']);
+        $result = \VJ\User\Account\Login::fromPassword($_POST['user'], $_POST['pass']);
 
-			$result = \VJ\User\Account\Login::fromPassword($_POST['user'], $_POST['pass']);
+        $result = \VJ\User\Account\Login::user($result);
 
-			$result = \VJ\User\Account\Login::user($result);
+        return $this->forwardAjax($result);
 
-			return $this->forwardAjax($result);
-		} catch (\VJ\Ex $e) {
-			$this->raiseError(I::error($e->getArgs()));
-		}
-	}
+    }
 
 }

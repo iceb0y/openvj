@@ -84,19 +84,14 @@ class Topic
          */
 
         $di    = \Phalcon\DI::getDefault();
-        $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
         global $_UID, $__CONFIG;
 
-        if (!$acl->has(PRIV_TOPIC_CREATE)) {
-            return I::error('NO_PRIV', 'PRIV_TOPIC_CREATE');
-        }
+        \VJ\User\ACL::check('PRIV_TOPIC_CREATE');
 
         if (isset($options['highlight'])) {
-            if (!$acl->has(PRIV_TOPIC_HIGHLIGHT)) {
-                return I::error('NO_PRIV', 'PRIV_TOPIC_HIGHLIGHT');
-            }
+            \VJ\User\ACL::check('PRIV_TOPIC_HIGHLIGHT');
         }
 
         $argv = [
@@ -111,20 +106,16 @@ class Topic
             'node'    => 'lower'
         ]);
 
-        $validateResult = \VJ\Validator::validate($argv, [
+        \VJ\Validator::validate($argv, [
             'content' => [
                 'contentlength' => [$__CONFIG->Topic->contentMin, $__CONFIG->Topic->contentMax]
             ]
         ]);
 
-        if ($validateResult !== true) {
-            return $validateResult;
-        }
-
         $node = self::queryNodeName($node);
 
         if ($node === false) {
-            return I::error('NOT_FOUND', 'node');
+            throw new \VJ\Exception('ERR_NOT_FOUND', 'node');
         }
 
         $nodel = strtolower($node);
