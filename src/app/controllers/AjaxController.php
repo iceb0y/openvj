@@ -13,6 +13,8 @@ class AjaxController extends \VJ\Controller\Basic
 
     public function generalAction()
     {
+        $this->response->setHeader("Content-Type", "application/json");
+        
         if ($this->view->AJAX_DATA === null) {
             return $this->raise404();
         }
