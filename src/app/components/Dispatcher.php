@@ -17,9 +17,7 @@ class Dispatcher extends PhalconDispatcher {
         try {
             return parent::dispatch();
         } catch (Exception $exception) {
-
             $result = $this->getEventsManager()->fire('dispatch:beforeException', $this, $exception);
-
             if ($result === false) {
                 return parent::dispatch();
             } else {

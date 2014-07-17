@@ -14,8 +14,6 @@ class ErrorHandler
             return new \Whoops\Handler\PrettyPageHandler;
         });
 
-        $json_handler = new \Whoops\Handler\JsonResponseHandler();
-
         // Retrieves info on the Phalcon environment and ships it off
         // to the PrettyPageHandler's data tables:
         // This works by adding a new handler to the stack that runs
@@ -62,11 +60,11 @@ class ErrorHandler
 
         };
 
-        $di->setShared('whoops', function () use ($di, $phalcon_info_handler, $json_handler) {
+        $di->setShared('whoops', function () use ($di, $phalcon_info_handler) {
             $run = new \Whoops\Run;
             
             if (\VJ\Utils::isAjax()) {
-                $run->pushHandler($json_handler);
+                $run->pushHandler(new \VJ\ErrorHandler\Json());
             } else {
                 $run->pushHandler($di['whoops.error_page_handler']);
                 $run->pushHandler($phalcon_info_handler);
@@ -81,32 +79,25 @@ class ErrorHandler
     public static function phalcon()
     {
         $di = \Phalcon\DI::getDefault();
-
         $di->setShared('dispatcher', function () use ($di) {
 
             $eventsManager = new \Phalcon\Events\Manager();
-
             $eventsManager->attach('dispatch:beforeException', function ($event, $dispatcher, $exception) use ($di) {
 
                 if ($exception instanceof \VJ\Exception) {
-
                     $di->getShared('view')->EXCEPTION = $exception;
-
                     $dispatcher->forward([
                         'controller' => 'error',
                         'action'     => 'general'
                     ]);
-
                     return false;
                 }
 
                 if ($exception instanceof \Phalcon\Mvc\Dispatcher\Exception) {
-
                     $dispatcher->forward([
                         'controller' => 'error',
                         'action'     => 'show404',
                     ]);
-
                     return false;
                 }
 

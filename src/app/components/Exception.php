@@ -16,11 +16,11 @@ class Exception extends \Exception
     {
         global $__CONFIG;
 
-        $obj = ['succeeded' => false, 'message' => $this->message];
+        $obj = ['succeeded' => false, 'error' => ['type' => 'UserException', 'message' => $this->message]];
         if ($__CONFIG->Debug->enabled) {
-            $obj['file'] = $this->file;
-            $obj['line'] = $this->line;
-            $obj['trace'] = $this->getTraceAsString();
+            $obj['error']['file'] = $this->file;
+            $obj['error']['line'] = $this->line;
+            $obj['error']['trace'] = $this->getTraceAsString();
         }
 
         return $obj;
