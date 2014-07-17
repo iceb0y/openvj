@@ -1,8 +1,8 @@
 <?php
 
-use \VJ\I;
+use VJ\Controller\Basic;
 
-class IndexController extends \VJ\Controller\Basic
+class IndexController extends Basic
 {
 
     public function indexAction()
@@ -21,7 +21,5 @@ class IndexController extends \VJ\Controller\Basic
             'PAGE_CLASS' => 'home',
             'TITLE'      => gettext('Home')
         ]);
-
     }
-		
 }

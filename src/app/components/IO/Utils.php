@@ -2,14 +2,11 @@
 
 namespace VJ\IO;
 
-use \VJ\I;
-
 class Utils
 {
 
     public static function curl($host, $port, $timeout, $URI, $get = null, $post = null)
     {
-
         $url = $host.$URI;
 
         if ($get != null && is_array($get)) {
@@ -39,7 +36,5 @@ class Utils
         curl_close($curl);
 
         return $data;
-
     }
-
 }

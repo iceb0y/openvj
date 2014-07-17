@@ -9,15 +9,12 @@ class MongoProvider implements SessionProvider
 
     public function __construct()
     {
-
         $di               = \Phalcon\DI::getDefault();
         self::$collection = $di->getShared('mongo')->ActiveSession;
-
     }
 
     public function newSession($sess_id, $data)
     {
-
         self::$collection->insert([
             '_id'  => $sess_id,
             'data' => serialize($data),
@@ -25,12 +22,10 @@ class MongoProvider implements SessionProvider
         ]);
 
         return true;
-
     }
 
     public function saveSession($sess_id, $data)
     {
-
         self::$collection->update([
             '_id' => $sess_id
         ], [
@@ -43,12 +38,10 @@ class MongoProvider implements SessionProvider
         ]);
 
         return true;
-
     }
 
     public function getSession($sess_id)
     {
-
         global $__CONFIG;
 
         $result = self::$collection->findOne([
@@ -65,18 +58,14 @@ class MongoProvider implements SessionProvider
         }
 
         return unserialize($result['data']);
-
     }
 
     public function deleteSession($sess_id)
     {
-
         self::$collection->remove([
             '_id' => $sess_id
         ], [
             'justOne' => true
         ]);
-
     }
-
 }

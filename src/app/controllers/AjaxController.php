@@ -1,8 +1,8 @@
 <?php
 
-use \VJ\I;
+use VJ\Controller\Basic;
 
-class AjaxController extends \VJ\Controller\Basic
+class AjaxController extends Basic
 {
     public function initialize()
     {
@@ -14,7 +14,7 @@ class AjaxController extends \VJ\Controller\Basic
     public function generalAction()
     {
         $this->response->setHeader("Content-Type", "application/json");
-        
+
         if ($this->view->AJAX_DATA === null) {
             return $this->raise404();
         }

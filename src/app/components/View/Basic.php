@@ -2,9 +2,10 @@
 
 namespace VJ\View;
 
-class Basic extends \Phalcon\Mvc\View
-{
+use Phalcon\Mvc\View;
 
+class Basic extends View
+{
     public function __construct($options = null)
     {
         parent::__construct($options);
@@ -34,7 +35,7 @@ class Basic extends \Phalcon\Mvc\View
     {
         global $__CONFIG, $__TEMPLATE_NAME;
 
-        $file = 'view/'.$__TEMPLATE_NAME.'/'.$res;
+        $file   = 'view/'.$__TEMPLATE_NAME.'/'.$res;
         $output = '//'.$__CONFIG->Misc->staticPrefix.'/'.$file;
 
         if ($version) {
@@ -54,7 +55,7 @@ class Basic extends \Phalcon\Mvc\View
     {
         global $__CONFIG;
 
-        $file = 'static/'.$res;
+        $file   = 'static/'.$res;
         $output = '//'.$__CONFIG->Misc->staticPrefix.'/'.$file;
 
         if ($version) {
@@ -73,7 +74,7 @@ class Basic extends \Phalcon\Mvc\View
     public static function page($url)
     {
         global $__CONFIG;
-        
+
         return $__CONFIG->Misc->basePrefix.$url;
     }
 
@@ -83,5 +84,4 @@ class Basic extends \Phalcon\Mvc\View
 
         return sprintf('%f', $elapsed * 1000);
     }
-
 }

@@ -18,10 +18,11 @@ class Json extends Handler
         global $__CONFIG;
 
         $exception = $this->getInspector()->getException();
-        $obj = ['succeeded' => false, 'error' => ['type' => 'Exception', 'message' => $exception->getMessage()]];
+        $obj       = ['succeeded' => false, 'error' => ['type' => 'Exception', 'message' => $exception->getMessage()]];
+
         if ($__CONFIG->Debug->enabled) {
-            $obj['error']['file'] = $exception->getFile();
-            $obj['error']['line'] = $exception->getLine();
+            $obj['error']['file']  = $exception->getFile();
+            $obj['error']['line']  = $exception->getLine();
             $obj['error']['trace'] = $exception->getTraceAsString();
         }
 
@@ -30,6 +31,7 @@ class Json extends Handler
         }
 
         echo json_encode($obj);
+
         return Handler::QUIT;
     }
 }

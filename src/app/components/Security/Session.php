@@ -10,7 +10,6 @@ class Session
      */
     public static function initCharacter()
     {
-
         global $__SESSION;
 
         if (!\VJ\Session\Utils::$save) {
@@ -34,23 +33,17 @@ class Session
         if (!isset($_SERVER['HTTP_USER_AGENT'])) {
 
             $_SERVER['HTTP_USER_AGENT'] = '';
-
         }
 
         if (!isset($__SESSION['session-ua'])) {
 
             $__SESSION['session-ua'] = $_SERVER['HTTP_USER_AGENT'];
-
         } else if ($__SESSION['session-ua'] !== $_SERVER['HTTP_USER_AGENT']) {
 
             echo 'Your User-Agent has changed. Please re-login.';
             \VJ\Session\Utils::destroy();
 
             exit();
-
         }
-
     }
-
-
 }

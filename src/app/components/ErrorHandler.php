@@ -8,7 +8,7 @@ class ErrorHandler
     public static function whoops()
     {
         $di = \Phalcon\DI::getDefault();
-        
+
         // There's only ever going to be one error page...right?
         $di->setShared('whoops.error_page_handler', function () {
             return new \Whoops\Handler\PrettyPageHandler;
@@ -57,12 +57,11 @@ class ErrorHandler
             ]);
 
             $di['whoops.error_page_handler']->addDataTable('Application config', (array)$__CONFIG);
-
         };
 
         $di->setShared('whoops', function () use ($di, $phalcon_info_handler) {
             $run = new \Whoops\Run;
-            
+
             if (\VJ\Utils::isAjax()) {
                 $run->pushHandler(new \VJ\ErrorHandler\Json());
             } else {
@@ -90,6 +89,7 @@ class ErrorHandler
                         'controller' => 'error',
                         'action'     => 'general'
                     ]);
+
                     return false;
                 }
 
@@ -98,17 +98,15 @@ class ErrorHandler
                         'controller' => 'error',
                         'action'     => 'show404',
                     ]);
+
                     return false;
                 }
-
             });
 
             $dispatcher = new \VJ\Dispatcher();
             $dispatcher->setEventsManager($eventsManager);
 
             return $dispatcher;
-
         });
     }
-
 }

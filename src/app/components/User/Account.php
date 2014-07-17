@@ -2,8 +2,7 @@
 
 namespace VJ\User;
 
-use \VJ\I;
-use \VJ\Models;
+use VJ\Models;
 
 class Account
 {
@@ -13,7 +12,6 @@ class Account
      */
     public static function initialize()
     {
-
         global $__SESSION;
 
         if (!isset($__SESSION['user'])) {
@@ -34,13 +32,10 @@ class Account
                 } catch (\VJ\Exception $e) {
                     \VJ\User\Account\Login::guest();
                 }
-
             } else {
 
                 \VJ\User\Account\Login::guest();
-
             }
-
         }
 
         global $_UID, $_NICK, $_ACL;
@@ -48,7 +43,6 @@ class Account
         $_UID  = $__SESSION['user']['uid'];
         $_NICK = $__SESSION['user']['nick'];
         $_ACL  = $__SESSION['user']['acl'];
-
     }
 
     /**
@@ -61,7 +55,6 @@ class Account
      */
     public static function delete($uid, $permanent = false)
     {
-
         $di    = \Phalcon\DI::getDefault();
         $mongo = $di->getShared('mongo');
 
@@ -77,7 +70,6 @@ class Account
             );
 
             return ($result['n'] === 1);
-
         } else {
 
             \VJ\User\ACL::check('PRIV_USER_DELETE_FLAG');
@@ -88,9 +80,7 @@ class Account
             );
 
             return ($result['n'] === 1);
-
         }
-
     }
 
     /**
@@ -102,7 +92,6 @@ class Account
      */
     public static function unDelete($uid)
     {
-
         $di    = \Phalcon\DI::getDefault();
         $mongo = $di->getShared('mongo');
 
@@ -116,7 +105,6 @@ class Account
         );
 
         return ($result['n'] === 1);
-
     }
 
     /**
@@ -128,7 +116,6 @@ class Account
      */
     public static function ban($uid)
     {
-
         $di    = \Phalcon\DI::getDefault();
         $mongo = $di->getShared('mongo');
 
@@ -142,7 +129,6 @@ class Account
         );
 
         return ($result['n'] === 1);
-
     }
 
     /**
@@ -154,7 +140,6 @@ class Account
      */
     public static function unBan($uid)
     {
-
         $di    = \Phalcon\DI::getDefault();
         $mongo = $di->getShared('mongo');
 
@@ -168,7 +153,6 @@ class Account
         );
 
         return ($result['n'] === 1);
-
     }
 
     /**
@@ -184,7 +168,6 @@ class Account
      */
     public static function makeHash_deprecated($username, $password, $salt, $isMD5 = false)
     {
-
         $username = strtolower($username);
 
         if ($isMD5 !== true) {
@@ -192,7 +175,6 @@ class Account
         }
 
         return sha1(md5($username.$password).$salt.sha1($password.$salt));
-
     }
 
     /**
@@ -206,7 +188,6 @@ class Account
      */
     public static function makeHash($password, $salt, $isMD5 = false)
     {
-
         if ($isMD5 !== true) {
             $password = md5($password);
         }
@@ -218,7 +199,6 @@ class Account
         }
 
         return $hash;
-
     }
 
     /**
@@ -231,7 +211,6 @@ class Account
      */
     public static function usernameExists($username, &$uid = null)
     {
-
         $username = strtolower($username);
 
         $user = Models\User::findFirst([
@@ -246,7 +225,6 @@ class Account
         } else {
             return false;
         }
-
     }
 
     /**
@@ -259,7 +237,6 @@ class Account
      */
     public static function nicknameExists($nickname, &$uid = null)
     {
-
         $nickname = strtolower($nickname);
 
         $user = Models\User::findFirst([
@@ -274,7 +251,5 @@ class Account
         } else {
             return false;
         }
-
     }
-
 }

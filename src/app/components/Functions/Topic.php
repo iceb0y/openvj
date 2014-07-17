@@ -2,9 +2,6 @@
 
 namespace VJ\Functions;
 
-use \VJ\I;
-use \VJ\Utils;
-
 class Topic
 {
 
@@ -18,12 +15,10 @@ class Topic
      */
     public static function queryNodeAsFlat()
     {
-
         $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
         $list  = $mongo->System->findOne(['_id' => self::SYSTEM_ID_NODE_FLAT]);
 
         return $list['v'];
-
     }
 
     /**
@@ -33,12 +28,10 @@ class Topic
      */
     public static function queryNodeAsTree()
     {
-
         $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
         $tree  = $mongo->System->findOne(['_id' => self::SYSTEM_ID_NODE_TREE]);
 
         return $tree['v'];
-
     }
 
     /**
@@ -50,7 +43,6 @@ class Topic
      */
     public static function queryNodeName($node)
     {
-
         $nodeList = self::queryNodeAsFlat();
 
         foreach ($nodeList as $nodeName => $type) {
@@ -60,7 +52,6 @@ class Topic
         }
 
         return false;
-
     }
 
     /**
@@ -145,8 +136,5 @@ class Topic
         $mongo->Topic->insert($doc);
 
         return (string)$doc['_id'];
-
     }
-
-
 }

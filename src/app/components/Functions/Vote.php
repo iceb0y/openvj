@@ -2,8 +2,6 @@
 
 namespace VJ\Functions;
 
-use \VJ\I;
-
 class Vote
 {
 
@@ -23,7 +21,6 @@ class Vote
      */
     public static function get($vote_id)
     {
-
         $vote_id = (string)$vote_id;
         $mongo   = \Phalcon\DI::getDefault()->getShared('mongo');
 
@@ -40,7 +37,6 @@ class Vote
         }
 
         return $result;
-
     }
 
     /**
@@ -52,7 +48,6 @@ class Vote
      */
     public static function getArray($vidList)
     {
-
         $vidList  = array_map('strval', $vidList);
         $vidLists = array_chunk($vidList, self::_QUERY_MAX_CHUNK);
 
@@ -74,7 +69,6 @@ class Vote
                     'down_count' => $vote['dnc']
                 ];
             }
-
         }
 
         // Fill missing data
@@ -83,7 +77,6 @@ class Vote
             if (!isset($result[$vid])) {
                 $result[$vid] = self::$emptyVoteModel;
             }
-
         }
 
         return $result;
@@ -99,7 +92,6 @@ class Vote
      */
     public static function vote($vote_id, $attitude)
     {
-
         $di    = \Phalcon\DI::getDefault();
         $mongo = $di->getShared('mongo');
 
@@ -147,7 +139,6 @@ class Vote
                 $updater['$set']['dn.'.$_UID] = time();
                 $updater['$inc']['dnc']       = 1;
             }
-
         } else {
 
             $updater = [
@@ -166,7 +157,6 @@ class Vote
                 $updater['$set']['dn']->{$_UID} = time();
                 $updater['$set']['dnc']         = 1;
             }
-
         }
 
         $result = $mongo->Vote->update(
@@ -176,7 +166,6 @@ class Vote
         );
 
         return ($result['n'] === 1);
-
     }
 
     /**
@@ -189,7 +178,6 @@ class Vote
      */
     public static function _deleteEntity($vote_id)
     {
-
         $vote_id = (string)$vote_id;
         $mongo   = \Phalcon\DI::getDefault()->getShared('mongo');
 
@@ -199,7 +187,5 @@ class Vote
         );
 
         return ($result['n'] === 1);
-
     }
-
 }

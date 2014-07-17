@@ -2,9 +2,8 @@
 
 namespace VJ\User\Account;
 
-use \VJ\I;
-use \VJ\Utils;
-use \VJ\Models;
+use VJ\Models;
+use VJ\Utils;
 
 class Login
 {
@@ -27,11 +26,9 @@ class Login
      */
     public static function fromCookie($token, $uid, $key)
     {
-
         $token = \VJ\Validator::mongoId($token);
         if ($token == null) {
-			throw new \VJ\Exception('ERR_ARGUMENT_INVALID', 'token');
-            
+            throw new \VJ\Exception('ERR_ARGUMENT_INVALID', 'token');
         }
 
         $uid = (int)$uid;
@@ -40,20 +37,18 @@ class Login
         $sess = Models\SavedSession::findById($token);
 
         if (!$sess) {
-			throw new \VJ\Exception('ERR_FAILED');
-            
+            throw new \VJ\Exception('ERR_FAILED');
         }
 
         // Valid?
         if ($sess->uid !== $uid || $sess->key !== $key) {
-			throw new \VJ\Exception('ERR_FAILED');
-            
+            throw new \VJ\Exception('ERR_FAILED');
         }
 
         // Session expired?
         if (time() > $sess->exptime->sec) {
             $sess->delete();
-			throw new \VJ\Exception('ERR_FAILED');
+            throw new \VJ\Exception('ERR_FAILED');
         }
 
         $u = Models\User::findFirst([
@@ -62,21 +57,18 @@ class Login
 
         // User is deleted
         if ($u == false) {
-			throw new \VJ\Exception('ERR_FAILED');
-            
+            throw new \VJ\Exception('ERR_FAILED');
         }
 
         // User is banned or marked deleted
         if ($u->banned !== null || $u->deleted !== null) {
-			throw new \VJ\Exception('ERR_FAILED');
-            
+            throw new \VJ\Exception('ERR_FAILED');
         }
 
         // Login succeeded
         self::_log($uid, self::LOGIN_FROM_COOKIE, true);
 
         return $u;
-
     }
 
     /**
@@ -90,16 +82,15 @@ class Login
      */
     public static function fromPassword($user, $pass, $from = self::LOGIN_FROM_AUTH, $md5 = false)
     {
-
         $user = strtolower($user);
         $pass = (string)$pass;
 
         if (strlen($user) === 0) {
-			throw new \VJ\Exception('ERR_ARGUMENT_MISSING','username');
+            throw new \VJ\Exception('ERR_ARGUMENT_MISSING', 'username');
         }
 
         if (strlen($pass) === 0) {
-			throw new \VJ\Exception('ERR_ARGUMENT_MISSING','password');
+            throw new \VJ\Exception('ERR_ARGUMENT_MISSING', 'password');
         }
 
         $u = Models\User::findFirst([
@@ -107,18 +98,15 @@ class Login
         ]);
 
         if (!$u) {
-			throw new \VJ\Exception('ERR_NOT_FOUND','user');
-            
+            throw new \VJ\Exception('ERR_NOT_FOUND', 'user');
         }
 
         if ($u->deleted) {
-			throw new \VJ\Exception('ERR_NOT_FOUND','user');
-            
+            throw new \VJ\Exception('ERR_NOT_FOUND', 'user');
         }
 
         if ($u->banned) {
-			throw new \VJ\Exception('ERR_USER_BANNED');
-            
+            throw new \VJ\Exception('ERR_USER_BANNED');
         }
 
         if (!isset($u->passfmt)) {
@@ -146,8 +134,7 @@ class Login
         self::_log($u->uid, $from, $login_OK);
 
         if (!$login_OK) {
-			throw new \VJ\Exception('ERR_PASSWORD_WRONG');
-            
+            throw new \VJ\Exception('ERR_PASSWORD_WRONG');
         }
 
         // Upgrade old passwords
@@ -161,11 +148,9 @@ class Login
                     'passfmt' => 1
                 ]
             ]);
-
         }
 
         return $u;
-
     }
 
     /**
@@ -179,7 +164,6 @@ class Login
      */
     private static function _log($uid, $from, $ok)
     {
-
         $uid  = (int)$uid;
         $from = (int)$from;
         $ok   = (bool)$ok;
@@ -199,7 +183,6 @@ class Login
         $log->ua   = $ua;
 
         return $log->save();
-
     }
 
     /**
@@ -211,7 +194,6 @@ class Login
      */
     public static function user(Models\User $u)
     {
-
         global $__SESSION;
 
         $acl     = \Phalcon\DI::getDefault()->getShared('acl');
@@ -219,14 +201,12 @@ class Login
 
         // 检查该账号是否可登录
         if (!isset($acldata[PRIV_LOG_IN]) || $acldata[PRIV_LOG_IN] !== true) {
-			throw new \VJ\Exception('ERR_NO_PRIV','PRIV_LOG_IN');
-            
+            throw new \VJ\Exception('ERR_NO_PRIV', 'PRIV_LOG_IN');
         }
 
         // 检查是否有登录IP限制
         if ($u->ipmatch != null && !preg_match($u->ipmatch, $_SERVER['REMOTE_ADDR'])) {
-			throw new \VJ\Exception('ERR_IP_MISMATCH');
-            
+            throw new \VJ\Exception('ERR_IP_MISMATCH');
         }
 
         // 修改最后登录时间
@@ -263,7 +243,6 @@ class Login
         $__SESSION['user'] = $data;
 
         return true;
-
     }
 
     /**
@@ -273,7 +252,6 @@ class Login
      */
     public static function guest()
     {
-
         global $__SESSION;
 
         $acl = \Phalcon\DI::getDefault()->getShared('acl');
@@ -293,7 +271,5 @@ class Login
         ];
 
         return true;
-
     }
-
 }

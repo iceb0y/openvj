@@ -24,5 +24,4 @@ class Randomizer
     {
         return sha1(self::toBinary($bytes));
     }
-
 }

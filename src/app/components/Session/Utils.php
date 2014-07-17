@@ -14,7 +14,6 @@ class Utils
 
     public static function initialize(SessionProvider $provider)
     {
-
         global $__CONFIG, $__SESSION;
 
         self::$provider = $provider;
@@ -40,24 +39,18 @@ class Utils
 
                     unset($_COOKIE[self::$sessname]);
                     self::expireCookie();
-
                 }
-
             } else {
 
                 self::newSession();
                 self::sendNoCache();
-
             }
-
         } else {
 
             self::$save   = true;
             self::$sessid = $_COOKIE[self::$sessname];
             self::sendNoCache();
-
         }
-
     }
 
     /**
@@ -65,7 +58,6 @@ class Utils
      */
     public static function newSession()
     {
-
         global $__SESSION;
 
         $__SESSION = [];
@@ -74,7 +66,6 @@ class Utils
         self::$sessid = self::generateSessionId();
         self::$provider->newSession(self::$sessid, $__SESSION);
         self::setCookie(self::$sessid);
-
     }
 
     /**
@@ -82,7 +73,6 @@ class Utils
      */
     public static function destroy()
     {
-
         global $__SESSION;
 
         $__SESSION = [];
@@ -98,7 +88,6 @@ class Utils
      */
     public static function commit()
     {
-
         if (!self::$save) {
             return;
         }
@@ -106,7 +95,6 @@ class Utils
         global $__SESSION;
 
         self::$provider->saveSession(self::$sessid, $__SESSION);
-
     }
 
     /**
@@ -160,5 +148,4 @@ class Utils
     {
         return uniqid('', true).'.'.\VJ\Security\Randomizer::toHex(10);
     }
-
 }

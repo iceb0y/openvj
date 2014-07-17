@@ -2,14 +2,13 @@
 
 namespace VJ\Git;
 
-use \VJ\IO\Gitservice;
+use VJ\IO\Gitservice;
 
 class Repository
 {
 
     public static function create($name)
     {
-
         global $__CONFIG;
 
         $name = (string)$name;
@@ -19,7 +18,5 @@ class Repository
         ]);
 
         return $result;
-
     }
-
 }

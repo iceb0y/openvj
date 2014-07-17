@@ -2,12 +2,13 @@
 
 namespace VJ\RenderEngine;
 
-class Volt extends \Phalcon\Mvc\View\Engine\Volt
+use Phalcon\Mvc\View\Engine\Volt as PhalconVolt;
+
+class Volt extends PhalconVolt
 {
 
     public function __construct($view, $di = null)
     {
-
         parent::__construct($view, $di);
 
         global $__CONFIG;
@@ -23,7 +24,7 @@ class Volt extends \Phalcon\Mvc\View\Engine\Volt
         $compiler->addFunction('asset', '\VJ\View\Basic::asset');
         $compiler->addFunction('template', '\VJ\View\Basic::template');
         $compiler->addFunction('page', '\VJ\View\Basic::page');
-        
+
         $compiler->addFunction('processTime', '\VJ\View\Basic::processTime');
         $compiler->addFunction('hasPriv', '\VJ\View\Basic::hasPriv');
 
@@ -35,7 +36,5 @@ class Volt extends \Phalcon\Mvc\View\Engine\Volt
 
         // Functional
         $compiler->addFunction('getuser', '\VJ\User\Utils::getUserInfo');
-
     }
-
 }

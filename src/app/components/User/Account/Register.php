@@ -2,9 +2,8 @@
 
 namespace VJ\User\Account;
 
-use \VJ\I;
-use \VJ\Utils;
-use \VJ\Models;
+use VJ\Models;
+use VJ\Utils;
 
 class Register
 {
@@ -18,15 +17,14 @@ class Register
      */
     public static function sendVerificationEmail($email)
     {
-
         $email = strtolower((string)$email);
 
         if (Utils::len($email) > 40) {
-            throw new \VJ\Exception('ERR_ARGUMENT_INVALID','email');
+            throw new \VJ\Exception('ERR_ARGUMENT_INVALID', 'email');
         }
 
         if (!\VJ\Validator::email($email)) {
-            throw new \VJ\Exception('ERR_ARGUMENT_INVALID','email');
+            throw new \VJ\Exception('ERR_ARGUMENT_INVALID', 'email');
         }
 
         // Mail already in use
@@ -36,7 +34,7 @@ class Register
             'fields'     => ['_id' => 1]
         ])
         ) {
-            throw new \VJ\Exception('ERR_USED','email',$email);
+            throw new \VJ\Exception('ERR_USED', 'email', $email);
         }
 
         // Generate new validation request
@@ -89,7 +87,6 @@ class Register
      */
     public static function verificateEmail($mailHash, $code)
     {
-
         global $__CONFIG;
 
         $code = (string)$code;
@@ -100,17 +97,14 @@ class Register
 
         if (!$record) {
             throw new \VJ\Exception('ERR_REG_VERFICATION_FAILED');
-            
         }
 
         if (sha1(strtolower($record->email)) !== (string)$mailHash) {
             throw new \VJ\Exception('ERR_REG_VERFICATION_FAILED');
-            
         }
 
         if (time() - $record->time->sec > (int)$__CONFIG->Register->validationTTL) {
             throw new \VJ\Exception('ERR_REG_VERFICATION_EXPIRED');
-            
         }
 
         return ['mail' => $record->email, 'code' => $code];
@@ -144,7 +138,6 @@ class Register
 
         if (strtolower($agreement) !== 'accept') {
             throw new \VJ\Exception('ERR_REG_ACCEPT_NEEDED');
-            
         }
 
         $data = [
@@ -178,13 +171,11 @@ class Register
 
         // Exists?
         if (\VJ\User\Account::usernameExists($username)) {
-            throw new \VJ\Exception('ERR_USED','username',$username);
-            
+            throw new \VJ\Exception('ERR_USED', 'username', $username);
         }
 
         if (\VJ\User\Account::nicknameExists($nickname)) {
-            throw new \VJ\Exception('ERR_USED','username',$nickname);
-            
+            throw new \VJ\Exception('ERR_USED', 'username', $nickname);
         }
 
         // Check session
@@ -192,7 +183,6 @@ class Register
 
             if (!isset($options['email']) || !isset($options['code'])) {
                 throw new \VJ\Exception('ERR_REG_VERFICATION_FAILED');
-                
             }
 
             $mail = $options['email'];
@@ -207,15 +197,12 @@ class Register
                 $validate_record->delete();
             } else {
                 throw new \VJ\Exception('ERR_REG_VERFICATION_FAILED');
-                
             }
 
             unset($validate_record);
-
         } else {
 
             $mail = '';
-
         }
 
         // Begin
@@ -276,5 +263,4 @@ class Register
             'uid' => $uid
         ];
     }
-
 }

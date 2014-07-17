@@ -2,12 +2,11 @@
 
 namespace VJ\View;
 
-class Email extends \VJ\View\Basic
+class Email extends Basic
 {
 
     public function __construct($options = null)
     {
-
         parent::__construct($options);
 
         global $__CONFIG;
@@ -22,5 +21,4 @@ class Email extends \VJ\View\Basic
 
         ]);
     }
-
 }

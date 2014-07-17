@@ -2,8 +2,7 @@
 
 namespace VJ;
 
-use \VJ\IO\Bgservice;
-use \VJ\I;
+use VJ\IO\Bgservice;
 
 class Email
 {
@@ -19,10 +18,9 @@ class Email
      */
     public static function send($email, $subject, $body)
     {
-
         global $__CONFIG;
 
-        $result = Bgservice::post('/mail/send', [
+        Bgservice::post('/mail/send', [
             'receiver' => $email,
             'subject'  => $__CONFIG->Mail->subjectPrefix.$subject,
             'body'     => $body
@@ -60,5 +58,4 @@ class Email
 
         return self::send($email, $subject, $body);
     }
-
 }

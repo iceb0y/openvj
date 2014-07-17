@@ -27,17 +27,17 @@ class I18N
         if (count($argv) == 0) {
             return '';
         }
-        
+
         $argv[0] = 'I18N_'.$argv[0];
         if (defined($argv[0])) {
             $argv[0] = constant($argv[0]);
         }
         if (count($argv) > 1) {
             $text = call_user_func_array('sprintf', $argv);
+
             return $text;
         } else {
             return $argv[0];
         }
     }
-
 }

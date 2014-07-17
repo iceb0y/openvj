@@ -7,7 +7,6 @@ class Gitservice
 
     public static function get($URI, $get = null)
     {
-
         global $__CONFIG;
 
         return \VJ\IO\Utils::curl(
@@ -17,12 +16,10 @@ class Gitservice
             $URI,
             $get
         );
-
     }
 
     public static function post($URI, $post = null)
     {
-
         global $__CONFIG;
 
         return \VJ\IO\Utils::curl(
@@ -33,7 +30,5 @@ class Gitservice
             null,
             $post
         );
-
     }
-
 }

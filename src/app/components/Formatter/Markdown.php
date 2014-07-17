@@ -4,25 +4,21 @@ namespace VJ\Formatter;
 
 class Markdown
 {
+    private static $init = false;
 
-    private static $md = null;
-
-    /**
-     * parse markdown to html
-     *
-     * @param $content
-     *
-     * @return mixed
-     */
-    public static function parse($content)
+    public static function parse($md)
     {
+        if (self::$init == false) {
+            \Marked\Marked::setOptions([
+                'gfm'    => true,
+                'tables' => false,
+                'breaks' => true
+                'langPrefix'   => 'prettyprint lang-'
+            ]);
 
-        if (self::$md == null) {
-            self::$md = new \Michelf\MarkdownExtra();
+            self::$init = true;
         }
 
-        return \VJ\Escaper::purify(self::$md->transform($content));
-
+        return \VJ\Escaper::purify(\Marked\Marked::render($md));
     }
-
 }

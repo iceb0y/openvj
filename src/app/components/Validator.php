@@ -2,9 +2,6 @@
 
 namespace VJ;
 
-use \VJ\I;
-use \VJ\Utils;
-
 class Validator
 {
 
@@ -20,7 +17,6 @@ class Validator
      */
     public static function required($checkArray, $params)
     {
-
         foreach ($params as $param) {
             if (!isset($checkArray[$param])) {
                 throw new \VJ\Exception('ERR_ARGUMENT_MISSING', $param);
@@ -40,12 +36,10 @@ class Validator
      */
     public static function validate($checkArray, $rule_container)
     {
-
         foreach ($rule_container as $key => $rules) {
 
             if (!isset($checkArray[$key])) {
                 throw new \VJ\Exception('ERR_ARGUMENT_MISSING', $key);
-                
             }
 
             $value = $checkArray[$key];
@@ -57,8 +51,7 @@ class Validator
                     case 'in':
 
                         if (!in_array($value, $ruleValue)) {
-                            throw new \VJ\Exception('ERR_ARGUMENT_INVALID',$key);
-                            
+                            throw new \VJ\Exception('ERR_ARGUMENT_INVALID', $key);
                         }
 
                         break;
@@ -77,19 +70,15 @@ class Validator
 
                         if ($length < $ruleValue[0]) {
                             if ($ruleName == 'length') {
-                                throw new \VJ\Exception('ERR_ARGUMENT_INVALID',$key);
-                                
+                                throw new \VJ\Exception('ERR_ARGUMENT_INVALID', $key);
                             } else {
-                                throw new \VJ\Exception('ERR_CONTENT_TOOSHORT',$ruleValue[0]);
-                                
+                                throw new \VJ\Exception('ERR_CONTENT_TOOSHORT', $ruleValue[0]);
                             }
                         } else if ($length > $ruleValue[1]) {
                             if ($ruleName == 'length') {
-                                throw new \VJ\Exception('ERR_ARGUMENT_INVALID',$key);
-                                
+                                throw new \VJ\Exception('ERR_ARGUMENT_INVALID', $key);
                             } else {
-                                throw new \VJ\Exception('ERR_CONTENT_TOOLONG',$ruleValue[1]);
-                                
+                                throw new \VJ\Exception('ERR_CONTENT_TOOLONG', $ruleValue[1]);
                             }
                         }
 
@@ -98,20 +87,15 @@ class Validator
                     case 'regex':
 
                         if (!preg_match($ruleValue, $value)) {
-                            throw new \VJ\Exception('ERR_ARGUMENT_INVALID',$key);
-                            
+                            throw new \VJ\Exception('ERR_ARGUMENT_INVALID', $key);
                         }
 
                         break;
-
                 }
-
             }
-
         }
 
         return true;
-
     }
 
     /**
@@ -124,7 +108,6 @@ class Validator
      */
     public static function filter($data, $rules)
     {
-
         foreach ($rules as $key => $_rule) {
 
             if (!is_array($_rule)) {
@@ -158,11 +141,8 @@ class Validator
                     case 'upper':
                         $data[$key] = strtoupper($data[$key]);
                         break;
-
                 }
-
             }
-
         }
 
         //unset not used members
@@ -173,7 +153,6 @@ class Validator
         }
 
         return true;
-
     }
 
     /**
@@ -185,11 +164,9 @@ class Validator
      */
     public static function email($p)
     {
-
         $p = (string)$p;
 
         return (bool)preg_match(self::REGEX_EMAIL, $p);
-
     }
 
     /**
@@ -201,7 +178,6 @@ class Validator
      */
     public static function mongoId($p)
     {
-
         $p = (string)$p;
 
         if (strlen($p) !== 24) {
@@ -210,11 +186,10 @@ class Validator
 
         try {
             $p = new \MongoId($p);
+
             return $p;
         } catch (\MongoException $e) {
             return null;
         }
-
     }
-
 }

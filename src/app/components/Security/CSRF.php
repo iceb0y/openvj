@@ -10,7 +10,6 @@ class CSRF
      */
     public static function initToken()
     {
-
         global $__SESSION;
 
         if (!isset($__SESSION['csrf-token'])) {
@@ -20,7 +19,6 @@ class CSRF
                 $__SESSION['csrf-token'] = str_repeat('0', 20);
             }
         }
-
     }
 
     /**
@@ -30,22 +28,20 @@ class CSRF
      */
     public static function checkToken()
     {
-
         global $__SESSION;
 
         if (!isset($__SESSION['csrf-token'])) {
-			throw new \VJ\Exception('ERR_CSRF_TOKEN_MISSING');
+            throw new \VJ\Exception('ERR_CSRF_TOKEN_MISSING');
         }
 
         $token = strval($__SESSION['csrf-token']);
 
-		if (isset($_GET['token']) && strval($_GET['token']) === $token) {
+        if (isset($_GET['token']) && strval($_GET['token']) === $token) {
             return true;
-		}
+        }
 
         if (isset($_POST['token']) && strval($_POST['token']) === $token) {
-			return true;
-		}
+            return true;
+        }
     }
-
 }

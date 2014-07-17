@@ -2,18 +2,20 @@
 
 namespace VJ;
 
-use Phalcon\Mvc\Dispatcher as PhalconDispatcher;
 use Exception;
+use Phalcon\Mvc\Dispatcher as PhalconDispatcher;
 
-class Dispatcher extends PhalconDispatcher {
+class Dispatcher extends PhalconDispatcher
+{
 
     /**
      * Dispatches a handle action taking into account the routing parameters
-     * 
-     * @return Phalcon\Mvc\Controller
+     *
+     * @return \Phalcon\Mvc\Controller
      * @throws Exception
      */
-    public function dispatch() {
+    public function dispatch()
+    {
         try {
             return parent::dispatch();
         } catch (Exception $exception) {
@@ -25,5 +27,4 @@ class Dispatcher extends PhalconDispatcher {
             }
         }
     }
-
 }

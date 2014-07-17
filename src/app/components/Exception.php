@@ -18,8 +18,8 @@ class Exception extends \Exception
 
         $obj = ['succeeded' => false, 'error' => ['type' => 'UserException', 'message' => $this->message]];
         if ($__CONFIG->Debug->enabled) {
-            $obj['error']['file'] = $this->file;
-            $obj['error']['line'] = $this->line;
+            $obj['error']['file']  = $this->file;
+            $obj['error']['line']  = $this->line;
             $obj['error']['trace'] = $this->getTraceAsString();
         }
 

@@ -35,7 +35,6 @@ class Basic extends \Phalcon\Mvc\Controller
         }
 
         $this->view->AJAX_DATA = $data;
-
         $this->dispatcher->forward([
             'controller' => 'ajax',
             'action'     => 'forwarded'
@@ -43,5 +42,4 @@ class Basic extends \Phalcon\Mvc\Controller
 
         return false;
     }
-
 }
