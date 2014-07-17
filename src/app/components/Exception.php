@@ -11,6 +11,7 @@ class Exception extends \Exception
         $message = call_user_func_array('\VJ\I18N::get', func_get_args());
         parent::__construct($message, self::CODE_USER_ERROR);
     }
+    
 
     public function toAjaxObject()
     {
