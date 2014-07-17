@@ -11,18 +11,26 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalcon/phalcon-devtools.git",
-                "reference": "7b639d03c0b577827faec93c8ea266d468fe7e2d"
+                "reference": "221045950e70ed9674e3f6de9e10c630c858a693"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/phalcon-devtools/zipball/7b639d03c0b577827faec93c8ea266d468fe7e2d",
-                "reference": "7b639d03c0b577827faec93c8ea266d468fe7e2d",
+                "url": "https://api.github.com/repos/phalcon/phalcon-devtools/zipball/221045950e70ed9674e3f6de9e10c630c858a693",
+                "reference": "221045950e70ed9674e3f6de9e10c630c858a693",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.6"
             },
+            "bin": [
+                "phalcon.php"
+            ],
             "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Phalcon": "scripts/"
+                }
+            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3"
@@ -39,23 +47,15 @@
                 "framework",
                 "phalcon"
             ],
-            "time": "2013-08-22 12:53:20"
+            "time": "2014-07-10 21:46:57"
         }
     ],
-    "packages-dev": [
-
-    ],
-    "aliases": [
-
-    ],
+    "packages-dev": [],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
         "phalcon/devtools": 20
     },
-    "platform": [
-
-    ],
-    "platform-dev": [
-
-    ]
+    "platform": [],
+    "platform-dev": []
 }
