@@ -2,20 +2,17 @@
 
 namespace VJ\View;
 
-class General extends \VJ\View\Basic
+class General extends Basic
 {
 
     public static function initialize()
     {
-
         $di = \Phalcon\DI::getDefault();
         $di->set('view', 'VJ\View\General');
-
     }
 
     public function __construct($options = null)
     {
-
         parent::__construct($options);
 
         global $__TEMPLATE_NAME, $__CONFIG, $__SESSION;
@@ -45,5 +42,4 @@ class General extends \VJ\View\Basic
             ]
         ]);
     }
-
 }

@@ -16,9 +16,7 @@ class Utils
      */
     public static function strcut($str, $len = 200)
     {
-
         return mb_substr($str, 0, $len, 'UTF-8');
-
     }
 
     /**
@@ -30,9 +28,7 @@ class Utils
      */
     public static function len($str)
     {
-
         return mb_strlen($str, 'UTF-8');
-
     }
 
     /**
@@ -68,13 +64,11 @@ class Utils
      */
     public static function isAjax()
     {
-
         return (
             (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && (strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) ||
             isset($_POST['ajax']) ||
             isset($_GET['ajax'])
         );
-
     }
 
     /**
@@ -86,11 +80,9 @@ class Utils
      */
     public static function formatDate($timestamp)
     {
-
         global $__DATE_FORMAT;
 
         return date($__DATE_FORMAT, $timestamp);
-
     }
 
     /**
@@ -102,11 +94,9 @@ class Utils
      */
     public static function formatTime($timestamp)
     {
-
         global $__TIME_FORMAT;
 
         return date($__TIME_FORMAT, $timestamp);
-
     }
 
     /**
@@ -118,11 +108,8 @@ class Utils
      */
     public static function formatDateTime($timestamp)
     {
-
         global $__DATE_FORMAT, $__TIME_FORMAT;
 
         return date($__DATE_FORMAT.' '.$__TIME_FORMAT, $timestamp);
-
     }
-
 }

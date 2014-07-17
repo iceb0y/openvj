@@ -1,9 +1,9 @@
 <?php
 
-use \VJ\I;
-use \VJ\Utils;
+use VJ\Utils;
+use VJ\Controller\Basic;
 
-class ErrorController extends \VJ\Controller\Basic
+class ErrorController extends Basic
 {
 
     public function initialize()
@@ -22,7 +22,6 @@ class ErrorController extends \VJ\Controller\Basic
                 'action'     => 'general'
             ]);
         }
-
     }
 
     public function generalAction($exception = null)
@@ -48,7 +47,5 @@ class ErrorController extends \VJ\Controller\Basic
             'PAGE_CLASS' => 'error_404',
             'TITLE'      => gettext('404')
         ]);
-
     }
-
 }

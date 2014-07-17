@@ -2,7 +2,7 @@
 
 namespace VJ\User;
 
-use \VJ\Models;
+use VJ\Models;
 
 class Utils
 {
@@ -20,7 +20,6 @@ class Utils
      */
     public static function getUidByUsername($username)
     {
-
         $username = strtolower($username);
 
         $user = Models\User::findFirst([
@@ -33,7 +32,6 @@ class Utils
         } else {
             return null;
         }
-
     }
 
     /**
@@ -45,7 +43,6 @@ class Utils
      */
     public static function getUserInfo($uid)
     {
-
         $uid = (int)$uid;
 
         $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
@@ -60,7 +57,6 @@ class Utils
         }
 
         return $result;
-
     }
 
     /**
@@ -72,7 +68,6 @@ class Utils
      */
     public static function getUserInfoArray($uidList)
     {
-
         $uidList  = array_map('intval', $uidList);
         $uidLists = array_chunk($uidList, self::_QUERY_MAX_CHUNK);
 
@@ -91,7 +86,6 @@ class Utils
             foreach ($cursor as $user) {
                 $result[$user['uid']] = $user;
             }
-
         }
 
         // Fill missing users
@@ -100,11 +94,8 @@ class Utils
             if (!isset($result[$uid])) {
                 $result[$uid] = self::$emptyUserModel;
             }
-
         }
 
         return $result;
-
     }
-
 }

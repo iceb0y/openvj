@@ -7,7 +7,6 @@ class Cache
 
     public static function initialize()
     {
-
         $di = \Phalcon\DI::getDefault();
 
         $di->setShared('cache', function () {
@@ -17,14 +16,11 @@ class Cache
             $frontend = new \Phalcon\Cache\Frontend\Data([
                 'lifetime' => 7200
             ]);
-
-            $cache = new \Phalcon\Cache\Backend\Redis($frontend, [
+            $cache    = new \Phalcon\Cache\Backend\Redis($frontend, [
                 'redis' => $redis
             ]);
 
             return $cache;
         });
-
     }
-
 }

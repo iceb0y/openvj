@@ -2,7 +2,7 @@
 
 namespace VJ\Security;
 
-use \VJ\Utils;
+use VJ\Utils;
 
 class SSL
 {
@@ -12,7 +12,6 @@ class SSL
      */
     public static function enforce()
     {
-
         if (isset($_GET['nossl'])) {
 
             $option = strtolower($_GET['nossl']);
@@ -24,7 +23,6 @@ class SSL
                 Utils::setCookie('nossl', 'on');
                 $_COOKIE['nossl'] = 'on';
             }
-
         }
 
         if (!ENV_SSL && !isset($_COOKIE['nossl'])) {
@@ -40,11 +38,7 @@ class SSL
                 header('HTTP/1.1 301 Moved Permanently');
                 header('Location: https://'.ENV_HOST.$_SERVER['REQUEST_URI']);
                 exit();
-
             }
-
         }
-
     }
-
 }

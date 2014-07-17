@@ -41,5 +41,4 @@ interface SessionProvider
      * @return mixed
      */
     public function deleteSession($sess_id);
-
 }

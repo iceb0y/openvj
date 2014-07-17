@@ -2,7 +2,7 @@
 
 namespace VJ\User;
 
-use \VJ\Models;
+use VJ\Models;
 
 class ACL
 {
@@ -15,17 +15,12 @@ class ACL
 
     public static function initialize()
     {
-
         $di = \Phalcon\DI::getDefault();
-
         $di->setShared('acl', function () {
-
             $acl = new \VJ\User\ACL();
 
             return $acl;
-
         });
-
     }
 
     public static function check($priv, $uid = null)
@@ -38,12 +33,12 @@ class ACL
     public static function has($priv, $uid = null)
     {
         $acl = \Phalcon\DI::getDefault()->getShared('acl');
+
         return $acl->hasPriv($priv, $uid);
     }
 
     public function __construct()
     {
-
         $cache = \Phalcon\DI::getDefault()->getShared('cache');
 
         $this->acl = $cache->get(self::CACHE_ACL_KEY);
@@ -60,9 +55,7 @@ class ACL
             $this->acl = $rec['v'];
 
             $cache->save(self::CACHE_ACL_KEY, $this->acl);
-
         }
-
     }
 
     /**
@@ -75,9 +68,7 @@ class ACL
      */
     public function merge($userACL, $group)
     {
-
         return $userACL + $this->acl[(int)$group];
-
     }
 
     /**
@@ -89,9 +80,7 @@ class ACL
      */
     public function getGroupACL($group)
     {
-
         return $this->acl[(int)$group];
-
     }
 
     /**
@@ -104,7 +93,6 @@ class ACL
      */
     public function hasPriv($priv, $uid = null)
     {
-
         if (defined('OPENVJ_ACL_DISABLE')) {
             return true;
         }
@@ -126,7 +114,6 @@ class ACL
             }
 
             return (bool)$_ACL[$priv];
-
         } else {
 
             global $_ACL;
@@ -136,9 +123,7 @@ class ACL
             }
 
             return (bool)$_ACL[$priv];
-
         }
-
     }
 
     /**
@@ -168,7 +153,6 @@ class ACL
         $cache->save(self::CACHE_ACL_KEY, $ACL);
 
         return true;
-
     }
 
     /**
@@ -213,14 +197,12 @@ class ACL
                     'v' => (int)$matches[2],
                     'd' => trim($matches[3])
                 ];
-
             }
         }
 
         fclose($fp);
 
         return $priv;
-
     }
 
     /**
@@ -230,7 +212,6 @@ class ACL
      */
     public static function export()
     {
-
         $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
         $rec   = $mongo->System->findOne(['_id' => self::SYSTEM_ID_ACL]);
         $acl   = $rec['v'];
@@ -238,12 +219,11 @@ class ACL
         $acl_r = $rec['v'];
 
         $result = \VJ\Escaper::json([
-            'acl'           => $acl,
-            'acl_rules'     => $acl_r
+            'acl'       => $acl,
+            'acl_rules' => $acl_r
         ]);
 
         return $result;
-
     }
 
     /**
@@ -253,12 +233,10 @@ class ACL
      */
     public static function queryRules()
     {
-
         $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
         $rec   = $mongo->System->findOne(['_id' => self::SYSTEM_ID_ACL_RULES]);
 
         return $rec['v'];
-
     }
 
     /**
@@ -270,7 +248,6 @@ class ACL
      */
     public static function convertToTree($privFlat)
     {
-
         $tree = [];
 
         foreach ($privFlat as $name => $value) {
@@ -290,12 +267,8 @@ class ACL
 
             $ref['_v'] = $value['v'];
             $ref['_d'] = $value['d'];
-
         }
 
         return $tree;
-
     }
-
-
 }

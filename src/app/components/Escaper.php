@@ -17,13 +17,11 @@ class Escaper
      */
     public static function html($content)
     {
-
         if (self::$escaper == null) {
             self::_initEscaper();
         }
 
         return self::$escaper->escapeHtml($content);
-
     }
 
     /**
@@ -35,13 +33,11 @@ class Escaper
      */
     public static function htmlAttr($content)
     {
-
         if (self::$escaper == null) {
             self::_initEscaper();
         }
 
         return self::$escaper->escapeHtmlAttr($content);
-
     }
 
     /**
@@ -53,13 +49,11 @@ class Escaper
      */
     public static function uri($content)
     {
-
         if (self::$escaper == null) {
             self::_initEscaper();
         }
 
         return self::$escaper->escapeUrl($content);
-
     }
 
     /**
@@ -71,9 +65,7 @@ class Escaper
      */
     public static function uriQuery($query)
     {
-
         return http_build_query($query, '', '&');
-
     }
 
     /**
@@ -87,9 +79,7 @@ class Escaper
      */
     public static function json($obj)
     {
-
         return json_encode($obj, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
-
     }
 
     /**
@@ -105,10 +95,11 @@ class Escaper
      */
     private static function _initPurifier()
     {
-        if (defined('HTMLPURIFIER_ALLOW_CLASSES'))
+        if (defined('HTMLPURIFIER_ALLOW_CLASSES')) {
             $all = '*[style|title|class]';
-        else
+        } else {
             $all = '*[style|title]';
+        }
 
         $pconfig = \HTMLPurifier_Config::createDefault();
         $pconfig->set('Cache.SerializerPath', ROOT_DIR.'runtime/htmlpurifier_cache/');
@@ -116,7 +107,7 @@ class Escaper
         $pconfig->set('AutoFormat.AutoParagraph', true);
         $pconfig->set('AutoFormat.RemoveEmpty', true);
         $pconfig->set('HTML.Doctype', 'HTML 4.01 Transitional');
-        $pconfig->set('HTML.Allowed', $all.',font[color|face],p,span,div,center,h3,h4,br,sub,sup,blockquote[cite],cite,q[cite],ol,ul,li,b,strong,strike,i,em,a[href],pre[lang]');
+        $pconfig->set('HTML.Allowed', $all.',font[color|face],p,span,div,center,h3,h4,br,sub,sup,blockquote[cite],cite,q[cite],ol,ul,li,b,strong,strike,i,em,a[href],pre,code[class]');
         $pconfig->set('CSS.AllowedProperties', 'font-family,font-style,font-weight,color,background-color,text-decoration,text-align,list-style-type');
 
         self::$purifier = new \HTMLPurifier($pconfig);
@@ -131,13 +122,10 @@ class Escaper
      */
     public static function purify($html)
     {
-
         if (self::$purifier == null) {
             self::_initPurifier();
         }
 
         return self::$purifier->purify((string)$html);
-
     }
-
 }

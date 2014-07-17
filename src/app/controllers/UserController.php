@@ -1,34 +1,23 @@
 <?php
 
-use \VJ\I;
+use VJ\Controller\Basic;
 
-class UserController extends \VJ\Controller\Basic
+class UserController extends Basic
 {
 
     public function registerAction()
     {
-
         if ($this->request->isPost() === true) {
-
             // Check TOKENs
-
             \VJ\Security\CSRF::checkToken();
 
             if (!isset($_POST['user'])) {
-
                 // STEP1: Mail validation
-
                 \VJ\Validator::required($_POST, ['email']);
-
                 $result = \VJ\User\Account\Register::sendVerificationEmail($_POST['email']);
-
                 return $this->forwardAjax($result);
-
-
             } else {
-
                 // STEP2: Sign up
-
                 \VJ\Validator::required($_POST, ['user', 'pass', 'nick', 'gender', 'agreement', 'email', 'code']);
 
                 $result = \VJ\User\Account\Register::register(
@@ -48,13 +37,9 @@ class UserController extends \VJ\Controller\Basic
 
                 // Log in immediately
                 $result = \VJ\User\Account\Login::fromPassword($_POST['user'], $_POST['pass']);
-
                 $result = \VJ\User\Account\Login::user($result);
-
                 return $this->forwardAjax($result);
-
             }
-
         } else {
 
             $this->view->setVars([
@@ -63,49 +48,34 @@ class UserController extends \VJ\Controller\Basic
             ]);
 
             if (isset($_GET['code']) && isset($_GET['email'])) {
-
                 $result = \VJ\User\Account\Register::verificateEmail($_GET['email'], $_GET['code']);
                 $this->view->setVar('REG_MAIL', $result['mail']);
                 $this->view->setVar('STEP', 2);
                 $this->view->setVar('REG_PARAM', $result);
-
             } else {
-
                 $this->view->setVar('STEP', 1);
-
             }
-
         }
-    
     }
 
     public function helloAction()
     {
-
-        $acl = \Phalcon\DI::getDefault()->getShared('acl');
-
         \VJ\User\ACL::check('PRIV_USER_MODIFY_SETTINGS');
 
         $this->view->setVars([
             'PAGE_CLASS' => 'user_hello',
             'TITLE'      => gettext('Hello')
         ]);
-
     }
 
     public function loginAction()
     {
-
         \VJ\Security\CSRF::checkToken();
-
         \VJ\Validator::required($_POST, ['user', 'pass']);
 
         $result = \VJ\User\Account\Login::fromPassword($_POST['user'], $_POST['pass']);
-
         $result = \VJ\User\Account\Login::user($result);
 
         return $this->forwardAjax($result);
-
     }
-
 }

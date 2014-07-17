@@ -12,7 +12,5 @@ class Collection extends \Phalcon\Mvc\Collection
         $class = explode('\\', get_class($this));
 
         return end($class);
-
     }
-
 }

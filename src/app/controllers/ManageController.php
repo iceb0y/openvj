@@ -1,8 +1,8 @@
 <?php
 
-use \VJ\I;
+use VJ\Controller\Basic;
 
-class ManageController extends \VJ\Controller\Basic
+class ManageController extends Basic
 {
 
     public function initialize()
@@ -32,7 +32,6 @@ class ManageController extends \VJ\Controller\Basic
             ['type' => 'link', 'href' => '/', 'text' => 'Manage Apps', 'action' => 'app'],
             ['type' => 'link', 'href' => '/', 'text' => 'Manage Contests', 'action' => 'contest'],
         ];
-
     }
 
     public function statisticsAction()
@@ -42,7 +41,6 @@ class ManageController extends \VJ\Controller\Basic
             'PAGE_CLASS' => 'manage_statistics page_manage',
             'TITLE'      => gettext('Statistics')
         ]);
-
     }
 
     public function aclAction()
@@ -59,7 +57,6 @@ class ManageController extends \VJ\Controller\Basic
             );
 
             $this->forwardAjax($result);
-
         } else {
 
             if (isset($_GET['export'])) {
@@ -75,7 +72,6 @@ class ManageController extends \VJ\Controller\Basic
                 echo \VJ\User\ACL::export();
 
                 return false;
-
             } else {
 
                 $privTable = \VJ\User\ACL::queryPrivilegeTable();
@@ -105,5 +101,4 @@ class ManageController extends \VJ\Controller\Basic
         header('Location: '.$__CONFIG->Misc->basePrefix.'/manage/statistics');
         exit();
     }
-
 }

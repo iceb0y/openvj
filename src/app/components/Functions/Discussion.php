@@ -2,9 +2,6 @@
 
 namespace VJ\Functions;
 
-use \VJ\I;
-use \VJ\Utils;
-
 class Discussion
 {
 
@@ -19,13 +16,9 @@ class Discussion
      */
     public static function getInfo($topic_id)
     {
-
         if (is_array($topic_id) || $topic_id == null) {
-
             $record = $topic_id;
-
         } else {
-
             $mongo    = \Phalcon\DI::getDefault()->getShared('mongo');
             $topic_id = (string)$topic_id;
 
@@ -33,18 +26,15 @@ class Discussion
                 ['_id' => $topic_id],
                 ['r' => 0]
             );
-
         }
 
         if ($record == null) {
-
             return [
                 'count_all'     => 0,
                 'count_comment' => 0,
                 'pages'         => 0,
                 'exist'         => false
             ];
-
         }
 
         $pages = ceil($record['countc'] / self::RECORDS_PER_PAGE);
@@ -55,7 +45,6 @@ class Discussion
             'pages'         => $pages,
             'exist'         => true
         ];
-
     }
 
     /**
@@ -68,7 +57,6 @@ class Discussion
      */
     public static function get($topic_id, $page = 0)
     {
-
         $mongo    = \Phalcon\DI::getDefault()->getShared('mongo');
         $topic_id = (string)$topic_id;
         $page     = (int)$page;
@@ -97,7 +85,6 @@ class Discussion
         }
 
         return $result;
-
     }
 
     /**
@@ -110,9 +97,7 @@ class Discussion
      */
     public static function replyTopic($topic_id, $content)
     {
-
         $di    = \Phalcon\DI::getDefault();
-        $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
         global $__CONFIG, $_UID;
@@ -162,7 +147,6 @@ class Discussion
         );
 
         return $document['_id'];
-
     }
 
     /**
@@ -175,7 +159,6 @@ class Discussion
      */
     public static function getCommentContent($topic_id, $comment_id)
     {
-
         $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
 
         $argv = [
@@ -210,7 +193,6 @@ class Discussion
         }
 
         return gzuncompress($comment_target['md']);
-
     }
 
     /**
@@ -224,9 +206,7 @@ class Discussion
      */
     public static function editComment($topic_id, $comment_id, $content)
     {
-
         $di    = \Phalcon\DI::getDefault();
-        $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
         global $__CONFIG, $_UID;
@@ -305,7 +285,6 @@ class Discussion
      */
     public static function deleteComment($topic_id, $comment_id)
     {
-
         $di    = \Phalcon\DI::getDefault();
         $mongo = $di->getShared('mongo');
 
@@ -384,9 +363,7 @@ class Discussion
      */
     public static function replyComment($topic_id, $comment_id, $content)
     {
-
         $di    = \Phalcon\DI::getDefault();
-        $acl   = $di->getShared('acl');
         $mongo = $di->getShared('mongo');
 
         global $__CONFIG, $_UID;
@@ -441,7 +418,6 @@ class Discussion
         }
 
         return $document['_id'];
-
     }
 
     /**
@@ -455,7 +431,6 @@ class Discussion
      */
     public static function getReplyContent($topic_id, $comment_id, $reply_id)
     {
-
         $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
 
         $argv = [
@@ -504,7 +479,6 @@ class Discussion
         }
 
         return gzuncompress($reply_target['md']);
-
     }
 
     /**
@@ -519,7 +493,6 @@ class Discussion
      */
     public static function editReply($topic_id, $comment_id, $reply_id, $content)
     {
-
         $di    = \Phalcon\DI::getDefault();
         $mongo = $di->getShared('mongo');
 
@@ -616,7 +589,6 @@ class Discussion
      */
     public static function deleteReply($topic_id, $comment_id, $reply_id)
     {
-
         $di    = \Phalcon\DI::getDefault();
         $mongo = $di->getShared('mongo');
 
@@ -706,7 +678,6 @@ class Discussion
      */
     private static function createReplyDocument($markdownContent)
     {
-
         global $_UID;
 
         $doc = [
@@ -723,7 +694,6 @@ class Discussion
         $doc['vote_id'] = 'dcz_'.$doc['_id'];
 
         return $doc;
-
     }
 
     /**
@@ -747,7 +717,5 @@ class Discussion
             $keyPrefix.'text'  => \VJ\Formatter\Markdown::parse($markdownContent)
 
         ];
-
     }
-
 }

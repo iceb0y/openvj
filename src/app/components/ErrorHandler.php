@@ -8,13 +8,11 @@ class ErrorHandler
     public static function whoops()
     {
         $di = \Phalcon\DI::getDefault();
-        
+
         // There's only ever going to be one error page...right?
         $di->setShared('whoops.error_page_handler', function () {
             return new \Whoops\Handler\PrettyPageHandler;
         });
-
-        $json_handler = new \Whoops\Handler\JsonResponseHandler();
 
         // Retrieves info on the Phalcon environment and ships it off
         // to the PrettyPageHandler's data tables:
@@ -59,14 +57,13 @@ class ErrorHandler
             ]);
 
             $di['whoops.error_page_handler']->addDataTable('Application config', (array)$__CONFIG);
-
         };
 
-        $di->setShared('whoops', function () use ($di, $phalcon_info_handler, $json_handler) {
+        $di->setShared('whoops', function () use ($di, $phalcon_info_handler) {
             $run = new \Whoops\Run;
-            
+
             if (\VJ\Utils::isAjax()) {
-                $run->pushHandler($json_handler);
+                $run->pushHandler(new \VJ\ErrorHandler\Json());
             } else {
                 $run->pushHandler($di['whoops.error_page_handler']);
                 $run->pushHandler($phalcon_info_handler);
@@ -81,17 +78,13 @@ class ErrorHandler
     public static function phalcon()
     {
         $di = \Phalcon\DI::getDefault();
-
         $di->setShared('dispatcher', function () use ($di) {
 
             $eventsManager = new \Phalcon\Events\Manager();
-
             $eventsManager->attach('dispatch:beforeException', function ($event, $dispatcher, $exception) use ($di) {
 
                 if ($exception instanceof \VJ\Exception) {
-
                     $di->getShared('view')->EXCEPTION = $exception;
-
                     $dispatcher->forward([
                         'controller' => 'error',
                         'action'     => 'general'
@@ -101,7 +94,6 @@ class ErrorHandler
                 }
 
                 if ($exception instanceof \Phalcon\Mvc\Dispatcher\Exception) {
-
                     $dispatcher->forward([
                         'controller' => 'error',
                         'action'     => 'show404',
@@ -109,15 +101,12 @@ class ErrorHandler
 
                     return false;
                 }
-
             });
 
             $dispatcher = new \VJ\Dispatcher();
             $dispatcher->setEventsManager($eventsManager);
 
             return $dispatcher;
-
         });
     }
-
 }
