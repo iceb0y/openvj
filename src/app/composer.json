@@ -4,6 +4,7 @@
         "filp/whoops": "1.*",
         "phalcon/incubator": "dev-master",
         "gregwar/captcha": "dev-master",
-        "breeswish/php-marked": "dev-master"
+        "breeswish/php-marked": "dev-master",
+	"doctrine/mongodb-odm": "~1.0.0-BETA10@dev"
     }
 }
