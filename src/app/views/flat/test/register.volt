@@ -24,11 +24,31 @@
 </p>
 
 <p>
+    <label for="email">E-Mail :</label>
+    <?php echo Tag::textField("email"); ?>
+</p>
+
+<p>
+    <label for="code">Code   :</label>
+    <?php echo Tag::textField("code"); ?>
+</p>
+
+<input type="radio" name="gender" value="0" checked="checked" /> Unknown
+<input type="radio" name="gender" value="1" /> Male
+<input type="radio" name="gender" value="2" /> Female
+
+<br/>
+
+<input type="radio" name="agreement" value="accept" checked="checked"/> Agree
+<input type="radio" name="agreement" value="1" /> Disagree
+
+
+<p>
     <?php echo Tag::submitButton("Register") ?>
 </p>
+
+</form>
 
 <p>
     <?php echo Tag::linkTo("test","Return") ?>
 </p>
-
-</form>

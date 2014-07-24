@@ -170,13 +170,13 @@ class Register
         ]);
 
         // Exists?
-        if (\VJ\User\Account::usernameExists($username)) {
-            throw new \VJ\Exception('ERR_USED', 'username', $username);
-        }
+        // if (\VJ\User\Account::usernameExists($username)) {
+        //     throw new \VJ\Exception('ERR_USED', 'username', $username);
+        // }
 
-        if (\VJ\User\Account::nicknameExists($nickname)) {
-            throw new \VJ\Exception('ERR_USED', 'username', $nickname);
-        }
+        // if (\VJ\User\Account::nicknameExists($nickname)) {
+        //     throw new \VJ\Exception('ERR_USED', 'username', $nickname);
+        // }
 
         // Check session
         if (!isset($options['no_checking'])) {
