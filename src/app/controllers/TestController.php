@@ -1,5 +1,7 @@
 <?php
 
+use VJ\Models;
+
 class TestController extends \Phalcon\Mvc\Controller {
 
     public function indexAction() {
@@ -10,14 +12,27 @@ class TestController extends \Phalcon\Mvc\Controller {
 
     public function loginAction() {
 
+        // global $dm;
 
-        $this->view->setVar('result','NULL');
+        // $results=$dm->getRepository('VJ\Models\User_T')->findBy(array('name'  =>  'sweet'));
+
+        // $this->view->setVar('result',count($results));
 
     }
 
     public function registerAction() {
 
-        $this->view->setVar('result','NULL');
+        // global $dm;
+
+        // $TT=new Models\User_T();
+
+        // $TT->name='sweet';
+
+        // $this->view->setVar('result',$TT->name);
+
+        // $dm->persist($TT);
+
+        // $dm->flush();
 
     }
 

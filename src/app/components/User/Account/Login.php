@@ -93,6 +93,7 @@ class Login
             throw new \VJ\Exception('ERR_ARGUMENT_MISSING', 'password');
         }
 
+        //DATABASE CHANGE
         $u = Models\User::findFirst([
             'conditions' => ['luser' => $user]
         ]);

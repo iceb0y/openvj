@@ -16,9 +16,10 @@ $__CONFIG->merge(new Phalcon\Config((array)new Phalcon\Config\Adapter\Ini(APP_DI
 // Constants
 require APP_DIR.'includes/user.php';
 require APP_DIR.'includes/privilege.php';
+require APP_DIR.'includes/ODMIni.php';
 
 // Autoloader
-require APP_DIR.'vendor/autoload.php';
+require_once APP_DIR.'vendor/autoload.php';
 
 (new \Phalcon\Loader)
     ->registerDirs([

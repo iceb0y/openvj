@@ -9,13 +9,18 @@
 <?php echo Tag::form(array("test/register","method" => "post")); ?>
 
 <p>
-    <label for="username">UserName</label>
-    <?php echo Tag::textField("username"); ?>
+    <label for="user">UserName</label>
+    <?php echo Tag::textField("user"); ?>
 </p>
 
 <p>
-    <label for="password">PassWord</label>
-    <?php echo Tag::textField("password"); ?>
+    <label for="pass">PassWord</label>
+    <?php echo Tag::textField("pass"); ?>
+</p>
+
+<p>
+    <label for="nick">NickName</label>
+    <?php echo Tag::textField("nick"); ?>
 </p>
 
 <p>
