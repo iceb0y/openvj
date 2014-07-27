@@ -14,11 +14,17 @@ class TestController extends \Phalcon\Mvc\Controller {
 
         $this->view->setVar('result',"abc");
 
-        if ($this->requset->isPost()==true) {
+        if ($this->request->isPost()==true) {
 
             \VJ\Security\CSRF::checkToken();
+            \VJ\Validator::required($_POST, ['user', 'pass']);
 
-            $this->view->setVar('result',$_POST['user']);
+            $result = \VJ\User\Account\Login::fromPassword($_POST['user'], $_POST['pass']);
+            $result = \VJ\User\Account\Login::user($result);
+            
+            // $this->view->setVar('result',$_POST['user']);
+
+            $this->view->setVar('result','Success');
 
         }
 
@@ -31,13 +37,19 @@ class TestController extends \Phalcon\Mvc\Controller {
 
         // $this->view->setVar('result',count($results));
 
+        // \VJ\Security\CSRF::checkToken();
+        // \VJ\Validator::required($_POST, ['user', 'pass']);
+
+        // $result = \VJ\User\Account\Login::fromPassword($_POST['user'], $_POST['pass']);
+        // $result = \VJ\User\Account\Login::user($result);
+
+        // return $this->forwardAjax($result);
+
     }
 
     public function registerAction() {
 
-        $this->view->setVar('result',"");
-
-        $this->view->setVar('result',"abc");
+        $this->view->setVar('result',0);
 
         $request=$this->request;
 
@@ -58,12 +70,14 @@ class TestController extends \Phalcon\Mvc\Controller {
                 ]
             );
 
+
             // \VJ\Git\Repository::create('uid_'.$result['uid']);
 
             // $result = \VJ\User\Account\Login::fromPassword($_POST['user'], $_POST['pass']);
             // $result = \VJ\User\Account\Login::user($result);
 
-            $this->view->setVar('result','Success!');
+            // $this->view->setVar('result',$uid);
+            $this->view->setVar('result',$result['uid']);
 
         }
 

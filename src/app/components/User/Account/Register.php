@@ -170,40 +170,42 @@ class Register
         ]);
 
         // Exists?
-        // if (\VJ\User\Account::usernameExists($username)) {
-        //     throw new \VJ\Exception('ERR_USED', 'username', $username);
-        // }
+        if (\VJ\User\Account::usernameExists($username)) {
+            throw new \VJ\Exception('ERR_USED', 'username', $username);
+        }
 
-        // if (\VJ\User\Account::nicknameExists($nickname)) {
-        //     throw new \VJ\Exception('ERR_USED', 'username', $nickname);
-        // }
+        if (\VJ\User\Account::nicknameExists($nickname)) {
+            throw new \VJ\Exception('ERR_USED', 'username', $nickname);
+        }
 
         // Check session
-        if (!isset($options['no_checking'])) {
+        // if (!isset($options['no_checking'])) {
 
-            if (!isset($options['email']) || !isset($options['code'])) {
-                throw new \VJ\Exception('ERR_REG_VERFICATION_FAILED');
-            }
+        //     if (!isset($options['email']) || !isset($options['code'])) {
+        //         throw new \VJ\Exception('ERR_REG_VERFICATION_FAILED');
+        //     }
 
-            $mail = $options['email'];
-            self::verificateEmail(sha1($mail), $options['code']);
+        //     $mail = $options['email'];
+        //     self::verificateEmail(sha1($mail), $options['code']);
 
-            // Remove validation records
-            $validate_record = Models\RegValidation::findFirst([
-                'conditions' => ['email' => $mail]
-            ]);
+        //     // Remove validation records
+        //     $validate_record = Models\RegValidation::findFirst([
+        //         'conditions' => ['email' => $mail]
+        //     ]);
 
-            if ($validate_record) {
-                $validate_record->delete();
-            } else {
-                throw new \VJ\Exception('ERR_REG_VERFICATION_FAILED');
-            }
+        //     if ($validate_record) {
+        //         $validate_record->delete();
+        //     } else {
+        //         throw new \VJ\Exception('ERR_REG_VERFICATION_FAILED');
+        //     }
 
-            unset($validate_record);
-        } else {
+        //     unset($validate_record);
+        // } else {
 
-            $mail = '';
-        }
+        //     $mail = '';
+        // }
+
+        $mail='';
 
         // Begin
         $salt = \VJ\Security\Randomizer::toHex(30);
@@ -215,7 +217,7 @@ class Register
             $uid = \VJ\Database::increaseId(\VJ\Database::COUNTER_USER_ID);
         }
 
-        $user           = new Models\User();
+        $user           = new Models\User_T();
         $user->uid      = $uid;
         $user->luser    = $username;
         $user->nick     = $nickname;
@@ -240,8 +242,8 @@ class Register
         $user->group    = GROUP_USER;
         $user->acl      = serialize([]); //avoid unnecessary unserialization
         $user->aclrule  = serialize([]);
-        $user->privacy  = new \stdClass();
-        $user->stars    = new \stdClass();
+        $user->privacy  = new Models\StdClass();
+        $user->stars    = new Models\StdClass();
         $user->pbms     = [
             'pass'    => 0,
             'passlst' => [],
@@ -257,7 +259,11 @@ class Register
             $user->ipmatch = $options['ipmatch'];
         }
 
-        $user->save();
+        global $dm;
+
+        $dm->persist($user);
+
+        $dm->flush();
 
         return [
             'uid' => $uid

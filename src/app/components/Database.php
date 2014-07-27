@@ -35,7 +35,7 @@ class Database
         global $__CONFIG;
 
         $di = \Phalcon\DI::getDefault();
-        $di->setShared('redis', function () use ($__CONFIG) {
+            $di->setShared('redis', function () use ($__CONFIG) {
 
             $redis = new \Redis();
             $redis->connect($__CONFIG->Redis->path);
@@ -46,21 +46,48 @@ class Database
 
     public static function increaseId($id)
     {
-        $id    = (int)$id;
-        $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
+        $id=(int)$id;
+        // $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
+        global $dm;
 
-        $seq = $mongo->command([
-            'findandmodify' => 'Counter',
-            'query'         => ['_id' => $id],
-            'update'        => ['$inc' => ['c' => 1]],
-            'new'           => true,
-            'upsert'        => true
-        ]);
+        $dat=$dm->find('VJ\Models\DataBase',$id);
 
-        if ($seq['value']['c'] == null) {
-            return 0;
-        } else {
-            return $seq['value']['c'];
-        }
+        // $dat=new Models\DataBase();
+        // $dat->id=$id;
+        // $dat->COUNTER=1;
+        // $dm->persist($dat);
+        // $dm->flush();   
+
+        $dat->COUNTER++;
+
+        $dm->flush($dat);
+
+        // if ($dat==NULL) {
+        //     $dat=new Models\DataBase();
+        //     // $dat->id=0;
+        //     $dat->COUNTER=1;
+        //     // $dm->persist($dat);
+        //     // $dm->flush();
+        //     return $dat->COUNTER;
+        // } else {
+        //     $dat->COUNTER=$dat->COUNTER+1;
+        //     return $dat->COUNTER;
+
+        // }
+        return $dat->COUNTER;     
+
+        // $seq = $mongo->command([
+        //     'findandmodify' => 'Counter',
+        //     'query'         => ['_id' => $id],
+        //     'update'        => ['$inc' => ['c' => 1]],
+        //     'new'           => true,
+        //     'upsert'        => true
+        // ]);
+
+        // if ($seq['value']['c'] == null) {
+        //     return 0;
+        // } else {
+        //     return $seq['value']['c'];
+        // }
     }
 }

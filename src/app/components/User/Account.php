@@ -213,10 +213,16 @@ class Account
     {
         $username = strtolower($username);
 
-        $user = Models\User::findFirst([
-            'conditions' => ['luser' => $username],
-            'fields'     => ['uid' => 1]
-        ]);
+        // $user = Models\User::findFirst([
+        //     'conditions' => ['luser' => $username],
+        //     'fields'     => ['uid' => 1]
+        // ]);
+
+        global $dm;
+        $user=$dm->createQueryBuilder('VJ\Models\User_T')
+                 ->field('luser')->equals($username)
+                 ->getQuery()
+                 ->getSingleResult();
 
         if ($user) {
             $uid = (int)$user->uid;
@@ -239,10 +245,17 @@ class Account
     {
         $nickname = strtolower($nickname);
 
-        $user = Models\User::findFirst([
-            'conditions' => ['lnick' => $nickname],
-            'fields'     => ['uid' => 1]
-        ]);
+        // $user = Models\User::findFirst([
+        //     'conditions' => ['lnick' => $nickname],
+        //     'fields'     => ['uid' => 1]
+        // ]);
+
+        global $dm;
+        $user=$dm->createQueryBuilder('VJ\Models\User_T')
+                 ->field('lnick')->equals($nickname)
+                 ->getQuery()
+                 ->getSingleResult();
+
 
         if ($user) {
             $uid = (int)$user->uid;

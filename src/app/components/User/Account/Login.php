@@ -93,10 +93,9 @@ class Login
             throw new \VJ\Exception('ERR_ARGUMENT_MISSING', 'password');
         }
 
-        //DATABASE CHANGE
-        $u = Models\User::findFirst([
-            'conditions' => ['luser' => $user]
-        ]);
+        global $dm;
+
+        $u=$dm->getRepository('VJ\Models\User_T')->findOneBy(array('luser'  =>  $user));
 
         if (!$u) {
             throw new \VJ\Exception('ERR_NOT_FOUND', 'user');
@@ -175,7 +174,7 @@ class Login
             $ua = '';
         }
 
-        $log       = new Models\LoginInfo();
+        $log       = new Models\LoginInfo_T();
         $log->time = new \MongoDate();
         $log->uid  = $uid;
         $log->ok   = $ok;
@@ -183,7 +182,10 @@ class Login
         $log->ip   = $_SERVER['REMOTE_ADDR'];
         $log->ua   = $ua;
 
-        return $log->save();
+        // return $log->save();
+        global $dm;
+        $dm->persist($log);
+        $dm->flush();
     }
 
     /**
@@ -193,7 +195,7 @@ class Login
      *
      * @return array|bool
      */
-    public static function user(Models\User $u)
+    public static function user(Models\User_T $u)
     {
         global $__SESSION;
 
@@ -210,16 +212,15 @@ class Login
             throw new \VJ\Exception('ERR_IP_MISMATCH');
         }
 
-        // 修改最后登录时间
-        $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
-        $mongo->User->update(['uid' => $u->uid], [
-            '$set' => [
-                'tlogin'  => time(),
-                'iplogin' => $_SERVER['REMOTE_ADDR']
-            ]
-        ]);
+        global $dm;
 
-        $u->save();
+        $dm->createQueryBuilder('VJ\Models\User_T')
+           ->update()
+           ->field('uid')->equals($u->uid)
+           ->field('tlogin')->set(time())
+           ->field('iplogin')->set($_SERVER['REMOTE_ADDR'])
+           ->getQuery()
+           ->execute();
 
         \VJ\Session\Utils::newSession();
         \VJ\Security\CSRF::initToken();

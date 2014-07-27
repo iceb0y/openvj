@@ -86,16 +86,16 @@ class User_T
     /** @ODM\String */
     public $aclrule;
 
-    /** @ODM\String */
+    /** @ODM\EmbedOne(targetDocument="VJ\Models\StdClass") */
     public $privacy;
 
-    /** @ODM\String */
+    /** @ODM\EmbedOne(targetDocument="VJ\Models\StdClass") */
     public $stars;
 
-    /** @ODM\String */
+    /** @ODM\Hash */
     public $pbms;
 
-    /** @ODM\String */
+    /** @ODM\Hash */
     public $settings;
 
     /** @ODM\String */
