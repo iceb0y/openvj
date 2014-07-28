@@ -13,6 +13,9 @@ src/app/configs/app.ini
 src/app/configs/database.ini
 src/app/configs/security.ini
 
+src/app/includes/Hydrators/*
+src/app/includes/Proxies/*
+
 # PHPStorm
 .idea/
 

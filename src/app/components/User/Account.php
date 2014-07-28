@@ -219,7 +219,7 @@ class Account
         // ]);
 
         global $dm;
-        $user=$dm->createQueryBuilder('VJ\Models\User_T')
+        $user=$dm->createQueryBuilder('VJ\Models\User')
                  ->field('luser')->equals($username)
                  ->getQuery()
                  ->getSingleResult();
@@ -251,7 +251,7 @@ class Account
         // ]);
 
         global $dm;
-        $user=$dm->createQueryBuilder('VJ\Models\User_T')
+        $user=$dm->createQueryBuilder('VJ\Models\User')
                  ->field('lnick')->equals($nickname)
                  ->getQuery()
                  ->getSingleResult();
