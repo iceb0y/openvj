@@ -97,8 +97,8 @@ class Discussion
      */
     public static function replyTopic($topic_id, $content)
     {
-        $di    = \Phalcon\DI::getDefault();
-        $mongo = $di->getShared('mongo');
+
+        global $dm;
 
         global $__CONFIG, $_UID;
 
@@ -126,25 +126,16 @@ class Discussion
         $document      = self::createReplyDocument($content);
         $document['r'] = [];
 
-        $mongo->Discussion->update(
-            [
-                '_id' => $topic_id
-            ],
-            [
-                '$push' => [
-                    'r' => $document
-                ],
-                '$set'  => [
-                    'luser' => $_UID,
-                    'ltime' => time()
-                ],
-                '$inc'  => [
-                    'count'  => 1,
-                    'countc' => 1
-                ]
-            ],
-            ['upsert' => true]
-        );
+        $dm->createQueryBuilder('VJ\Models\Discussion')
+               ->update()
+               ->upsert(true)
+               ->field('id')->equals($topic_id)
+               ->field('r')->push($document)
+               ->field('luser')->set(time())
+               ->field('count')->inc(1)
+               ->field('countc')->inc(1)
+               ->getQuery()
+               ->execute();
 
         return $document['_id'];
     }

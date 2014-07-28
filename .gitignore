@@ -35,4 +35,7 @@ node_modules/
 # Vim
 *~
 
+#Debug
+src/app/views/flat/test/*
+
 !.gitkeep

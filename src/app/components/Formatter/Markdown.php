@@ -12,7 +12,7 @@ class Markdown
             \Marked\Marked::setOptions([
                 'gfm'    => true,
                 'tables' => false,
-                'breaks' => true
+                'breaks' => true,
                 'langPrefix'   => 'prettyprint lang-'
             ]);
 
