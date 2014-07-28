@@ -27,26 +27,24 @@ class Register
             throw new \VJ\Exception('ERR_ARGUMENT_INVALID', 'email');
         }
 
+        global $dm;
+
         // Mail already in use
-        if (
-        Models\User::findFirst([
-            'conditions' => ['mail' => $email],
-            'fields'     => ['_id' => 1]
-        ])
-        ) {
+        if ($dm->getRepository('VJ\Models\User')->findOneBy(['mail'  =>  $email])) {
             throw new \VJ\Exception('ERR_USED', 'email', $email);
         }
 
         // Generate new validation request
         $validateCode = \VJ\Security\Randomizer::toHex(10);
 
-        $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
-        $mongo->RegValidation->update(['email' => $email], [
-            '$set' => [
-                'code' => $validateCode,
-                'time' => new \MongoDate()
-            ]
-        ], ['upsert' => true]);
+        $dm->createQueryBuilder('VJ\Models\RegValidation')
+           ->update()
+           ->upsert(true)
+           ->field('email')->equals($email)
+           ->field('code')->set($validateCode)
+           ->field('time')->set(new \MongoDate())
+           ->getQuery()
+           ->execute();
 
         // Send validation email
         global $__CONFIG;
@@ -91,9 +89,9 @@ class Register
 
         $code = (string)$code;
 
-        $record = Models\RegValidation::findFirst([
-            'conditions' => ['code' => $code]
-        ]);
+        global $dm;
+
+        $record=$dm->getRepository('VJ\Models\RegValidation')->findOneBy(['code'    =>  $code]);
 
         if (!$record) {
             throw new \VJ\Exception('ERR_REG_VERFICATION_FAILED');
@@ -179,33 +177,31 @@ class Register
         }
 
         // Check session
-        // if (!isset($options['no_checking'])) {
+        if (!isset($options['no_checking'])) {
 
-        //     if (!isset($options['email']) || !isset($options['code'])) {
-        //         throw new \VJ\Exception('ERR_REG_VERFICATION_FAILED');
-        //     }
+            if (!isset($options['email']) || !isset($options['code'])) {
+                throw new \VJ\Exception('ERR_REG_VERFICATION_FAILED');
+            }
 
-        //     $mail = $options['email'];
-        //     self::verificateEmail(sha1($mail), $options['code']);
+            $mail = $options['email'];
+            self::verificateEmail(sha1($mail), $options['code']);
 
-        //     // Remove validation records
-        //     $validate_record = Models\RegValidation::findFirst([
-        //         'conditions' => ['email' => $mail]
-        //     ]);
+            // Remove validation records
+            global $dm;
 
-        //     if ($validate_record) {
-        //         $validate_record->delete();
-        //     } else {
-        //         throw new \VJ\Exception('ERR_REG_VERFICATION_FAILED');
-        //     }
+            if (!$dm->getRepository('VJ\Models\RegValidation')
+                                ->findAndRemove()
+                                ->field('email')->equals($mail)
+                                ->getQuery()
+                                ->execute()
+                                ) {
+                throw new \VJ\Exception('ERR_REG_VERFICATION_FAILED');
+            }
 
-        //     unset($validate_record);
-        // } else {
-
-        //     $mail = '';
-        // }
-
-        $mail='';
+            unset($validate_record);
+        } else {
+            $mail = '';
+        }
 
         // Begin
         $salt = \VJ\Security\Randomizer::toHex(30);
@@ -217,7 +213,7 @@ class Register
             $uid = \VJ\Database::increaseId(\VJ\Database::COUNTER_USER_ID);
         }
 
-        $user           = new Models\User_T();
+        $user           = new Models\User();
         $user->uid      = $uid;
         $user->luser    = $username;
         $user->nick     = $nickname;

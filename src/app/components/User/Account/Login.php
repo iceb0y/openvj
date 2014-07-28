@@ -51,9 +51,8 @@ class Login
             throw new \VJ\Exception('ERR_FAILED');
         }
 
-        $u = Models\User::findFirst([
-            'conditions' => ['uid' => $uid]
-        ]);
+        global $dm;
+        $u=$dm->getRepository('VJ\Models\User')->findOneBy(['uid'   =>  $uid]);
 
         // User is deleted
         if ($u == false) {
@@ -95,7 +94,7 @@ class Login
 
         global $dm;
 
-        $u=$dm->getRepository('VJ\Models\User_T')->findOneBy(array('luser'  =>  $user));
+        $u=$dm->getRepository('VJ\Models\User')->findOneBy(array('luser'  =>  $user));
 
         if (!$u) {
             throw new \VJ\Exception('ERR_NOT_FOUND', 'user');
@@ -140,14 +139,15 @@ class Login
         // Upgrade old passwords
         if ($u->passfmt == 0 && $md5 == false) {
 
-            $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
-            $mongo->User->update(['uid' => $u->uid], [
-                '$set' => [
-                    'salt'    => \VJ\Security\Randomizer::toHex(30),
-                    'pass'    => \VJ\User\Account::makeHash($pass, $u->salt),
-                    'passfmt' => 1
-                ]
-            ]);
+            $dm->createQueryBuilder('VJ\Models\User')
+               ->update()
+               ->field('uid')->equals($u->uid)
+               ->field('salt')->set(\VJ\Security\Randomizer::toHex(30))
+               ->field('pass')->set(\VJ\User\Account::makeHash($pass, $u->salt))
+               ->field('passfmt')->set(1)
+               ->getQuery()
+               ->execute();
+
         }
 
         return $u;
@@ -174,7 +174,7 @@ class Login
             $ua = '';
         }
 
-        $log       = new Models\LoginInfo_T();
+        $log       = new Models\LoginInfo();
         $log->time = new \MongoDate();
         $log->uid  = $uid;
         $log->ok   = $ok;
@@ -182,7 +182,6 @@ class Login
         $log->ip   = $_SERVER['REMOTE_ADDR'];
         $log->ua   = $ua;
 
-        // return $log->save();
         global $dm;
         $dm->persist($log);
         $dm->flush();
@@ -195,7 +194,7 @@ class Login
      *
      * @return array|bool
      */
-    public static function user(Models\User_T $u)
+    public static function user(Models\User $u)
     {
         global $__SESSION;
 
@@ -214,7 +213,7 @@ class Login
 
         global $dm;
 
-        $dm->createQueryBuilder('VJ\Models\User_T')
+        $dm->createQueryBuilder('VJ\Models\User')
            ->update()
            ->field('uid')->equals($u->uid)
            ->field('tlogin')->set(time())
