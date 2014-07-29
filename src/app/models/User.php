@@ -86,10 +86,10 @@ class User
     /** @ODM\String */
     public $aclrule;
 
-    /** @ODM\EmbedOne(targetDocument="VJ\Models\StdClass") */
+    /** @ODM\Hash */
     public $privacy;
 
-    /** @ODM\EmbedOne(targetDocument="VJ\Models\StdClass") */
+    /** @ODM\Hash */
     public $stars;
 
     /** @ODM\Hash */

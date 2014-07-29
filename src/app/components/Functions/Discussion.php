@@ -2,6 +2,8 @@
 
 namespace VJ\Functions;
 
+use VJ\Models;
+
 class Discussion
 {
 
@@ -16,16 +18,16 @@ class Discussion
      */
     public static function getInfo($topic_id)
     {
-        if (is_array($topic_id) || $topic_id == null) {
+        if (isset($topic_id->id) || $topic_id == null) {
             $record = $topic_id;
         } else {
-            $mongo    = \Phalcon\DI::getDefault()->getShared('mongo');
+
+            global $dm;
+
             $topic_id = (string)$topic_id;
 
-            $record = $mongo->Discussion->findOne(
-                ['_id' => $topic_id],
-                ['r' => 0]
-            );
+            $record=$dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' =>  $topic_id]);
+
         }
 
         if ($record == null) {
@@ -37,11 +39,11 @@ class Discussion
             ];
         }
 
-        $pages = ceil($record['countc'] / self::RECORDS_PER_PAGE);
+        $pages = ceil($record->countc / self::RECORDS_PER_PAGE);
 
         return [
-            'count_all'     => $record['count'],
-            'count_comment' => $record['countc'],
+            'count_all'     => $record->count,
+            'count_comment' => $record->countc,
             'pages'         => $pages,
             'exist'         => true
         ];
@@ -57,7 +59,7 @@ class Discussion
      */
     public static function get($topic_id, $page = 0)
     {
-        $mongo    = \Phalcon\DI::getDefault()->getShared('mongo');
+        global $dm;
         $topic_id = (string)$topic_id;
         $page     = (int)$page;
 
@@ -65,14 +67,13 @@ class Discussion
             throw new \VJ\Exception('ERR_ARGUMENT_INVALID', 'page');
         }
 
-        $record = $mongo->Discussion->findOne(
-            ['_id' => $topic_id],
-            [
-                'r'      => ['$slice' => [$page * self::RECORDS_PER_PAGE, self::RECORDS_PER_PAGE]],
-                'count'  => 1,
-                'countc' => 1
-            ]
-        );
+        $record=$dm->createQueryBuilder('VJ\Models\Discussion')
+                             ->select('r','count','countc')
+                             ->field('id')->equals($topic_id)
+                             ->getQuery()
+                             ->getSingleResult();
+
+        $record->r=array_slice($record->r, $page * self::RECORDS_PER_PAGE,self::RECORDS_PER_PAGE);
 
         $result = [
             'id'      => $topic_id,
@@ -81,7 +82,7 @@ class Discussion
         ];
 
         if ($record != null) {
-            $result['comment'] = $record['r'];
+            $result['comment'] = $record->r;
         }
 
         return $result;
@@ -123,8 +124,7 @@ class Discussion
             ]
         ]);
 
-        $document      = self::createReplyDocument($content);
-        $document['r'] = [];
+        $document  = &self::createReplyDocument($content);
 
         $dm->createQueryBuilder('VJ\Models\Discussion')
                ->update()
@@ -137,7 +137,7 @@ class Discussion
                ->getQuery()
                ->execute();
 
-        return $document['_id'];
+        return $document['id'];
     }
 
     /**
@@ -672,17 +672,15 @@ class Discussion
         global $_UID;
 
         $doc = [
-
-            '_id'  => uniqid(),
-            'uid'  => $_UID,
+            'id' => uniqid(),
+            'uid' => $_UID,
             'time' => time(),
-            'md'   => new \MongoBinData(gzcompress($markdownContent)),
+            'md' => new \MongoBinData(gzcompress($markdownContent)),
             'text' => \VJ\Formatter\Markdown::parse($markdownContent),
             'xtra' => new \stdClass(),
-
         ];
 
-        $doc['vote_id'] = 'dcz_'.$doc['_id'];
+        $doc['vote_id'] = 'dcz_'.$doc['id'];
 
         return $doc;
     }
