@@ -46,7 +46,7 @@ class ACL
         if ($this->acl == null) {
 
             global $dm;
-            $rec=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL])
+            $rec=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL]);
 
             if ($rec == null) {
                 throw new \Exception('ACL list not exist');
@@ -103,7 +103,7 @@ class ACL
         if ($uid !== null) {
 
 
-            $u=$dm->getRepository('VJ\Models\User')->findOneBy(['uid' => (int)$uid])
+            $u=$dm->getRepository('VJ\Models\User')->findOneBy(['uid' => (int)$uid]);
 
             if ($u == false) {
                 return false;
@@ -219,9 +219,9 @@ class ACL
     public static function export()
     {
         global $dm;
-        $rec=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL])
-        $acl   = $rec->v;
-        $rec=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL_RULES])
+        $rec=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL]);
+        $acl= $rec->v;
+        $rec=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL_RULES]);
         $acl_r = $rec->v;
 
         $result = \VJ\Escaper::json([
@@ -241,7 +241,7 @@ class ACL
     {
         $rec   = $mongo->System->findOne(['_id' => self::SYSTEM_ID_ACL_RULES]);
         global $dm;
-        $rec=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL_RULES])
+        $rec=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL_RULES]);
         return $rec->v;
     }
 
