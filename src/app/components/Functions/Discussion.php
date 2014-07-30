@@ -125,6 +125,7 @@ class Discussion
         ]);
 
         $document  = &self::createReplyDocument($content);
+        $document=[];
 
         $dm->createQueryBuilder('VJ\Models\Discussion')
                ->update()
@@ -150,7 +151,7 @@ class Discussion
      */
     public static function getCommentContent($topic_id, $comment_id)
     {
-        $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
+        global $dm;
 
         $argv = [
             'topic_id'   => &$topic_id,
@@ -163,9 +164,8 @@ class Discussion
         ]);
 
         // Get the comment
-        $record = $mongo->Discussion->findOne(
-            ['_id' => $topic_id]
-        );
+
+        $record=$dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' => $topic_id]);
 
         if ($record == null) {
             throw new \VJ\Exception('ERR_NOT_FOUND', 'topic');
@@ -173,7 +173,7 @@ class Discussion
 
         $comment_target = null;
         foreach ($record['r'] as &$comment) {
-            if ($comment['_id'] == $comment_id) {
+            if ($comment['id'] == $comment_id) {
                 $comment_target = & $comment;
                 break;
             }
@@ -186,6 +186,7 @@ class Discussion
         return gzuncompress($comment_target['md']);
     }
 
+
     /**
      * 修改评论
      *
@@ -197,8 +198,7 @@ class Discussion
      */
     public static function editComment($topic_id, $comment_id, $content)
     {
-        $di    = \Phalcon\DI::getDefault();
-        $mongo = $di->getShared('mongo');
+        global $dm;
 
         global $__CONFIG, $_UID;
 
@@ -221,9 +221,7 @@ class Discussion
         ]);
 
         // Get the comment
-        $record = $mongo->Discussion->findOne(
-            ['_id' => $topic_id]
-        );
+        $record=$dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' => $topic_id]);
 
         if ($record == null) {
             throw new \VJ\Exception('ERR_NOT_FOUND', 'topic');
@@ -232,7 +230,7 @@ class Discussion
         $comment_target = null;
         $comment_index  = -1;
         foreach ($record['r'] as $index => &$comment) {
-            if ($comment['_id'] == $comment_id) {
+            if ($comment['id'] == $comment_id) {
                 $comment_index  = $index;
                 $comment_target = & $comment;
                 break;
@@ -253,15 +251,15 @@ class Discussion
         // modify
         $finder = 'r.'.$comment_index.'.';
 
-        $mongo->Discussion->update(
-            [
-                '_id'         => $topic_id,
-                $finder.'_id' => $comment_id
-            ],
-            [
-                '$set' => self::createReplyModifySchema($content, $finder)
-            ]
-        );
+        $dm->createQueryBuilder('VJ\Models\Discussion')
+               ->update()
+               ->field('id')->equals($topic_id)
+               ->field($finder.'muid')->set($_UID)
+               ->field($finder.'mtime')->set(time())
+               ->field($finder.'md')->set(new \MongoBinData(gzcompress($markdownContent)))
+               ->field($finder.'text')->set(\VJ\Formatter\Markdown::parse($markdownContent))
+               ->getQuery()
+               ->execute();
 
         return true;
     }
@@ -276,10 +274,10 @@ class Discussion
      */
     public static function deleteComment($topic_id, $comment_id)
     {
-        $di    = \Phalcon\DI::getDefault();
-        $mongo = $di->getShared('mongo');
 
         global $_UID;
+
+        global $dm;
 
         $argv = [
             'topic_id'   => &$topic_id,
@@ -292,9 +290,7 @@ class Discussion
         ]);
 
         // Get the comment
-        $record = $mongo->Discussion->findOne(
-            ['_id' => $topic_id]
-        );
+        $dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' => $topic_id]);
 
         if ($record == null) {
             throw new \VJ\Exception('ERR_NOT_FOUND', 'topic');
@@ -302,7 +298,7 @@ class Discussion
 
         $comment_target = null;
         foreach ($record['r'] as &$comment) {
-            if ($comment['_id'] == $comment_id) {
+            if ($comment['id'] == $comment_id) {
                 $comment_target = & $comment;
                 break;
             }
@@ -320,20 +316,14 @@ class Discussion
         }
 
         // remove
-        $mongo->Discussion->update(
-            [
-                '_id' => $topic_id
-            ],
-            [
-                '$pull' => [
-                    'r' => ['_id' => $comment_id]
-                ],
-                '$inc'  => [
-                    'count'  => -1,
-                    'countc' => -1
-                ]
-            ]
-        );
+        $dm->createQueryBuilder('VJ\Models\Discussion')
+               ->update()
+               ->field('id')->equals($topic_id)
+               ->field('r')->pull(['id' => $comment_id])
+               ->field('count')->inc(-1)
+               ->field('countc')->inc(-1)
+               ->getQuery()
+               ->execute();
 
         // delete votes
         foreach ($comment_target['r'] as $reply) {
@@ -354,8 +344,7 @@ class Discussion
      */
     public static function replyComment($topic_id, $comment_id, $content)
     {
-        $di    = \Phalcon\DI::getDefault();
-        $mongo = $di->getShared('mongo');
+        global $dm;
 
         global $__CONFIG, $_UID;
 
@@ -382,33 +371,47 @@ class Discussion
             ]
         ]);
 
+
+        // Get the comment
+        $record=$dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' => $topic_id]);
+
+        if ($record == null) {
+            throw new \VJ\Exception('ERR_NOT_FOUND', 'topic');
+        }
+
+        $comment_target = null;
+        $comment_index  = -1;
+        foreach ($record['r'] as $index => &$comment) {
+            if ($comment['id'] == $comment_id) {
+                $comment_index  = $index;
+                $comment_target = & $comment;
+                break;
+            }
+        }
+
+        if ($comment_target == null) {
+            throw new \VJ\Exception('ERR_NOT_FOUND', 'comment');
+        }
+
+        //Reply The Comment
         $document = self::createReplyDocument($content);
 
-        $result = $mongo->Discussion->update(
-            [
-                '_id'   => $topic_id,
-                'r._id' => $comment_id
-            ],
-            [
-                '$push' => [
-                    'r.$.r' => $document
-                ],
-                '$set'  => [
-                    'luser' => $_UID,
-                    'ltime' => time()
-                ],
-                '$inc'  => [
-                    'count' => 1
-                ]
-            ]
-        );
+        $resullt=$dm->createQueryBuilder('VJ\Models\Discussion')
+                             ->findAndUpdate()
+                             ->field('id')->equals($topic_id)
+                             ->field('r.'$comment_index.'r')->push($document)
+                             ->field('luser')->set($_UID)
+                             ->field('ltime')->set(time())
+                             ->field('count')->inc(1)
+                             ->getQuery()
+                             ->execute();
 
-        if ($result['n'] == 0) {
+        if (count($result) == 0) {
             //no document found
             throw new \VJ\Exception('ERR_NOT_FOUND', 'topic or comment');
         }
 
-        return $document['_id'];
+        return $document['id'];
     }
 
     /**
@@ -422,7 +425,8 @@ class Discussion
      */
     public static function getReplyContent($topic_id, $comment_id, $reply_id)
     {
-        $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
+
+        global $dm;
 
         $argv = [
             'topic_id'   => &$topic_id,
@@ -437,9 +441,7 @@ class Discussion
         ]);
 
         // Get the comment
-        $record = $mongo->Discussion->findOne(
-            ['_id' => $topic_id]
-        );
+        $record=$dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' => $topic_id]);
 
         if ($record == null) {
             throw new \VJ\Exception('ERR_NOT_FOUND', 'topic');
@@ -447,7 +449,7 @@ class Discussion
 
         $comment_target = null;
         foreach ($record['r'] as &$comment) {
-            if ($comment['_id'] == $comment_id) {
+            if ($comment['id'] == $comment_id) {
                 $comment_target = & $comment;
                 break;
             }
@@ -460,7 +462,7 @@ class Discussion
         // Get the reply
         $reply_target = null;
         foreach ($comment_target['r'] as &$reply) {
-            if ($reply['_id'] == $reply_id) {
+            if ($reply['id'] == $reply_id) {
                 $reply_target = & $reply;
             }
         }
@@ -484,8 +486,7 @@ class Discussion
      */
     public static function editReply($topic_id, $comment_id, $reply_id, $content)
     {
-        $di    = \Phalcon\DI::getDefault();
-        $mongo = $di->getShared('mongo');
+        global $dm;
 
         global $__CONFIG, $_UID;
 
@@ -510,9 +511,7 @@ class Discussion
         ]);
 
         // Get the comment
-        $record = $mongo->Discussion->findOne(
-            ['_id' => $topic_id]
-        );
+        $record=$dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' => $topic_id]);
 
         if ($record == null) {
             throw new \VJ\Exception('ERR_NOT_FOUND', 'topic');
@@ -521,7 +520,7 @@ class Discussion
         $comment_target = null;
         $comment_index  = -1;
         foreach ($record['r'] as $index => &$comment) {
-            if ($comment['_id'] == $comment_id) {
+            if ($comment['id'] == $comment_id) {
                 $comment_index  = $index;
                 $comment_target = & $comment;
                 break;
@@ -536,7 +535,7 @@ class Discussion
         $reply_target = null;
         $reply_index  = -1;
         foreach ($comment_target['r'] as $index => &$reply) {
-            if ($reply['_id'] == $reply_id) {
+            if ($reply['id'] == $reply_id) {
                 $reply_index  = $index;
                 $reply_target = & $reply;
             }
@@ -556,15 +555,15 @@ class Discussion
         // modify
         $finder = 'r.'.$comment_index.'.r.'.$reply_index.'.';
 
-        $mongo->Discussion->update(
-            [
-                '_id'         => $topic_id,
-                $finder.'_id' => $reply_id
-            ],
-            [
-                '$set' => self::createReplyModifySchema($content, $finder)
-            ]
-        );
+        $dm->createQueryBuilder('VJ\Models\Discussion')
+               ->update()
+               ->field('id')->equals($topic_id)
+               ->field($finder.'muid')->set($_UID)
+               ->field($finder.'mtime')->set(time())
+               ->field($finder.'md')->set(new \MongoBinData(gzcompress($markdownContent)))
+               ->field($finder.'text')->set(\VJ\Formatter\Markdown::parse($markdownContent))
+               ->getQuery()
+               ->execute();
 
         return true;
     }
@@ -580,8 +579,8 @@ class Discussion
      */
     public static function deleteReply($topic_id, $comment_id, $reply_id)
     {
-        $di    = \Phalcon\DI::getDefault();
-        $mongo = $di->getShared('mongo');
+
+        global $dm;
 
         global $_UID;
 
@@ -598,9 +597,7 @@ class Discussion
         ]);
 
         // Get the comment
-        $record = $mongo->Discussion->findOne(
-            ['_id' => $topic_id]
-        );
+        $record=$dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' => $topic_id]);
 
         if ($record == null) {
             throw new \VJ\Exception('ERR_NOT_FOUND', 'topic');
@@ -609,7 +606,7 @@ class Discussion
         $comment_target = null;
         $comment_index  = -1;
         foreach ($record['r'] as $index => &$comment) {
-            if ($comment['_id'] == $comment_id) {
+            if ($comment['id'] == $comment_id) {
                 $comment_index  = $index;
                 $comment_target = & $comment;
                 break;
@@ -623,7 +620,7 @@ class Discussion
         // Get the reply
         $reply_target = null;
         foreach ($comment_target['r'] as &$reply) {
-            if ($reply['_id'] == $reply_id) {
+            if ($reply['id'] == $reply_id) {
                 $reply_target = & $reply;
             }
         }
@@ -640,19 +637,13 @@ class Discussion
         }
 
         // delete
-        $mongo->Discussion->update(
-            [
-                '_id' => $topic_id
-            ],
-            [
-                '$pull' => [
-                    'r.'.$comment_index.'.r' => ['_id' => $reply_id]
-                ],
-                '$inc'  => [
-                    'count' => -1
-                ]
-            ]
-        );
+        $dm->createQueryBuilder('VJ\Models\Discussion')
+               ->update()
+               ->field('id')->equals($topic_id)
+               ->field('r.'.$comment_index.'.r')->pull(['id' => $reply_id])
+               ->field('count')->inc(-1)
+               ->getQuery()
+               ->execute();
 
         // delete votes
         \VJ\Functions\Vote::_deleteEntity($reply_target['vote_id']);
