@@ -123,7 +123,7 @@ class Topic
         $doc->replyc=0;
         $doc->viewc=0;
         $doc->node=$node;
-        $doc->nodl=$nodel;
+        $doc->nodel=$nodel;
         $doc->vote_id='topic_'.(string)$doc->id;
         $doc->dcz_id='topic_'.(string)$doc->id;
 

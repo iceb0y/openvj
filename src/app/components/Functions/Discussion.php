@@ -125,7 +125,7 @@ class Discussion
         ]);
 
         $document  = &self::createReplyDocument($content);
-        $document=[];
+        $document['r']=[];
 
         $dm->createQueryBuilder('VJ\Models\Discussion')
                ->update()
@@ -229,7 +229,7 @@ class Discussion
 
         $comment_target = null;
         $comment_index  = -1;
-        foreach ($record['r'] as $index => &$comment) {
+        foreach ($record->r as $index => $comment) {
             if ($comment['id'] == $comment_id) {
                 $comment_index  = $index;
                 $comment_target = & $comment;
@@ -248,7 +248,7 @@ class Discussion
             \VJ\User\ACL::check('PRIV_DISCUSSION_MODIFY_ANY');
         }
 
-        // modify
+        // // modify
         $finder = 'r.'.$comment_index.'.';
 
         $dm->createQueryBuilder('VJ\Models\Discussion')
@@ -256,8 +256,8 @@ class Discussion
                ->field('id')->equals($topic_id)
                ->field($finder.'muid')->set($_UID)
                ->field($finder.'mtime')->set(time())
-               ->field($finder.'md')->set(new \MongoBinData(gzcompress($markdownContent)))
-               ->field($finder.'text')->set(\VJ\Formatter\Markdown::parse($markdownContent))
+               ->field($finder.'md')->set(new \MongoBinData(gzcompress($content)))
+               ->field($finder.'text')->set(\VJ\Formatter\Markdown::parse($content))
                ->getQuery()
                ->execute();
 
@@ -290,14 +290,14 @@ class Discussion
         ]);
 
         // Get the comment
-        $dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' => $topic_id]);
+        $record=$dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' => $topic_id]);
 
         if ($record == null) {
             throw new \VJ\Exception('ERR_NOT_FOUND', 'topic');
         }
 
         $comment_target = null;
-        foreach ($record['r'] as &$comment) {
+        foreach ($record->r as &$comment) {
             if ($comment['id'] == $comment_id) {
                 $comment_target = & $comment;
                 break;
@@ -308,7 +308,7 @@ class Discussion
             throw new \VJ\Exception('ERR_NOT_FOUND', 'comment');
         }
 
-        // has privilege?
+        has privilege?
         if ($_UID == $comment_target['uid']) {
             \VJ\User\ACL::check('PRIV_DISCUSSION_COMMENT_DELETE_SELF');
         } else {
@@ -381,7 +381,7 @@ class Discussion
 
         $comment_target = null;
         $comment_index  = -1;
-        foreach ($record['r'] as $index => &$comment) {
+        foreach ($record->r as $index => &$comment) {
             if ($comment['id'] == $comment_id) {
                 $comment_index  = $index;
                 $comment_target = & $comment;
@@ -399,7 +399,7 @@ class Discussion
         $resullt=$dm->createQueryBuilder('VJ\Models\Discussion')
                              ->findAndUpdate()
                              ->field('id')->equals($topic_id)
-                             ->field('r.'$comment_index.'r')->push($document)
+                             ->field('r.'.$comment_index.'r')->push($document)
                              ->field('luser')->set($_UID)
                              ->field('ltime')->set(time())
                              ->field('count')->inc(1)
@@ -448,7 +448,7 @@ class Discussion
         }
 
         $comment_target = null;
-        foreach ($record['r'] as &$comment) {
+        foreach ($record->r as &$comment) {
             if ($comment['id'] == $comment_id) {
                 $comment_target = & $comment;
                 break;
@@ -519,7 +519,7 @@ class Discussion
 
         $comment_target = null;
         $comment_index  = -1;
-        foreach ($record['r'] as $index => &$comment) {
+        foreach ($record->r as $index => $comment) {
             if ($comment['id'] == $comment_id) {
                 $comment_index  = $index;
                 $comment_target = & $comment;
@@ -560,8 +560,8 @@ class Discussion
                ->field('id')->equals($topic_id)
                ->field($finder.'muid')->set($_UID)
                ->field($finder.'mtime')->set(time())
-               ->field($finder.'md')->set(new \MongoBinData(gzcompress($markdownContent)))
-               ->field($finder.'text')->set(\VJ\Formatter\Markdown::parse($markdownContent))
+               ->field($finder.'md')->set(new \MongoBinData(gzcompress($content)))
+               ->field($finder.'text')->set(\VJ\Formatter\Markdown::parse($content))
                ->getQuery()
                ->execute();
 
@@ -605,7 +605,7 @@ class Discussion
 
         $comment_target = null;
         $comment_index  = -1;
-        foreach ($record['r'] as $index => &$comment) {
+        foreach ($record->r as $index => $comment) {
             if ($comment['id'] == $comment_id) {
                 $comment_index  = $index;
                 $comment_target = & $comment;
@@ -676,26 +676,4 @@ class Discussion
         return $doc;
     }
 
-    /**
-     * 创建标准化回复更新文档
-     *
-     * @param        $markdownContent
-     * @param string $keyPrefix
-     *
-     * @return array
-     */
-    private static function createReplyModifySchema($markdownContent, $keyPrefix = '')
-    {
-
-        global $_UID;
-
-        return [
-
-            $keyPrefix.'muid'  => $_UID,
-            $keyPrefix.'mtime' => time(),
-            $keyPrefix.'md'    => new \MongoBinData(gzcompress($markdownContent)),
-            $keyPrefix.'text'  => \VJ\Formatter\Markdown::parse($markdownContent)
-
-        ];
-    }
-}
+ }

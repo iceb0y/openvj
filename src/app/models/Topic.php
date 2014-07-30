@@ -47,7 +47,7 @@ class Topic
     public $node;
 
     /** @ODM\String */
-    public $node;
+    public $nodel;
 
     /** @ODM\Boolean */
     public $hl;

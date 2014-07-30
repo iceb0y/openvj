@@ -20,10 +20,9 @@ class TestController extends \Phalcon\Mvc\Controller {
             \VJ\Validator::required($_POST, ['id', 'text']);
             $this->view->setVar('result','Success');
 
-            $result=\VJ\Functions\Discussion::replyTopic($_POST['id'], $_POST['text']);
-            // $result=\VJ\Formatter\Markdown::parse('<h1>fewfewfe</h1>');
+            $record=\VJ\Functions\Discussion::replyTopic($_POST['id'], $_POST['text']);
 
-            // $this->view->setVar('result',$result->text);
+            $this->view->setVar('result',$record);
         }
 
     }
@@ -38,21 +37,57 @@ class TestController extends \Phalcon\Mvc\Controller {
 
             $this->view->setVar('result','Success');
 
-            $c=count($record['comment']);
+            global $dm;
 
+            $c='';
 
-            // $c=gettype($record['comment']);
-            // $c='';
-            foreach ($record['comment'] as $key) {
-                $c=$c.$key['text'];
-            }
+            foreach ($record['comment'] as $r) {
+                $c=$c.$r['text'];
+            }      
 
             $this->view->setVar('result',$c);
-            // $this->view->setVar('result',$_POST['id']);
-
 
         }
 
+    }
+
+    public function topicAction() {
+
+        $this->view->setVar('result','');
+
+        if ($this->request->isPost()) {
+
+            $result=\VJ\Functions\Topic::create($_POST['title'],$_POST['content'],'');
+
+            $this->view->setVar('result',$result);
+        }
+
+    }
+
+    public function editAction() {
+
+        $this->view->setVar('result','');
+
+        if ($this->request->isPost()) {
+
+            $result=\VJ\Functions\Discussion::editComment($_POST['topic_id'], $_POST['comment_id'], $_POST['content']);
+
+            $this->view->setVar('result',$result);
+        }
+
+    }
+
+    public function deleteAction() {
+
+        $this->view->setVar('result','');
+
+        if ($this->request->isPost()) {
+
+            $result=\VJ\Functions\Discussion::deleteComment($_POST['topic_id'], $_POST['comment_id']);
+
+            $this->view->setVar('result','Success');
+        }
+        
     }
 
 }
