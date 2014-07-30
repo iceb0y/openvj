@@ -45,8 +45,8 @@ class ACL
 
         if ($this->acl == null) {
 
-            $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
-            $rec   = $mongo->System->findOne(['_id' => self::SYSTEM_ID_ACL]);
+            global $dm;
+            $rec=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL])
 
             if ($rec == null) {
                 throw new \Exception('ACL list not exist');
@@ -93,15 +93,17 @@ class ACL
      */
     public function hasPriv($priv, $uid = null)
     {
+
+        global $dm;
+
         if (defined('OPENVJ_ACL_DISABLE')) {
             return true;
         }
 
         if ($uid !== null) {
 
-            $u = Models\User::findFirst([
-                'conditions' => ['uid' => (int)$uid]
-            ]);
+
+            $u=$dm->getRepository('VJ\Models\User')->findOneBy(['uid' => (int)$uid])
 
             if ($u == false) {
                 return false;
@@ -136,18 +138,22 @@ class ACL
     {
 
         // update records
-        $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
-        $mongo->System->update(['_id' => self::SYSTEM_ID_ACL], [
-            '$set' => [
-                'v' => $ACL
-            ]
-        ], ['upsert' => true]);
-        $mongo->System->update(['_id' => self::SYSTEM_ID_ACL_RULES], [
-            '$set' => [
-                'v' => $ACLRule
-            ]
-        ], ['upsert' => true]);
+        global $dm;
 
+        $dm->createQueryBuilder('VJ\Models\System')
+               ->update()
+               ->upsert(true)
+               ->field('id')->equals(self::SYSTEM_ID_ACL)
+               ->field('v')->set($ACL)
+               ->getQuery()
+               ->execute();
+        $dm->createQueryBuilder('VJ\Models\System')
+               ->update()
+               ->upsert(true)
+               ->field('id')->equals(self::SYSTEM_ID_ACL_RULES)
+               ->field('v')->set($ACLRule)
+               ->getQuery()
+               ->execute();
         // update cache
         $cache = \Phalcon\DI::getDefault()->getShared('cache');
         $cache->save(self::CACHE_ACL_KEY, $ACL);
@@ -212,10 +218,10 @@ class ACL
      */
     public static function export()
     {
-        $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
-        $rec   = $mongo->System->findOne(['_id' => self::SYSTEM_ID_ACL]);
+        global $dm;
+        $rec=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL])
         $acl   = $rec['v'];
-        $rec   = $mongo->System->findOne(['_id' => self::SYSTEM_ID_ACL_RULES]);
+        $rec=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL_RULES])
         $acl_r = $rec['v'];
 
         $result = \VJ\Escaper::json([
@@ -233,9 +239,9 @@ class ACL
      */
     public static function queryRules()
     {
-        $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
         $rec   = $mongo->System->findOne(['_id' => self::SYSTEM_ID_ACL_RULES]);
-
+        global $dm;
+        $rec=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL_RULES])
         return $rec['v'];
     }
 
