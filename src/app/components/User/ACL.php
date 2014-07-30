@@ -52,7 +52,7 @@ class ACL
                 throw new \Exception('ACL list not exist');
             }
 
-            $this->acl = $rec['v'];
+            $this->acl = $rec->v;
 
             $cache->save(self::CACHE_ACL_KEY, $this->acl);
         }
@@ -220,9 +220,9 @@ class ACL
     {
         global $dm;
         $rec=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL])
-        $acl   = $rec['v'];
+        $acl   = $rec->v;
         $rec=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL_RULES])
-        $acl_r = $rec['v'];
+        $acl_r = $rec->v;
 
         $result = \VJ\Escaper::json([
             'acl'       => $acl,
@@ -242,7 +242,7 @@ class ACL
         $rec   = $mongo->System->findOne(['_id' => self::SYSTEM_ID_ACL_RULES]);
         global $dm;
         $rec=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL_RULES])
-        return $rec['v'];
+        return $rec->v;
     }
 
     /**

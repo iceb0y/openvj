@@ -22,18 +22,15 @@ class Vote
     public static function get($vote_id)
     {
         $vote_id = (string)$vote_id;
-        $mongo   = \Phalcon\DI::getDefault()->getShared('mongo');
+        global $dm;
 
-        $record = $mongo->Vote->findOne(
-            ['_id' => $vote_id],
-            ['upc' => 1, 'dnc' => 1]
-        );
+        $record=$dm->getRepositort('VJ\Models\Vote')->findOneBy(['id' => $vote_id]);
 
         $result = self::$emptyVoteModel;
 
         if ($record != null) {
-            $result['up_count']   = $record['upc'];
-            $result['down_count'] = $record['dnc'];
+            $result['up_count']   = $record->upc;
+            $result['down_count'] = $record->dnc;
         }
 
         return $result;
@@ -51,22 +48,19 @@ class Vote
         $vidList  = array_map('strval', $vidList);
         $vidLists = array_chunk($vidList, self::_QUERY_MAX_CHUNK);
 
-        $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
+        global $dm;
 
         $result = [];
 
         // Separate into many chunks.
         foreach ($vidLists as $list) {
 
-            $cursor = $mongo->Vote->find(
-                ['_id' => ['$in' => $list]],
-                ['upc' => 1, 'dnc' => 1]
-            );
+            $cursor=$dm->getRepository('VJ/Models/Vote')->findBy(['id'=>['in' => $list]])
 
             foreach ($cursor as $vote) {
-                $result[$vote['_id']] = [
-                    'up_count'   => $vote['upc'],
-                    'down_count' => $vote['dnc']
+                $result[$vote->id] = [
+                    'up_count'   => $vote->upc,
+                    'down_count' => $vote->dnc
                 ];
             }
         }
@@ -92,8 +86,7 @@ class Vote
      */
     public static function vote($vote_id, $attitude)
     {
-        $di    = \Phalcon\DI::getDefault();
-        $mongo = $di->getShared('mongo');
+        global $dm;
 
         global $_UID;
 
@@ -118,10 +111,7 @@ class Vote
             ]
         ]);
 
-        $record = $mongo->Vote->findOne(
-            ['_id' => $vote_id],
-            ['up.'.(string)$_UID => 1, 'dn.'.(string)$_UID => 1]
-        );
+        $record=$dm->getRepository('VJ\Models\Vote')->findOneBy(['id' => $vote_id]);
 
         if ($record != null) {
 
@@ -129,41 +119,42 @@ class Vote
                 // already voted
                 throw new \VJ\Exception('ERR_VOTE_VOTED');
             }
-
-            $updater = ['$set' => [], '$inc' => []];
-
-            if ($attitude === self::ATTITUDE_UP) {
-                $updater['$set']['up.'.$_UID] = time();
-                $updater['$inc']['upc']       = 1;
-            } else {
-                $updater['$set']['dn.'.$_UID] = time();
-                $updater['$inc']['dnc']       = 1;
-            }
         } else {
 
-            $updater = [
-                '$set' => [
-                    'up'  => new \stdClass(),
-                    'dn'  => new \stdClass(),
-                    'upc' => 0,
-                    'dnc' => 0
-                ]
-            ];
+            $dm->createQueryBuilder('VJ\Models\Vote')
+                   ->update()
+                   ->upsert(true)
+                   ->field('id')->equals($vote_id)
+                   ->setNewObj([
+                    'up'    =>  new \stdClass(),
+                    'dn'    =>  new \stdClass(),
+                    'upc'  =>  0,
+                    'dnc'  =>  0])
+                   ->getQuery()
+                   ->execute();
 
-            if ($attitude === self::ATTITUDE_UP) {
-                $updater['$set']['up']->{$_UID} = time();
-                $updater['$set']['upc']         = 1;
-            } else {
-                $updater['$set']['dn']->{$_UID} = time();
-                $updater['$set']['dnc']         = 1;
             }
+
         }
 
-        $result = $mongo->Vote->update(
-            ['_id' => $vote_id],
-            $updater,
-            ['upsert' => true]
-        );
+        $set='';
+        $inc='';
+        if ($attitude === self::ATTITUDE_UP) {
+            // $updater['$set']['up']->{$_UID} = time();
+            $set='up'.'.'.(String)$_UID;
+            $inc='upc';
+        } else {
+            $updater['$set']['dn']->{$_UID} = time();
+            $set='dn'.'.'.(String)$_UID;
+            $inc='dnc';
+        }
+
+        $dm->createQueryBuilder('VJ\Models\Vote')
+               ->update()
+               ->field($set)->set(time())
+               ->field($inc)->inc(1)
+               ->getQuery()
+               ->execute();
 
         return ($result['n'] === 1);
     }
@@ -179,12 +170,16 @@ class Vote
     public static function _deleteEntity($vote_id)
     {
         $vote_id = (string)$vote_id;
-        $mongo   = \Phalcon\DI::getDefault()->getShared('mongo');
+        global $dm;
 
-        $result = $mongo->Vote->remove(
-            ['_id' => $vote_id],
-            ['justOne' => true]
-        );
+        $result=$dm->createQueryBuilder('VJ\Models\Vote')
+                             // ->findAndRemove()
+                             ->remove();
+                             ->field('id')->equals($vote_id)
+                             ->getQuery()
+                             ->execute();
+
+        // $result['n']
 
         return ($result['n'] === 1);
     }

@@ -2,6 +2,8 @@
 
 namespace VJ\Functions;
 
+use VJ\Models;
+
 class Topic
 {
 
@@ -15,10 +17,10 @@ class Topic
      */
     public static function queryNodeAsFlat()
     {
-        $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
-        $list  = $mongo->System->findOne(['_id' => self::SYSTEM_ID_NODE_FLAT]);
+        global $dm;
+        $list=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_NODE_FLAT]);
 
-        return $list['v'];
+        return $list->v;
     }
 
     /**
@@ -28,10 +30,10 @@ class Topic
      */
     public static function queryNodeAsTree()
     {
-        $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
-        $tree  = $mongo->System->findOne(['_id' => self::SYSTEM_ID_NODE_TREE]);
+        global $dm;
+        $list=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_NODE_TREE]);
 
-        return $tree['v'];
+        return $tree->v;
     }
 
     /**
@@ -74,9 +76,7 @@ class Topic
 
          */
 
-        $di    = \Phalcon\DI::getDefault();
-        $mongo = $di->getShared('mongo');
-
+        global $dm;
         global $_UID, $__CONFIG;
 
         \VJ\User\ACL::check('PRIV_TOPIC_CREATE');
@@ -112,29 +112,28 @@ class Topic
         $nodel = strtolower($node);
         $mtime = time();
 
-        $doc = [
-            '_id'    => new \MongoID(),
-            'uid'    => $_UID,
-            'time'   => $mtime,
-            'mtime'  => $mtime,
-            'stime'  => $mtime,
-            'title'  => $title,
-            'md'     => new \MongoBinData(gzcompress($content)),
-            'text'   => \VJ\Formatter\Markdown::parse($content),
-            'replyc' => 0,
-            'viewc'  => 0,
-            'node'   => $node,
-            'nodel'  => $nodel
-        ];
-
-        $doc['vote_id'] = $doc['dcz_id'] = 'topic_'.(string)$doc['_id'];
+        $doc=new Models\Topic();
+        $doc->uid=$_UID;
+        $doc->time=$mtime;
+        $doc->mtime=$mtime;
+        $doc->stime=$mtime;
+        $doc->title=$title;
+        $doc->md=new \MongoBinData(gzcompress($content));
+        $doc->text=\VJ\Formatter\Markdown::parse($content);
+        $doc->replyc=0;
+        $doc->viewc=0;
+        $doc->node=$node;
+        $doc->nodl=$nodel;
+        $doc->vote_id='topic_'.(string)$doc->id;
+        $doc->dcz_id='topic_'.(string)$doc->id;
 
         if (isset($options['highlight'])) {
-            $doc['hl'] = true;
+            $doc->hl = true;
         }
 
-        $mongo->Topic->insert($doc);
+        $dm->persist($doc);
+        $dm->flush();
 
-        return (string)$doc['_id'];
+        return (string)$doc->id;
     }
 }

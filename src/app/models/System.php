@@ -5,7 +5,7 @@ namespace VJ\Models;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /** @ODM\Document */
-class User
+class System
 {
     /** @ODM\Id(strategy="NONE") */
     public $id;
