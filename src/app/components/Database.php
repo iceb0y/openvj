@@ -17,9 +17,9 @@ class Database
         global $__CONFIG;
 
         $di = \Phalcon\DI::getDefault();
-        $di->setShared('mongo', function () use ($__CONFIG) {
+        $di->setShared('mongoClient', function () use ($__CONFIG) {
 
-            $mc = new \MongoClient($__CONFIG->Mongo->path, [
+            return new \MongoClient($__CONFIG->Mongo->path, [
 
                 'db'               => $__CONFIG->Mongo->database,
                 'username'         => $__CONFIG->Mongo->username,
@@ -27,6 +27,10 @@ class Database
                 'connectTimeoutMS' => $__CONFIG->Mongo->timeout
 
             ]);
+        });
+
+        $di->setShared('mongo', function () use ($__CONFIG, $di) {
+            $mc = $di['mongoClient'];
 
             return $mc->selectDB($__CONFIG->Mongo->database);
         });
@@ -42,7 +46,7 @@ class Database
 
             ODM\Mapping\Driver\AnnotationDriver::registerAnnotationClasses();
 
-            $connection = new MongoDB\Connection($di->getShared('mongo'));
+            $connection = new MongoDB\Connection($di->getShared('mongoClient'));
 
             return ODM\DocumentManager::create($connection, $config);
         });
