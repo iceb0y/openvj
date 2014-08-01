@@ -2,6 +2,10 @@
 
 namespace VJ;
 
+use \Phalcon\DI;
+use Doctrine\MongoDB as MongoDB;
+use Doctrine\ODM\MongoDB as ODM;
+
 class Database
 {
 
@@ -27,7 +31,21 @@ class Database
             return $mc->selectDB($__CONFIG->Mongo->database);
         });
 
-        $di->set('collectionManager', '\Phalcon\Mvc\Collection\Manager');
+        $di->setShared('collectionManager', function () use ($__CONFIG, $di) {
+            $config = new ODM\Configuration();
+            $config->setProxyDir(__DIR__ . '/Proxies');
+            $config->setProxyNamespace('Proxies');
+            $config->setHydratorDir(APP_DIR.'runtime/Hydrators/');
+            $config->setHydratorNamespace('Hydrators');
+            $config->setDefaultDB($__CONFIG->Mongo->database);
+            $config->setMetadataDriverImpl(ODM\Mapping\Driver\AnnotationDriver::create(APP_DIR.'models/'));
+
+            ODM\Mapping\Driver\AnnotationDriver::registerAnnotationClasses();
+
+            $connection = new MongoDB\Connection($di->getShared('mongo'));
+
+            return ODM\DocumentManager::create($connection, $config);
+        });
     }
 
     public static function initRedis()
@@ -48,7 +66,8 @@ class Database
     {
         $id=(int)$id;
 
-        global $dm;
+        $di = \Phalcon\DI::getDefault();
+        $dm = $di->getShared('collectionManager');
 
         $dat=$dm->createQueryBuilder('VJ\Models\DataBase')
                 ->findAndUpdate()
