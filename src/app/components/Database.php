@@ -2,6 +2,11 @@
 
 namespace VJ;
 
+use Doctrine\MongoDB\Connection;
+use Doctrine\ODM\MongoDB\Configuration;
+use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
+
 class Database
 {
 
@@ -13,21 +18,39 @@ class Database
         global $__CONFIG;
 
         $di = \Phalcon\DI::getDefault();
-        $di->setShared('mongo', function () use ($__CONFIG) {
+        // $di->setShared('mongo', function () use ($__CONFIG) {
 
-            $mc = new \MongoClient($__CONFIG->Mongo->path, [
+        //     $mc = new \MongoClient($__CONFIG->Mongo->path, [
 
-                'db'               => $__CONFIG->Mongo->database,
-                'username'         => $__CONFIG->Mongo->username,
-                'password'         => $__CONFIG->Mongo->password,
-                'connectTimeoutMS' => $__CONFIG->Mongo->timeout
+        //         'db'               => $__CONFIG->Mongo->database,
+        //         'username'         => $__CONFIG->Mongo->username,
+        //         'password'         => $__CONFIG->Mongo->password,
+        //         'connectTimeoutMS' => $__CONFIG->Mongo->timeout
 
-            ]);
+        //     ]);
 
-            return $mc->selectDB($__CONFIG->Mongo->database);
-        });
+        //     return $mc->selectDB($__CONFIG->Mongo->database);
+        // });
+        $di->setShard('mongo',function () use ($__CONFIG,$di)) {
+            
+        }
 
-        $di->set('collectionManager', '\Phalcon\Mvc\Collection\Manager');
+        $connection = new Connection();
+
+        $config = new Configuration();
+        $config->setProxyDir(__DIR__ . '/Proxies');
+        $config->setProxyNamespace('Proxies');
+        $config->setHydratorDir(__DIR__ . '/Hydrators');
+        $config->setHydratorNamespace('Hydrators');
+        $config->setDefaultDB('Vijos');
+        $config->setMetadataDriverImpl(AnnotationDriver::create(__DIR__ . '/../models'));
+
+        AnnotationDriver::registerAnnotationClasses();
+
+        // global $dm;
+        $dm = DocumentManager::create($connection, $config);
+
+
     }
 
     public static function initRedis()
