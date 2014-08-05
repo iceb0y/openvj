@@ -4,7 +4,6 @@
 // Start buffer
 ob_start();
 
-
 // Load configs
 global $__CONFIG;
 
@@ -16,7 +15,6 @@ $__CONFIG->merge(new Phalcon\Config((array)new Phalcon\Config\Adapter\Ini(APP_DI
 // Constants
 require APP_DIR.'includes/user.php';
 require APP_DIR.'includes/privilege.php';
-require APP_DIR.'includes/ODMIni.php';
 
 // Autoloader
 require_once APP_DIR.'vendor/autoload.php';
@@ -59,7 +57,6 @@ if (PHP_SAPI !== 'cli') {
     $__TEMPLATE_NAME = $__CONFIG->Template->default;
 
 }
-
 
 // Dependency Injection
 new \Phalcon\DI\FactoryDefault();

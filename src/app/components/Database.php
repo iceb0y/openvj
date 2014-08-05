@@ -17,39 +17,26 @@ class Database
     {
         global $__CONFIG;
 
-        $di = \Phalcon\DI::getDefault();
-        // $di->setShared('mongo', function () use ($__CONFIG) {
+        $mc=new \MongoClient($__CONFIG->Mongo->path, [
+            'db'               => $__CONFIG->Mongo->database,
+            'username'         => $__CONFIG->Mongo->username,
+            'password'         => $__CONFIG->Mongo->password,
+            'connectTimeoutMS' => $__CONFIG->Mongo->timeout
+        ]);
 
-        //     $mc = new \MongoClient($__CONFIG->Mongo->path, [
-
-        //         'db'               => $__CONFIG->Mongo->database,
-        //         'username'         => $__CONFIG->Mongo->username,
-        //         'password'         => $__CONFIG->Mongo->password,
-        //         'connectTimeoutMS' => $__CONFIG->Mongo->timeout
-
-        //     ]);
-
-        //     return $mc->selectDB($__CONFIG->Mongo->database);
-        // });
-        $di->setShard('mongo',function () use ($__CONFIG,$di)) {
-            
-        }
-
-        $connection = new Connection();
+        $connection = new Connection($mc);
 
         $config = new Configuration();
-        $config->setProxyDir(__DIR__ . '/Proxies');
+        $config->setProxyDir(ROOT_DIR.'runtime/Proxies');
         $config->setProxyNamespace('Proxies');
-        $config->setHydratorDir(__DIR__ . '/Hydrators');
+        $config->setHydratorDir(ROOT_DIR.'runtime/Hydrators');
         $config->setHydratorNamespace('Hydrators');
-        $config->setDefaultDB('Vijos');
-        $config->setMetadataDriverImpl(AnnotationDriver::create(__DIR__ . '/../models'));
+        $config->setDefaultDB($__CONFIG->Mongo->database);
+        $config->setMetadataDriverImpl(AnnotationDriver::create(APP_DIR.'models'));
 
         AnnotationDriver::registerAnnotationClasses();
 
-        // global $dm;
-        $dm = DocumentManager::create($connection, $config);
-
+        $dm=DocumentManager::create($connection,$config);
 
     }
 

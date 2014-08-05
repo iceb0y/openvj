@@ -45,16 +45,14 @@ class ACL
 
         if ($this->acl == null) {
 
-            // global $dm;
-            // $rec=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL]);
+            global $dm;
+            $rec=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => 'acl']);
 
-            // if ($rec == null) {
-            //     throw new \Exception('ACL list not exist');
-            // }
+            if ($rec == null) {
+                throw new \Exception('ACL list not exist');
+            }
 
-            // $this->acl = $rec->v;
-
-            $this->acl=0;
+            $this->acl = $rec->v;
 
             $cache->save(self::CACHE_ACL_KEY, $this->acl);
         }

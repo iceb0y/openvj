@@ -10,7 +10,7 @@ class System
     /** @ODM\Id(strategy="NONE") */
     public $id;
 
-    /** @ODM\String */
+    /** @ODM\Hash */
     public $v;
 
     /** @ODM\String */
