@@ -46,7 +46,7 @@ class ACL
         if ($this->acl == null) {
 
             global $dm;
-            $rec=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => 'acl']);
+            $rec=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL]);
 
             if ($rec == null) {
                 throw new \Exception('ACL list not exist');

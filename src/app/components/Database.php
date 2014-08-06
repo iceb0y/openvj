@@ -7,6 +7,7 @@ use Doctrine\ODM\MongoDB\Configuration;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
 
+
 class Database
 {
 
@@ -26,6 +27,7 @@ class Database
 
         $connection = new Connection($mc);
 
+
         $config = new Configuration();
         $config->setProxyDir(ROOT_DIR.'runtime/Proxies');
         $config->setProxyNamespace('Proxies');
@@ -36,6 +38,7 @@ class Database
 
         AnnotationDriver::registerAnnotationClasses();
 
+        global $dm;
         $dm=DocumentManager::create($connection,$config);
 
     }
