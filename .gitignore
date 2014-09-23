@@ -8,13 +8,12 @@ Vagrantfile
 src/runtime/htmlpurifier_cache/*
 src/runtime/compiled_templates/*
 src/runtime/xdebug_profiler/*
+src/runtime/doctrine/hydrators/*
+src/runtime/doctrine/proxies/*
 
 src/app/configs/app.ini
 src/app/configs/database.ini
 src/app/configs/security.ini
-
-src/app/includes/Hydrators/*
-src/app/includes/Proxies/*
 
 # PHPStorm
 .idea/
