@@ -18,7 +18,7 @@ class Topic
     public static function queryNodeAsFlat()
     {
         global $dm;
-        $list=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_NODE_FLAT]);
+        $list = $dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_NODE_FLAT]);
 
         return $list->v;
     }
@@ -31,7 +31,7 @@ class Topic
     public static function queryNodeAsTree()
     {
         global $dm;
-        $list=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_NODE_TREE]);
+        $list = $dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_NODE_TREE]);
 
         return $tree->v;
     }
@@ -112,20 +112,20 @@ class Topic
         $nodel = strtolower($node);
         $mtime = time();
 
-        $doc=new Models\Topic();
-        $doc->uid=$_UID;
-        $doc->time=$mtime;
-        $doc->mtime=$mtime;
-        $doc->stime=$mtime;
-        $doc->title=$title;
-        $doc->md=new \MongoBinData(gzcompress($content));
-        $doc->text=\VJ\Formatter\Markdown::parse($content);
-        $doc->replyc=0;
-        $doc->viewc=0;
-        $doc->node=$node;
-        $doc->nodel=$nodel;
-        $doc->vote_id='topic_'.(string)$doc->id;
-        $doc->dcz_id='topic_'.(string)$doc->id;
+        $doc          = new Models\Topic();
+        $doc->uid     = $_UID;
+        $doc->time    = $mtime;
+        $doc->mtime   = $mtime;
+        $doc->stime   = $mtime;
+        $doc->title   = $title;
+        $doc->md      = new \MongoBinData(gzcompress($content));
+        $doc->text    = \VJ\Formatter\Markdown::parse($content);
+        $doc->replyc  = 0;
+        $doc->viewc   = 0;
+        $doc->node    = $node;
+        $doc->nodel   = $nodel;
+        $doc->vote_id = 'topic_'.(string)$doc->id;
+        $doc->dcz_id  = 'topic_'.(string)$doc->id;
 
         if (isset($options['highlight'])) {
             $doc->hl = true;

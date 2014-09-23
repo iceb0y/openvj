@@ -48,7 +48,7 @@ class Database
         global $__CONFIG;
 
         $di = \Phalcon\DI::getDefault();
-            $di->setShared('redis', function () use ($__CONFIG) {
+        $di->setShared('redis', function () use ($__CONFIG) {
 
             $redis = new \Redis();
             $redis->connect($__CONFIG->Redis->path);
@@ -59,19 +59,19 @@ class Database
 
     public static function increaseId($id)
     {
-        $id=(int)$id;
+        $id = (int)$id;
 
         global $dm;
 
-        $dat=$dm->createQueryBuilder('VJ\Models\DataBase')
-                ->findAndUpdate()
-                ->returnNew()
-                ->upsert(true)
-                ->field('id')->equals($id)
-                ->field('COUNTER')->inc(1)
-                ->getQuery()
-                ->execute();
+        $dat = $dm->createQueryBuilder('VJ\Models\DataBase')
+            ->findAndUpdate()
+            ->returnNew()
+            ->upsert(true)
+            ->field('id')->equals($id)
+            ->field('COUNTER')->inc(1)
+            ->getQuery()
+            ->execute();
 
-        return $dat->COUNTER;  
+        return $dat->COUNTER;
     }
 }

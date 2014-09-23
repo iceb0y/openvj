@@ -102,7 +102,7 @@ class ACL
         if ($uid !== null) {
 
 
-            $u=$dm->getRepository('VJ\Models\User')->findOneBy(['uid' => (int)$uid]);
+            $u = $dm->getRepository('VJ\Models\User')->findOneBy(['uid' => (int)$uid]);
 
             if ($u == false) {
                 return false;
@@ -140,19 +140,19 @@ class ACL
         global $dm;
 
         $dm->createQueryBuilder('VJ\Models\System')
-               ->update()
-               ->upsert(true)
-               ->field('id')->equals(self::SYSTEM_ID_ACL)
-               ->field('v')->set($ACL)
-               ->getQuery()
-               ->execute();
+            ->update()
+            ->upsert(true)
+            ->field('id')->equals(self::SYSTEM_ID_ACL)
+            ->field('v')->set($ACL)
+            ->getQuery()
+            ->execute();
         $dm->createQueryBuilder('VJ\Models\System')
-               ->update()
-               ->upsert(true)
-               ->field('id')->equals(self::SYSTEM_ID_ACL_RULES)
-               ->field('v')->set($ACLRule)
-               ->getQuery()
-               ->execute();
+            ->update()
+            ->upsert(true)
+            ->field('id')->equals(self::SYSTEM_ID_ACL_RULES)
+            ->field('v')->set($ACLRule)
+            ->getQuery()
+            ->execute();
         // update cache
         $cache = \Phalcon\DI::getDefault()->getShared('cache');
         $cache->save(self::CACHE_ACL_KEY, $ACL);
@@ -218,9 +218,9 @@ class ACL
     public static function export()
     {
         global $dm;
-        $rec=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL]);
-        $acl= $rec->v;
-        $rec=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL_RULES]);
+        $rec   = $dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL]);
+        $acl   = $rec->v;
+        $rec   = $dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL_RULES]);
         $acl_r = $rec->v;
 
         $result = \VJ\Escaper::json([
@@ -238,9 +238,10 @@ class ACL
      */
     public static function queryRules()
     {
-        $rec   = $mongo->System->findOne(['_id' => self::SYSTEM_ID_ACL_RULES]);
+        $rec = $mongo->System->findOne(['_id' => self::SYSTEM_ID_ACL_RULES]);
         global $dm;
-        $rec=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL_RULES]);
+        $rec = $dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL_RULES]);
+
         return $rec->v;
     }
 

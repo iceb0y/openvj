@@ -10,10 +10,10 @@ class Markdown
     {
         if (self::$init == false) {
             \Marked\Marked::setOptions([
-                'gfm'    => true,
-                'tables' => false,
-                'breaks' => true,
-                'langPrefix'   => 'prettyprint lang-'
+                'gfm'        => true,
+                'tables'     => false,
+                'breaks'     => true,
+                'langPrefix' => 'prettyprint lang-'
             ]);
 
             self::$init = true;

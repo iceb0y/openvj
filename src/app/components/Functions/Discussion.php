@@ -26,8 +26,7 @@ class Discussion
 
             $topic_id = (string)$topic_id;
 
-            $record=$dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' =>  $topic_id]);
-
+            $record = $dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' => $topic_id]);
         }
 
         if ($record == null) {
@@ -67,13 +66,13 @@ class Discussion
             throw new \VJ\Exception('ERR_ARGUMENT_INVALID', 'page');
         }
 
-        $record=$dm->createQueryBuilder('VJ\Models\Discussion')
-                             ->select('r','count','countc')
-                             ->field('id')->equals($topic_id)
-                             ->getQuery()
-                             ->getSingleResult();
+        $record = $dm->createQueryBuilder('VJ\Models\Discussion')
+            ->select('r', 'count', 'countc')
+            ->field('id')->equals($topic_id)
+            ->getQuery()
+            ->getSingleResult();
 
-        $record->r=array_slice($record->r, $page * self::RECORDS_PER_PAGE,self::RECORDS_PER_PAGE);
+        $record->r = array_slice($record->r, $page * self::RECORDS_PER_PAGE, self::RECORDS_PER_PAGE);
 
         $result = [
             'id'      => $topic_id,
@@ -124,19 +123,19 @@ class Discussion
             ]
         ]);
 
-        $document  = &self::createReplyDocument($content);
-        $document['r']=[];
+        $document      = & self::createReplyDocument($content);
+        $document['r'] = [];
 
         $dm->createQueryBuilder('VJ\Models\Discussion')
-               ->update()
-               ->upsert(true)
-               ->field('id')->equals($topic_id)
-               ->field('r')->push($document)
-               ->field('luser')->set(time())
-               ->field('count')->inc(1)
-               ->field('countc')->inc(1)
-               ->getQuery()
-               ->execute();
+            ->update()
+            ->upsert(true)
+            ->field('id')->equals($topic_id)
+            ->field('r')->push($document)
+            ->field('luser')->set(time())
+            ->field('count')->inc(1)
+            ->field('countc')->inc(1)
+            ->getQuery()
+            ->execute();
 
         return $document['id'];
     }
@@ -165,7 +164,7 @@ class Discussion
 
         // Get the comment
 
-        $record=$dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' => $topic_id]);
+        $record = $dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' => $topic_id]);
 
         if ($record == null) {
             throw new \VJ\Exception('ERR_NOT_FOUND', 'topic');
@@ -185,7 +184,6 @@ class Discussion
 
         return gzuncompress($comment_target['md']);
     }
-
 
     /**
      * 修改评论
@@ -221,7 +219,7 @@ class Discussion
         ]);
 
         // Get the comment
-        $record=$dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' => $topic_id]);
+        $record = $dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' => $topic_id]);
 
         if ($record == null) {
             throw new \VJ\Exception('ERR_NOT_FOUND', 'topic');
@@ -252,14 +250,14 @@ class Discussion
         $finder = 'r.'.$comment_index.'.';
 
         $dm->createQueryBuilder('VJ\Models\Discussion')
-               ->update()
-               ->field('id')->equals($topic_id)
-               ->field($finder.'muid')->set($_UID)
-               ->field($finder.'mtime')->set(time())
-               ->field($finder.'md')->set(new \MongoBinData(gzcompress($content)))
-               ->field($finder.'text')->set(\VJ\Formatter\Markdown::parse($content))
-               ->getQuery()
-               ->execute();
+            ->update()
+            ->field('id')->equals($topic_id)
+            ->field($finder.'muid')->set($_UID)
+            ->field($finder.'mtime')->set(time())
+            ->field($finder.'md')->set(new \MongoBinData(gzcompress($content)))
+            ->field($finder.'text')->set(\VJ\Formatter\Markdown::parse($content))
+            ->getQuery()
+            ->execute();
 
         return true;
     }
@@ -290,7 +288,7 @@ class Discussion
         ]);
 
         // Get the comment
-        $record=$dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' => $topic_id]);
+        $record = $dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' => $topic_id]);
 
         if ($record == null) {
             throw new \VJ\Exception('ERR_NOT_FOUND', 'topic');
@@ -308,7 +306,7 @@ class Discussion
             throw new \VJ\Exception('ERR_NOT_FOUND', 'comment');
         }
 
-        has privilege?
+        has privilege ?
         if ($_UID == $comment_target['uid']) {
             \VJ\User\ACL::check('PRIV_DISCUSSION_COMMENT_DELETE_SELF');
         } else {
@@ -317,13 +315,13 @@ class Discussion
 
         // remove
         $dm->createQueryBuilder('VJ\Models\Discussion')
-               ->update()
-               ->field('id')->equals($topic_id)
-               ->field('r')->pull(['id' => $comment_id])
-               ->field('count')->inc(-1)
-               ->field('countc')->inc(-1)
-               ->getQuery()
-               ->execute();
+            ->update()
+            ->field('id')->equals($topic_id)
+            ->field('r')->pull(['id' => $comment_id])
+            ->field('count')->inc(-1)
+            ->field('countc')->inc(-1)
+            ->getQuery()
+            ->execute();
 
         // delete votes
         foreach ($comment_target['r'] as $reply) {
@@ -373,7 +371,7 @@ class Discussion
 
 
         // Get the comment
-        $record=$dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' => $topic_id]);
+        $record = $dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' => $topic_id]);
 
         if ($record == null) {
             throw new \VJ\Exception('ERR_NOT_FOUND', 'topic');
@@ -396,15 +394,15 @@ class Discussion
         //Reply The Comment
         $document = self::createReplyDocument($content);
 
-        $resullt=$dm->createQueryBuilder('VJ\Models\Discussion')
-                             ->findAndUpdate()
-                             ->field('id')->equals($topic_id)
-                             ->field('r.'.$comment_index.'r')->push($document)
-                             ->field('luser')->set($_UID)
-                             ->field('ltime')->set(time())
-                             ->field('count')->inc(1)
-                             ->getQuery()
-                             ->execute();
+        $resullt = $dm->createQueryBuilder('VJ\Models\Discussion')
+            ->findAndUpdate()
+            ->field('id')->equals($topic_id)
+            ->field('r.'.$comment_index.'r')->push($document)
+            ->field('luser')->set($_UID)
+            ->field('ltime')->set(time())
+            ->field('count')->inc(1)
+            ->getQuery()
+            ->execute();
 
         if (count($result) == 0) {
             //no document found
@@ -441,7 +439,7 @@ class Discussion
         ]);
 
         // Get the comment
-        $record=$dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' => $topic_id]);
+        $record = $dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' => $topic_id]);
 
         if ($record == null) {
             throw new \VJ\Exception('ERR_NOT_FOUND', 'topic');
@@ -511,7 +509,7 @@ class Discussion
         ]);
 
         // Get the comment
-        $record=$dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' => $topic_id]);
+        $record = $dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' => $topic_id]);
 
         if ($record == null) {
             throw new \VJ\Exception('ERR_NOT_FOUND', 'topic');
@@ -556,14 +554,14 @@ class Discussion
         $finder = 'r.'.$comment_index.'.r.'.$reply_index.'.';
 
         $dm->createQueryBuilder('VJ\Models\Discussion')
-               ->update()
-               ->field('id')->equals($topic_id)
-               ->field($finder.'muid')->set($_UID)
-               ->field($finder.'mtime')->set(time())
-               ->field($finder.'md')->set(new \MongoBinData(gzcompress($content)))
-               ->field($finder.'text')->set(\VJ\Formatter\Markdown::parse($content))
-               ->getQuery()
-               ->execute();
+            ->update()
+            ->field('id')->equals($topic_id)
+            ->field($finder.'muid')->set($_UID)
+            ->field($finder.'mtime')->set(time())
+            ->field($finder.'md')->set(new \MongoBinData(gzcompress($content)))
+            ->field($finder.'text')->set(\VJ\Formatter\Markdown::parse($content))
+            ->getQuery()
+            ->execute();
 
         return true;
     }
@@ -597,7 +595,7 @@ class Discussion
         ]);
 
         // Get the comment
-        $record=$dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' => $topic_id]);
+        $record = $dm->getRepository('VJ\Models\Discussion')->findOneBy(['id' => $topic_id]);
 
         if ($record == null) {
             throw new \VJ\Exception('ERR_NOT_FOUND', 'topic');
@@ -638,12 +636,12 @@ class Discussion
 
         // delete
         $dm->createQueryBuilder('VJ\Models\Discussion')
-               ->update()
-               ->field('id')->equals($topic_id)
-               ->field('r.'.$comment_index.'.r')->pull(['id' => $reply_id])
-               ->field('count')->inc(-1)
-               ->getQuery()
-               ->execute();
+            ->update()
+            ->field('id')->equals($topic_id)
+            ->field('r.'.$comment_index.'.r')->pull(['id' => $reply_id])
+            ->field('count')->inc(-1)
+            ->getQuery()
+            ->execute();
 
         // delete votes
         \VJ\Functions\Vote::_deleteEntity($reply_target['vote_id']);
@@ -663,10 +661,10 @@ class Discussion
         global $_UID;
 
         $doc = [
-            'id' => uniqid(),
-            'uid' => $_UID,
+            'id'   => uniqid(),
+            'uid'  => $_UID,
             'time' => time(),
-            'md' => new \MongoBinData(gzcompress($markdownContent)),
+            'md'   => new \MongoBinData(gzcompress($markdownContent)),
             'text' => \VJ\Formatter\Markdown::parse($markdownContent),
             'xtra' => new \stdClass(),
         ];
@@ -675,5 +673,4 @@ class Discussion
 
         return $doc;
     }
-
- }
+}

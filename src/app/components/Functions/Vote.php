@@ -24,7 +24,7 @@ class Vote
         $vote_id = (string)$vote_id;
         global $dm;
 
-        $record=$dm->getRepositort('VJ\Models\Vote')->findOneBy(['id' => $vote_id]);
+        $record = $dm->getRepositort('VJ\Models\Vote')->findOneBy(['id' => $vote_id]);
 
         $result = self::$emptyVoteModel;
 
@@ -55,7 +55,7 @@ class Vote
         // Separate into many chunks.
         foreach ($vidLists as $list) {
 
-            $cursor=$dm->getRepository('VJ/Models/Vote')->findBy(['id'=>['in' => $list]])
+            $cursor = $dm->getRepository('VJ/Models/Vote')->findBy(['id' => ['in' => $list]])
 
             foreach ($cursor as $vote) {
                 $result[$vote->id] = [
@@ -111,7 +111,7 @@ class Vote
             ]
         ]);
 
-        $record=$dm->getRepository('VJ\Models\Vote')->findOneBy(['id' => $vote_id]);
+        $record = $dm->getRepository('VJ\Models\Vote')->findOneBy(['id' => $vote_id]);
 
         if ($record != null) {
 
@@ -122,65 +122,68 @@ class Vote
         } else {
 
             $dm->createQueryBuilder('VJ\Models\Vote')
-                   ->update()
-                   ->upsert(true)
-                   ->field('id')->equals($vote_id)
-                   ->setNewObj([
-                    'up'    =>  new \stdClass(),
-                    'dn'    =>  new \stdClass(),
-                    'upc'  =>  0,
-                    'dnc'  =>  0])
-                   ->getQuery()
-                   ->execute();
-
-            }
-
+                ->update()
+                ->upsert(true)
+                ->field('id')->equals($vote_id)
+                ->setNewObj([
+                    'up'  => new \stdClass(),
+                    'dn'  => new \stdClass(),
+                    'upc' => 0,
+                    'dnc' => 0])
+                ->getQuery()
+                ->execute();
         }
-
-        $set='';
-        $inc='';
-        if ($attitude === self::ATTITUDE_UP) {
-            // $updater['$set']['up']->{$_UID} = time();
-            $set='up'.'.'.(String)$_UID;
-            $inc='upc';
-        } else {
-            $updater['$set']['dn']->{$_UID} = time();
-            $set='dn'.'.'.(String)$_UID;
-            $inc='dnc';
-        }
-
-        $dm->createQueryBuilder('VJ\Models\Vote')
-               ->update()
-               ->field($set)->set(time())
-               ->field($inc)->inc(1)
-               ->getQuery()
-               ->execute();
-
-        return ($result['n'] === 1);
     }
 
-    /**
-     * 删除整个评价数据，不单独被调用
-     * [不检查权限]
-     *
-     * @param $vote_id
-     *
-     * @return bool
-     */
-    public static function _deleteEntity($vote_id)
-    {
-        $vote_id = (string)$vote_id;
-        global $dm;
+$set = '';
+$inc = '';
+if ($attitude === self::ATTITUDE_UP)
+{
+    // $updater['$set']['up']->{$_UID} = time();
+$set = 'up'.'.'.(String)$_UID;
+$inc = 'upc';
+}
 
-        $result=$dm->createQueryBuilder('VJ\Models\Vote')
-                             // ->findAndRemove()
-                             ->remove();
-                             ->field('id')->equals($vote_id)
-                             ->getQuery()
-                             ->execute();
+else {
+    $updater['$set']['dn']->{$_UID} = time();
+    $set                            = 'dn'.'.'.(String)$_UID;
+    $inc                            = 'dnc';
+}
 
-        // $result['n']
+$dm->createQueryBuilder('VJ\Models\Vote')
+    ->update()
+    ->field($set)->set(time())
+    ->field($inc)->inc(1)
+    ->getQuery()
+    ->execute();
 
-        return ($result['n'] === 1);
-    }
+return ($result['n'] === 1);
+}
+
+/**
+ * 删除整个评价数据，不单独被调用
+ * [不检查权限]
+ *
+ * @param $vote_id
+ *
+ * @return bool
+ */
+public
+static function _deleteEntity($vote_id)
+{
+    $vote_id = (string)$vote_id;
+    global $dm;
+
+    $result = $dm->createQueryBuilder('VJ\Models\Vote')
+        // ->findAndRemove()
+        ->remove();
+    ->
+    field('id')->equals($vote_id)
+        ->getQuery()
+        ->execute();
+
+    // $result['n']
+
+    return ($result['n'] === 1);
+}
 }

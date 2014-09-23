@@ -52,7 +52,7 @@ class Login
         }
 
         global $dm;
-        $u=$dm->getRepository('VJ\Models\User')->findOneBy(['uid'   =>  $uid]);
+        $u = $dm->getRepository('VJ\Models\User')->findOneBy(['uid' => $uid]);
 
         // User is deleted
         if ($u == false) {
@@ -94,7 +94,7 @@ class Login
 
         global $dm;
 
-        $u=$dm->getRepository('VJ\Models\User')->findOneBy(array('luser'  =>  $user));
+        $u = $dm->getRepository('VJ\Models\User')->findOneBy(array('luser' => $user));
 
         if (!$u) {
             throw new \VJ\Exception('ERR_NOT_FOUND', 'user');
@@ -140,14 +140,13 @@ class Login
         if ($u->passfmt == 0 && $md5 == false) {
 
             $dm->createQueryBuilder('VJ\Models\User')
-               ->update()
-               ->field('uid')->equals($u->uid)
-               ->field('salt')->set(\VJ\Security\Randomizer::toHex(30))
-               ->field('pass')->set(\VJ\User\Account::makeHash($pass, $u->salt))
-               ->field('passfmt')->set(1)
-               ->getQuery()
-               ->execute();
-
+                ->update()
+                ->field('uid')->equals($u->uid)
+                ->field('salt')->set(\VJ\Security\Randomizer::toHex(30))
+                ->field('pass')->set(\VJ\User\Account::makeHash($pass, $u->salt))
+                ->field('passfmt')->set(1)
+                ->getQuery()
+                ->execute();
         }
 
         return $u;
@@ -214,12 +213,12 @@ class Login
         global $dm;
 
         $dm->createQueryBuilder('VJ\Models\User')
-           ->update()
-           ->field('uid')->equals($u->uid)
-           ->field('tlogin')->set(time())
-           ->field('iplogin')->set($_SERVER['REMOTE_ADDR'])
-           ->getQuery()
-           ->execute();
+            ->update()
+            ->field('uid')->equals($u->uid)
+            ->field('tlogin')->set(time())
+            ->field('iplogin')->set($_SERVER['REMOTE_ADDR'])
+            ->getQuery()
+            ->execute();
 
         \VJ\Session\Utils::newSession();
         \VJ\Security\CSRF::initToken();

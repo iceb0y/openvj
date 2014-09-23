@@ -30,7 +30,7 @@ class Register
         global $dm;
 
         // Mail already in use
-        if ($dm->getRepository('VJ\Models\User')->findOneBy(['mail'  =>  $email])) {
+        if ($dm->getRepository('VJ\Models\User')->findOneBy(['mail' => $email])) {
             throw new \VJ\Exception('ERR_USED', 'email', $email);
         }
 
@@ -38,13 +38,13 @@ class Register
         $validateCode = \VJ\Security\Randomizer::toHex(10);
 
         $dm->createQueryBuilder('VJ\Models\RegValidation')
-           ->update()
-           ->upsert(true)
-           ->field('email')->equals($email)
-           ->field('code')->set($validateCode)
-           ->field('time')->set(new \MongoDate())
-           ->getQuery()
-           ->execute();
+            ->update()
+            ->upsert(true)
+            ->field('email')->equals($email)
+            ->field('code')->set($validateCode)
+            ->field('time')->set(new \MongoDate())
+            ->getQuery()
+            ->execute();
 
         // Send validation email
         global $__CONFIG;
@@ -91,7 +91,7 @@ class Register
 
         global $dm;
 
-        $record=$dm->getRepository('VJ\Models\RegValidation')->findOneBy(['code'    =>  $code]);
+        $record = $dm->getRepository('VJ\Models\RegValidation')->findOneBy(['code' => $code]);
 
         if (!$record) {
             throw new \VJ\Exception('ERR_REG_VERFICATION_FAILED');
@@ -190,11 +190,11 @@ class Register
             global $dm;
 
             if (!$dm->getRepository('VJ\Models\RegValidation')
-                                ->findAndRemove()
-                                ->field('email')->equals($mail)
-                                ->getQuery()
-                                ->execute()
-                                ) {
+                ->findAndRemove()
+                ->field('email')->equals($mail)
+                ->getQuery()
+                ->execute()
+            ) {
                 throw new \VJ\Exception('ERR_REG_VERFICATION_FAILED');
             }
 
