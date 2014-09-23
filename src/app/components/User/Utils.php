@@ -20,6 +20,8 @@ class Utils
      */
     public static function getUidByUsername($username)
     {
+        throw new \Exception('Deprecated');
+        /*
         $username = strtolower($username);
 
         $user = Models\User::findFirst([
@@ -31,7 +33,7 @@ class Utils
             return (int)$user->uid;
         } else {
             return null;
-        }
+        }*/
     }
 
     /**
@@ -43,6 +45,8 @@ class Utils
      */
     public static function getUserInfo($uid)
     {
+        throw new \Exception('Deprecated');
+        /*
         $uid = (int)$uid;
 
         $mongo = \Phalcon\DI::getDefault()->getShared('mongo');
@@ -56,7 +60,7 @@ class Utils
             $result = self::$emptyUserModel;
         }
 
-        return $result;
+        return $result;*/
     }
 
     /**
@@ -68,6 +72,8 @@ class Utils
      */
     public static function getUserInfoArray($uidList)
     {
+        throw new \Exception('Deprecated');
+        /*
         $uidList  = array_map('intval', $uidList);
         $uidLists = array_chunk($uidList, self::_QUERY_MAX_CHUNK);
 
@@ -96,6 +102,6 @@ class Utils
             }
         }
 
-        return $result;
+        return $result;*/
     }
 }

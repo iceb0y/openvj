@@ -6,36 +6,35 @@ class MongoProvider implements SessionProvider
 {
 
     static $collection;
+    static $dm;
 
     public function __construct()
     {
-        $di               = \Phalcon\DI::getDefault();
-        self::$collection = $di->getShared('mongo')->ActiveSession;
+        $di       = \Phalcon\DI::getDefault();
+        self::$dm = $di->getShared('dm');
     }
 
     public function newSession($sess_id, $data)
     {
-        self::$collection->insert([
-            '_id'  => $sess_id,
-            'data' => serialize($data),
-            'time' => new \MongoDate()
-        ]);
+        $session = new \VJ\Models\ActiveSession($sess_id);
+        $session->setData(serialize($data));
+
+        self::$dm->flush();
 
         return true;
     }
 
     public function saveSession($sess_id, $data)
     {
-        self::$collection->update([
-            '_id' => $sess_id
-        ], [
-            '$set' => [
-                'data' => serialize($data),
-                'time' => new \MongoDate()
-            ]
-        ], [
-            'upsert' => true
-        ]);
+        self::$dm
+            ->createQueryBuilder('VJ\Models\ActiveSession')
+            ->update()
+            ->upsert(true)
+            ->field('sid')->equals($sess_id)
+            ->field('data')->set(serialize($data))
+            ->field('time')->set(new \MongoDate())
+            ->getQuery()
+            ->execute();
 
         return true;
     }
@@ -44,28 +43,33 @@ class MongoProvider implements SessionProvider
     {
         global $__CONFIG;
 
-        $result = self::$collection->findOne([
-            '_id' => $sess_id
-        ]);
+        $session = self::$dm
+            ->createQueryBuilder('VJ\Models\ActiveSession')
+            ->field('sid')->equals($sess_id)
+            ->getQuery()
+            ->getSingleResult();
 
-        if ($result == null) {
+        if ($session == null) {
             return false;
         }
 
         // expired
-        if ($result['time']->sec + $__CONFIG->Session->TTL < time()) {
+        if ($session->getTime()->getTimestamp() + $__CONFIG->Session->TTL < time()) {
             return false;
         }
 
-        return unserialize($result['data']);
+        return unserialize($session->getData());
     }
 
     public function deleteSession($sess_id)
     {
-        self::$collection->remove([
-            '_id' => $sess_id
-        ], [
-            'justOne' => true
-        ]);
+        self::$dm
+            ->createQueryBuilder('VJ\Models\ActiveSession')
+            ->remove()
+            ->field('sid')->equals($sess_id)
+            ->getQuery()
+            ->execute();
+
+        return true;
     }
 }

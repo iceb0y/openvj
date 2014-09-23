@@ -45,8 +45,7 @@ class ACL
 
         if ($this->acl == null) {
 
-            global $dm;
-            $rec=$dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL]);
+            $rec = \Phalcon\DI::getDefault()->getShared('dm')->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL]);
 
             if ($rec == null) {
                 throw new \Exception('ACL list not exist');
