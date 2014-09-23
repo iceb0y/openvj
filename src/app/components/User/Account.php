@@ -55,6 +55,8 @@ class Account
      */
     public static function delete($uid, $permanent = false)
     {
+        throw new \Exception('Deprecated');
+        /*
         $di    = \Phalcon\DI::getDefault();
         $mongo = $di->getShared('mongo');
 
@@ -80,7 +82,7 @@ class Account
             );
 
             return ($result['n'] === 1);
-        }
+        }*/
     }
 
     /**
@@ -92,6 +94,8 @@ class Account
      */
     public static function unDelete($uid)
     {
+        throw new \Exception('Deprecated');
+        /*
         $di    = \Phalcon\DI::getDefault();
         $mongo = $di->getShared('mongo');
 
@@ -105,6 +109,7 @@ class Account
         );
 
         return ($result['n'] === 1);
+        */
     }
 
     /**
@@ -116,6 +121,8 @@ class Account
      */
     public static function ban($uid)
     {
+        throw new \Exception('Deprecated');
+        /*
         $di    = \Phalcon\DI::getDefault();
         $mongo = $di->getShared('mongo');
 
@@ -129,6 +136,7 @@ class Account
         );
 
         return ($result['n'] === 1);
+        */
     }
 
     /**
@@ -140,6 +148,8 @@ class Account
      */
     public static function unBan($uid)
     {
+        throw new \Exception('Deprecated');
+        /*
         $di    = \Phalcon\DI::getDefault();
         $mongo = $di->getShared('mongo');
 
@@ -152,7 +162,7 @@ class Account
             ['$unset' => ['banned' => 1]]
         );
 
-        return ($result['n'] === 1);
+        return ($result['n'] === 1);*/
     }
 
     /**
@@ -219,10 +229,10 @@ class Account
         // ]);
 
         global $dm;
-        $user=$dm->createQueryBuilder('VJ\Models\User')
-                 ->field('luser')->equals($username)
-                 ->getQuery()
-                 ->getSingleResult();
+        $user = $dm->createQueryBuilder('VJ\Models\User')
+            ->field('luser')->equals($username)
+            ->getQuery()
+            ->getSingleResult();
 
         if ($user) {
             $uid = (int)$user->uid;
@@ -251,10 +261,10 @@ class Account
         // ]);
 
         global $dm;
-        $user=$dm->createQueryBuilder('VJ\Models\User')
-                 ->field('lnick')->equals($nickname)
-                 ->getQuery()
-                 ->getSingleResult();
+        $user = $dm->createQueryBuilder('VJ\Models\User')
+            ->field('lnick')->equals($nickname)
+            ->getQuery()
+            ->getSingleResult();
 
 
         if ($user) {
