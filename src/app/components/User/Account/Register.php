@@ -27,7 +27,7 @@ class Register
             throw new \VJ\Exception('ERR_ARGUMENT_INVALID', 'email');
         }
 
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
 
         // Mail already in use
         if ($dm->getRepository('VJ\Models\User')->findOneBy(['mail' => $email])) {
@@ -89,7 +89,7 @@ class Register
 
         $code = (string)$code;
 
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
 
         $record = $dm->getRepository('VJ\Models\RegValidation')->findOneBy(['code' => $code]);
 
@@ -187,7 +187,7 @@ class Register
             self::verificateEmail(sha1($mail), $options['code']);
 
             // Remove validation records
-            global $dm;
+            $dm = \Phalcon\DI::getDefault()->getShared('dm');
 
             if (!$dm->getRepository('VJ\Models\RegValidation')
                 ->findAndRemove()
@@ -207,6 +207,7 @@ class Register
         $salt = \VJ\Security\Randomizer::toHex(30);
         $pass = \VJ\User\Account::makeHash($password, $salt);
 
+        // TODO: use auto-inc id
         if (isset($options['uid'])) {
             $uid = (int)$options['uid'];
         } else {
@@ -255,7 +256,7 @@ class Register
             $user->ipmatch = $options['ipmatch'];
         }
 
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
 
         $dm->persist($user);
 

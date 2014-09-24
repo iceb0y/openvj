@@ -228,7 +228,7 @@ class Account
         //     'fields'     => ['uid' => 1]
         // ]);
 
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
         $user = $dm->createQueryBuilder('VJ\Models\User')
             ->field('luser')->equals($username)
             ->getQuery()
@@ -260,7 +260,7 @@ class Account
         //     'fields'     => ['uid' => 1]
         // ]);
 
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
         $user = $dm->createQueryBuilder('VJ\Models\User')
             ->field('lnick')->equals($nickname)
             ->getQuery()

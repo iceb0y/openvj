@@ -51,7 +51,7 @@ class Login
             throw new \VJ\Exception('ERR_FAILED');
         }
 
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
         $u = $dm->getRepository('VJ\Models\User')->findOneBy(['uid' => $uid]);
 
         // User is deleted
@@ -92,7 +92,7 @@ class Login
             throw new \VJ\Exception('ERR_ARGUMENT_MISSING', 'password');
         }
 
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
 
         $u = $dm->getRepository('VJ\Models\User')->findOneBy(array('luser' => $user));
 
@@ -181,7 +181,7 @@ class Login
         $log->ip   = $_SERVER['REMOTE_ADDR'];
         $log->ua   = $ua;
 
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
         $dm->persist($log);
         $dm->flush();
     }
@@ -210,7 +210,7 @@ class Login
             throw new \VJ\Exception('ERR_IP_MISMATCH');
         }
 
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
 
         $dm->createQueryBuilder('VJ\Models\User')
             ->update()

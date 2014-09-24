@@ -22,7 +22,7 @@ class Discussion
             $record = $topic_id;
         } else {
 
-            global $dm;
+            $dm = \Phalcon\DI::getDefault()->getShared('dm');
 
             $topic_id = (string)$topic_id;
 
@@ -58,7 +58,7 @@ class Discussion
      */
     public static function get($topic_id, $page = 0)
     {
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
         $topic_id = (string)$topic_id;
         $page     = (int)$page;
 
@@ -98,7 +98,7 @@ class Discussion
     public static function replyTopic($topic_id, $content)
     {
 
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
 
         global $__CONFIG, $_UID;
 
@@ -150,7 +150,7 @@ class Discussion
      */
     public static function getCommentContent($topic_id, $comment_id)
     {
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
 
         $argv = [
             'topic_id'   => &$topic_id,
@@ -196,7 +196,7 @@ class Discussion
      */
     public static function editComment($topic_id, $comment_id, $content)
     {
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
 
         global $__CONFIG, $_UID;
 
@@ -275,7 +275,7 @@ class Discussion
 
         global $_UID;
 
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
 
         $argv = [
             'topic_id'   => &$topic_id,
@@ -342,7 +342,7 @@ class Discussion
      */
     public static function replyComment($topic_id, $comment_id, $content)
     {
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
 
         global $__CONFIG, $_UID;
 
@@ -424,7 +424,7 @@ class Discussion
     public static function getReplyContent($topic_id, $comment_id, $reply_id)
     {
 
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
 
         $argv = [
             'topic_id'   => &$topic_id,
@@ -484,7 +484,7 @@ class Discussion
      */
     public static function editReply($topic_id, $comment_id, $reply_id, $content)
     {
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
 
         global $__CONFIG, $_UID;
 
@@ -578,7 +578,7 @@ class Discussion
     public static function deleteReply($topic_id, $comment_id, $reply_id)
     {
 
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
 
         global $_UID;
 

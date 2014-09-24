@@ -22,7 +22,7 @@ class Vote
     public static function get($vote_id)
     {
         $vote_id = (string)$vote_id;
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
 
         $record = $dm->getRepositort('VJ\Models\Vote')->findOneBy(['id' => $vote_id]);
 
@@ -48,7 +48,7 @@ class Vote
         $vidList  = array_map('strval', $vidList);
         $vidLists = array_chunk($vidList, self::_QUERY_MAX_CHUNK);
 
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
 
         $result = [];
 
@@ -86,7 +86,7 @@ class Vote
      */
     public static function vote($vote_id, $attitude)
     {
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
 
         global $_UID;
 
@@ -172,7 +172,7 @@ public
 static function _deleteEntity($vote_id)
 {
     $vote_id = (string)$vote_id;
-    global $dm;
+    $dm = \Phalcon\DI::getDefault()->getShared('dm');
 
     $result = $dm->createQueryBuilder('VJ\Models\Vote')
         // ->findAndRemove()

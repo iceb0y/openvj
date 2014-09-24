@@ -17,7 +17,7 @@ class Topic
      */
     public static function queryNodeAsFlat()
     {
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
         $list = $dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_NODE_FLAT]);
 
         return $list->v;
@@ -30,7 +30,7 @@ class Topic
      */
     public static function queryNodeAsTree()
     {
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
         $list = $dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_NODE_TREE]);
 
         return $tree->v;
@@ -76,7 +76,7 @@ class Topic
 
          */
 
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
         global $_UID, $__CONFIG;
 
         \VJ\User\ACL::check('PRIV_TOPIC_CREATE');

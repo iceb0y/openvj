@@ -93,7 +93,7 @@ class ACL
     public function hasPriv($priv, $uid = null)
     {
 
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
 
         if (defined('OPENVJ_ACL_DISABLE')) {
             return true;
@@ -137,7 +137,7 @@ class ACL
     {
 
         // update records
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
 
         $dm->createQueryBuilder('VJ\Models\System')
             ->update()
@@ -217,7 +217,7 @@ class ACL
      */
     public static function export()
     {
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
         $rec   = $dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL]);
         $acl   = $rec->v;
         $rec   = $dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL_RULES]);
@@ -239,7 +239,7 @@ class ACL
     public static function queryRules()
     {
         $rec = $mongo->System->findOne(['_id' => self::SYSTEM_ID_ACL_RULES]);
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
         $rec = $dm->getRepository('VJ\Models\System')->findOneBy(['id' => self::SYSTEM_ID_ACL_RULES]);
 
         return $rec->v;
