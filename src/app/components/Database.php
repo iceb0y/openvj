@@ -59,9 +59,11 @@ class Database
 
     public static function increaseId($id)
     {
+        throw new \Exception('Deprecated');
+        /*
         $id = (int)$id;
 
-        global $dm;
+        $dm = \Phalcon\DI::getDefault()->getShared('dm');
 
         $dat = $dm->createQueryBuilder('VJ\Models\DataBase')
             ->findAndUpdate()
@@ -73,5 +75,6 @@ class Database
             ->execute();
 
         return $dat->COUNTER;
+        */
     }
 }
