@@ -22,6 +22,7 @@ src/app/configs/security.ini
 .DS_Store
 
 # Composer
+src/app/composer.lock
 src/app/vendor/
 tools/phalcon_dev/vendor/
 
